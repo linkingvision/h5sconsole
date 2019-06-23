@@ -6,7 +6,8 @@
         <button type="button" class="btn vidbuttion pull-right" @click="CloseVideo($event)"> <i class="mdi mdi-close"></i></button>
         <button type="button" class="btn vidbuttion pull-right" @click="PtzControlShow($event)"> <i class="mdi mdi-parking"></i></button>
         <button type="button" class="btn vidbuttion pull-right rtcbutton" > <i class="mdi mdi-format-title"></i></button>
-        <button type="button" class="btn vidbuttion pull-right" @click="DoRecord($event)"> <i class="mdi mdi-record"></i></button>
+        <button type="button" class="btn vidbuttion pull-right" @click="DoManualRecordStop($event)"> <i class="mdi mdi-stop"></i></button>
+        <button type="button" class="btn vidbuttion pull-right" @click="DoManualRecordStart($event)"> <i class="mdi mdi-record"></i></button>
         <button type="button" class="btn vidbuttion pull-right" @click="DoSnapshot($event)"> <i class="mdi mdi-camera"></i></button>
         <!-- audio
         <button type="button" class="btn vidbuttion pull-right" > <i class="mdi  mdi-record"></i></button>
@@ -255,7 +256,7 @@ export default {
                 console.log('ptz failed!', error);
             });
         },
-        DoRecord(event)
+        DoManualRecordStart(event)
         {
             if (this.h5handler == undefined)
             {
@@ -270,14 +271,46 @@ export default {
             var record = "token=" + this.currtoken + "&duration=300";
             console.log("record cmd", record);
 
-            var url = root + "/api/v1/Record?" + record  + "&session="+ this.$store.state.token;
+            var url = root + "/api/v1/ManualRecordStart?" + record  + "&session="+ this.$store.state.token;
 
             this.$http.get(url).then(result => {
                 console.log(result);
                 if (result.status == 200) 
                 {
                     this.$Notice.info({
-                        title: "Record successfully"
+                        title: "Manual Start Record successfully"
+                    })
+                }
+            }).catch(error => {
+                console.log('Record failed!', error);
+                this.$Notice.info({
+                    title: "Record failed !"
+                })
+            });
+        },
+        DoManualRecordStop(event)
+        {
+            if (this.h5handler == undefined)
+            {
+                return;
+            }
+            let _this =this;
+            var root = process.env.API_ROOT;
+            if (root == undefined){
+                root = window.location.protocol + '//' + window.location.host + window.location.pathname;
+            }
+
+            var record = "token=" + this.currtoken + "&duration=300";
+            console.log("record cmd", record);
+
+            var url = root + "/api/v1/ManualRecordStop?" + record  + "&session="+ this.$store.state.token;
+
+            this.$http.get(url).then(result => {
+                console.log(result);
+                if (result.status == 200) 
+                {
+                    this.$Notice.info({
+                        title: "Manual Stop Record successfully"
                     })
                 }
             }).catch(error => {
