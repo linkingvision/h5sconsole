@@ -51,7 +51,13 @@ module.exports={
 		free_space: "Free Space",
 		online_cam: "Online Cameras",
 		cameras: "Cameras",
-		total_space: "Total Space"
+		total_space: "Total Space",
+		codec_info: "Codec Info",
+		cpumodel: 'CPU Model',
+		gpuencoder:"GPU Encoders",
+		gpudecoder:"GPU Decoders",
+		cpuencoder:"Software Encoders",
+		cpudecoder:"Software Decoders"
     },
 	live:
     {

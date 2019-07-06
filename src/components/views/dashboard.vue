@@ -48,6 +48,48 @@
                  </div>
 
 
+            <div class="col-lg-3 col-md-6">
+            <div class="white-box">
+                <h3 class="box-title">{{$t("message.dashboard.codec_info")}}</h3>
+                <ul class="country-state">
+                    <li>
+                        <h5>{{$t("message.dashboard.cpumodel")}}: {{codecInfo.strCPUModel}}</h5>
+                        <div class="progress">
+                            <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100" style="width:100%;"></div>
+                        </div>
+                    </li>
+                    <li>
+                        <h5 >{{$t("message.dashboard.gpuencoder")}}: {{codecInfo.strHWEncoders}}</h5>
+                        <div class="progress">
+                            <div class="progress-bar progress-bar-inverse" role="progressbar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100" style="width:100%;"></div>
+                        </div>
+                    </li>
+                    <li>
+                        <h5>{{$t("message.dashboard.gpudecoder")}}: {{codecInfo.strHWDecoders}}</h5>
+                        <div class="progress">
+                            <div class="progress-bar progress-bar-info" role="progressbar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100" style="width:100%;"></div>
+                        </div>
+                    </li>
+                    <li>
+                        <h5>{{$t("message.dashboard.cpuencoder")}}: {{codecInfo.strSWEncoders}}</h5>
+                        <div class="progress">
+                            <div class="progress-bar progress-bar-danger" role="progressbar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100" style="width:100%;"></div>
+                        </div>
+                    </li>
+                    <li>
+                        <h5>{{$t("message.dashboard.cpudecoder")}}: {{codecInfo.strSWDecoders}}</h5>
+                        <div class="progress">
+                            <div class="progress-bar progress-bar-info" role="progressbar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100" style="width:100%;"></div>
+                        </div>
+                    </li>
+
+                </ul>
+                 </div>
+                 </div>
+
+                </div>
+                <div class="row">
+
                     <div class="col-lg-3 col-md-6">
                         <div class="panel">
                             <div class="panel-footer">
@@ -185,6 +227,13 @@ export default {
                 strChannelLimit: "",
                 strEndtime: ""
             },
+            codecInfo:{
+                strCPUModel: "",
+                strHWEncoders: "",
+                strHWDecoders: "",
+                strSWEncoders: "",
+                strSWDecoders: "",
+            },
             runInfo:{
                 strRunTime: "",
                 strCPU: "",
@@ -215,6 +264,7 @@ export default {
         this.GetSystemInfo();
         this.GetSrcInfo();
         this.GetRunInfo();
+        this.GetCodecInfo();
         this.timerRunInfo = setInterval(() => {
                             this.GetRunInfo();
                             }, 5000);
@@ -235,6 +285,27 @@ export default {
                 if (result.status == 200) 
                 {
                     _this.information = result.data;
+                }
+            }).catch(error => {
+                console.log('GetSystemInfo', error);
+            });
+
+        },
+        GetCodecInfo()
+        {
+            let _this =this;
+            var root = process.env.API_ROOT;
+            if (root == undefined){
+                root = window.location.protocol + '//' + window.location.host + window.location.pathname;
+            }
+
+            var url = root + "/api/v1/GetCodecInfo?session="+ this.$store.state.token;
+
+            this.$http.get(url).then(result => {
+                console.log(result);
+                if (result.status == 200) 
+                {
+                    _this.codecInfo = result.data;
                 }
             }).catch(error => {
                 console.log('GetSystemInfo', error);

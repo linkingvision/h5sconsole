@@ -37,7 +37,7 @@ module.exports={
 	dashboard:
     {
 		dashboard: '仪表盘',
-		system_info: '系统信息',
+		system_info: '系统',
 		version: '版本',
 		hostid: '主机号',
 		license: '版权',
@@ -51,8 +51,13 @@ module.exports={
 		online_cam: "在线摄像机",
 		cameras: "摄像机总数",
 		total_space: "总空间",	
-		version_: '版本'
-		
+		version_: '版本',
+		codec_info: "编解码器",
+		cpumodel: 'CPU型号',
+		gpuencoder:"GPU编码器",
+		gpudecoder:"GPU解码器",
+		cpuencoder:"软件编码器",
+		cpudecoder:"软件解码器"
     },
 	live:
     {
