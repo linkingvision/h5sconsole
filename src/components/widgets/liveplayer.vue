@@ -4,11 +4,13 @@
 
     <div class="h5controls"  style="display:none padding:0px">
         <button type="button" class="btn vidbuttion pull-right" @click="CloseVideo($event)"> <i class="mdi mdi-close"></i></button>
+        <button type="button" class="btn vidbuttion pull-right" @click="FullScreen($event)"> <i class="mdi mdi-fullscreen"></i></button>
         <button type="button" class="btn vidbuttion pull-right" @click="PtzControlShow($event)"> <i class="mdi mdi-parking"></i></button>
         <button type="button" class="btn vidbuttion pull-right rtcbutton" > <i class="mdi mdi-format-title"></i></button>
         <button type="button" class="btn vidbuttion pull-right" @click="DoManualRecordStop($event)"> <i class="mdi mdi-stop"></i></button>
         <button type="button" class="btn vidbuttion pull-right" @click="DoManualRecordStart($event)"> <i class="mdi mdi-record"></i></button>
         <button type="button" class="btn vidbuttion pull-right" @click="DoSnapshot($event)"> <i class="mdi mdi-camera"></i></button>
+        <button type="button" class="btn vidbuttion pull-right" @click="DoSnapshotWeb($event)"> <i class="mdi mdi-file-image"></i></button>
         <!-- audio
         <button type="button" class="btn vidbuttion pull-right" > <i class="mdi  mdi-record"></i></button>
         <button type="button" class="btn vidbuttion pull-right" href="#"> <i class="mdi mdi-volume-high"></i></button>
@@ -182,6 +184,51 @@ export default {
             //var videoHTML = '<video class="h5video" id=' + this.videoid + ' autoplay webkit-playsinline playsinline></video>';
             //$container.append(videoHTML);
         },
+        FullScreen(event)
+        {
+            var elem = $("#"+this.h5id).get(0);
+            //var elem = $("#videoPanel");
+            console.log('panelFullScreen', event);
+            if (
+            document.fullscreenEnabled ||
+            document.webkitFullscreenEnabled ||
+            document.mozFullScreenEnabled ||
+            document.msFullscreenEnabled
+            ) {
+                if (
+                    document.fullscreenElement ||
+                    document.webkitFullscreenElement ||
+                    document.mozFullScreenElement ||
+                    document.msFullscreenElement
+                ) {
+                    if (document.exitFullscreen) {
+                        document.exitFullscreen();
+                    } else if (document.webkitExitFullscreen) {
+                        document.webkitExitFullscreen();
+                    } else if (document.mozCancelFullScreen) {
+                        document.mozCancelFullScreen();
+                    } else if (document.msExitFullscreen) {
+                        document.msExitFullscreen();
+                    }
+                    console.log("========  updateUIExitFullScreen");
+                    this.updateUIExitFullScreen();
+                } else {
+                     console.log('panelFullScreen3');
+                     
+                    if (elem.requestFullscreen) {
+                        elem.requestFullscreen();
+                    } else if (elem.webkitRequestFullscreen) {
+                        elem.webkitRequestFullscreen();
+                    } else if (elem.mozRequestFullScreen) {
+                        elem.mozRequestFullScreen();
+                    } else if (elem.msRequestFullscreen) {
+                        elem.msRequestFullscreen();
+                    }
+                }
+            } else {
+                console.log('Fullscreen is not supported on your browser.');
+        }
+        },
         PtzControlShow(event)
         {
             console.log(this.ptzshow);
@@ -351,6 +398,32 @@ export default {
                     title: "Snapshot failed !"
                 })
             });
+        },
+        DoSnapshotWeb(event)
+        {
+            var fileName = '1';
+            const date = new Date();
+            fileName = this.currtoken + '_' + date.getFullYear() + '-' + (date.getMonth() + 1)
+                         + '-' + date.getDate() + '-' + date.getHours() + '-' + date.getMinutes() + '-' + date.getSeconds();
+            var video = $("#" + this.h5videoid).get(0);
+            var w = video.videoWidth;//video.videoWidth * scaleFactor;
+            var h = video.videoHeight;//video.videoHeight * scaleFactor;
+            var canvas = document.createElement('canvas');
+            canvas.width = w;
+            canvas.height = h;
+            var ctx = canvas.getContext('2d');
+            ctx.drawImage(video, 0, 0, w, h);
+            var MIME_TYPE = "image/png";
+            var imgURL = canvas.toDataURL(MIME_TYPE);
+
+            var dlLink = document.createElement('a');
+            dlLink.download = fileName;
+            dlLink.href = imgURL;
+            dlLink.dataset.downloadurl = [MIME_TYPE, dlLink.download, dlLink.href].join(':');
+
+            document.body.appendChild(dlLink);
+            dlLink.click();
+            document.body.removeChild(dlLink);           
         }
     }
 }
