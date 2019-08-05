@@ -14,49 +14,28 @@
 				</div>
 			</div>
 		</div>
-		<!-- ²ã¼¶ -->
+		<!-- å±‚çº§ -->
 		<div class="content-mythe">
 			<div class="content-mythe-one">
 				<el-tree
-				  :data="data"
+				  :data="trees"
 				  show-checkbox
-				  node-key="id"
-				  draggable
-				  :default-expanded-keys="[2]"
-				  :default-checked-keys="[2]">
-				  
+				  node-key="id">   
+				   <span class="custom-tree-node" slot-scope="{ node, trees}">
+					<span>
+						<i  :class="node.icon"></i>{{ node.label }}
+					</span>              
+				   </span>
 				</el-tree>
-				<!-- ÕâÊÇÔ­ÏÂÀ­¿ò´úÂë -->
-				<div class="sidebar-nav">
-					<div class="box box-solid">
-						<div class="box-header">
-							<h5 class="box-title"><b>{{$t("message.live.device")}}</b></h5>
-							<div class="box-tools">
-							</div>
-						</div>
-						<div class="box-body no-padding pre-scrollable">
-							<div id="treeview"></div>
-						</div>
-					</div>
-				</div><!--/.well -->
-				  <div class="right-sidebar">
-				    <div class="slimscrollright">
-				        <div class="rpanel-title"> {{$t("message.live.setting")}} <span><i class="ti-close right-side-toggle"></i></span> </div>
-				        <div class="r-panel-body">
-				            <ul  class="m-t-20">
-				                <li><b>{{$t("message.live.protocol")}}: {{proto}}</b></li>
-								<div class="row">
-									<div class="col-lg-12 col-sm-12 col-xs-12">
-										<button class="btn btn-block btn-success" @click="changeWS($event)">WEBSOCKET</button>
-									</div>
-									<div class="col-lg-12 col-sm-12 col-xs-12">
-										<button class="btn btn-block btn-info"  @click="changeRTC($event)">WEBRTC</button>
-									</div>
-								 </div>  
-				            </ul>
-				        </div>
-				    </div>
-				</div>
+				<el-tree :data="data5" node-key="id"  show-checkbox>
+					<span class="custom-tree-node" slot-scope="{ node, data5}">
+						<span>
+							<i class="el-icon-message"></i>{{ node.label }}
+						</span>              
+					</span>
+				</el-tree>
+				<!-- è¿™æ˜¯åŸä¸‹æ‹‰æ¡†ä»£ç  -->
+				  
 			</div>
 			<div class="content-mythe-two">
 				<div class="" id="videoPanel">
@@ -82,7 +61,7 @@
 			</div>
 		</div>
 		<div class="asss"></div>
-		<!-- Ê¹ÓÃ -->
+		<!-- ä½¿ç”¨ -->
 		
     </div>
 	
@@ -99,11 +78,6 @@
 	import {H5siOS,H5sPlayerCreate} from '../../assets/h5splayerhelper.js'
 	
 	
-	
-	import qs from 'qs'
-	import Vue from 'vue'
-	import 'patternfly-bootstrap-treeview/dist/bootstrap-treeview.min.css'
-	import 'patternfly-bootstrap-treeview/dist/bootstrap-treeview.min.js'
 	import Liveplayer from '../../components/widgets/liveplayer';
 	
 	function sleep(delay) {
@@ -128,33 +102,33 @@ export default {
 		  proto: 'WS',
 		  contentHeight: '',
 		  contentWidth: '',
-		  
 		  videoid: "device1--33",
-		data: [{
-		  id: 1,
-		  label: 'ºÃ',
-		  children: [{
-			id: 3,
-			label: '¶ş¼¶ 2-1',
-			
-		  }, {
-			id: 2,
-			label: '¶ş¼¶ 2-2',
-			
-		  }]
-		}],
-		defaultProps: {
-		  children: 'children',
-		  label: 'label'
-		}
-	  };
+		  trees:[],
+		 data5: [{
+				id: 1,
+				label: 'ä¸€çº§ 1',
+				icon:'el-icon-message',
+				children: [{
+					id: 4,
+					label: 'äºŒçº§ 1-1',
+					children: [{
+						id: 9,
+						label: 'ä¸‰çº§ 1-1-1',
+						icon: 'el-icon-message'
+					}, {
+						id: 10,
+						label: 'ä¸‰çº§ 1-1-2'
+					}]
+				}]
+			}],
+	  }
 	},
 	mounted() {
 		this.updateUI();
-		 this.loadSrc();
+		 this.loadSrcs();
 	},
 	methods:{
-		//ÊÓÆµ²¥·Åº¯Êı
+		//è§†é¢‘æ’­æ”¾å‡½æ•°
 		PlayVideo() 
 		{
 			var pbconf1 = {
@@ -250,96 +224,101 @@ export default {
 		    });
 		},
 		
-		//load src
-		loadSrc() {
-		    let _this =this;
-		    var root = process.env.API_ROOT;
-		    var wsroot = process.env.WS_HOST_ROOT;
-		    if (root == undefined){
-		        root = window.location.protocol + '//' + window.location.host + window.location.pathname;
-		    }
-		    if (wsroot == undefined)
-		    {
-		        wsroot = window.location.host;
-		    }
 		
-		    var url = root + "/api/v1/GetSrc?session="+ this.$store.state.token;
-		
-		    this.$http.get(url).then(result => {
-		        console.log(result.data);
-				
-				//ÏÈÓÃµÄÊı¾İ 
-		        if (result.status == 200) 
-		        {
-		            var data =  result.data;
-		            var srcData = [];
-		            var srcGroup = {nodes: []};
-		            console.log("data.src", data.src, data.src.length);
-					
-		            for(var i=0; i< data.src.length; i++){
-		                var item = data.src[i];
-		                var newItem ={
-		                        token : item['strToken'],
-		                        text : item['strName'],
-		                        icon : 'mdi mdi-camcorder fa-fw'};
-								console.log(newItem);
-								
-		
-		                if(!item['bOnline'])
-		                    newItem['icon'] = 'mdi mdi-camcorder-off fa-fw';
-		
-		                if(item['nType'] == 'H5_CLOUD')
-		                    newItem['icon'] = 'mdi mdi-cloud-upload fa-fw';
-		
-		                srcGroup.nodes.push(newItem);
-						console.log(srcGroup)
-						console.log(srcData);
-						
-		                if ((i%10 == 0 || i == (data.src.length - 1) )
-		                && (i != 0))
-		                {
-		                    //srcGroup.text = "group1";//(i/16)* 16 + '-'  (i/16)* 16 + 16"";
-		                    srcGroup.text = ((Math.ceil(i/10) - 1)* 10 + 1) 
-		                                    + '-' + (((Math.ceil(i/10) - 1)* 10 + 1) + 9);
-		                    //console.log("srcGroup=========", srcGroup, i/10); 
-		                    srcData.push(srcGroup);
-		                    srcGroup = {nodes: []};
-							console.log(srcData)
-							console.log(srcData[{nodes:[1]}])
-		                }else if (i == 0 && data.src.length == 1)
-		                {
-		                    srcGroup.text = "1-10";
-		                    srcData.push(srcGroup);
-		                    srcGroup = {nodes: []};
-		                }
-		            }
-					
-		
-		            let options = { 
-		                levels: 1, //Õ¹ÏÖ¼¶±ğ
-		                color:"#428bca",
-		                expandIcon:'glyphicon glyphicon-chevron-right',
-		                collapseIcon: 'glyphicon glyphicon-chevron-down',
-		                nodeIcon: 'mdi mdi-view-sequential fa-fw',
-		                data: srcData,
-		                onNodeSelected: function (event, data) {
-		                    console.log(data.token);
-		                    if (data.token) {
-		                        let vid = 'h' + _this.$data.selectRow + _this.$data.selectCol;
-		                        _this.$root.bus.$emit('liveplay', data.token, vid);
-		                        return;
-		                    }
-		                }
-		
-		            };
-		            console.log(options);
-		            $('#treeview').treeview(options);
-		        }
-		    }).catch(error => {
-		        console.log('GetSrc failed', error);
-		    });
+		loadSrcs(){
 			
+			let _this =this;
+			var root = process.env.API_ROOT;
+			var wsroot = process.env.WS_HOST_ROOT;
+			if (root == undefined){
+			    root = window.location.protocol + '//' + window.location.host + window.location.pathname;
+			}
+			if (wsroot == undefined)
+			{
+			    wsroot = window.location.host;
+			}
+					
+			var url = root + "/api/v1/GetDevice?session="+ this.$store.state.token;
+			var url1 = root + "/api/v1/GetDeviceSrc?token=device1&session="+ this.$store.state.token;
+			var treeItems=[];
+			var treeItem={label:[],children:[],expand:false};
+			this.$http.get(url1).then(result => {
+				 if (result.status == 200) 
+				{
+					var data =  result.data;
+					//console.log(result.data);
+					//console.log("hao", data.src, data.src.length);
+					 for(var i=0; i< data.src.length; i++){
+						var item = data.src[i];
+						treeItems = {
+								id : item['strToken'],
+								label : item['strName'],
+								icon: 'el-icon-error'
+								};
+								if(!item['bOnline'])
+								    newItem['icon'] = 'el-icon-error';
+								
+								if(item['nType'] == 'H5_CLOUD')
+								    newItem['icon'] = 'el-icon-info';
+									
+								treeItem.children.push(treeItems)
+								console.log(treeItem)
+					}
+				}
+			})
+			//ç»“å°¾
+			this.$http.get(url).then(result => {
+			    console.log(result.data.dev);
+				//å…ˆç”¨çš„æ•°æ® 
+			    if (result.status == 200) 
+			    {
+			        var data =  result.data;
+			        console.log("data.dev", data.dev, data.dev.length);
+					
+			        for(var i=0; i< data.dev.length; i++){
+			            var item = data.dev[i];
+						treeItem.label =item.strName;
+								console.log(treeItem)
+						this.trees.push(treeItem);
+			        };
+			    }
+			})
 		},
+		//load src
+		//loadsss
+		loadSrcsm(){
+			let _this =this;
+			var root = process.env.API_ROOT;
+			var wsroot = process.env.WS_HOST_ROOT;
+			if (root == undefined){
+			    root = window.location.protocol + '//' + window.location.host + window.location.pathname;
+			}
+			if (wsroot == undefined)
+			{
+			    wsroot = window.location.host;
+			}
+			var url1 = root + "/api/v1/GetDeviceSrc?token=device1&session="+ this.$store.state.token;
+			console.log(url1)
+			this.$http.get(url1).then(result => {
+				 if (result.status == 200) 
+				{
+					var data =  result.data;
+					console.log(result.data);
+					console.log("hao()", data.src, data.src.length);
+					 for(var i=0; i< data.src.length; i++){
+						var item = data.src[i];
+						var treeItem = {
+								id : item['strToken'],
+								label : item['strName'],
+								};
+								console.log(treeItem);
+					}
+				}
+			})
+			//ç»“å°¾
+						
+		},
+		
 		
 		panelFullScreen(event) {
 		    var elem = document.getElementById('videoPanel');
@@ -467,7 +446,7 @@ export default {
 		color: #FFFFFF;
 		margin-bottom: 20px;
 	}
-	/* ÊÓÆµ */
+	/* è§†é¢‘ */
 	.h5video{
 	   object-fit: fill; 
 	   width: 100%;
@@ -479,7 +458,7 @@ export default {
 		height: 100%;
 		width: 100%;
 	}	
-	/* ¾Å¹¬¸ñ²¼¾Ö */
+	/* ä¹å®«æ ¼å¸ƒå±€ */
 	div[name='flex'] {
 	    display: flex;
 	    border-bottom: 0px !important;
@@ -623,5 +602,14 @@ export default {
 	    color: rgb(187, 184, 184);
 	    height: 32px;
 	    width: 32px;
+	}
+	
+	
+	/* iæ ‡ç­¾ */
+	.custom-tree-node{
+		font-size: 16px;
+	}
+	i{
+		color: 	#008B8B;
 	}
 </style>

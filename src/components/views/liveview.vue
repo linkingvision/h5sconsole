@@ -211,6 +211,7 @@ export default {
                                             + '-' + (((Math.ceil(i/10) - 1)* 10 + 1) + 9);
                             //console.log("srcGroup=========", srcGroup, i/10); 
                             srcData.push(srcGroup);
+							console.log(srcData)
                             srcGroup = {nodes: []};
                         }else if (i == 0 && data.src.length == 1)
                         {
@@ -309,7 +310,6 @@ export default {
                     } else if (elem.msRequestFullscreen) {
                         elem.msRequestFullscreen();
                     }
-                    console.log("========  updateUIEnterFullScreen");
                     this.updateUIEnterFullScreen();
                     if (document.addEventListener)
                     {
