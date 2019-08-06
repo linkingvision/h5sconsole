@@ -17,26 +17,22 @@
 		<!-- 层级 -->
 		<div class="content-mythe">
 			<div class="content-mythe-one">
-				<el-tree
-				  :data="trees"
-				  show-checkbox
-				  node-key="id">   
-				   <span class="custom-tree-node" slot-scope="{ node, trees}">
-					<span>
-						<i  :class="node.icon"></i>{{ node.label }}
-					</span>              
-				   </span>
-				</el-tree>
-				<el-tree :data="data5" node-key="id"  show-checkbox>
-					<span class="custom-tree-node" slot-scope="{ node, data5}">
-						<span>
-							<i class="el-icon-message"></i>{{ node.label }}
-						</span>              
-					</span>
-				</el-tree>
+				
 				<!-- 这是原下拉框代码 -->
-				  
+			  <div class="sidebar-nav">
+				  <div class="box box-solid">
+					  <div class="box-header">
+						  <h5 class="box-title"><b>{{$t("message.live.device")}}</b></h5>
+						  <div class="box-tools">
+						  </div>
+					  </div>
+					  <div class="box-body no-padding pre-scrollable">
+						  <div id="treeview"></div>
+					  </div>
+				  </div>
+			  </div><!--/.well -->
 			</div>
+			<!-- 九宫格 -->
 			<div class="content-mythe-two">
 				<div class="" id="videoPanel">
 				    <div name='flex' class="videoColor" v-for="r in rows" :key="r">
@@ -60,7 +56,10 @@
 				</div>
 			</div>
 		</div>
-		<div class="asss"></div>
+		<div class="asss" >
+			哇偶
+		</div>
+		<button type="button" @click="heid()">点击试试</button>
 		<!-- 使用 -->
 		
     </div>
@@ -71,13 +70,14 @@
 
 
 <script>
-	var token="device1--34";
-	
 	import '../../assets/adapter.js'
 	import {H5sPlayerWS,H5sPlayerHls,H5sPlayerRTC} from '../../assets/h5splayer.js'
 	import {H5siOS,H5sPlayerCreate} from '../../assets/h5splayerhelper.js'
 	
-	
+	import qs from 'qs'
+	import Vue from 'vue'
+	import 'patternfly-bootstrap-treeview/dist/bootstrap-treeview.min.css'
+	import 'patternfly-bootstrap-treeview/dist/bootstrap-treeview.min.js'
 	import Liveplayer from '../../components/widgets/liveplayer';
 	
 	function sleep(delay) {
@@ -86,7 +86,7 @@
 		continue;
 	  }
 	}
-
+	
 export default {
 	name: "liveview",
 	components: {
@@ -102,32 +102,35 @@ export default {
 		  proto: 'WS',
 		  contentHeight: '',
 		  contentWidth: '',
-		  videoid: "device1--33",
 		  trees:[],
-		 data5: [{
-				id: 1,
-				label: '一级 1',
-				icon:'el-icon-message',
-				children: [{
-					id: 4,
-					label: '二级 1-1',
-					children: [{
-						id: 9,
-						label: '三级 1-1-1',
-						icon: 'el-icon-message'
-					}, {
-						id: 10,
-						label: '三级 1-1-2'
-					}]
-				}]
-			}],
 	  }
 	},
 	mounted() {
 		this.updateUI();
-		 this.loadSrcs();
+		 this.loadSrc();
+		 this.bar();
 	},
 	methods:{
+		heid(){
+			$(".asss").toggle();
+		},
+		//进度条
+		bar(){
+			let _this =this;
+			 var root = process.env.API_ROOT;
+			 var wsroot = process.env.WS_HOST_ROOT;
+			 if (root == undefined){
+			     root = window.location.protocol + '//' + window.location.host + window.location.pathname;
+			 }
+			 if (wsroot == undefined)
+			 {
+			     wsroot = window.location.host;
+			 }
+			 //url
+			var url = root + "/api/v1/SearchDeviceRecordByTime?token=device1&session="+ this.$store.state.token;
+			
+			console.log(url);
+		},
 		//视频播放函数
 		PlayVideo() 
 		{
@@ -225,100 +228,98 @@ export default {
 		},
 		
 		
-		loadSrcs(){
-			
-			let _this =this;
-			var root = process.env.API_ROOT;
-			var wsroot = process.env.WS_HOST_ROOT;
-			if (root == undefined){
-			    root = window.location.protocol + '//' + window.location.host + window.location.pathname;
-			}
-			if (wsroot == undefined)
-			{
-			    wsroot = window.location.host;
-			}
-					
-			var url = root + "/api/v1/GetDevice?session="+ this.$store.state.token;
-			var url1 = root + "/api/v1/GetDeviceSrc?token=device1&session="+ this.$store.state.token;
-			var treeItems=[];
-			var treeItem={label:[],children:[],expand:false};
-			this.$http.get(url1).then(result => {
-				 if (result.status == 200) 
-				{
-					var data =  result.data;
-					//console.log(result.data);
-					//console.log("hao", data.src, data.src.length);
-					 for(var i=0; i< data.src.length; i++){
-						var item = data.src[i];
-						treeItems = {
-								id : item['strToken'],
-								label : item['strName'],
-								icon: 'el-icon-error'
-								};
-								if(!item['bOnline'])
-								    newItem['icon'] = 'el-icon-error';
-								
-								if(item['nType'] == 'H5_CLOUD')
-								    newItem['icon'] = 'el-icon-info';
-									
-								treeItem.children.push(treeItems)
-								console.log(treeItem)
-					}
-				}
-			})
-			//结尾
-			this.$http.get(url).then(result => {
-			    console.log(result.data.dev);
-				//先用的数据 
-			    if (result.status == 200) 
-			    {
-			        var data =  result.data;
-			        console.log("data.dev", data.dev, data.dev.length);
-					
-			        for(var i=0; i< data.dev.length; i++){
-			            var item = data.dev[i];
-						treeItem.label =item.strName;
-								console.log(treeItem)
-						this.trees.push(treeItem);
-			        };
-			    }
-			})
-		},
 		//load src
-		//loadsss
-		loadSrcsm(){
-			let _this =this;
-			var root = process.env.API_ROOT;
-			var wsroot = process.env.WS_HOST_ROOT;
-			if (root == undefined){
-			    root = window.location.protocol + '//' + window.location.host + window.location.pathname;
-			}
-			if (wsroot == undefined)
-			{
-			    wsroot = window.location.host;
-			}
-			var url1 = root + "/api/v1/GetDeviceSrc?token=device1&session="+ this.$store.state.token;
-			console.log(url1)
-			this.$http.get(url1).then(result => {
-				 if (result.status == 200) 
-				{
-					var data =  result.data;
-					console.log(result.data);
-					console.log("hao()", data.src, data.src.length);
-					 for(var i=0; i< data.src.length; i++){
-						var item = data.src[i];
-						var treeItem = {
-								id : item['strToken'],
-								label : item['strName'],
-								};
-								console.log(treeItem);
-					}
-				}
-			})
-			//结尾
-						
+		
+		loadSrc() {
+		    let _this =this;
+		    var root = process.env.API_ROOT;
+		    var wsroot = process.env.WS_HOST_ROOT;
+		    if (root == undefined){
+		        root = window.location.protocol + '//' + window.location.host + window.location.pathname;
+		    }
+		    if (wsroot == undefined)
+		    {
+		        wsroot = window.location.host;
+		    }
+		   var url1 = root + "/api/v1/GetDeviceSrc?token=device1&session="+ this.$store.state.token;
+		   //url
+		   var url = root + "/api/v1/GetDevice?session="+ this.$store.state.token;
+		   var hig="";
+		   this.$http.get(url).then(result => {
+		   			 if (result.status == 200) 
+		   			{
+		   				var data =  result.data;
+		   				console.log("data.dev", data.dev, data.dev.length);
+		   				for(var i=0; i< data.dev.length; i++){
+		   					var item = data.dev[i];
+		   					hig=item.strName;
+		   					console.log(hig);
+		   				}
+		   			}
+		   })
+		    this.$http.get(url1).then(result => {
+		        console.log(result);
+		        if (result.status == 200) 
+		        {
+		            var data =  result.data;
+		            var srcData = [];
+		            var srcGroup = {nodes: []};
+		            console.log("data.src", data.src, data.src.length);
+		            for(var i=0; i< data.src.length; i++){
+		                var item = data.src[i];
+		                var newItem ={
+		                        token : item['strToken'],
+		                        text : item['strName'],
+		                        icon : 'mdi mdi-camcorder fa-fw'};
+		
+		                if(!item['bOnline'])
+		                    newItem['icon'] = 'mdi mdi-camcorder-off fa-fw';
+		
+		                if(item['nType'] == 'H5_CLOUD')
+		                    newItem['icon'] = 'mdi mdi-cloud-upload fa-fw';
+		
+		                srcGroup.nodes.push(newItem);
+		            }
+					srcGroup.text =hig
+					srcData.push(srcGroup);
+					console.log(srcData)
+					srcGroup = {nodes: []};
+		
+		            let options = { 
+		                levels: 1, //展现级别
+						color:"#666666",
+		                expandIcon:'glyphicon glyphicon-chevron-right',
+		                collapseIcon: 'glyphicon glyphicon-chevron-down',
+		                nodeIcon: 'mdi mdi-view-sequential fa-fw',
+						showCheckbox:true,
+						showBorder:false,
+						selectedColor:"#3c3c3c",
+						backColor:"#FFFFFF",
+						selectedBackColor: "#ffffff",
+						onhoverColor:"#FFFFFF",
+		                data: srcData,
+		                onNodeSelected: function (event, data) {
+		                    console.log(data.token);
+							$(".asss").show();
+		                    if (data.token) {
+		                        let vid = 'h' + _this.$data.selectRow + _this.$data.selectCol;
+		                        _this.$root.bus.$emit('liveplay', data.token, vid);
+		                        return;
+		                    }
+		                },
+						nodeUnselected: function (event, token){
+							$(".asss").hide();
+						}
+		            };
+		            console.log(options);
+		            $('#treeview').treeview(options);
+		        }
+		    }).catch(error => {
+		        console.log('GetSrc failed', error);
+		    });
 		},
 		
+			
 		
 		panelFullScreen(event) {
 		    var elem = document.getElementById('videoPanel');
@@ -359,7 +360,6 @@ export default {
 		            } else if (elem.msRequestFullscreen) {
 		                elem.msRequestFullscreen();
 		            }
-		            console.log("========  updateUIEnterFullScreen");
 		            this.updateUIEnterFullScreen();
 		            if (document.addEventListener)
 		            {
@@ -374,6 +374,7 @@ export default {
 		}
 		
 		},
+		
 		changePanel(event) {
 		    let data = $(event.target).data('row');
 		    let cols = data.split('|')[1];
