@@ -31,8 +31,9 @@ import iView from 'iview'
 import 'iview/dist/styles/iview.css'
 import * as types from '@/store/types'
 
-import ElementUI from 'element-ui';
+import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
+
 Vue.use(ElementUI)
 Vue.use(VeeValidate)
 Vue.use(iView)

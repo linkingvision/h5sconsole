@@ -35,31 +35,31 @@
 			<!-- 九宫格 -->
 			<div class="content-mythe-two">
 				<div class="" id="videoPanel">
-				    <div name='flex' class="videoColor" v-for="r in rows" :key="r">
-				        <div calss="videoflexitem" style="flex:1; border:1px solid black;" name="flex" v-for="c in cols" @contextmenu.prevent="stopVideo($event)" @click="videoClick(r,c,$event)" :key="c">
-				        <v-liveplayer v-bind:id="'h'+r+c" :h5id="'h'+r+c" :h5videoid="'hvideo'+r+c">
-						
-						</v-liveplayer>
-				        </div>
-				    </div>
-				    <div class="btn-group blocks">
-				        <button type="button" class="btn btn-default layout1x1 waves-effect" data-row="1|1" @click="changePanel($event)">
-				            </button>
-				        <button type="button" class="btn btn-default layout2x2 waves-effect" data-row="2|2" @click="changePanel($event)">
-				            </button>
-				        <button type="button" class="hidden-xs btn btn-default layout3x3 waves-effect" data-row="3|3" @click="changePanel($event)">
-				            </button>
-				        <button type="button" class="hidden-xs btn btn-default layout4x4 waves-effect" data-row="4|4" @click="changePanel($event)">
-				            </button>
-				        <button type="button" class="btn btn-default layoutfull waves-effect" @click="panelFullScreen($event)"> </button>
-				    </div>
+					<div>
+						<div name='flex' class="videoColor" v-for="r in rows" :key="r">
+							<div calss="videoflexitem" style="flex:1; border:1px solid black;" name="flex" v-for="c in cols" @contextmenu.prevent="stopVideo($event)" @click="videoClick(r,c,$event)" :key="c">
+							<v-liveplayer v-bind:id="'h'+r+c" :h5id="'h'+r+c" :h5videoid="'hvideo'+r+c">
+							
+							</v-liveplayer>
+							</div>
+						</div>
+						<div class="btn-group blocks">
+							<button type="button" class="btn btn-default layout1x1 waves-effect" data-row="1|1" @click="changePanel($event)">
+								</button>
+							<button type="button" class="btn btn-default layout2x2 waves-effect" data-row="2|2" @click="changePanel($event)">
+								</button>
+							<button type="button" class="hidden-xs btn btn-default layout3x3 waves-effect" data-row="3|3" @click="changePanel($event)">
+								</button>
+							<button type="button" class="hidden-xs btn btn-default layout4x4 waves-effect" data-row="4|4" @click="changePanel($event)">
+								</button>
+							<button type="button" class="btn btn-default layoutfull waves-effect" @click="panelFullScreen($event)"> </button>
+						</div>
+					</div>
 				</div>
+				
 			</div>
+			
 		</div>
-		<div class="asss" >
-			哇偶
-		</div>
-		<button type="button" @click="heid()">点击试试</button>
 		<!-- 使用 -->
 		
     </div>
@@ -78,7 +78,7 @@
 	import Vue from 'vue'
 	import 'patternfly-bootstrap-treeview/dist/bootstrap-treeview.min.css'
 	import 'patternfly-bootstrap-treeview/dist/bootstrap-treeview.min.js'
-	import Liveplayer from '../../components/widgets/liveplayer';
+	import Pblive from '../../components/widgets/pblive';
 	
 	function sleep(delay) {
 	  var start = (new Date()).getTime();
@@ -88,105 +88,30 @@
 	}
 	
 export default {
-	name: "liveview",
+	name: "playback",
 	components: {
-	    'v-liveplayer': Liveplayer
+	    'v-liveplayer': Pblive
 	},
 	data() {
 
 	  return {
-		  rows: 3,
-		  cols: 3,
+		  rows: 2,
+		  cols: 2,
 		  selectCol: 1,
 		  selectRow: 1,
 		  proto: 'WS',
 		  contentHeight: '',
 		  contentWidth: '',
-		  trees:[],
+		
 	  }
 	},
 	mounted() {
 		this.updateUI();
-		 this.loadSrc();
-		 this.bar();
+		this.loadDevice();
 	},
 	methods:{
-		heid(){
-			$(".asss").toggle();
-		},
-		//进度条
-		bar(){
-			let _this =this;
-			 var root = process.env.API_ROOT;
-			 var wsroot = process.env.WS_HOST_ROOT;
-			 if (root == undefined){
-			     root = window.location.protocol + '//' + window.location.host + window.location.pathname;
-			 }
-			 if (wsroot == undefined)
-			 {
-			     wsroot = window.location.host;
-			 }
-			 //url
-			var url = root + "/api/v1/SearchDeviceRecordByTime?token=device1&session="+ this.$store.state.token;
-			
-			console.log(url);
-		},
 		//视频播放函数
-		PlayVideo() 
-		{
-			var pbconf1 = {
-				begintime: '2019-07-14T081001+08',
-				endtime: '2019-07-14T131001+08',
-				showposter: 'true', //'true' or 'false' show poster
-				callback: null, 
-				userdata:  null // user data
-			};	
-			
-			if (this.h5handler != undefined)
-			{
-				this.h5handler.disconnect();
-				delete this.h5handler;
-				this.h5handler = undefined;
-			}
-			this.currtoken = token;
-			console.log("play ", token);
-			var root = process.env.API_ROOT;
-			var wsroot = process.env.WS_HOST_ROOT;
-			if (root == undefined){
-				root = window.location.protocol + '//' + window.location.host + window.location.pathname;
-			}
-			if (wsroot == undefined)
-			{
-				wsroot = window.location.host;
-			}
-			let conf = {
-				videoid: 'device1--33',
-				protocol: window.location.protocol, //http: or https:
-				host: wsroot, //localhost:8080
-				rootpath: '/', // '/'
-				token: token,
-				pbconf: pbconf1,
-				hlsver: 'v1', //v1 is for ts, v2 is for fmp4
-				session: this.$store.state.token //session got from login
-			};
-			var $container = $("#"+this.h5id);
-			var $controls = $container.children(".h5controls");
-			var $rtcbutton = $controls.children(".rtcbutton");
-		
-			if (this.proto == 'RTC' || (H5siOS() === true))
-			{
-				$rtcbutton.css("display", "block");
-				this.h5handler = new H5sPlayerRTC(conf);
-			}else 
-			{
-				$rtcbutton.css("display", "none");
-				this.h5handler = new H5sPlayerRTC(conf);
-			}
-		
-			this.h5handler.connect();
-			sleep(1);
-			this.h5handler.start();
-		},
+
 		//un ui
 		updateUI()
 		{
@@ -230,7 +155,64 @@ export default {
 		
 		//load src
 		
-		loadSrc() {
+		loadOneDevice(toplevels, topData)
+		{
+			let _this =this;
+			var root = process.env.API_ROOT;
+			var wsroot = process.env.WS_HOST_ROOT;
+			if (root == undefined){
+			    root = window.location.protocol + '//' + window.location.host + window.location.pathname;
+			}
+			if (wsroot == undefined)
+			{
+			    wsroot = window.location.host;
+			}
+			var url = root + "/api/v1/GetDeviceSrc?token="+ toplevels.strToken + "&session=" + this.$store.state.token;
+			
+			this.$http.get(url).then(result=>{
+				  if(result.status == 200){
+					  var data=result.data;
+					  var topGroup={nodes:[]};
+					  topGroup.text=toplevels.strName;
+					  for(var i = 0; i < data.src.length; i++){
+						  var item=data.src[i];
+						  var topitem={
+								token : item['strToken'],
+								text : item['strName'],
+								icon : 'mdi mdi-camcorder fa-fw',
+							  };
+							  topGroup.nodes.push(topitem);
+					  }
+					   topData.push(topGroup);
+					   let options = { 
+					   	levels: 1, //展现级别
+					   	color:"#666666",
+					   	expandIcon:'glyphicon glyphicon-chevron-right',
+					   	collapseIcon: 'glyphicon glyphicon-chevron-down',
+					   	nodeIcon: 'mdi mdi-view-sequential fa-fw',
+					   	showBorder:false,
+					   	selectedColor:"#3c3c3c",
+					   	backColor:"#FFFFFF",
+					   	selectedBackColor: "#ffffff",
+					   	onhoverColor:"#FFFFFF",
+					   	data: topData,
+					   	onNodeSelected: function (event, data) {
+					   		console.log(data.token);
+					   		$(".asss").show();
+					   		if (data.token) {
+					   			let vid = 'h' + _this.$data.selectRow + _this.$data.selectCol;
+					   			_this.$root.bus.$emit('pblive', data.token, vid);
+					   			return;
+					   		}
+					   	},
+					   };
+					   
+					   $('#treeview').treeview(options);
+				  }
+			})
+		},
+		
+		loadDevice() {
 		    let _this =this;
 		    var root = process.env.API_ROOT;
 		    var wsroot = process.env.WS_HOST_ROOT;
@@ -241,82 +223,26 @@ export default {
 		    {
 		        wsroot = window.location.host;
 		    }
-		   var url1 = root + "/api/v1/GetDeviceSrc?token=device1&session="+ this.$store.state.token;
 		   //url
 		   var url = root + "/api/v1/GetDevice?session="+ this.$store.state.token;
-		   var hig="";
-		   this.$http.get(url).then(result => {
-		   			 if (result.status == 200) 
-		   			{
-		   				var data =  result.data;
-		   				console.log("data.dev", data.dev, data.dev.length);
-		   				for(var i=0; i< data.dev.length; i++){
-		   					var item = data.dev[i];
-		   					hig=item.strName;
-		   					console.log(hig);
-		   				}
-		   			}
-		   })
-		    this.$http.get(url1).then(result => {
-		        console.log(result);
-		        if (result.status == 200) 
-		        {
-		            var data =  result.data;
-		            var srcData = [];
-		            var srcGroup = {nodes: []};
-		            console.log("data.src", data.src, data.src.length);
-		            for(var i=0; i< data.src.length; i++){
-		                var item = data.src[i];
-		                var newItem ={
-		                        token : item['strToken'],
-		                        text : item['strName'],
-		                        icon : 'mdi mdi-camcorder fa-fw'};
-		
-		                if(!item['bOnline'])
-		                    newItem['icon'] = 'mdi mdi-camcorder-off fa-fw';
-		
-		                if(item['nType'] == 'H5_CLOUD')
-		                    newItem['icon'] = 'mdi mdi-cloud-upload fa-fw';
-		
-		                srcGroup.nodes.push(newItem);
-		            }
-					srcGroup.text =hig
-					srcData.push(srcGroup);
-					console.log(srcData)
-					srcGroup = {nodes: []};
-		
-		            let options = { 
-		                levels: 1, //展现级别
-						color:"#666666",
-		                expandIcon:'glyphicon glyphicon-chevron-right',
-		                collapseIcon: 'glyphicon glyphicon-chevron-down',
-		                nodeIcon: 'mdi mdi-view-sequential fa-fw',
-						showCheckbox:true,
-						showBorder:false,
-						selectedColor:"#3c3c3c",
-						backColor:"#FFFFFF",
-						selectedBackColor: "#ffffff",
-						onhoverColor:"#FFFFFF",
-		                data: srcData,
-		                onNodeSelected: function (event, data) {
-		                    console.log(data.token);
-							$(".asss").show();
-		                    if (data.token) {
-		                        let vid = 'h' + _this.$data.selectRow + _this.$data.selectCol;
-		                        _this.$root.bus.$emit('liveplay', data.token, vid);
-		                        return;
-		                    }
-		                },
-						nodeUnselected: function (event, token){
-							$(".asss").hide();
-						}
-		            };
-		            console.log(options);
-		            $('#treeview').treeview(options);
-		        }
-		    }).catch(error => {
-		        console.log('GetSrc failed', error);
-		    });
+		   
+			  //重组
+			  this.$http.get(url).then(result=>{
+				  if(result.status == 200){
+					  var topData=[];
+					  var data=result.data;
+					  console.log("data",data.dev,data.dev.length);
+					  for(var i = 0; i < data.dev.length; i++){
+						  var item=data.dev[i];
+						  var toplevel=[];
+						  toplevel["strToken"]=item.strToken;
+						  toplevel["strName"]=item.strName;
+						  console.log(toplevel);
+						  this.loadOneDevice(toplevel,topData);
+						  
+					  }
+				  }
+			  })
 		},
 		
 			

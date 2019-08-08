@@ -223,10 +223,15 @@ export default {
 
                     let options = { 
                         levels: 1, //展现级别
-                        color:"#428bca",
+                        color:"#666666",
                         expandIcon:'glyphicon glyphicon-chevron-right',
                         collapseIcon: 'glyphicon glyphicon-chevron-down',
                         nodeIcon: 'mdi mdi-view-sequential fa-fw',
+                        showBorder:false,
+                        selectedColor:"#3c3c3c",
+                        backColor:"#FFFFFF",
+                        selectedBackColor: "#ffffff",
+                        onhoverColor:"#FFFFFF",
                         data: srcData,
                         onNodeSelected: function (event, data) {
                             console.log(data.token);
