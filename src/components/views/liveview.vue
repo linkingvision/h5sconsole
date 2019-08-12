@@ -6,7 +6,7 @@
         <div class="container-fluid ">
             <div class="row bg-title">
                 <div class="col-lg-3 col-md-4 col-sm-4 col-xs-12">
-                    <h4 class="page-title">{{$t("message.live.liveview")}}</h4> 
+                    <h4 class="page-title">{{$t("message.live.liveview")}}</h4>
                 </div>
                 <div class="col-lg-9 col-sm-8 col-md-8 col-xs-12">
                     <button class="right-side-toggle waves-effect waves-light btn-info btn-circle pull-right m-l-20"><i class="ti-settings text-white"></i></button>
@@ -48,7 +48,9 @@
                         </div>
                     </div>
                     <div class="box-body no-padding pre-scrollable">
-                        <div id="treeview"></div>
+                        <div id="treeview">
+                          <li class="list-group-item node-treeview"></li>
+                        </div>
                     </div>
                 </div>
                 </div><!--/.well -->
@@ -69,7 +71,7 @@
                                 <div class="col-lg-12 col-sm-12 col-xs-12">
                                     <button class="btn btn-block btn-info"  @click="changeRTC($event)">WEBRTC</button>
                                 </div>
-                             </div>  
+                             </div>
 
                     </ul>
                 </div>
@@ -79,7 +81,7 @@
     </div>
 
 </div>
-</template>   
+</template>
 
 <script>
 import '../../assets/material/js/custom.min.js'
@@ -108,7 +110,7 @@ export default {
                 contentHeight: '',
                 contentWidth: ''
             };
-        
+
     },
     mounted() {
 
@@ -123,7 +125,7 @@ export default {
             if($(document.body).width() < 768)
             {
                 this.contentHeight = $(document.body).height()*0.4;
-            }else 
+            }else
             {
                 this.contentHeight = $(document.body).height()*0.8;
             }
@@ -161,7 +163,7 @@ export default {
         },
         updateUIExitFullScreen()
         {
-            if (!document.fullscreenElement && !document.webkitIsFullScreen && !document.mozFullScreen && !document.msFullscreenElement) 
+            if (!document.fullscreenElement && !document.webkitIsFullScreen && !document.mozFullScreen && !document.msFullscreenElement)
             {
                 $('div[name="flex"]').height(this.contentHeight / this.rows);
             }
@@ -183,18 +185,32 @@ export default {
 
             this.$http.get(url).then(result => {
                 console.log(result);
-                if (result.status == 200) 
+                if (result.status == 200)
                 {
                     var data =  result.data;
                     var srcData = [];
                     var srcGroup = {nodes: []};
+
                     console.log("data.src", data.src, data.src.length);
                     for(var i=0; i< data.src.length; i++){
                         var item = data.src[i];
+                        // 主副流
+                        var node=[{
+                          token : item['strToken'],
+                          samtoken : "main",
+                          text :this.$t('message.live.mainstream'),
+                          icon : 'mdi mdi-playlist-play fa-fw'
+                        },{
+                          token : item['strToken'],
+                          samtoken : "sub",
+                          text :this.$t('message.live.substream'),
+                          icon : 'mdi mdi-playlist-play fa-fw'
+                        }]
                         var newItem ={
                                 token : item['strToken'],
                                 text : item['strName'],
-                                icon : 'mdi mdi-camcorder fa-fw'};
+                                icon : 'mdi mdi-camcorder fa-fw',
+                                nodes:node};
 
                         if(!item['bOnline'])
                             newItem['icon'] = 'mdi mdi-camcorder-off fa-fw';
@@ -207,11 +223,11 @@ export default {
                         && (i != 0))
                         {
                             //srcGroup.text = "group1";//(i/16)* 16 + '-'  (i/16)* 16 + 16"";
-                            srcGroup.text = ((Math.ceil(i/10) - 1)* 10 + 1) 
+                            srcGroup.text = ((Math.ceil(i/10) - 1)* 10 + 1)
                                             + '-' + (((Math.ceil(i/10) - 1)* 10 + 1) + 9);
-                            //console.log("srcGroup=========", srcGroup, i/10); 
+                            //console.log("srcGroup=========", srcGroup, i/10);
                             srcData.push(srcGroup);
-							console.log(srcData)
+                            console.log(srcData)
                             srcGroup = {nodes: []};
                         }else if (i == 0 && data.src.length == 1)
                         {
@@ -221,7 +237,7 @@ export default {
                         }
                     }
 
-                    let options = { 
+                    let options = {
                         levels: 1, //展现级别
                         color:"#666666",
                         expandIcon:'glyphicon glyphicon-chevron-right',
@@ -235,9 +251,12 @@ export default {
                         data: srcData,
                         onNodeSelected: function (event, data) {
                             console.log(data.token);
+                            console.log(data.samtoken);
                             if (data.token) {
                                 let vid = 'h' + _this.$data.selectRow + _this.$data.selectCol;
-                                _this.$root.bus.$emit('liveplay', data.token, vid);
+                                console.log(vid)
+                                //var sj={token:data.token,samtoken:data.samtoken}
+                                _this.$root.bus.$emit('liveplay', data.token,data.samtoken, vid);
                                 return;
                             }
                         }
@@ -305,7 +324,7 @@ export default {
                     this.updateUIExitFullScreen();
                 } else {
                      console.log('panelFullScreen3');
-                     
+
                     if (elem.requestFullscreen) {
                         elem.requestFullscreen();
                     } else if (elem.webkitRequestFullscreen) {

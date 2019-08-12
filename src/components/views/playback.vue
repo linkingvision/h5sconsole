@@ -1,12 +1,12 @@
 <template>
-	
+
 <div>
     <div id="page-wrapper">
 
 		<div class="container-fluid">
 			<div class="row bg-title">
 				<div class="col-lg-3 col-md-4 col-sm-4 col-xs-12">
-					<h4 class="page-title">Playback</h4> 
+					<h4 class="page-title">Playback</h4>
 				</div>
 				<div class="col-lg-9 col-sm-8 col-md-8 col-xs-12">
 					<button class="right-side-toggle waves-effect waves-light btn-info btn-circle pull-right m-l-20"><i class="ti-settings text-white"></i></button>
@@ -17,7 +17,7 @@
 		<!-- 层级 -->
 		<div class="content-mythe">
 			<div class="content-mythe-one">
-				
+
 				<!-- 这是原下拉框代码 -->
 			  <div class="sidebar-nav">
 				  <div class="box box-solid">
@@ -34,15 +34,17 @@
 			</div>
 			<!-- 九宫格 -->
 			<div class="content-mythe-two">
-				<div class="" id="videoPanel">
+				<div class="" id="videoPanel" style="width: 90%;">
 					<div>
+            <!-- 九宫格 -->
 						<div name='flex' class="videoColor" v-for="r in rows" :key="r">
 							<div calss="videoflexitem" style="flex:1; border:1px solid black;" name="flex" v-for="c in cols" @contextmenu.prevent="stopVideo($event)" @click="videoClick(r,c,$event)" :key="c">
 							<v-liveplayer v-bind:id="'h'+r+c" :h5id="'h'+r+c" :h5videoid="'hvideo'+r+c">
-							
+
 							</v-liveplayer>
 							</div>
 						</div>
+            <!-- 按钮 -->
 						<div class="btn-group blocks">
 							<button type="button" class="btn btn-default layout1x1 waves-effect" data-row="1|1" @click="changePanel($event)">
 								</button>
@@ -54,39 +56,42 @@
 								</button>
 							<button type="button" class="btn btn-default layoutfull waves-effect" @click="panelFullScreen($event)"> </button>
 						</div>
+            <!-- 进度条 -->
+            <div id="visualization"></div>
 					</div>
 				</div>
-				
+
 			</div>
-			
+
 		</div>
 		<!-- 使用 -->
-		
+
     </div>
-	
-	
+
+
 </div>
-</template>   
+</template>
 
 
 <script>
 	import '../../assets/adapter.js'
+  import timeline from '../../assets/vis-css.js'
 	import {H5sPlayerWS,H5sPlayerHls,H5sPlayerRTC} from '../../assets/h5splayer.js'
 	import {H5siOS,H5sPlayerCreate} from '../../assets/h5splayerhelper.js'
-	
+
 	import qs from 'qs'
 	import Vue from 'vue'
 	import 'patternfly-bootstrap-treeview/dist/bootstrap-treeview.min.css'
 	import 'patternfly-bootstrap-treeview/dist/bootstrap-treeview.min.js'
 	import Pblive from '../../components/widgets/pblive';
-	
+
 	function sleep(delay) {
 	  var start = (new Date()).getTime();
 	  while ((new Date()).getTime() - start < delay) {
 		continue;
 	  }
 	}
-	
+
 export default {
 	name: "playback",
 	components: {
@@ -102,15 +107,42 @@ export default {
 		  proto: 'WS',
 		  contentHeight: '',
 		  contentWidth: '',
-		
-	  }
+      progres:[{
+				id: 1,
+				content: 'item 1',
+				start: '2014-04-20',
+        end: '2014-04-24'
+			},
+			{
+				id: 2,
+				content: 'item 2',
+				start: '2014-04-17',
+        end: '2014-04-19'
+			},
+			{
+				id: 3,
+				content: 'item 4',
+				start: '2014-04-25',
+				end: '2014-04-26'
+			},
+
+		] }
 	},
 	mounted() {
 		this.updateUI();
 		this.loadDevice();
+    this.progress();
 	},
 	methods:{
 		//视频播放函数
+    progress(){
+      var container = document.getElementById('visualization');
+      console.log(container);
+      var items=this.progres;
+      console.log(items);
+      var options = {};
+      console.log(options);
+    },
 
 		//un ui
 		updateUI()
@@ -120,7 +152,7 @@ export default {
 		    if($(document.body).width() < 768)
 		    {
 		        this.contentHeight = $(document.body).height()*0.4;
-		    }else 
+		    }else
 		    {
 		        this.contentHeight = $(document.body).height()*0.8;
 		    }
@@ -131,7 +163,7 @@ export default {
 		    {
 		        $('.h5video').prop("controls", true);
 		    }
-		
+
 		    $(".right-side-toggle").on("click", function () {
 		        $(".right-sidebar").slideDown(50).toggleClass("shw-rside");
 		        $(".fxhdr").on("click", function () {
@@ -140,9 +172,9 @@ export default {
 		        $(".fxsdr").on("click", function () {
 		            body.toggleClass("fix-sidebar"); /* Fix Sidebar JS */
 		        });
-		
+
 		        /* ===== Service Panel JS ===== */
-		
+
 		        var fxhdr = $('.fxhdr');
 		        if (body.hasClass("fix-header")) {
 		            fxhdr.attr('checked', true);
@@ -151,10 +183,10 @@ export default {
 		        }
 		    });
 		},
-		
-		
+
+
 		//load src
-		
+
 		loadOneDevice(toplevels, topData)
 		{
 			let _this =this;
@@ -168,7 +200,7 @@ export default {
 			    wsroot = window.location.host;
 			}
 			var url = root + "/api/v1/GetDeviceSrc?token="+ toplevels.strToken + "&session=" + this.$store.state.token;
-			
+
 			this.$http.get(url).then(result=>{
 				  if(result.status == 200){
 					  var data=result.data;
@@ -184,7 +216,7 @@ export default {
 							  topGroup.nodes.push(topitem);
 					  }
 					   topData.push(topGroup);
-					   let options = { 
+					   let options = {
 					   	levels: 1, //展现级别
 					   	color:"#666666",
 					   	expandIcon:'glyphicon glyphicon-chevron-right',
@@ -206,12 +238,12 @@ export default {
 					   		}
 					   	},
 					   };
-					   
+
 					   $('#treeview').treeview(options);
 				  }
 			})
 		},
-		
+
 		loadDevice() {
 		    let _this =this;
 		    var root = process.env.API_ROOT;
@@ -225,7 +257,7 @@ export default {
 		    }
 		   //url
 		   var url = root + "/api/v1/GetDevice?session="+ this.$store.state.token;
-		   
+
 			  //重组
 			  this.$http.get(url).then(result=>{
 				  if(result.status == 200){
@@ -239,14 +271,14 @@ export default {
 						  toplevel["strName"]=item.strName;
 						  console.log(toplevel);
 						  this.loadOneDevice(toplevel,topData);
-						  
+
 					  }
 				  }
 			  })
 		},
-		
-			
-		
+
+
+
 		panelFullScreen(event) {
 		    var elem = document.getElementById('videoPanel');
 		    //var elem = $("#videoPanel");
@@ -276,7 +308,7 @@ export default {
 		            this.updateUIExitFullScreen();
 		        } else {
 		             console.log('panelFullScreen3');
-		             
+
 		            if (elem.requestFullscreen) {
 		                elem.requestFullscreen();
 		            } else if (elem.webkitRequestFullscreen) {
@@ -298,9 +330,9 @@ export default {
 		    } else {
 		        console.log('Fullscreen is not supported on your browser.');
 		}
-		
+
 		},
-		
+
 		changePanel(event) {
 		    let data = $(event.target).data('row');
 		    let cols = data.split('|')[1];
@@ -316,7 +348,7 @@ export default {
 		        $('div[name="flex"]').height(_this.contentHeight / rows);
 		    })
 		},
-		
+
 		 videoClick(r, c, $event) {
 		    this.selectCol = c;
 		    this.selectRow = r;
@@ -340,7 +372,7 @@ export default {
 		    this.$root.bus.$emit('liveplayproto', "RTC");
 		    this.proto = "RTC";
 		},
-		
+
 	}
 }
 </script>
@@ -375,7 +407,7 @@ export default {
 	}
 	/* 视频 */
 	.h5video{
-	   object-fit: fill; 
+	   object-fit: fill;
 	   width: 100%;
 	   height: auto;
 	}
@@ -384,23 +416,23 @@ export default {
 		padding: 0px;
 		height: 100%;
 		width: 100%;
-	}	
+	}
 	/* 九宫格布局 */
 	div[name='flex'] {
 	    display: flex;
 	    border-bottom: 0px !important;
-	
+
 	}
-	
+
 	div[name='flex']+[name='flex'] {
 	    border-left: 0px !important;
 	}
-	
+
 	#videoPanel>div:nth-last-child(2) {
 	    border-bottom: 1px solid rgb(22, 22, 22) !important;
 	}
-	
-	
+
+
 	#videoPanel:-webkit-full-screen {
 	    background-color: rgb(73, 74, 75) !important;
 		display: block;
@@ -415,8 +447,8 @@ export default {
 	    padding: 0px;
 		box-shadow: 0px 0px 50px #000;
 	}
-	
-	
+
+
 	#videoPanel:-moz-full-screen {
 	    background-color: rgb(73, 74, 75) !important;
 		display: block;
@@ -431,26 +463,26 @@ export default {
 	    padding: 0px;
 		box-shadow: 0px 0px 50px #000;
 	}
-	
+
 	div[name="flex"]:hover {
 	    /*background-color: #3c8dbc;*/
 	    cursor: pointer;
 	}
-	
+
 	.videoClickColor {
 	    background-color: #616263 !important;
 	    opacity: 0.80;
 	}
-	
+
 	.videoColor {
 	    background-color: rgb(73, 74, 75) !important;
 	}
-	
+
 	.pre-scrollable {
 	    max-height: 480px;
 	    overflow-y: scroll;
 	}
-	
+
 	.layout1x1 {
 	    background: url('../../assets/img/layout/1x1.png') #f2f2f2;
 	    background-repeat: no-repeat;
@@ -466,7 +498,7 @@ export default {
 	    height: 32px;
 	    width: 32px;
 	}
-	
+
 	.layout2x2 {
 	    background: url('../../assets/img/layout/2x2.png') #f2f2f2;
 	    background-repeat: no-repeat;
@@ -482,7 +514,7 @@ export default {
 	    height: 32px;
 	    width: 32px;
 	}
-	
+
 	.layout3x3 {
 	    background: url('../../assets/img/layout/3x3.png') #f2f2f2;
 	    background-repeat: no-repeat;
@@ -498,7 +530,7 @@ export default {
 	    height: 32px;
 	    width: 32px;
 	}
-	
+
 	.layout4x4 {
 	    background: url('../../assets/img/layout/4x4.png') #f2f2f2;
 	    background-repeat: no-repeat;
@@ -514,7 +546,7 @@ export default {
 	    height: 32px;
 	    width: 32px;
 	}
-	
+
 	.layoutfull {
 	    background: url('../../assets/img/layout/fullscreen.png') #f2f2f2;
 	    background-repeat: no-repeat;
@@ -530,8 +562,8 @@ export default {
 	    height: 32px;
 	    width: 32px;
 	}
-	
-	
+
+
 	/* i标签 */
 	.custom-tree-node{
 		font-size: 16px;
@@ -539,4 +571,5 @@ export default {
 	i{
 		color: 	#008B8B;
 	}
+  @import '../../assets/vis-js.min.css';
 </style>

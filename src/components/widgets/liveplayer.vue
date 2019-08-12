@@ -30,18 +30,18 @@
         <div class="row ">
         <button type="button" class="btn ptzbuttonnone pull-right" href="#"> <i ></i></button>
         <button type="button" class="btn ptzbuttonnone pull-right" href="#"> <i ></i></button>
-        <button type="button" class="btn ptzbutton pull-right" href="#" 
+        <button type="button" class="btn ptzbutton pull-right" href="#"
             @mousedown ="PtzActionRight($event)" @mouseup="PtzActionStop($event)" @touchstart ="PtzActionRight($event)" @touchend="PtzActionStop($event)"> <i class="mdi  mdi-arrow-right"></i></button>
         <button type="button" class="btn ptzbuttonnone pull-right" href="#"> <i ></i></button>
-        <button type="button" class="btn ptzbutton pull-right" href="#" 
+        <button type="button" class="btn ptzbutton pull-right" href="#"
             @mousedown ="PtzActionLeft($event)" @mouseup="PtzActionStop($event)" @touchstart ="PtzActionLeft($event)" @touchend="PtzActionStop($event)"> <i class="mdi  mdi-arrow-left"></i></button>
         </div>
         <div class="row ">
         <button type="button" class="btn ptzbuttonnone pull-right" href="#"> <i ></i></button>
-        <button type="button" class="btn ptzbutton pull-right" href="#" 
+        <button type="button" class="btn ptzbutton pull-right" href="#"
             @mousedown ="PtzActionZoomOut($event)" @mouseup="PtzActionStop($event)" @touchstart ="PtzActionZoomOut($event)" @touchend="PtzActionStop($event)"> <i class="mdi  mdi-minus-circle-outline"></i></button>
         <button type="button" class="btn ptzbuttonnone pull-right" href="#"> <i ></i></button>
-        <button type="button" class="btn ptzbutton pull-right" href="#" 
+        <button type="button" class="btn ptzbutton pull-right" href="#"
             @mousedown ="PtzActionDown($event)" @mouseup="PtzActionStop($event)" @touchstart ="PtzActionDown($event)" @touchend="PtzActionStop($event)"> <i class="mdi  mdi-arrow-down"></i></button>
         </div>
     </div>
@@ -92,13 +92,13 @@ export default {
         var $rtcbutton = $controls.children(".rtcbutton");
 
         let _this = this;
-        this.$root.bus.$on('liveplay', function(token, id)
+        this.$root.bus.$on('liveplay', function(token,samtoken, id)
         {
             if (_this.h5id != id)
             {
                 return;
             }
-            _this.PlayVideo(token);
+            _this.PlayVideo(token,samtoken);
         });
 
         this.$root.bus.$on('liveplayproto', function(proto)
@@ -114,7 +114,7 @@ export default {
         });
     },
     methods: {
-        PlayVideo(token) 
+        PlayVideo(token,samtoken)
         {
             if (this.h5handler != undefined)
             {
@@ -124,6 +124,7 @@ export default {
             }
             this.currtoken = token;
             console.log("play ", token);
+             console.log("play ",samtoken);
             var root = process.env.API_ROOT;
             var wsroot = process.env.WS_HOST_ROOT;
             if (root == undefined){
@@ -150,7 +151,7 @@ export default {
             {
                 $rtcbutton.css("display", "block");
                 this.h5handler = new H5sPlayerRTC(conf);
-            }else 
+            }else
             {
                 $rtcbutton.css("display", "none");
                 this.h5handler = new H5sPlayerWS(conf);
@@ -172,12 +173,12 @@ export default {
                 this.$Notice.info({
                     title: "Stop successfully"
                 });
-                
+
                 $("#" + this.h5videoid).get(0).load();
                 $("#" + this.h5videoid).get(0).poster = '';
-                
+
             }
-            
+
             //var $container = $("#"+this.h5id);
             //var $video =$container.children("video");
             //$video.remove();
@@ -214,7 +215,7 @@ export default {
                     this.updateUIExitFullScreen();
                 } else {
                      console.log('panelFullScreen3');
-                     
+
                     if (elem.requestFullscreen) {
                         elem.requestFullscreen();
                     } else if (elem.webkitRequestFullscreen) {
@@ -232,13 +233,13 @@ export default {
         PtzControlShow(event)
         {
             console.log(this.ptzshow);
-            var $container = $("#"+this.h5id); 
+            var $container = $("#"+this.h5id);
             var $controls = $container.children(".ptzcontrols");
             if (this.ptzshow == false)
             {
                 $controls.css("display", "block");
                 this.ptzshow = true;
-            }else 
+            }else
             {
                 $controls.css("display", "none");
                 this.ptzshow = false;
@@ -295,7 +296,7 @@ export default {
 
             this.$http.get(url).then(result => {
                 console.log(result);
-                if (result.status == 200) 
+                if (result.status == 200)
                 {
 
                 }
@@ -322,7 +323,7 @@ export default {
 
             this.$http.get(url).then(result => {
                 console.log(result);
-                if (result.status == 200) 
+                if (result.status == 200)
                 {
                     this.$Notice.info({
                         title: "Manual Start Record successfully"
@@ -354,7 +355,7 @@ export default {
 
             this.$http.get(url).then(result => {
                 console.log(result);
-                if (result.status == 200) 
+                if (result.status == 200)
                 {
                     this.$Notice.info({
                         title: "Manual Stop Record successfully"
@@ -386,7 +387,7 @@ export default {
 
             this.$http.get(url).then(result => {
                 console.log(result);
-                if (result.status == 200) 
+                if (result.status == 200)
                 {
                     this.$Notice.info({
                         title: "Snapshot successfully"
@@ -423,7 +424,7 @@ export default {
 
             document.body.appendChild(dlLink);
             dlLink.click();
-            document.body.removeChild(dlLink);           
+            document.body.removeChild(dlLink);
         }
     }
 }
@@ -433,7 +434,7 @@ export default {
 <style scoped>
 
 .h5video{
-   object-fit: fill; 
+   object-fit: fill;
 }
 
 .h5videowrapper{
@@ -454,7 +455,7 @@ video {
     margin: 0px;
     margin-left: 5px;
     opacity: 0.60;
-    
+
 }
 
 .vidbuttion:hover {
