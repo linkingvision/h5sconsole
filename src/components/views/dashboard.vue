@@ -7,9 +7,9 @@
                         <h4 class="page-title">{{$t("message.dashboard.dashboard")}}</h4> </div>
 
             </div>
-            <div class="row">
-            <div class="col-lg-3 col-md-6">
-            <div class="white-box">
+            <div class="row heigts">
+            <div class="col-lg-3 col-md-6 ">
+            <div class="white-box heigtsl">
                 <h3 class="box-title">{{$t("message.dashboard.system_info")}}</h3>
                 <ul class="country-state">
                     <li>
@@ -48,8 +48,8 @@
                  </div>
 
 
-            <div class="col-lg-3 col-md-6">
-            <div class="white-box">
+            <div class="col-lg-3 col-md-6 ">
+            <div class="white-box heigtsl">
                 <h3 class="box-title">{{$t("message.dashboard.codec_info")}}</h3>
                 <ul class="country-state">
                     <li>
@@ -88,8 +88,8 @@
                  </div>
 
 
-            <div class="col-lg-3 col-md-6">
-            <div class="white-box">
+            <div class="col-lg-3 col-md-6 ">
+            <div class="white-box heigtsl">
                 <h3 class="box-title">{{$t("message.dashboard.capability")}}</h3>
                 <ul class="country-state">
                     <li>
@@ -414,3 +414,8 @@ export default {
     }
 }
 </script>
+<style scoped>
+.heigts .heigtsl{
+    height: 335px;
+}
+</style>

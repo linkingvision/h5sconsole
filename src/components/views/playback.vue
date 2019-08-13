@@ -27,7 +27,7 @@
 						  </div>
 					  </div>
 					  <div class="box-body no-padding pre-scrollable">
-						  <div id="treeview"></div>
+						  <div id="treeview" class="zdg"></div>
 					  </div>
 				  </div>
 			  </div><!--/.well -->
@@ -57,7 +57,7 @@
 							<button type="button" class="btn btn-default layoutfull waves-effect" @click="panelFullScreen($event)"> </button>
 						</div>
             <!-- 进度条 -->
-            <div id="visualization"></div>
+            			<div id="visualization"></div>
 					</div>
 				</div>
 
@@ -75,7 +75,7 @@
 
 <script>
 	import '../../assets/adapter.js'
-  import timeline from '../../assets/vis-css.js'
+  	import timeline from '../../assets/vis-css.js'
 	import {H5sPlayerWS,H5sPlayerHls,H5sPlayerRTC} from '../../assets/h5splayer.js'
 	import {H5siOS,H5sPlayerCreate} from '../../assets/h5splayerhelper.js'
 
@@ -83,7 +83,7 @@
 	import Vue from 'vue'
 	import 'patternfly-bootstrap-treeview/dist/bootstrap-treeview.min.css'
 	import 'patternfly-bootstrap-treeview/dist/bootstrap-treeview.min.js'
-	import Pblive from '../../components/widgets/pblive';
+	import pbplayer from '../../components/widgets/pbplayer'
 
 	function sleep(delay) {
 	  var start = (new Date()).getTime();
@@ -95,7 +95,7 @@
 export default {
 	name: "playback",
 	components: {
-	    'v-liveplayer': Pblive
+	    'v-liveplayer': pbplayer
 	},
 	data() {
 
@@ -233,7 +233,7 @@ export default {
 					   		$(".asss").show();
 					   		if (data.token) {
 					   			let vid = 'h' + _this.$data.selectRow + _this.$data.selectCol;
-					   			_this.$root.bus.$emit('pblive', data.token, vid);
+					   			_this.$root.bus.$emit('pbplayer', data.token, vid);
 					   			return;
 					   		}
 					   	},
@@ -377,6 +377,10 @@ export default {
 }
 </script>
 <style scoped>
+	.zdg{
+		background-color: #ffffff;
+		height: -webkit-fill-available;
+	}
 	.content-mythe{
 		width: 100%;
 		height: auto;

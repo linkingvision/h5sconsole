@@ -30,18 +30,18 @@
         <div class="row ">
         <button type="button" class="btn ptzbuttonnone pull-right" href="#"> <i ></i></button>
         <button type="button" class="btn ptzbuttonnone pull-right" href="#"> <i ></i></button>
-        <button type="button" class="btn ptzbutton pull-right" href="#" 
+        <button type="button" class="btn ptzbutton pull-right" href="#"
             @mousedown ="PtzActionRight($event)" @mouseup="PtzActionStop($event)" @touchstart ="PtzActionRight($event)" @touchend="PtzActionStop($event)"> <i class="mdi  mdi-arrow-right"></i></button>
         <button type="button" class="btn ptzbuttonnone pull-right" href="#"> <i ></i></button>
-        <button type="button" class="btn ptzbutton pull-right" href="#" 
+        <button type="button" class="btn ptzbutton pull-right" href="#"
             @mousedown ="PtzActionLeft($event)" @mouseup="PtzActionStop($event)" @touchstart ="PtzActionLeft($event)" @touchend="PtzActionStop($event)"> <i class="mdi  mdi-arrow-left"></i></button>
         </div>
         <div class="row ">
         <button type="button" class="btn ptzbuttonnone pull-right" href="#"> <i ></i></button>
-        <button type="button" class="btn ptzbutton pull-right" href="#" 
+        <button type="button" class="btn ptzbutton pull-right" href="#"
             @mousedown ="PtzActionZoomOut($event)" @mouseup="PtzActionStop($event)" @touchstart ="PtzActionZoomOut($event)" @touchend="PtzActionStop($event)"> <i class="mdi  mdi-minus-circle-outline"></i></button>
         <button type="button" class="btn ptzbuttonnone pull-right" href="#"> <i ></i></button>
-        <button type="button" class="btn ptzbutton pull-right" href="#" 
+        <button type="button" class="btn ptzbutton pull-right" href="#"
             @mousedown ="PtzActionDown($event)" @mouseup="PtzActionStop($event)" @touchstart ="PtzActionDown($event)" @touchend="PtzActionStop($event)"> <i class="mdi  mdi-arrow-down"></i></button>
         </div>
     </div>
@@ -53,7 +53,7 @@ import '../../assets/adapter.js'
 import {H5sPlayerWS,H5sPlayerHls,H5sPlayerRTC} from '../../assets/h5splayer.js'
 import {H5siOS,H5sPlayerCreate} from '../../assets/h5splayerhelper.js'
 export default {
-    name: 'pblive',
+    name: 'pbplayer',
     props:['h5id', 'h5videoid'],
     data () {
         return {
@@ -92,7 +92,7 @@ export default {
         var $rtcbutton = $controls.children(".rtcbutton");
 
         let _this = this;
-        this.$root.bus.$on('pblive', function(token, id)
+        this.$root.bus.$on('pbplayer', function(token, id)
         {
             if (_this.h5id != id)
             {
@@ -114,9 +114,9 @@ export default {
         });
     },
     methods: {
-		PlayVideo(token) 
+		PlayVideo(token)
         {
-        	
+
         	if (this.h5handler != undefined)
         	{
         		this.h5handler.disconnect();
@@ -138,7 +138,7 @@ export default {
 				begintime: '2019-07-14T081001+08',
 				endtime: '2019-07-14T131001+08',
 				showposter: 'true', //'true' or 'false' show poster
-				callback: null, 
+				callback: null,
 				userdata:  null // user data
 			};
         	let conf = {
@@ -149,27 +149,27 @@ export default {
 				token:token,
 				pbconf: pbconf1, //This is optional, if no pbconf, this will be live.
 				hlsver:'v1', //v1 is for ts, v2 is for fmp4
-				session: this.$store.state.token 
+				session: this.$store.state.token
         	};
         	var $container = $("#"+this.h5id);
         	var $controls = $container.children(".h5controls");
         	var $rtcbutton = $controls.children(".rtcbutton");
-        
+
         	if (this.proto == 'RTC' || (H5siOS() === true))
         	{
         		$rtcbutton.css("display", "block");
         		this.h5handler = new H5sPlayerRTC(conf);
-        	}else 
+        	}else
         	{
         		$rtcbutton.css("display", "none");
         		this.h5handler = new H5sPlayerRTC(conf);
         	}
-        
+
         	this.h5handler.connect();
 			setTimeout(function(){
 				this.h5handler.start();
 			}.bind(this),400);
-        	
+
         },
 		//以上不知道
         FullScreen(event)
@@ -202,7 +202,7 @@ export default {
                     this.updateUIExitFullScreen();
                 } else {
                      console.log('panelFullScreen3');
-                     
+
                     if (elem.requestFullscreen) {
                         elem.requestFullscreen();
                     } else if (elem.webkitRequestFullscreen) {
@@ -220,13 +220,13 @@ export default {
         PtzControlShow(event)
         {
             console.log(this.ptzshow);
-            var $container = $("#"+this.h5id); 
+            var $container = $("#"+this.h5id);
             var $controls = $container.children(".ptzcontrols");
             if (this.ptzshow == false)
             {
                 $controls.css("display", "block");
                 this.ptzshow = true;
-            }else 
+            }else
             {
                 $controls.css("display", "none");
                 this.ptzshow = false;
@@ -283,7 +283,7 @@ export default {
 
             this.$http.get(url).then(result => {
                 console.log(result);
-                if (result.status == 200) 
+                if (result.status == 200)
                 {
 
                 }
@@ -310,7 +310,7 @@ export default {
 
             this.$http.get(url).then(result => {
                 console.log(result);
-                if (result.status == 200) 
+                if (result.status == 200)
                 {
                     this.$Notice.info({
                         title: "Manual Start Record successfully"
@@ -342,7 +342,7 @@ export default {
 
             this.$http.get(url).then(result => {
                 console.log(result);
-                if (result.status == 200) 
+                if (result.status == 200)
                 {
                     this.$Notice.info({
                         title: "Manual Stop Record successfully"
@@ -374,7 +374,7 @@ export default {
 
             this.$http.get(url).then(result => {
                 console.log(result);
-                if (result.status == 200) 
+                if (result.status == 200)
                 {
                     this.$Notice.info({
                         title: "Snapshot successfully"
@@ -411,7 +411,7 @@ export default {
 
             document.body.appendChild(dlLink);
             dlLink.click();
-            document.body.removeChild(dlLink);           
+            document.body.removeChild(dlLink);
         }
     }
 }
@@ -421,7 +421,7 @@ export default {
 <style scoped>
 
 .h5video{
-   object-fit: fill; 
+   object-fit: fill;
 }
 
 .h5videowrapper{
@@ -442,7 +442,7 @@ video {
     margin: 0px;
     margin-left: 5px;
     opacity: 0.60;
-    
+
 }
 
 .vidbuttion:hover {

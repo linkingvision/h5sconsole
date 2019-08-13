@@ -37,7 +37,6 @@
                     <button type="button" class="btn btn-default layoutfull waves-effect" @click="panelFullScreen($event)"> </button>
                 </div>
             </div>
-
             <!-- Device tree -->
             <div class="col-sm-3">
                 <div class="sidebar-nav">
@@ -48,9 +47,7 @@
                         </div>
                     </div>
                     <div class="box-body no-padding pre-scrollable">
-                        <div id="treeview">
-                          <li class="list-group-item node-treeview"></li>
-                        </div>
+                        <div id="treeview" class="zdg"></div>
                     </div>
                 </div>
                 </div><!--/.well -->
@@ -64,15 +61,14 @@
                 <div class="r-panel-body">
                     <ul  class="m-t-20">
                         <li><b>{{$t("message.live.protocol")}}: {{proto}}</b></li>
-                            <div class="row">
-                                <div class="col-lg-12 col-sm-12 col-xs-12">
-                                    <button class="btn btn-block btn-success" @click="changeWS($event)">WEBSOCKET</button>
-                                </div>
-                                <div class="col-lg-12 col-sm-12 col-xs-12">
-                                    <button class="btn btn-block btn-info"  @click="changeRTC($event)">WEBRTC</button>
-                                </div>
-                             </div>
-
+                        <div class="row">
+                            <div class="col-lg-12 col-sm-12 col-xs-12">
+                                <button class="btn btn-block btn-success" @click="changeWS($event)">WEBSOCKET</button>
+                            </div>
+                            <div class="col-lg-12 col-sm-12 col-xs-12">
+                                <button class="btn btn-block btn-info"  @click="changeRTC($event)">WEBRTC</button>
+                            </div>
+                        </div>
                     </ul>
                 </div>
             </div>
@@ -93,7 +89,7 @@ import qs from 'qs'
 import Vue from 'vue'
 import 'patternfly-bootstrap-treeview/dist/bootstrap-treeview.min.css'
 import 'patternfly-bootstrap-treeview/dist/bootstrap-treeview.min.js'
-import Liveplayer from '../../components/widgets/liveplayer';
+import Liveplayer from '../../components/widgets/liveplayer'
 
 export default {
     name: "liveview",
@@ -115,7 +111,7 @@ export default {
     mounted() {
 
         this.updateUI();
-        this.loadSrc();
+        this.loadDevice();
     },
     methods: {
         updateUI()
@@ -147,8 +143,8 @@ export default {
                 });
 
                 /* ===== Service Panel JS ===== */
-
                 var fxhdr = $('.fxhdr');
+                console.log(fxhdr);
                 if (body.hasClass("fix-header")) {
                     fxhdr.attr('checked', true);
                 } else {
@@ -168,7 +164,41 @@ export default {
                 $('div[name="flex"]').height(this.contentHeight / this.rows);
             }
         },
-        loadSrc() {
+        //写作业
+        loadDevice() {
+		    let _this =this;
+		    var root = process.env.API_ROOT;
+		    var wsroot = process.env.WS_HOST_ROOT;
+		    if (root == undefined){
+		        root = window.location.protocol + '//' + window.location.host + window.location.pathname;
+		    }
+		    if (wsroot == undefined)
+		    {
+		        wsroot = window.location.host;
+		    }
+		   //url
+		   var url = root + "/api/v1/GetDevice?session="+ this.$store.state.token;
+
+			  //重组
+			  this.$http.get(url).then(result=>{
+				  if(result.status == 200){
+					  var srcData = [];
+					  var data=result.data;
+					  console.log("data",data.dev,data.dev.length);
+					  for(var i = 0; i < data.dev.length; i++){
+						  var item=data.dev[i];
+						  var srclevel=[];
+						  srclevel["strToken"]=item.strToken;
+						  srclevel["strName"]=item.strName;
+						  console.log(srclevel);
+						  this.loadSrc(srclevel,srcData);
+
+					  }
+				  }
+			  })
+		},
+        loadSrc(srclevel, srcData) {
+            console.log(srclevel)
 
             let _this =this;
             var root = process.env.API_ROOT;
@@ -181,16 +211,16 @@ export default {
                 wsroot = window.location.host;
             }
 
-            var url = root + "/api/v1/GetSrc?session="+ this.$store.state.token;
+            var url = root + "/api/v1/GetDeviceSrc?token="+ srclevel.strToken + "&session=" + this.$store.state.token;
 
             this.$http.get(url).then(result => {
                 console.log(result);
                 if (result.status == 200)
                 {
                     var data =  result.data;
-                    var srcData = [];
+                    
                     var srcGroup = {nodes: []};
-
+                    srcGroup.text=srclevel.strName;
                     console.log("data.src", data.src, data.src.length);
                     for(var i=0; i< data.src.length; i++){
                         var item = data.src[i];
@@ -219,24 +249,9 @@ export default {
                             newItem['icon'] = 'mdi mdi-cloud-upload fa-fw';
 
                         srcGroup.nodes.push(newItem);
-                        if ((i%10 == 0 || i == (data.src.length - 1) )
-                        && (i != 0))
-                        {
-                            //srcGroup.text = "group1";//(i/16)* 16 + '-'  (i/16)* 16 + 16"";
-                            srcGroup.text = ((Math.ceil(i/10) - 1)* 10 + 1)
-                                            + '-' + (((Math.ceil(i/10) - 1)* 10 + 1) + 9);
-                            //console.log("srcGroup=========", srcGroup, i/10);
-                            srcData.push(srcGroup);
-                            console.log(srcData)
-                            srcGroup = {nodes: []};
-                        }else if (i == 0 && data.src.length == 1)
-                        {
-                            srcGroup.text = "1-10";
-                            srcData.push(srcGroup);
-                            srcGroup = {nodes: []};
-                        }
+                       
                     }
-
+                    srcData.push(srcGroup);
                     let options = {
                         levels: 1, //展现级别
                         color:"#666666",
@@ -253,15 +268,12 @@ export default {
                             console.log(data.token);
                             if (data.token) {
                                 let vid = 'h' + _this.$data.selectRow + _this.$data.selectCol;
-                                console.log(vid)
-                                //var sj={token:data.token,samtoken:data.samtoken}
                                 _this.$root.bus.$emit('liveplay', data.token,data.streamprofile, vid);
                                 return;
                             }
                         }
 
                     };
-                    console.log(options);
                     $('#treeview').treeview(options);
                 }
             }).catch(error => {
@@ -371,7 +383,10 @@ export default {
 
 
 <style scoped>
-
+.zdg{
+    background-color: #ffffff;
+    height: -webkit-fill-available;
+}
 .content-header .breadcrumb {
     font-size: 1.5rem;
     position: static;

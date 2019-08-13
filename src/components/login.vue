@@ -6,47 +6,47 @@
     -->
     <section id="wrapper" class="new-login-register">
         <div class="lg-info-panel">
-                <div class="inner-panel">
-                    <a href="javascript:void(0)" class="p-20 di"><img src="../assets/img/logo.png"></a>
-                    <div class="lg-content">
-                        <h2>H5S CONSOLE</h2>
-                        <p class="text-muted">{{ $t("message.login.high_perf") }}</p>
-                    </div>
+            <div class="inner-panel">
+                <a href="javascript:void(0)" class="p-20 di"><img src="../assets/img/logo.png"></a>
+                <div class="lg-content">
+                    <h2>H5S CONSOLE</h2>
+                    <p class="text-muted">{{ $t("message.login.high_perf") }}</p>
                 </div>
+            </div>
         </div>
         <div class="new-login-box">
-                    <div class="white-box">
-                        <h3 class="box-title m-b-0">{{ $t("message.login.signin") }}</h3>
-                        <small id='loginStatusId'>{{loginStatus}}</small>
-                    <form class="form-horizontal new-lg-form" id="loginform" novalidate @submit.stop.prevent="login">
-                        
-                        <div class="form-group  m-t-20">
+            <div class="white-box">
+                <h3 class="box-title m-b-0">{{ $t("message.login.signin") }}</h3>
+                <small id='loginStatusId'>{{loginStatus}}</small>
+                <form class="form-horizontal new-lg-form" id="loginform" novalidate @submit.stop.prevent="login">
+                    
+                    <div class="form-group  m-t-20">
                         <div class="col-xs-12">
                             <Label >{{ $t("message.login.username") }}</Label>
                             <input class="form-control" type="text" v-model="user" required="" placeholder="Username">
                         </div>
-                        </div>
-                        <div class="form-group">
+                    </div>
+                    <div class="form-group">
                         <div class="col-xs-12">
                             <label>{{ $t("message.login.password") }}</label>
                             <input class="form-control" type="password" v-model="passwd" required="" placeholder="Password">
                         </div>
-                        </div>
-                        <div class="form-group">
+                    </div>
+                    <div class="form-group">
                         <div class="col-xs-12">
                             <button class="btn btn-info btn-lg btn-block btn-rounded text-uppercase waves-effect waves-light" type="submit">{{ $t("message.login.login") }}</button>
                         </div>
-                        </div>
-                        <div class="form-group">
+                    </div>
+                    <div class="form-group">
                         <div class="col-xs-12">
                                 <label>{{ $t("message.login.language") }}</label>
-                               <Select v-model="model1" @on-change="changeLanguage" >
+                                <Select v-model="model1" @on-change="changeLanguage" >
                                     <Option v-for="item in langList" :value="item.value" :key="item.value">{{ item.label }}</Option>
                             </Select>
                         </div>
-                        </div>
-                    </form>
                     </div>
+                </form>
+            </div>
         </div>
     
     </section>
