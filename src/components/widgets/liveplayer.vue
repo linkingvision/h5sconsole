@@ -92,13 +92,13 @@ export default {
         var $rtcbutton = $controls.children(".rtcbutton");
 
         let _this = this;
-        this.$root.bus.$on('liveplay', function(token,samtoken, id)
+        this.$root.bus.$on('liveplay', function(token,streamprofile, id)
         {
             if (_this.h5id != id)
             {
                 return;
             }
-            _this.PlayVideo(token,samtoken);
+            _this.PlayVideo(token,streamprofile);
         });
 
         this.$root.bus.$on('liveplayproto', function(proto)
@@ -114,7 +114,7 @@ export default {
         });
     },
     methods: {
-        PlayVideo(token,samtoken)
+        PlayVideo(token,streamprofile)
         {
             if (this.h5handler != undefined)
             {
@@ -124,7 +124,7 @@ export default {
             }
             this.currtoken = token;
             console.log("play ", token);
-             console.log("play ",samtoken);
+             console.log("play ",streamprofile);
             var root = process.env.API_ROOT;
             var wsroot = process.env.WS_HOST_ROOT;
             if (root == undefined){

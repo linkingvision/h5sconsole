@@ -197,12 +197,12 @@ export default {
                         // 主副流
                         var node=[{
                           token : item['strToken'],
-                          samtoken : "main",
+                          streamprofile : "main",
                           text :this.$t('message.live.mainstream'),
                           icon : 'mdi mdi-playlist-play fa-fw'
                         },{
                           token : item['strToken'],
-                          samtoken : "sub",
+                          streamprofile : "sub",
                           text :this.$t('message.live.substream'),
                           icon : 'mdi mdi-playlist-play fa-fw'
                         }]
@@ -251,12 +251,11 @@ export default {
                         data: srcData,
                         onNodeSelected: function (event, data) {
                             console.log(data.token);
-                            console.log(data.samtoken);
                             if (data.token) {
                                 let vid = 'h' + _this.$data.selectRow + _this.$data.selectCol;
                                 console.log(vid)
                                 //var sj={token:data.token,samtoken:data.samtoken}
-                                _this.$root.bus.$emit('liveplay', data.token,data.samtoken, vid);
+                                _this.$root.bus.$emit('liveplay', data.token,data.streamprofile, vid);
                                 return;
                             }
                         }
