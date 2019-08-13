@@ -33,7 +33,7 @@ module.exports={
 		username: 'USERNAME',
 		password: 'PASSWORD',
 		language: 'LANGUAGE'
-
+				
     },
 	dashboard:
     {
@@ -57,7 +57,13 @@ module.exports={
 		gpuencoder:"GPU Encoders",
 		gpudecoder:"GPU Decoders",
 		cpuencoder:"Software Encoders",
-		cpudecoder:"Software Decoders"
+		cpudecoder:"Software Decoders",
+		capability:"Capability",
+		devicesdk:"Device SDK",
+		gb28181:"GB28181",
+		devicesdkpb:"Device SDK Playback",
+		transcoding:"Transcoding",
+		cluster:"Cluster"
     },
 	live:
     {

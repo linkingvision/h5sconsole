@@ -87,6 +87,48 @@
                  </div>
                  </div>
 
+
+            <div class="col-lg-3 col-md-6">
+            <div class="white-box">
+                <h3 class="box-title">{{$t("message.dashboard.capability")}}</h3>
+                <ul class="country-state">
+                    <li>
+                        <h5>{{$t("message.dashboard.devicesdk")}}: {{information.bDeviceSDK}}</h5>
+                        <div class="progress">
+                            <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100" style="width:100%;"></div>
+                        </div>
+                    </li>
+                    <li>
+                        <h5 >{{$t("message.dashboard.devicesdkpb")}}: {{information.bDeviceSDKPb}}</h5>
+                        <div class="progress">
+                            <div class="progress-bar progress-bar-inverse" role="progressbar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100" style="width:100%;"></div>
+                        </div>
+                    </li>
+                    <li>
+                        <h5>{{$t("message.dashboard.gb28181")}}: {{information.bGB28181}}</h5>
+                        <div class="progress">
+                            <div class="progress-bar progress-bar-info" role="progressbar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100" style="width:100%;"></div>
+                        </div>
+                    </li>
+                    <li>
+                        <h5>{{$t("message.dashboard.transcoding")}}: {{information.bTranscoding}}</h5>
+                        <div class="progress">
+                            <div class="progress-bar progress-bar-danger" role="progressbar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100" style="width:100%;"></div>
+                        </div>
+                    </li>
+                    <li>
+                        <h5>{{$t("message.dashboard.cluster")}}: {{information.bCluster}}</h5>
+                        <div class="progress">
+                            <div class="progress-bar progress-bar-info" role="progressbar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100" style="width:100%;"></div>
+                        </div>
+                    </li>
+
+                </ul>
+                 </div>
+                 </div>
+
+                 
+
                 </div>
                 <div class="row">
 
@@ -225,7 +267,12 @@ export default {
                 strLicenseType: "",
                 strLicenseFull: "",
                 strChannelLimit: "",
-                strEndtime: ""
+                strEndtime: "",
+                bDeviceSDK: "",
+                bDeviceSDKPb: "",
+                bGB28181: "",
+                bTranscoding: "",
+                bCluster: ""
             },
             codecInfo:{
                 strCPUModel: "",
@@ -285,6 +332,7 @@ export default {
                 if (result.status == 200) 
                 {
                     _this.information = result.data;
+                    console.log(_this.information);
                 }
             }).catch(error => {
                 console.log('GetSystemInfo', error);

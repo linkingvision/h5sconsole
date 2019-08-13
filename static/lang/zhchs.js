@@ -50,14 +50,20 @@ module.exports={
 		free_space: "剩余空间",
 		online_cam: "在线摄像机",
 		cameras: "摄像机总数",
-		total_space: "总空间",
+		total_space: "总空间",	
 		version_: '版本',
 		codec_info: "编解码器",
 		cpumodel: 'CPU型号',
 		gpuencoder:"GPU编码器",
 		gpudecoder:"GPU解码器",
 		cpuencoder:"软件编码器",
-		cpudecoder:"软件解码器"
+		cpudecoder:"软件解码器",
+		capability:"功能列表",
+		devicesdk:"设备SDK",
+		devicesdkpb:"设备SDK回放",
+		gb28181:"国标",
+		transcoding:"转码",
+		cluster:"集群"
     },
 	live:
     {
