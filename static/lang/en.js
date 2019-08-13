@@ -33,7 +33,7 @@ module.exports={
 		username: 'USERNAME',
 		password: 'PASSWORD',
 		language: 'LANGUAGE'
-				
+
     },
 	dashboard:
     {
@@ -64,8 +64,10 @@ module.exports={
 		liveview: 'Liveview',
 		device: 'DEVICE',
 		setting: 'SETTING',
-		protocol: 'PROTOCOL'
-    },	
+		protocol: 'PROTOCOL',
+    mainstream:'Main Stream',
+    substream:'Sub Stream'
+    },
     setting:
     {
 		setting: 'SETTING',

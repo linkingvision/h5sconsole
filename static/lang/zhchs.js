@@ -50,7 +50,7 @@ module.exports={
 		free_space: "剩余空间",
 		online_cam: "在线摄像机",
 		cameras: "摄像机总数",
-		total_space: "总空间",	
+		total_space: "总空间",
 		version_: '版本',
 		codec_info: "编解码器",
 		cpumodel: 'CPU型号',
@@ -64,7 +64,9 @@ module.exports={
 		liveview: '实时视频',
 		device: '视频源',
 		setting: '设置',
-		protocol: '协议'
+		protocol: '协议',
+    mainstream:'主码流',
+    substream:"子码流"
     },
     setting:
     {
