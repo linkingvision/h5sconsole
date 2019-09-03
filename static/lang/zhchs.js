@@ -19,6 +19,8 @@ module.exports={
 		dashboard: '仪表盘',
 		live: '实时视频',
 		playback: '回放',
+		archive:'归档',
+		screenshots:"文件夹",
 		snapshot: '抓图',
 		setting: '设置',
 		cloud: '云视频',
@@ -71,8 +73,9 @@ module.exports={
 		device: '视频源',
 		setting: '设置',
 		protocol: '协议',
-    mainstream:'主码流',
-    substream:"子码流"
+		mainstream:'主码流',
+		substream:"子码流",
+		camera:"摄像机"
     },
     setting:
     {

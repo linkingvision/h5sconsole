@@ -251,7 +251,6 @@
             </div>
             </div>
         </div>
-</div>
 
 </template>
 
@@ -328,7 +327,7 @@ export default {
             var url = root + "/api/v1/GetSystemInfo?session="+ this.$store.state.token;
 
             this.$http.get(url).then(result => {
-                console.log(result);
+                //console.log(result);
                 if (result.status == 200) 
                 {
                     _this.information = result.data;
@@ -350,7 +349,7 @@ export default {
             var url = root + "/api/v1/GetCodecInfo?session="+ this.$store.state.token;
 
             this.$http.get(url).then(result => {
-                console.log(result);
+                //console.log(result);
                 if (result.status == 200) 
                 {
                     _this.codecInfo = result.data;
@@ -372,7 +371,7 @@ export default {
             var url = root + "/api/v1/GetSrc?session="+ this.$store.state.token;
 
             this.$http.get(url).then(result => {
-                console.log(result);
+                //console.log(result);
                 if (result.status == 200) 
                 {
                     var data =  result.data;
@@ -401,7 +400,7 @@ export default {
             }
             var url = root + "/api/v1/GetRunInfo?session="+ this.$store.state.token;
             this.$http.get(url).then(result => {
-                console.log(result);
+                //console.log(result);
                 if (result.status == 200) 
                 {
                     _this.runInfo = result.data;

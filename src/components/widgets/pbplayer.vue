@@ -54,14 +54,14 @@ import {H5sPlayerWS,H5sPlayerHls,H5sPlayerRTC} from '../../assets/h5splayer.js'
 import {H5siOS,H5sPlayerCreate} from '../../assets/h5splayerhelper.js'
 export default {
     name: 'pbplayer',
-    props:['h5id', 'h5videoid'],
+    props:['h5id', 'h5videoid','value'],
     data () {
         return {
             videoid: this.h5videoid,
             h5handler: undefined,
             currtoken: undefined,
             ptzshow: false,
-            proto: 'WS'
+            proto: 'WS',
         }
     },
     activated() {
@@ -84,6 +84,7 @@ export default {
         console.log(this.h5id, "destroyed");
     },
     mounted() {
+        
         console.log(this.h5id, "mount");
         var $container = $("#"+this.h5id);
         var $video =$container.children("video");
@@ -113,10 +114,39 @@ export default {
             //$controls.css("display", e.type === "touchend" ? "none" : "block");
         });
     },
+    
     methods: {
+
+        PlaybackCB(event, userdata)
+        {
+            console.log("Playback callback ", event);
+            var msgevent = JSON.parse(event);
+            if (msgevent.type === 'H5S_EVENT_PB_TIME')
+            {
+                userdata.msg(msgevent.pbTime.strTime);
+            }
+            
+        },
+        msg(pbtime){
+            //this.$emit('childByValue', this.name);
+            this.$emit("titleChanged",pbtime);
+        },
 		PlayVideo(token)
         {
+            var starf=new Date(this.value).getTime();
+            var rqstarf=new Date(starf);
+            console.log(rqstarf);
+            //年月日
+            var y = rqstarf.getFullYear();
+            var m = rqstarf.getMonth()+1;
+            var d = rqstarf.getDate();
 
+            var h = rqstarf.getHours();
+            var mm = rqstarf.getMinutes();
+            var s = rqstarf.getSeconds();
+            var rq=y+'-'+m+'-'+d;
+            var sj=h+mm+s;
+            console.log(rq);
         	if (this.h5handler != undefined)
         	{
         		this.h5handler.disconnect();
@@ -135,11 +165,11 @@ export default {
         		wsroot = window.location.host;
         	}
 			var pbconf1 = {
-				begintime: '2019-07-14T081001+08',
-				endtime: '2019-07-14T131001+08',
+				begintime: rq+'T000100+08',
+				endtime: rq+'T235959+08',
 				showposter: 'true', //'true' or 'false' show poster
-				callback: null,
-				userdata:  null // user data
+				callback: this.PlaybackCB,
+				userdata:  this // user data
 			};
         	let conf = {
         		videoid: this.h5videoid,
@@ -168,7 +198,7 @@ export default {
         	this.h5handler.connect();
 			setTimeout(function(){
 				this.h5handler.start();
-			}.bind(this),400);
+			}.bind(this),500);
 
         },
 		//以上不知道
@@ -183,38 +213,38 @@ export default {
             document.mozFullScreenEnabled ||
             document.msFullscreenEnabled
             ) {
-                if (
-                    document.fullscreenElement ||
-                    document.webkitFullscreenElement ||
-                    document.mozFullScreenElement ||
-                    document.msFullscreenElement
-                ) {
-                    if (document.exitFullscreen) {
-                        document.exitFullscreen();
-                    } else if (document.webkitExitFullscreen) {
-                        document.webkitExitFullscreen();
-                    } else if (document.mozCancelFullScreen) {
-                        document.mozCancelFullScreen();
-                    } else if (document.msExitFullscreen) {
-                        document.msExitFullscreen();
-                    }
-                    console.log("========  updateUIExitFullScreen");
-                    this.updateUIExitFullScreen();
-                } else {
-                     console.log('panelFullScreen3');
-
-                    if (elem.requestFullscreen) {
-                        elem.requestFullscreen();
-                    } else if (elem.webkitRequestFullscreen) {
-                        elem.webkitRequestFullscreen();
-                    } else if (elem.mozRequestFullScreen) {
-                        elem.mozRequestFullScreen();
-                    } else if (elem.msRequestFullscreen) {
-                        elem.msRequestFullscreen();
-                    }
+            if (
+                document.fullscreenElement ||
+                document.webkitFullscreenElement ||
+                document.mozFullScreenElement ||
+                document.msFullscreenElement
+            ) {
+                if (document.exitFullscreen) {
+                    document.exitFullscreen();
+                } else if (document.webkitExitFullscreen) {
+                    document.webkitExitFullscreen();
+                } else if (document.mozCancelFullScreen) {
+                    document.mozCancelFullScreen();
+                } else if (document.msExitFullscreen) {
+                    document.msExitFullscreen();
                 }
+                console.log("========  updateUIExitFullScreen");
+                this.updateUIExitFullScreen();
             } else {
-                console.log('Fullscreen is not supported on your browser.');
+                  console.log('panelFullScreen3');
+
+                if (elem.requestFullscreen) {
+                    elem.requestFullscreen();
+                } else if (elem.webkitRequestFullscreen) {
+                    elem.webkitRequestFullscreen();
+                } else if (elem.mozRequestFullScreen) {
+                    elem.mozRequestFullScreen();
+                } else if (elem.msRequestFullscreen) {
+                    elem.msRequestFullscreen();
+                }
+            }
+        } else {
+            console.log('Fullscreen is not supported on your browser.');
         }
         },
         PtzControlShow(event)

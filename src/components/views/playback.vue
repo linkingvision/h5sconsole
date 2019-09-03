@@ -6,76 +6,110 @@
 		<div class="container-fluid">
 			<div class="row bg-title">
 				<div class="col-lg-3 col-md-4 col-sm-4 col-xs-12">
-					<h4 class="page-title">Playback</h4>
-				</div>
-				<div class="col-lg-9 col-sm-8 col-md-8 col-xs-12">
-					<button class="right-side-toggle waves-effect waves-light btn-info btn-circle pull-right m-l-20"><i class="ti-settings text-white"></i></button>
-
+					<h4 class="page-title">{{$t("message.left.playback")}}</h4>
 				</div>
 			</div>
 		</div>
 		<!-- 层级 -->
 		<div class="content-mythe">
 			<div class="content-mythe-one">
-
 				<!-- 这是原下拉框代码 -->
-			  <div class="sidebar-nav">
-				  <div class="box box-solid">
-					  <div class="box-header">
-						  <h5 class="box-title"><b>{{$t("message.live.device")}}</b></h5>
-						  <div class="box-tools">
-						  </div>
-					  </div>
-					  <div class="box-body no-padding pre-scrollable">
-						  <div id="treeview" class="zdg"></div>
-					  </div>
-				  </div>
-			  </div><!--/.well -->
+				<div class="zdg">
+                    <!-- 模糊查询搜查 -->
+                    <el-input
+                        placeholder="输入关键字进行过滤"
+                        v-model="filterText">
+                    </el-input>
+					<!-- show-checkbox 复选按钮-->
+                    <el-tree
+                        :data="data"
+                        accordion
+                        node-key="id"
+                        :filter-node-method="filterNode"
+                        ref="tree"
+                        highlight-current
+                        @node-click="handleNodeClick"
+                        :props="defaultProps">
+                        <span slot-scope="{ node, data }">
+                            <i :class="data.iconclass" style="color:rgb(142, 132, 132);"></i>
+                            <span style="padding-left: 4px;">{{data.label}}</span>
+                        </span>
+                    </el-tree>
+                </div>
 			</div>
 			<!-- 九宫格 -->
 			<div class="content-mythe-two">
-				<div class="" id="videoPanel" style="width: 90%;">
-					<div>
-            <!-- 九宫格 -->
-						<div name='flex' class="videoColor" v-for="r in rows" :key="r">
-							<div calss="videoflexitem" style="flex:1; border:1px solid black;" name="flex" v-for="c in cols" @contextmenu.prevent="stopVideo($event)" @click="videoClick(r,c,$event)" :key="c">
-							<v-liveplayer v-bind:id="'h'+r+c" :h5id="'h'+r+c" :h5videoid="'hvideo'+r+c">
-
-							</v-liveplayer>
-							</div>
+				<div class="" id="videoPanel" style="width:100%;">
+					<div name='flex' class="videoColor" v-for="r in rows" :key="r">
+						<div calss="videoflexitem" style="flex:1; border:1px solid black;" name="flex" v-for="c in cols" @contextmenu.prevent="stopVideo($event)" @click="videoClick(r,c,$event)" :key="c">
+						<v-pbplayer v-bind:id="'h'+r+c" :h5id="'h'+r+c" :h5videoid="'hvideo'+r+c" :value="value" v-on:titleChanged="updateTitle($event)"></v-pbplayer>
 						</div>
-            <!-- 按钮 -->
-						<div class="btn-group blocks">
-							<button type="button" class="btn btn-default layout1x1 waves-effect" data-row="1|1" @click="changePanel($event)">
-								</button>
-							<button type="button" class="btn btn-default layout2x2 waves-effect" data-row="2|2" @click="changePanel($event)">
-								</button>
-							<button type="button" class="hidden-xs btn btn-default layout3x3 waves-effect" data-row="3|3" @click="changePanel($event)">
-								</button>
-							<button type="button" class="hidden-xs btn btn-default layout4x4 waves-effect" data-row="4|4" @click="changePanel($event)">
-								</button>
-							<button type="button" class="btn btn-default layoutfull waves-effect" @click="panelFullScreen($event)"> </button>
-						</div>
-            <!-- 进度条 -->
-            			<div id="visualization"></div>
 					</div>
-				</div>
+					
+					<!-- 进度条 -->
+					<div class="block">
+						<el-slider v-model="timelink" :max="86400000"></el-slider>
+					</div>
+					<!-- 日期 -->
+					<div style="width:100%;margin:10px 20px;display: flex;justify-content: center;">
+						<div class="block">
+							<el-date-picker
+								v-model="value"
+								type="datetime"
+								placeholder="选择日期时间"
+								default-time="00:00:00">
+							</el-date-picker>
+						</div>
+					</div>
+
+					<!-- 切换九宫格 -->
+					<div class="btn-group blocks">
+						<button type="button" class="btn btn-default layout1x1 waves-effect" data-row="1|1" @click="changePanel($event)">
+							</button>
+						<button type="button" class="btn btn-default layout2x2 waves-effect" data-row="2|2" @click="changePanel($event)">
+							</button>
+						<button type="button" class="hidden-xs btn btn-default layout3x3 waves-effect" data-row="3|3" @click="changePanel($event)">
+							</button>
+						<button type="button" class="hidden-xs btn btn-default layout4x4 waves-effect" data-row="4|4" @click="changePanel($event)">
+							</button>
+						<button type="button" class="btn btn-default layoutfull waves-effect" @click="panelFullScreen($event)"> </button>
+					</div>
+					
+				</div>	
 
 			</div>
 
 		</div>
 		<!-- 使用 -->
-
+		<div>{{value}}</div>
     </div>
 
 
 </div>
 </template>
+<style>
+/* 进度条 */
+.vis-item {
+    border:0px;
+    background-color: rgb(9, 243, 99);
+	height: 30px;
+  }
+  .vis-item.vis-selected {
+    background: #0474f5;
+  }
+  .time{
+		border-right: 2px solid #fb551f;
+		position: absolute;
+		top: 0;
+		left: calc(50% - 1px);
+		height: 100%;
+		z-index: 2;
+	}
+</style>
 
 
 <script>
 	import '../../assets/adapter.js'
-  	import timeline from '../../assets/vis-css.js'
 	import {H5sPlayerWS,H5sPlayerHls,H5sPlayerRTC} from '../../assets/h5splayer.js'
 	import {H5siOS,H5sPlayerCreate} from '../../assets/h5splayerhelper.js'
 
@@ -91,58 +125,103 @@
 		continue;
 	  }
 	}
-
 export default {
 	name: "playback",
 	components: {
-	    'v-liveplayer': pbplayer
+      'v-pbplayer': pbplayer,
 	},
 	data() {
-
-	  return {
-		  rows: 2,
-		  cols: 2,
-		  selectCol: 1,
-		  selectRow: 1,
-		  proto: 'WS',
-		  contentHeight: '',
-		  contentWidth: '',
-      progres:[{
-				id: 1,
-				content: 'item 1',
-				start: '2014-04-20',
-        end: '2014-04-24'
+	  	return {
+			timelink:0,//进度条
+			//过滤文字
+            filterText:"",
+			rows: 1,
+			cols: 1,
+			selectCol: 1,
+			selectRow: 1,
+			proto: 'WS',
+			contentHeight: '',
+			contentWidth: '',
+			data:[],
+			defaultProps: {
+				children: 'children',
+				label: 'label',
+				token:"token",
+				iconclass:"iconclass"
 			},
-			{
-				id: 2,
-				content: 'item 2',
-				start: '2014-04-17',
-        end: '2014-04-19'
-			},
-			{
-				id: 3,
-				content: 'item 4',
-				start: '2014-04-25',
-				end: '2014-04-26'
-			},
-
-		] }
+            value:new Date(),//日期
+			timeGroup:[],
+		}
 	},
 	mounted() {
 		this.updateUI();
 		this.loadDevice();
-    this.progress();
+		this.NumberDevice();
 	},
 	methods:{
+		//选中
+		
+		//树形节点点击
+		handleNodeClick(data, checked, indeterminate){
+			console.log(data.token);
+			if(data.token==undefined){
+				return false;
+			}
+			//时间
+			var val=this.value;
+			 var rqstarf=new Date(val);
+            console.log(rqstarf);
+            //年月日
+            var y = rqstarf.getFullYear();
+            var m = rqstarf.getMonth()+1;
+			var d = rqstarf.getDate();
+			 var rq=y+'-'+m+'-'+d;
+			console.log(rq);
+			let _this =this;
+		    var root = process.env.API_ROOT;
+		    var wsroot = process.env.WS_HOST_ROOT;
+		    if (root == undefined){
+		        root = window.location.protocol + '//' + window.location.host + window.location.pathname;
+		    }
+		    if (wsroot == undefined)
+		    {
+		        wsroot = window.location.host;
+			}
+			var url = root + "api/v1/SearchDeviceRecordByTime?token=device1--33&start="+rq+"T000101%2b08&end="+rq+"T235959%2b08&session="+ this.$store.state.token;
+			console.log(url);
+			this.$http.get(url).then(result=>{
+				  if(result.status == 200){
+					var data=result.data;
+					var timedata=[];
+					console.log("length",data.record.length);
+					for(var i=0;i<data.record.length;i++){
+						var item=data.record[i];
+						//时间转换
+						var starf=new Date(item['strStartTime']).getTime();
+						var end=new Date(item['strEndTime']).getTime();
+						var starf=new Date(starf);
+						var end=new Date(end);
+						var timeitem={
+								id:i+1,
+								start :starf,
+								end :end,
+							  };
+						this.timeGroup.push(timeitem);
+					}
+				  }
+			  })
+			
+            if (data.token) {
+                let vid = 'h' + _this.$data.selectRow + _this.$data.selectCol;
+                _this.$root.bus.$emit('pbplayer', data.token, vid);
+            }
+        },
 		//视频播放函数
-    progress(){
-      var container = document.getElementById('visualization');
-      console.log(container);
-      var items=this.progres;
-      console.log(items);
-      var options = {};
-      console.log(options);
-    },
+		updateTitle(e){
+			this.value = e;//视频时间
+			
+    	},
+		
 
 		//un ui
 		updateUI()
@@ -204,44 +283,29 @@ export default {
 			this.$http.get(url).then(result=>{
 				  if(result.status == 200){
 					  var data=result.data;
-					  var topGroup={nodes:[]};
-					  topGroup.text=toplevels.strName;
+					  var topGroup={children:[]};
+					  topGroup.label=toplevels.strName;
+					  topGroup.iconclass="mdi mdi-view-sequential fa-fw";
 					  for(var i = 0; i < data.src.length; i++){
 						  var item=data.src[i];
 						  var topitem={
 								token : item['strToken'],
-								text : item['strName'],
-								icon : 'mdi mdi-camcorder fa-fw',
+								label : item['strName'],
+								iconclass : 'mdi mdi-camcorder fa-fw',
 							  };
-							  topGroup.nodes.push(topitem);
-					  }
-					   topData.push(topGroup);
-					   let options = {
-					   	levels: 1, //展现级别
-					   	color:"#666666",
-					   	expandIcon:'glyphicon glyphicon-chevron-right',
-					   	collapseIcon: 'glyphicon glyphicon-chevron-down',
-					   	nodeIcon: 'mdi mdi-view-sequential fa-fw',
-					   	showBorder:false,
-					   	selectedColor:"#3c3c3c",
-					   	backColor:"#FFFFFF",
-					   	selectedBackColor: "#ffffff",
-					   	onhoverColor:"#FFFFFF",
-					   	data: topData,
-					   	onNodeSelected: function (event, data) {
-					   		console.log(data.token);
-					   		$(".asss").show();
-					   		if (data.token) {
-					   			let vid = 'h' + _this.$data.selectRow + _this.$data.selectCol;
-					   			_this.$root.bus.$emit('pbplayer', data.token, vid);
-					   			return;
-					   		}
-					   	},
-					   };
+							  if(!item['bOnline'])
+                                topitem['iconclass'] = 'mdi mdi-camcorder-off fa-fw';
 
-					   $('#treeview').treeview(options);
+                              if(item['nType'] == 'H5_CLOUD')
+								topitem['iconclass'] = 'mdi mdi-cloud-upload fa-fw';
+
+                       		topGroup.children.push(topitem);
+                    }
+                    this.data.push(topGroup);
 				  }
-			})
+			}).catch(error => {
+                console.log('GetSrc failed', error);
+            });
 		},
 
 		loadDevice() {
@@ -263,19 +327,103 @@ export default {
 				  if(result.status == 200){
 					  var topData=[];
 					  var data=result.data;
-					  console.log("data",data.dev,data.dev.length);
 					  for(var i = 0; i < data.dev.length; i++){
 						  var item=data.dev[i];
 						  var toplevel=[];
 						  toplevel["strToken"]=item.strToken;
 						  toplevel["strName"]=item.strName;
-						  console.log(toplevel);
 						  this.loadOneDevice(toplevel,topData);
 
 					  }
 				  }
 			  })
 		},
+		//数字仓机
+        NumberDevice() {
+		    let _this =this;
+		    var root = process.env.API_ROOT;
+		    var wsroot = process.env.WS_HOST_ROOT;
+		    if (root == undefined){
+		        root = window.location.protocol + '//' + window.location.host + window.location.pathname;
+		    }
+		    if (wsroot == undefined)
+		    {
+		        wsroot = window.location.host;
+		    }
+		   //url
+		   var url = root + "/api/v1/GetGbDevice?session="+ this.$store.state.token;
+
+			  //重组
+			  this.$http.get(url).then(result=>{
+				  if(result.status == 200){
+					  var srcData = [];
+					  var data=result.data;
+					  for(var i = 0; i < data.dev.length; i++){
+						  var item=data.dev[i];
+						  var srclevel=[];
+						  srclevel["strToken"]=item.strToken;
+						  srclevel["strName"]=item.strName;
+						  this.NumberSrc(srclevel,srcData);
+					  }
+				  }
+			  })
+		},
+        NumberSrc(srclevel, srcData) {
+
+            let _this =this;
+            var root = process.env.API_ROOT;
+            var wsroot = process.env.WS_HOST_ROOT;
+            if (root == undefined){
+                root = window.location.protocol + '//' + window.location.host + window.location.pathname;
+            }
+            if (wsroot == undefined)
+            {
+                wsroot = window.location.host;
+            }
+
+            var url = root + "/api/v1/GetGbDeviceSrc?token="+ srclevel.strToken + "&session=" + this.$store.state.token;
+
+            this.$http.get(url).then(result => {
+                if (result.status == 200)
+                {
+                    var data =  result.data;
+                    var srcGroup = {children: []};
+                    srcGroup.label=srclevel.strName;
+                    srcGroup.iconclass="mdi mdi-view-sequential fa-fw";
+                    for(var i=0; i< data.src.length; i++){
+                        var item = data.src[i];
+                        // 主副流
+                        var node=[{
+                          token : item['strToken'],
+                          streamprofile : "main",
+                          label :this.$t('message.live.mainstream'),
+                          iconclass : 'mdi mdi-playlist-play fa-fw'
+                        },{
+                          token : item['strToken'],
+                          streamprofile : "sub",
+                          label :this.$t('message.live.substream'),
+                          iconclass : 'mdi mdi-playlist-play fa-fw'
+                        }]
+                        var newItem ={
+                                token : item['strToken'],
+                                label : item['strName'],
+                                iconclass : 'mdi mdi-camcorder fa-fw',
+                                children:node};
+
+                        if(!item['bOnline'])
+                            newItem['iconclass'] = 'mdi mdi-camcorder-off fa-fw';
+
+                        if(item['nType'] == 'H5_CLOUD')
+                            newItem['iconclass'] = 'mdi mdi-cloud-upload fa-fw';
+
+                       srcGroup.children.push(newItem);
+                    }
+                    this.data.push(srcGroup);
+                }
+            }).catch(error => {
+                console.log('GetSrc failed', error);
+            });
+        },
 
 
 
@@ -372,11 +520,23 @@ export default {
 		    this.$root.bus.$emit('liveplayproto', "RTC");
 		    this.proto = "RTC";
 		},
+        //模糊查询
+        filterNode(value, data) {
+            if (!value) return true;
+            return data.label.indexOf(value) !== -1;
+        },
 
-	}
+	},//模糊查询
+    watch: {
+      filterText(val) {
+        this.$refs.tree.filter(val);
+      }
+    },
 }
 </script>
 <style scoped>
+	
+
 	.zdg{
 		background-color: #ffffff;
 		height: -webkit-fill-available;
@@ -390,13 +550,13 @@ export default {
 		align-items: flex-start;
 	}
 	.content-mythe-one{
-		min-width: 17%;
+		min-width: 20%;
 		height: auto;
 		background-color: #FFFFFF;
 		padding: 10px;
 	}
 	.content-mythe-two{
-		width: 80%;
+		width: 76%;
 		background-color: #FFFFFF;
 		display: flex;
 	}
@@ -432,9 +592,6 @@ export default {
 	    border-left: 0px !important;
 	}
 
-	#videoPanel>div:nth-last-child(2) {
-	    border-bottom: 1px solid rgb(22, 22, 22) !important;
-	}
 
 
 	#videoPanel:-webkit-full-screen {
@@ -575,5 +732,4 @@ export default {
 	i{
 		color: 	#008B8B;
 	}
-  @import '../../assets/vis-js.min.css';
 </style>

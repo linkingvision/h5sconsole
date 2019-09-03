@@ -4,7 +4,7 @@
 
     <v-modal ID="UserModal" title=USER>
         <button type="button" slot="modalFooter" class="btn btn-success" v-on:click="saveUser">Save</button>
-        <form class="form-horizontal" slot="modalBody" slot-scope="v">
+        <form class="form-horizontal" slot="modalBody" slot-scope="">
                 <div class="form-group">
                     <label class="col-sm-2 control-label">{{$t("message.setting.name")}}</label>
                     <div class="col-sm-10">

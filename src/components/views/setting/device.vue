@@ -26,6 +26,7 @@
                         <th>Online</th>
                         <th class="hidden-xs">Type</th>
                         <th class="hidden-xs">Token</th>
+                        <!-- <th class="hidden-xs">Audio</th> -->
                         <!-- <th>Play</th> -->
                     </tr>
                 </thead>
@@ -37,7 +38,7 @@
 
         <v-modal ID="CameraModal" title="DEVICE">
             <button type="button" slot="modalFooter" class="btn btn-success" v-on:click="saveData">Save</button>
-            <form class="form-horizontal" slot="modalBody" slot-scope="v">
+            <form class="form-horizontal" slot="modalBody" slot-scope="">
                 <div class="form-group">
                     <label class="col-sm-2 control-label">Type</label>
                     <div class="col-sm-10">
@@ -108,6 +109,17 @@
                         <span v-if="errors.has('strUrl')" class="text-red">{{ errors.first('strUrl') }}</span>
                     </div>
                 </div>
+                <!-- 是否添加音频 -->
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">Audio</label>
+                    <div class="col-sm-10" style="font-size: 12px;">
+                        <el-switch
+                            v-model="audio1"
+                            active-text="ON"
+                            inactive-text="OFF">
+                        </el-switch>
+                    </div>
+                </div>
             </form>
         </v-modal>
 
@@ -131,7 +143,8 @@ export default {
     data() {
         let c = new cam();
         return {
-            ...c
+            ...c,
+            audio1: false,
         }
     },
     components: {
@@ -201,7 +214,14 @@ export default {
                         return '<span class="hidden-xs">' + row.strToken + '</span>';
                     },
                     "targets": 7
-                }
+                },
+                // {
+                //     "render": function (data, type, row) {
+                //         console.log("row",row)
+                //         return '<span class="hidden-xs">' + row.audio + '</span>';
+                //     },
+                //     "targets": 8
+                // }
 
                 /*
                 {
@@ -218,7 +238,7 @@ export default {
                     "targets": 7
                 }*/
             ],
-            pageLength: 8, //可以省，默认大小每页显示10行
+            pageLength: 9, //可以省，默认大小每页显示10行
             searching: false, //关闭搜索输入框
             paging: true, //允许分页
             info: false,//左下角信息
@@ -237,10 +257,12 @@ export default {
                     {
                         var renderData = {};
                         renderData['draw'] = '1';
+                        renderData['audio'] = _this.audio1;
                         renderData['recordsTotal'] = result.data.src.length;
                         renderData['recordsFiltered'] = '0';
                         renderData.data = result.data.src;
                         console.log(result.data.src);
+                        console.log(renderData);
                         callback(renderData);
                     }
                 }).catch(error => {
@@ -262,6 +284,7 @@ export default {
             var url = root + "/api/v1/AddSrcRTSP?name=" + this.strName 
                 + "&user=" + this.strUser + "&password=" + this.strPasswd
                 + "&token=" + this.strToken 
+                + "&audio=" + this.audio1
                 + "&url=" + encodeURIComponent(this.strUrl)
                 + "&session="+ this.$store.state.token;
 
@@ -285,6 +308,7 @@ export default {
             }
             var url = root + "/api/v1/AddSrcFile?name=" + this.strName 
                 + "&token=" + this.strToken 
+                + "&audio=" + this.audio1 
                 + "&url=" + encodeURIComponent(this.strUrl)
                 + "&session="+ this.$store.state.token;
             this.$http.get(url).then(result => {
@@ -307,6 +331,7 @@ export default {
             }
             var url = root + "/api/v1/AddSrcONVIF?name=" + this.strName 
                 + "&token=" + this.strToken 
+                + "&audio=" + this.audio1
                 + "&user=" + this.strUser + "&password=" + this.strPasswd
                 + "&ip=" + this.strSrcIpAddress + "&port=" + this.strSrcPort
                 + "&session="+ this.$store.state.token;

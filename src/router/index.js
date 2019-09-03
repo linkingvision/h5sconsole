@@ -2,6 +2,7 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Dashboard from '@/components/views/dashboard'
 import Liveview from '@/components/views/liveview'
+import Archive from '@/components/views/archive'
 import Playback from '@/components/views/playback'
 import Setting from '@/components/views/setting'
 import DevSetting from '@/components/views/setting/device'
@@ -36,6 +37,11 @@ const routes = [
         path: '/app/playback',
         name: 'playbackRouter',
         component: Playback
+      },
+      {
+        path: '/app/archive',
+        name: 'archiveRouter',
+        component: Archive
       },
       {
         path: '/app/snapshot',

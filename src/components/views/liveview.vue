@@ -17,6 +17,30 @@
 
         <!-- Video -->
         <div class="row">
+            <!-- Device tree -->
+            <div class="col-sm-3">
+                <div class="zdg">
+                    <!-- 模糊查询搜查 -->
+                    <el-input
+                        placeholder="输入关键字进行过滤"
+                        v-model="filterText">
+                    </el-input>
+                    <el-tree
+                        :data="data"
+                        accordion
+                        node-key="id"
+                        :filter-node-method="filterNode"
+                        ref="tree"
+                        highlight-current
+                        @node-click="handleNodeClick"
+                        :props="defaultProps">
+                        <span slot-scope="{ node, data }">
+                            <i :class="data.iconclass" style="color:rgb(142, 132, 132);"></i>
+                            <span style="padding-left: 4px;">{{data.label}}</span>
+                        </span>
+                    </el-tree>
+                </div>
+            </div>
 
             <!-- Video 1 4 9 16 -->
             <div class="col-sm-9" id="videoPanel">
@@ -37,21 +61,8 @@
                     <button type="button" class="btn btn-default layoutfull waves-effect" @click="panelFullScreen($event)"> </button>
                 </div>
             </div>
-            <!-- Device tree -->
-            <div class="col-sm-3">
-                <div class="sidebar-nav">
-                <div class="box box-solid">
-                    <div class="box-header">
-                        <h5 class="box-title"><b>{{$t("message.live.device")}}</b></h5>
-                        <div class="box-tools">
-                        </div>
-                    </div>
-                    <div class="box-body no-padding pre-scrollable">
-                        <div id="treeview" class="zdg"></div>
-                    </div>
-                </div>
-                </div><!--/.well -->
-            </div>
+            
+            
 
         </div><!-- Video -->
 
@@ -98,13 +109,22 @@ export default {
     },
     data() {
             return {
+                //过滤文字
+                filterText:"",
                 rows: 3,
                 cols: 3,
                 selectCol: 1,
                 selectRow: 1,
                 proto: 'WS',
                 contentHeight: '',
-                contentWidth: ''
+                contentWidth: '',
+                data:[],
+                defaultProps: {
+                    children: 'children',
+                    label: 'label',
+                    token:"token",
+                    iconclass:"iconclass"
+                },
             };
 
     },
@@ -112,8 +132,22 @@ export default {
 
         this.updateUI();
         this.loadDevice();
+        this.loadtest();
+        this.NumberDevice();
     },
     methods: {
+        //树形节点点击
+        handleNodeClick(data, checked, indeterminate){
+            console.log(data.token);
+            console.log(data.streamprofile);
+            let _this =this;
+            if (data.token) {
+                let vid = 'h' + _this.$data.selectRow + _this.$data.selectCol;
+                console.log(vid);
+                _this.$root.bus.$emit('liveplay', data.token,data.streamprofile, vid);
+            }
+        },
+
         updateUI()
         {
             $(".content").innerHeight($('.content-wrapper').innerHeight() - $('.content-header').outerHeight() - $('.main-header').innerHeight());
@@ -164,6 +198,66 @@ export default {
                 $('div[name="flex"]').height(this.contentHeight / this.rows);
             }
         },
+        //测试机仓
+        loadtest(){
+            let _this =this;
+		    var root = process.env.API_ROOT;
+		    var wsroot = process.env.WS_HOST_ROOT;
+		    if (root == undefined){
+		        root = window.location.protocol + '//' + window.location.host + window.location.pathname;
+		    }
+		    if (wsroot == undefined)
+		    {
+		        wsroot = window.location.host;
+		    }
+		    //url
+            var url = root + "/api/v1/GetSrcWithoutDevice?session="+ this.$store.state.token;
+            console.log(url);
+            this.$http.get(url).then(result=>{
+                if(result.status == 200){
+					var data =  result.data;
+                    var srcGroup = {children: []};
+                    srcGroup.label=this.$t('message.live.camera');
+                    srcGroup.iconclass="mdi mdi-view-sequential fa-fw";
+                    for(var i=0; i< data.src.length; i++){
+                         var item = data.src[i];
+                        if(item['nOriginalType'] == 'H5_CH_GB'){
+                            continue;
+                        }else{
+                            // 主副流
+                            var node=[{
+                            token : item['strToken'],
+                            streamprofile : "main",
+                            label :this.$t('message.live.mainstream'),
+                            iconclass : 'mdi mdi-playlist-play fa-fw'
+                            },{
+                            token : item['strToken'],
+                            streamprofile : "sub",
+                            label :this.$t('message.live.substream'),
+                            iconclass : 'mdi mdi-playlist-play fa-fw'
+                            }]
+                            var newItem ={
+                                    token : item['strToken'],
+                                    label : item['strName'],
+                                    iconclass : 'mdi mdi-camcorder fa-fw',
+                                    children:node};
+
+                            if(!item['bOnline'])
+                                newItem['iconclass'] = 'mdi mdi-camcorder-off fa-fw';
+
+                            if(item['nType'] == 'H5_CLOUD')
+                                newItem['iconclass'] = 'mdi mdi-cloud-upload fa-fw';
+                            
+                        
+
+                        srcGroup.children.push(newItem);
+                        }
+                    }
+                    this.data.push(srcGroup);
+				  } 
+            })
+
+        },
         //写作业
         loadDevice() {
 		    let _this =this;
@@ -184,21 +278,17 @@ export default {
 				  if(result.status == 200){
 					  var srcData = [];
 					  var data=result.data;
-					  console.log("data",data.dev,data.dev.length);
 					  for(var i = 0; i < data.dev.length; i++){
 						  var item=data.dev[i];
 						  var srclevel=[];
 						  srclevel["strToken"]=item.strToken;
 						  srclevel["strName"]=item.strName;
-						  console.log(srclevel);
 						  this.loadSrc(srclevel,srcData);
-
 					  }
 				  }
 			  })
 		},
         loadSrc(srclevel, srcData) {
-            console.log(srclevel)
 
             let _this =this;
             var root = process.env.API_ROOT;
@@ -214,67 +304,127 @@ export default {
             var url = root + "/api/v1/GetDeviceSrc?token="+ srclevel.strToken + "&session=" + this.$store.state.token;
 
             this.$http.get(url).then(result => {
-                console.log(result);
                 if (result.status == 200)
                 {
                     var data =  result.data;
-                    
-                    var srcGroup = {nodes: []};
-                    srcGroup.text=srclevel.strName;
-                    console.log("data.src", data.src, data.src.length);
+                    var srcGroup = {children: []};
+                    srcGroup.label=srclevel.strName;
+                    srcGroup.iconclass="mdi mdi-view-sequential fa-fw";
                     for(var i=0; i< data.src.length; i++){
                         var item = data.src[i];
                         // 主副流
                         var node=[{
                           token : item['strToken'],
                           streamprofile : "main",
-                          text :this.$t('message.live.mainstream'),
-                          icon : 'mdi mdi-playlist-play fa-fw'
+                          label :this.$t('message.live.mainstream'),
+                          iconclass : 'mdi mdi-playlist-play fa-fw'
                         },{
                           token : item['strToken'],
                           streamprofile : "sub",
-                          text :this.$t('message.live.substream'),
-                          icon : 'mdi mdi-playlist-play fa-fw'
+                          label :this.$t('message.live.substream'),
+                          iconclass : 'mdi mdi-playlist-play fa-fw'
                         }]
                         var newItem ={
                                 token : item['strToken'],
-                                text : item['strName'],
-                                icon : 'mdi mdi-camcorder fa-fw',
-                                nodes:node};
+                                label : item['strName'],
+                                iconclass : 'mdi mdi-camcorder fa-fw',
+                                children:node};
 
                         if(!item['bOnline'])
-                            newItem['icon'] = 'mdi mdi-camcorder-off fa-fw';
+                            newItem['iconclass'] = 'mdi mdi-camcorder-off fa-fw';
 
                         if(item['nType'] == 'H5_CLOUD')
-                            newItem['icon'] = 'mdi mdi-cloud-upload fa-fw';
+                            newItem['iconclass'] = 'mdi mdi-cloud-upload fa-fw';
 
-                        srcGroup.nodes.push(newItem);
-                       
+                       srcGroup.children.push(newItem);
                     }
-                    srcData.push(srcGroup);
-                    let options = {
-                        levels: 1, //展现级别
-                        color:"#666666",
-                        expandIcon:'glyphicon glyphicon-chevron-right',
-                        collapseIcon: 'glyphicon glyphicon-chevron-down',
-                        nodeIcon: 'mdi mdi-view-sequential fa-fw',
-                        showBorder:false,
-                        selectedColor:"#3c3c3c",
-                        backColor:"#FFFFFF",
-                        selectedBackColor: "#ffffff",
-                        onhoverColor:"#FFFFFF",
-                        data: srcData,
-                        onNodeSelected: function (event, data) {
-                            console.log(data.token);
-                            if (data.token) {
-                                let vid = 'h' + _this.$data.selectRow + _this.$data.selectCol;
-                                _this.$root.bus.$emit('liveplay', data.token,data.streamprofile, vid);
-                                return;
-                            }
-                        }
+                    this.data.push(srcGroup);
+                }
+            }).catch(error => {
+                console.log('GetSrc failed', error);
+            });
+        },
+        //数字仓机
+        NumberDevice() {
+		    let _this =this;
+		    var root = process.env.API_ROOT;
+		    var wsroot = process.env.WS_HOST_ROOT;
+		    if (root == undefined){
+		        root = window.location.protocol + '//' + window.location.host + window.location.pathname;
+		    }
+		    if (wsroot == undefined)
+		    {
+		        wsroot = window.location.host;
+		    }
+		   //url
+		   var url = root + "/api/v1/GetGbDevice?session="+ this.$store.state.token;
 
-                    };
-                    $('#treeview').treeview(options);
+			  //重组
+			  this.$http.get(url).then(result=>{
+				  if(result.status == 200){
+					  var srcData = [];
+					  var data=result.data;
+					  for(var i = 0; i < data.dev.length; i++){
+						  var item=data.dev[i];
+						  var srclevel=[];
+						  srclevel["strToken"]=item.strToken;
+						  srclevel["strName"]=item.strName;
+						  this.NumberSrc(srclevel,srcData);
+					  }
+				  }
+			  })
+		},
+        NumberSrc(srclevel, srcData) {
+
+            let _this =this;
+            var root = process.env.API_ROOT;
+            var wsroot = process.env.WS_HOST_ROOT;
+            if (root == undefined){
+                root = window.location.protocol + '//' + window.location.host + window.location.pathname;
+            }
+            if (wsroot == undefined)
+            {
+                wsroot = window.location.host;
+            }
+
+            var url = root + "/api/v1/GetGbDeviceSrc?token="+ srclevel.strToken + "&session=" + this.$store.state.token;
+
+            this.$http.get(url).then(result => {
+                if (result.status == 200)
+                {
+                    var data =  result.data;
+                    var srcGroup = {children: []};
+                    srcGroup.label=srclevel.strName;
+                    srcGroup.iconclass="mdi mdi-view-sequential fa-fw";
+                    for(var i=0; i< data.src.length; i++){
+                        var item = data.src[i];
+                        // 主副流
+                        var node=[{
+                          token : item['strToken'],
+                          streamprofile : "main",
+                          label :this.$t('message.live.mainstream'),
+                          iconclass : 'mdi mdi-playlist-play fa-fw'
+                        },{
+                          token : item['strToken'],
+                          streamprofile : "sub",
+                          label :this.$t('message.live.substream'),
+                          iconclass : 'mdi mdi-playlist-play fa-fw'
+                        }]
+                        var newItem ={
+                                token : item['strToken'],
+                                label : item['strName'],
+                                iconclass : 'mdi mdi-camcorder fa-fw',
+                                children:node};
+
+                        if(!item['bOnline'])
+                            newItem['iconclass'] = 'mdi mdi-camcorder-off fa-fw';
+
+                        if(item['nType'] == 'H5_CLOUD')
+                            newItem['iconclass'] = 'mdi mdi-cloud-upload fa-fw';
+
+                       srcGroup.children.push(newItem);
+                    }
+                    this.data.push(srcGroup);
                 }
             }).catch(error => {
                 console.log('GetSrc failed', error);
@@ -374,9 +524,22 @@ export default {
         },
         stopVideo(event){
             return;
-        }
+        },
+        //模糊查询
+        filterNode(value, data) {
+            console.log("filter",value,data);
+            if (!value) return true;
+            return data.label.indexOf(value) !== -1;
+        },
 
-    }
+    },
+    //模糊查询
+    watch: {
+      filterText(val) {
+        console.log("filter",val);
+        this.$refs.tree.filter(val);
+      }
+    },
 };
 
 </script>

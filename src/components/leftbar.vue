@@ -12,9 +12,13 @@
             <a href="#" class="waves-effect"><i class="mdi mdi-camcorder fa-fw" data-icon="v"></i> <span class="hide-menu"> {{$t("message.left.live")}}  </span></a>
             </router-link>
             
+            <li >
+            <a href="/mediastore" class="waves-effect"><i class="mdi mdi-play-circle fa-fw" data-icon="v"></i> <span class="hide-menu"> {{$t("message.left.playback")}}  </span></a>
+            </li>
+             <!-- ¹éµµ -->
             <li class="devider"></li>
-			<router-link tag="li" :to="{name:'playbackRouter'}">
-			<a href="#" class="waves-effect"><i class="mdi mdi-play-circle fa-fw" data-icon="v"></i> <span class="hide-menu"> {{$t("message.left.playback")}}  </span></a>
+			<router-link tag="li" :to="{name:'archiveRouter'}">
+			<a href="#" class="waves-effect"><i class="mdi mdi-folder fa-fw" data-icon="v"></i> <span class="hide-menu"> {{$t("message.left.archive")}}  </span></a>
 			 </router-link>
 
             <li >

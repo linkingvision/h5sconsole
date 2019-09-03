@@ -26,6 +26,7 @@
                         <th>Online</th>
                         <th class="hidden-xs">Type</th>
                         <th class="hidden-xs">Token</th>
+                        <!-- <th class="hidden-xs">Audio</th> -->
                         <!-- <th>Play</th> -->
                     </tr>
                 </thead>
@@ -37,7 +38,7 @@
 
         <v-modal ID="CameraModal" title="DEVICE SDK">
             <button type="button" slot="modalFooter" class="btn btn-success" v-on:click="saveData">Save</button>
-            <form class="form-horizontal" slot="modalBody" slot-scope="v">
+            <form class="form-horizontal" slot="modalBody" slot-scope="">
                 <div class="form-group">
                     <label class="col-sm-2 control-label">Type</label>
                     <div class="col-sm-10">
@@ -99,6 +100,17 @@
                         <span v-if="errors.has('port')" class="text-red">{{ errors.first('port') }}</span>
                     </div>
                 </div>
+                <!-- 是否添加音频 -->
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">Audio</label>
+                    <div class="col-sm-10" style="font-size: 12px;">
+                        <el-switch
+                            v-model="audio1"
+                            active-text="ON"
+                            inactive-text="OFF">
+                        </el-switch>
+                    </div>
+                </div>
             </form>
         </v-modal>
 
@@ -122,7 +134,8 @@ export default {
     data() {
         let c = new device();
         return {
-            ...c
+            ...c,
+            audio1:false,
         }
     },
     components: {
@@ -193,6 +206,13 @@ export default {
                     },
                     "targets": 7
                 }
+                // ,
+                // {
+                //     "render": function (data, type, row) {
+                //         return '<span class="hidden-xs">' + row.strToken + '</span>';
+                //     },
+                //     "targets": 8
+                // }
                 /*
                 {
                     "render": function (data, type, row, meta) {
@@ -208,7 +228,7 @@ export default {
                     "targets": 7
                 }*/
             ],
-            pageLength: 8, //可以省，默认大小每页显示10行
+            pageLength: 9, //可以省，默认大小每页显示10行
             searching: false, //关闭搜索输入框
             paging: true, //允许分页
             info: false,//左下角信息
@@ -252,6 +272,7 @@ export default {
             }
             var url = root + "/api/v1/AddDeviceHik?name=" + this.strName 
                 + "&token=" + this.strToken 
+                + "&audio=" + this.audio1
                 + "&user=" + this.strUser + "&password=" + this.strPasswd
                 + "&ip=" + this.strDevIpAddress + "&port=" + this.strDevPort
                 + "&session="+ this.$store.state.token;
@@ -274,6 +295,7 @@ export default {
             }
             var url = root + "/api/v1/AddDeviceDh?name=" + this.strName 
                 + "&token=" + this.strToken 
+                + "&audio=" + this.audio1
                 + "&user=" + this.strUser + "&password=" + this.strPasswd
                 + "&ip=" + this.strDevIpAddress + "&port=" + this.strDevPort
                 + "&session="+ this.$store.state.token;

@@ -19,6 +19,8 @@ module.exports={
 		dashboard: 'Dashboard',
 		live: 'Live',
 		playback: 'Playback',
+		archive:"Archive",
+		screenshots:"Folder",
 		snapshot: 'Snapshot',
 		setting: 'Setting',
 		cloud: 'Cloud',
@@ -71,8 +73,9 @@ module.exports={
 		device: 'DEVICE',
 		setting: 'SETTING',
 		protocol: 'PROTOCOL',
-    mainstream:'Main Stream',
-    substream:'Sub Stream'
+		mainstream:'Main Stream',
+		substream:'Sub Stream',
+		camera:"Camera"
     },
     setting:
     {

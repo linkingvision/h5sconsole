@@ -24,6 +24,7 @@
                         <th class="hidden-xs">Type</th>
                         <th class="hidden-xs">Token</th>
                         <th class="hidden-xs">Push Url Path</th>
+                        <!-- <th class="hidden-xs">Audio</th> -->
                         <!-- <th>Play</th> -->
                     </tr>
                 </thead>
@@ -35,7 +36,7 @@
 
         <v-modal ID="CameraModal" title="RTMP PUSH">
             <button type="button" slot="modalFooter" class="btn btn-success" v-on:click="saveData">Save</button>
-            <form class="form-horizontal" slot="modalBody" slot-scope="v">
+            <form class="form-horizontal" slot="modalBody" slot-scope="">
                 <div class="form-group">
                     <label class="col-sm-2 control-label">Type</label>
                     <div class="col-sm-10">
@@ -63,6 +64,17 @@
                         <span v-if="errors.has('strToken')" class="text-red">{{ errors.first('strToken') }}</span>
                     </div>
                 </div>
+                <!-- 是否添加音频 -->
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">Audio</label>
+                    <div class="col-sm-10" style="font-size: 12px;">
+                        <el-switch
+                            v-model="audio1"
+                            active-text="ON"
+                            inactive-text="OFF">
+                        </el-switch>
+                    </div>
+                </div>
             </form>
         </v-modal>
 
@@ -87,7 +99,8 @@ export default {
         let c = new camera();
         c.nType = 'H5_RTMP_PUSH';
         return {
-            ...c
+            ...c,
+            audio1:false,
         }
     },
     components: {
@@ -147,6 +160,12 @@ export default {
                     },
                     "targets": 5
                 },
+                // {
+                //     "render": function (data, type, row) {
+                //         return '<span class="hidden-xs">' + row.strPushUrl + '</span>';
+                //     },
+                //     "targets": 6
+                // },
     
                 /*
                 {
@@ -207,6 +226,7 @@ export default {
             }
             var url = root + "/api/v1/AddRTMPPush?name=" + this.strName 
                 + "&token=" + this.strToken 
+                + "&audio=" + this.audio1
                 + "&session="+ this.$store.state.token;
             this.$http.get(url).then(result => {
                 console.log(result);
