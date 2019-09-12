@@ -1,183 +1,346 @@
 <template>
-
-<div>
-    <div id="page-wrapper">
-
-		<div class="container-fluid">
-			<div class="row bg-title">
-				<div class="col-lg-3 col-md-4 col-sm-4 col-xs-12">
-					<h4 class="page-title">{{$t("message.left.playback")}}</h4>
-				</div>
-			</div>
-		</div>
-		<!-- 层级 -->
-		<div class="content-mythe">
-			<div class="content-mythe-one">
-				<!-- 这是原下拉框代码 -->
-				<div class="zdg">
+    <div>
+        <div id="page-wrapper">
+            <!-- 头部 -->
+            <div class="container-fluid">
+                <div class="row bg-title" style="margin-bottom: 0px;">
+                    <h4 class="page-title">{{$t("message.left.playback")}}</h4>
+                </div>
+            </div>
+            <!-- 内容 -->
+            <div class="content-mythe">
+                <div class="content-mythe-one">
+                    <!-- 时间表 -->
+                    <div class="block">
+                        <el-date-picker
+                            v-model="value"
+                            type="datetimerange"
+                            :picker-options="pickerOptions"
+                            start-placeholder="开始日期"
+                            end-placeholder="结束日期"
+                            :default-time="['0:00:00', '24:00:00']">
+                        </el-date-picker>
+                    </div>
                     <!-- 模糊查询搜查 -->
                     <el-input
                         placeholder="输入关键字进行过滤"
                         v-model="filterText">
                     </el-input>
-					<!-- show-checkbox 复选按钮-->
+                    <!-- 这是原下拉框代码 -->
                     <el-tree
                         :data="data"
-                        accordion
+                        show-checkbox
                         node-key="id"
+						:check-strictly="true"
                         :filter-node-method="filterNode"
                         ref="tree"
                         highlight-current
-                        @node-click="handleNodeClick"
                         :props="defaultProps">
                         <span slot-scope="{ node, data }">
                             <i :class="data.iconclass" style="color:rgb(142, 132, 132);"></i>
                             <span style="padding-left: 4px;">{{data.label}}</span>
                         </span>
                     </el-tree>
+                   
                 </div>
-			</div>
-			<!-- 九宫格 -->
-			<div class="content-mythe-two">
-				<div class="" id="videoPanel" style="width:100%;">
-					<div name='flex' class="videoColor" v-for="r in rows" :key="r">
-						<div calss="videoflexitem" style="flex:1; border:1px solid black;" name="flex" v-for="c in cols" @contextmenu.prevent="stopVideo($event)" @click="videoClick(r,c,$event)" :key="c">
-						<v-pbplayer v-bind:id="'h'+r+c" :h5id="'h'+r+c" :h5videoid="'hvideo'+r+c" :value="value" v-on:titleChanged="updateTitle($event)"></v-pbplayer>
-						</div>
-					</div>
-					
-					<!-- 进度条 -->
-					<div class="block">
-						<el-slider v-model="timelink" :max="86400000"></el-slider>
-					</div>
-					<!-- 日期 -->
-					<div style="width:100%;margin:10px 20px;display: flex;justify-content: center;">
-						<div class="block">
-							<el-date-picker
-								v-model="value"
-								type="datetime"
-								placeholder="选择日期时间"
-								default-time="00:00:00">
-							</el-date-picker>
-						</div>
-					</div>
-
-					<!-- 切换九宫格 -->
-					<div class="btn-group blocks">
-						<button type="button" class="btn btn-default layout1x1 waves-effect" data-row="1|1" @click="changePanel($event)">
-							</button>
-						<button type="button" class="btn btn-default layout2x2 waves-effect" data-row="2|2" @click="changePanel($event)">
-							</button>
-						<button type="button" class="hidden-xs btn btn-default layout3x3 waves-effect" data-row="3|3" @click="changePanel($event)">
-							</button>
-						<button type="button" class="hidden-xs btn btn-default layout4x4 waves-effect" data-row="4|4" @click="changePanel($event)">
-							</button>
-						<button type="button" class="btn btn-default layoutfull waves-effect" @click="panelFullScreen($event)"> </button>
-					</div>
-					
-				</div>	
-
-			</div>
-
-		</div>
-		<!-- 使用 -->
-		<div>{{value}}</div>
+                <!-- 表格 -->
+                <div class="content-mythe-two">
+                     <!-- 查询按钮 -->
+                    <div style="margin: 10px 20px;display: flex;justify-content: space-between;">
+                        <el-button @click="getCheckedNodes"  icon="el-icon-search">查询</el-button>
+                        <el-button size="mini" @click="tableDatak">清空</el-button>
+                    </div>
+                    <!-- 有按钮 -->
+                    <el-table
+                        :data="tableData1.slice((currentPage-1)*pageSize,currentPage*pageSize)"
+                        style="width: 100%;">
+                        <el-table-column
+                            prop="token"
+                            label="名称" >
+                            <template slot-scope="scope">
+                                <span style="margin-left: 10px">{{ scope.row.token }}</span>
+                            </template>
+                        </el-table-column>
+                        <el-table-column
+                            prop="name"
+                            label="token">
+                             <template slot-scope="scope">
+                                <span>{{ scope.row.name }}</span>
+                            </template>
+                        </el-table-column>
+                        <el-table-column
+                            prop="starf"
+                            label="开始时间">
+                             <template slot-scope="scope">
+                                <i class="el-icon-time"></i>
+                                <span>{{ scope.row.starf }}</span>
+                            </template>
+                        </el-table-column>
+                        <el-table-column
+                            prop="end"
+                            label="结束时间">
+                             <template slot-scope="scope">
+                                <i class="el-icon-time"></i>
+                                <span>{{ scope.row.end }}</span>
+                            </template>
+                        </el-table-column>
+                        <el-table-column
+                            prop="end"
+                            label="type">
+                             <template slot-scope="scope">
+                                <span>{{ scope.row.type }}</span>
+                            </template>
+                        </el-table-column>
+                        <el-table-column
+                            width=310px>
+                            <template slot-scope="scope">
+                                <el-button
+                                size="mini"
+                                type="success"><a :href="scope.row.url" :download="scope.row.urlto">下载</a></el-button>
+                                <el-button size="mini" style="font-size: 25px;" icon="el-icon-caret-right" circle @click="Refresh1(scope.$index, scope.row)" data-toggle="modal" data-target="#myModal"></el-button>
+                            </template>
+                         </el-table-column>
+                    </el-table>
+                    <!-- 分页 -->
+                    <el-pagination
+                        style="text-align: center;"
+                        layout="prev, pager, next"
+                        @size-change="handleSizeChange" 
+                        @current-change="handleCurrentChange"
+                        :current-page="currentPage"
+                        :total="total">
+                    </el-pagination>
+                </div>
+            </div>
+        </div>
+        <!-- bootstrap模态框1 -->
+        <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true" @click="Close()">
+                            &times;
+                        </button>
+                        <h4 class="modal-title" id="myModalLabel">
+                            视频回放
+                        </h4>
+                        <!-- 开始结束时间 -->
+                        <div class="kai">
+                            <span>开始时间:{{rowstarf}}</span>
+                            <span>结束时间:{{rowend}}</span>
+                        </div>
+                    </div>
+                    <div class="modal-body text-center">
+                        <video class="videoo" id="pbplayarch"></video>
+                        <div class="block">
+						    <el-slider v-model="timelink" :max="max" @change="timelinn(timelink)" :show-tooltip="false"></el-slider>
+					    </div>
+                        <!-- <el-button style="font-size: 25px;" :icon="icon" size="mini" circle  @click="resume()" class="strart"></el-button> -->
+                        <i style="font-size: 30px; margin: 0 20px;" :class="icon" @click="resume()" class="strart"></i>
+                        <!-- 倍速 -->
+                        <el-select v-model="region" size="mini" style="width:70px" @change="Speed()">
+                            <el-option label="0.5" value="0.5"></el-option>
+                            <el-option label="1.0" value="1.0"></el-option>
+                            <el-option label="2.0" value="2.0"></el-option>
+                            <el-option label="4.0" value="4.0"></el-option>
+                            <el-option label="8.0" value="8.0"></el-option>
+                            <el-option label="16.0" value="16.0"></el-option>
+                        </el-select>
+                        <!-- 实时时间 -->
+                        <span>{{displayc}}</span>
+                    </div>
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal -->
+        </div>
     </div>
-
-
-</div>
 </template>
-<style>
-/* 进度条 */
-.vis-item {
-    border:0px;
-    background-color: rgb(9, 243, 99);
-	height: 30px;
-  }
-  .vis-item.vis-selected {
-    background: #0474f5;
-  }
-  .time{
-		border-right: 2px solid #fb551f;
-		position: absolute;
-		top: 0;
-		left: calc(50% - 1px);
-		height: 100%;
-		z-index: 2;
-	}
-</style>
-
-
 <script>
-	import '../../assets/adapter.js'
-	import {H5sPlayerWS,H5sPlayerHls,H5sPlayerRTC} from '../../assets/h5splayer.js'
-	import {H5siOS,H5sPlayerCreate} from '../../assets/h5splayerhelper.js'
-
-	import qs from 'qs'
-	import Vue from 'vue'
-	import 'patternfly-bootstrap-treeview/dist/bootstrap-treeview.min.css'
-	import 'patternfly-bootstrap-treeview/dist/bootstrap-treeview.min.js'
-	import pbplayer from '../../components/widgets/pbplayer'
-
-	function sleep(delay) {
-	  var start = (new Date()).getTime();
-	  while ((new Date()).getTime() - start < delay) {
-		continue;
-	  }
-	}
+import '../../assets/adapter.js'
+import {H5sPlayerWS,H5sPlayerHls,H5sPlayerRTC} from '../../assets/h5splayer.js'
+import {H5siOS,H5sPlayerCreate} from '../../assets/h5splayerhelper.js'
 export default {
-	name: "playback",
-	components: {
-      'v-pbplayer': pbplayer,
-	},
-	data() {
-	  	return {
-			timelink:0,//进度条
-			//过滤文字
-            filterText:"",
-			rows: 1,
-			cols: 1,
-			selectCol: 1,
-			selectRow: 1,
-			proto: 'WS',
-			contentHeight: '',
-			contentWidth: '',
-			data:[],
-			defaultProps: {
-				children: 'children',
-				label: 'label',
-				token:"token",
-				iconclass:"iconclass"
-			},
-            value:new Date(),//日期
-			timeGroup:[],
-		}
-	},
-	mounted() {
-		this.updateUI();
-		this.loadDevice();
-		this.NumberDevice();
-	},
-	methods:{
-		//选中
-		
-		//树形节点点击
-		handleNodeClick(data, checked, indeterminate){
-			console.log(data.token);
-			if(data.token==undefined){
-				return false;
-			}
-			//时间
-			var val=this.value;
-			 var rqstarf=new Date(val);
-            console.log(rqstarf);
-            //年月日
-            var y = rqstarf.getFullYear();
-            var m = rqstarf.getMonth()+1;
-			var d = rqstarf.getDate();
-			 var rq=y+'-'+m+'-'+d;
-			console.log(rq);
-			let _this =this;
+    
+    name:"playback",
+    data() {
+        return {
+            timelink:0,//滑块
+            max:0,//滑块最大值
+            value: [new Date(new Date().getTime()- 3600 * 1000 * 1), new Date()],
+            //分页
+            currentPage: 1, // 当前页码
+            total: 0, // 总条数
+            pageSize: 10,//一页数量
+            search: '',
+            filterText: '',
+            data: [],
+            defaultProps: {
+                children: 'children',
+                label: 'label',
+                token:"token",
+                iconclass:"iconclass"
+            },
+            tableData1: [],
+            pickerOptions: {
+                shortcuts: [{
+                    text: '最近一小时',
+                    onClick(picker) {
+                    const end = new Date();
+                    const start = new Date();
+                    start.setTime(start.getTime() - 3600 * 1000 * 1);
+                    picker.$emit('pick', [start, end]);
+                    }
+                },{
+                    text: '最近一天',
+                    onClick(picker) {
+                    const end = new Date();
+                    const start = new Date();
+                    start.setTime(start.getTime() - 3600 * 1000 * 24);
+                    picker.$emit('pick', [start, end]);
+                    }
+                },{
+                    text: '最近一周',
+                    onClick(picker) {
+                    const end = new Date();
+                    const start = new Date();
+                    start.setTime(start.getTime() - 3600 * 1000 * 24 * 7);
+                    picker.$emit('pick', [start, end]);
+                    }
+                }, {
+                    text: '最近一个月',
+                    onClick(picker) {
+                    const end = new Date();
+                    const start = new Date();
+                    start.setTime(start.getTime() - 3600 * 1000 * 24 * 30);
+                    picker.$emit('pick', [start, end]);
+                    }
+                }]
+            },
+            v1: undefined,//视频内容
+            region:1.0,//倍速
+            icon:"mdi mdi-pause-circle fa-fw",//暂停图片
+            displayc:"",//实时时间
+            rowstarf:"",//跟进进度条开始时间
+            rowend:"",//进度条结束时间
+        }
+    },
+    mounted(){
+        this.loadDevice();
+        this.NumberDevice();
+        this.loadtest();
+    },
+    methods:{
+        PlaybackCB(event, userdata)
+        {
+            console.log("Playback callback ", event,userdata);
+            
+            var msgevent = JSON.parse(event);
+            if (msgevent.type === 'H5S_EVENT_PB_TIME')
+            {
+                this.displayc=msgevent.pbTime.strTime;
+                var starf=new Date(this.rowstarf).getTime()/1000;
+                var endd=new Date(msgevent.pbTime.strTime).getTime()/1000;
+                var staefend=endd-starf;
+                this.timelink=staefend;
+            }
+            
+        },
+        //播放
+        Refresh1(index, row){
+            console.log(index, row);
+            this.rowstarf=row.starf;
+            this.rowend=row.end;
+            var root = process.env.API_ROOT;
+        	var wsroot = process.env.WS_HOST_ROOT;
+        	if (root == undefined){
+        		root = window.location.protocol + '//' + window.location.host + window.location.pathname;
+        	}
+        	if (wsroot == undefined)
+        	{
+        		wsroot = window.location.host;
+            }
+            var pbconf1 = {
+				begintime: row.starf,
+				endtime: row.end,
+				// begintime:"2019-09-03T102653+08",
+				// endtime:"2019-09-03T104358+08",
+				showposter: 'true', //'true' or 'false' show poster
+				callback: this.PlaybackCB,
+				serverpb: 'true',
+				userdata:  this // user data
+            };
+            console.log(pbconf1);
+        	let conf = {
+        		videoid: "pbplayarch",
+				protocol: window.location.protocol, //http: or https:
+				host: wsroot, //localhost:8080
+				rootpath:'/', // '/'
+				token:row.name,
+				pbconf: pbconf1, //This is optional, if no pbconf, this will be live.
+				hlsver:'v1', //v1 is for ts, v2 is for fmp4
+				session:this.$store.state.token
+            };
+            var end=new Date(row.end).getTime();
+            var starf=new Date(row.starf).getTime();
+            var starfend=(end-starf)/1000;//时间差
+            console.log(starfend);
+            this.max=starfend;
+            this.v1 = new H5sPlayerRTC(conf);
+            this.v1.connect();
+            setTimeout(function(){
+				this.v1.start();
+			}.bind(this),500);
+        },
+        //开始
+        resume(){
+            var strart=this.icon;
+            console.log(strart);
+            if(strart=="mdi mdi-pause-circle fa-fw"){
+                this.icon="mdi mdi-play-circle fa-fw";
+                this.v1.pause();
+            }
+            if(strart=="mdi mdi-play-circle fa-fw"){
+                this.icon="mdi mdi-pause-circle fa-fw";
+                this.v1.resume();
+            }
+        },
+        //
+       timelinn(timelink){
+           console.log(timelink);
+           this.v1.seek(timelink);
+       },
+
+        //倍速
+        Speed(){
+            console.log( this.region);
+            this.v1.speed(this.region);
+        },
+        //关闭
+        
+        Close(){
+            
+            if (this.v1 != undefined)
+            {
+                this.v1.disconnect();
+                delete this.v1;
+                this.v1 = undefined;
+            }
+        },
+        // 表格归档 下载 刷新
+
+        //按钮搜索
+        getCheckedNodes() {
+            var nodes=this.$refs.tree.getCheckedNodes();
+            if(nodes.length==1){
+				var idname=nodes[0].token;
+				var idname1=nodes[0].label;
+            }else{
+                alert("请选择一个");
+                return false;
+            }
+            var timevalue=this.value;
+            var timevalues=timevalue[0].toISOString();
+            var timevaluee=timevalue[1].toISOString();
+            let _this =this;
 		    var root = process.env.API_ROOT;
 		    var wsroot = process.env.WS_HOST_ROOT;
 		    if (root == undefined){
@@ -186,87 +349,124 @@ export default {
 		    if (wsroot == undefined)
 		    {
 		        wsroot = window.location.host;
-			}
-			var url = root + "api/v1/SearchDeviceRecordByTime?token=device1--33&start="+rq+"T000101%2b08&end="+rq+"T235959%2b08&session="+ this.$store.state.token;
-			console.log(url);
-			this.$http.get(url).then(result=>{
-				  if(result.status == 200){
-					var data=result.data;
-					var timedata=[];
-					console.log("length",data.record.length);
-					for(var i=0;i<data.record.length;i++){
-						var item=data.record[i];
-						//时间转换
-						var starf=new Date(item['strStartTime']).getTime();
-						var end=new Date(item['strEndTime']).getTime();
-						var starf=new Date(starf);
-						var end=new Date(end);
-						var timeitem={
-								id:i+1,
-								start :starf,
-								end :end,
-							  };
-						this.timeGroup.push(timeitem);
-					}
-				  }
-			  })
-			
-            if (data.token) {
-                let vid = 'h' + _this.$data.selectRow + _this.$data.selectCol;
-                _this.$root.bus.$emit('pbplayer', data.token, vid);
             }
-        },
-		//视频播放函数
-		updateTitle(e){
-			this.value = e;//视频时间
+            console.log(idname);
+			var url = root + "/api/v1/Search?type=record&token="+idname+"&start="+timevalues+"&end="+timevaluee+"&session="+ this.$store.state.token;
+			console.log(url);
 			
-    	},
-		
-
-		//un ui
-		updateUI()
-		{
-		    $(".content").innerHeight($('.content-wrapper').innerHeight() - $('.content-header').outerHeight() - $('.main-header').innerHeight());
-		    //$('div[name="flex"]').height(($(".content").height() - 50) / this.rows);
-		    if($(document.body).width() < 768)
-		    {
-		        this.contentHeight = $(document.body).height()*0.4;
-		    }else
-		    {
-		        this.contentHeight = $(document.body).height()*0.8;
+            this.$http.get(url).then(result=>{
+				  if(result.status == 200){
+                    this.$Notice.info({
+                        title: "Query successful"
+                    })
+					var data=result.data;
+					for(var i=0;i<data.record.length;i++){
+                        var item=data.record[i];
+                        var urlto=item["strPath"].split("/");
+                        // console.log("下载名称",this.Myurl,urlto);
+						// console.log("开始时间",item["strStartTime"]);
+						// console.log("结束时间",item["strEndTime"]);
+						var timeitem={
+                                name: idname,
+                                token: idname1,
+								starf : item["strStartTime"],
+                                end : item["strEndTime"],
+                                type: item['nType'],
+                                percentage:0,
+                                url:item["strPath"],
+                                urlto:urlto[urlto.length-1],
+                                strFileName:"",
+                              };
+                              if(item['nType']=="H5_REC_MANUAL"){
+                                    timeitem["type"] = '手动录像';
+                              }
+                              if(item['nType']=="H5_REC_ALARM "){
+                                    timeitem["type"] = '报警录像';
+                              }
+                              if(item['nType']=="H5_REC_SCHEDULE "){
+                                    timeitem["type"] = '计划录像';
+                              }else{
+                                   timeitem["type"] = '手动录像';
+                              }
+							  //console.log(timeitem);
+                              //填充
+                              this.tableData1.push(timeitem);
+                    }
+                    
+                    this.total=this.tableData1.length;
+                    console.log("length",this.total)
+				  }
+			  }).catch(error => {
+                console.log('Snapshot failed!', error);
+                this.$Notice.info({
+                    title: "Query failed !"
+                })
+            });
+        },
+        //清空表格
+        tableDatak(){
+            this.tableData1=[];
+            this.total=0;
+        },
+        //分页
+        handleSizeChange(val) {
+            console.log(`每页 ${val} 条`);
+            this.currentPage = 1;
+            this.pageSize = val;
+        },
+        handleCurrentChange(val) {
+            console.log(`当前页: ${val}`);
+            this.currentPage = val;
+        },
+        //测试机仓
+        loadtest(){
+            let _this =this;
+		    var root = process.env.API_ROOT;
+		    var wsroot = process.env.WS_HOST_ROOT;
+		    if (root == undefined){
+		        root = window.location.protocol + '//' + window.location.host + window.location.pathname;
 		    }
-		    $('div[name="flex"]').height(this.contentHeight / this.rows);
-		    //this.contentHeight = $(document.body).height()*0.8;
-		    let _this = this;
-		    if (H5siOS() === true)
+		    if (wsroot == undefined)
 		    {
-		        $('.h5video').prop("controls", true);
+		        wsroot = window.location.host;
 		    }
+		    //url
+            var url = root + "/api/v1/GetSrcWithoutDevice?session="+ this.$store.state.token;
+            console.log(url);
+            this.$http.get(url).then(result=>{
+                if(result.status == 200){
+					var data =  result.data;
+                    var srcGroup = {children: []};
+                    srcGroup.label=this.$t('message.live.camera');
+                    srcGroup.iconclass="mdi mdi-view-sequential fa-fw";
+                    for(var i=0; i< data.src.length; i++){
+                         var item = data.src[i];
+                        if(item['nOriginalType'] == 'H5_CH_GB'){
+                            continue;
+                        }else{
+                            var newItem ={
+                                    token : item['strToken'],
+                                    label : item['strName'],
+                                    iconclass : 'mdi mdi-camcorder fa-fw',};
 
-		    $(".right-side-toggle").on("click", function () {
-		        $(".right-sidebar").slideDown(50).toggleClass("shw-rside");
-		        $(".fxhdr").on("click", function () {
-		            body.toggleClass("fix-header"); /* Fix Header JS */
-		        });
-		        $(".fxsdr").on("click", function () {
-		            body.toggleClass("fix-sidebar"); /* Fix Sidebar JS */
-		        });
+                            if(!item['bOnline'])
+                                newItem['iconclass'] = 'mdi mdi-camcorder-off fa-fw';
 
-		        /* ===== Service Panel JS ===== */
+                            if(item['nType'] == 'H5_CLOUD')
+                                newItem['iconclass'] = 'mdi mdi-cloud-upload fa-fw';
+                            
+                        
 
-		        var fxhdr = $('.fxhdr');
-		        if (body.hasClass("fix-header")) {
-		            fxhdr.attr('checked', true);
-		        } else {
-		            fxhdr.attr('checked', false);
-		        }
-		    });
-		},
+                        srcGroup.children.push(newItem);
+                        }
+                    }
+                    this.data.push(srcGroup);
+				  } 
+            })
 
-
-		//load src
-
-		loadOneDevice(toplevels, topData)
+        },
+        // 机舱
+        loadOneDevice(toplevels)
 		{
 			let _this =this;
 			var root = process.env.API_ROOT;
@@ -279,33 +479,32 @@ export default {
 			    wsroot = window.location.host;
 			}
 			var url = root + "/api/v1/GetDeviceSrc?token="+ toplevels.strToken + "&session=" + this.$store.state.token;
-
+            
 			this.$http.get(url).then(result=>{
 				  if(result.status == 200){
 					  var data=result.data;
 					  var topGroup={children:[]};
-					  topGroup.label=toplevels.strName;
-					  topGroup.iconclass="mdi mdi-view-sequential fa-fw";
+                      topGroup.label=toplevels.strName;
+                      topGroup.iconclass="mdi mdi-view-sequential fa-fw";
 					  for(var i = 0; i < data.src.length; i++){
 						  var item=data.src[i];
 						  var topitem={
-								token : item['strToken'],
-								label : item['strName'],
-								iconclass : 'mdi mdi-camcorder fa-fw',
+                                id : i,
+                                token:item['strToken'],
+                                label : item['strName'],
+                                iconclass:"mdi mdi-camcorder fa-fw"
 							  };
-							  if(!item['bOnline'])
+                              topGroup.children.push(topitem);
+                              if(!item['bOnline'])
                                 topitem['iconclass'] = 'mdi mdi-camcorder-off fa-fw';
 
                               if(item['nType'] == 'H5_CLOUD')
-								topitem['iconclass'] = 'mdi mdi-cloud-upload fa-fw';
-
-                       		topGroup.children.push(topitem);
-                    }
-                    this.data.push(topGroup);
+                                topitem['iconclass'] = 'mdi mdi-cloud-upload fa-fw';
+                      }
+                       this.data.push(topGroup);
+                       
 				  }
-			}).catch(error => {
-                console.log('GetSrc failed', error);
-            });
+			})
 		},
 
 		loadDevice() {
@@ -318,27 +517,28 @@ export default {
 		    if (wsroot == undefined)
 		    {
 		        wsroot = window.location.host;
-		    }
+            }
 		   //url
 		   var url = root + "/api/v1/GetDevice?session="+ this.$store.state.token;
 
 			  //重组
 			  this.$http.get(url).then(result=>{
 				  if(result.status == 200){
-					  var topData=[];
+                      
 					  var data=result.data;
 					  for(var i = 0; i < data.dev.length; i++){
 						  var item=data.dev[i];
 						  var toplevel=[];
 						  toplevel["strToken"]=item.strToken;
 						  toplevel["strName"]=item.strName;
-						  this.loadOneDevice(toplevel,topData);
-
-					  }
+                          this.loadOneDevice(toplevel);
+                      }
+                      
 				  }
 			  })
-		},
-		//数字仓机
+        },
+
+        //数字仓机
         NumberDevice() {
 		    let _this =this;
 		    var root = process.env.API_ROOT;
@@ -392,23 +592,11 @@ export default {
                     srcGroup.iconclass="mdi mdi-view-sequential fa-fw";
                     for(var i=0; i< data.src.length; i++){
                         var item = data.src[i];
-                        // 主副流
-                        var node=[{
-                          token : item['strToken'],
-                          streamprofile : "main",
-                          label :this.$t('message.live.mainstream'),
-                          iconclass : 'mdi mdi-playlist-play fa-fw'
-                        },{
-                          token : item['strToken'],
-                          streamprofile : "sub",
-                          label :this.$t('message.live.substream'),
-                          iconclass : 'mdi mdi-playlist-play fa-fw'
-                        }]
+                        
                         var newItem ={
                                 token : item['strToken'],
                                 label : item['strName'],
-                                iconclass : 'mdi mdi-camcorder fa-fw',
-                                children:node};
+                                iconclass : 'mdi mdi-camcorder fa-fw',};
 
                         if(!item['bOnline'])
                             newItem['iconclass'] = 'mdi mdi-camcorder-off fa-fw';
@@ -425,311 +613,56 @@ export default {
             });
         },
 
-
-
-		panelFullScreen(event) {
-		    var elem = document.getElementById('videoPanel');
-		    //var elem = $("#videoPanel");
-		    console.log('panelFullScreen', event);
-		    if (
-		    document.fullscreenEnabled ||
-		    document.webkitFullscreenEnabled ||
-		    document.mozFullScreenEnabled ||
-		    document.msFullscreenEnabled
-		    ) {
-		        if (
-		            document.fullscreenElement ||
-		            document.webkitFullscreenElement ||
-		            document.mozFullScreenElement ||
-		            document.msFullscreenElement
-		        ) {
-		            if (document.exitFullscreen) {
-		                document.exitFullscreen();
-		            } else if (document.webkitExitFullscreen) {
-		                document.webkitExitFullscreen();
-		            } else if (document.mozCancelFullScreen) {
-		                document.mozCancelFullScreen();
-		            } else if (document.msExitFullscreen) {
-		                document.msExitFullscreen();
-		            }
-		            console.log("========  updateUIExitFullScreen");
-		            this.updateUIExitFullScreen();
-		        } else {
-		             console.log('panelFullScreen3');
-
-		            if (elem.requestFullscreen) {
-		                elem.requestFullscreen();
-		            } else if (elem.webkitRequestFullscreen) {
-		                elem.webkitRequestFullscreen();
-		            } else if (elem.mozRequestFullScreen) {
-		                elem.mozRequestFullScreen();
-		            } else if (elem.msRequestFullscreen) {
-		                elem.msRequestFullscreen();
-		            }
-		            this.updateUIEnterFullScreen();
-		            if (document.addEventListener)
-		            {
-		                document.addEventListener('webkitfullscreenchange', this.updateUIExitFullScreen, false);
-		                document.addEventListener('mozfullscreenchange', this.updateUIExitFullScreen, false);
-		                document.addEventListener('fullscreenchange', this.updateUIExitFullScreen, false);
-		                document.addEventListener('MSFullscreenChange', this.updateUIExitFullScreen, false);
-		            }
-		        }
-		    } else {
-		        console.log('Fullscreen is not supported on your browser.');
-		}
-
-		},
-
-		changePanel(event) {
-		    let data = $(event.target).data('row');
-		    let cols = data.split('|')[1];
-		    let rows = data.split('|')[0];
-		    //this.map.clear();
-		    let _this = this;
-		    Object.assign(this.$data, {
-		        rows: parseInt(rows),
-		        cols: parseInt(cols)
-		    });
-		    Vue.nextTick(function () {
-		        //$('div[name="flex"]').height(($(".content").height() - 50) / rows);
-		        $('div[name="flex"]').height(_this.contentHeight / rows);
-		    })
-		},
-
-		 videoClick(r, c, $event) {
-		    this.selectCol = c;
-		    this.selectRow = r;
-		    console.log(r, c);
-		    if ($($event.target).parent().hasClass('videoClickColor')) {
-		        $($event.target).parent().removeClass('videoClickColor');
-		    } else {
-		        $('#videoPanel div[class*="videoClickColor"]').removeClass('videoClickColor');
-		        $('#videoPanel>div').eq(r - 1).children('div').eq(c - 1).addClass('videoClickColor');
-		        //$('#videoPanel>div').eq(r - 1).children('div').eq(c - 1).children(".h5videowrapper").children(".h5video").style.opacity = "0.25";
-		    }
-		},
-		stopVideo(event){
-		    return;
-		},
-		changeWS(event) {
-		    this.proto = "WS";
-		    this.$root.bus.$emit('liveplayproto', "WS");
-		},
-		changeRTC(event) {
-		    this.$root.bus.$emit('liveplayproto', "RTC");
-		    this.proto = "RTC";
-		},
         //模糊查询
         filterNode(value, data) {
             if (!value) return true;
             return data.label.indexOf(value) !== -1;
         },
-
-	},//模糊查询
+    },
+     //模糊查询
     watch: {
       filterText(val) {
         this.$refs.tree.filter(val);
       }
     },
+    
 }
 </script>
 <style scoped>
-	
-
-	.zdg{
-		background-color: #ffffff;
-		height: -webkit-fill-available;
-	}
-	.content-mythe{
+    a{
+        color: #FFFFFF;
+    }
+    .videoo{
+        width: 100%
+    }
+    .kai{
+        display: flex;
+        justify-content: space-between;
+        margin-top: 20px;
+    }
+    .content-mythe{
 		width: 100%;
 		height: auto;
 		display: flex;
-		flex-flow: row wrap;
 		justify-content: space-between;
-		align-items: flex-start;
+        /* align-items:flex-start; */
 	}
 	.content-mythe-one{
 		min-width: 20%;
-		height: auto;
+		height: 800px;
 		background-color: #FFFFFF;
 		padding: 10px;
+        position: relative;
+        overflow-y:auto
 	}
 	.content-mythe-two{
 		width: 76%;
 		background-color: #FFFFFF;
-		display: flex;
 	}
-	.content-mythe-two .content-mythe-twos{
-		max-width: 33%;
-		height: auto;
-		background-color: #f5f5f5;
-		border: #FFFFFF solid 1px;
-		box-sizing: border-box;
-		color: #FFFFFF;
-		margin-bottom: 20px;
-	}
-	/* 视频 */
-	.h5video{
-	   object-fit: fill;
-	   width: 100%;
-	   height: auto;
-	}
-
-	.h5videowrapper{
-		padding: 0px;
-		height: 100%;
-		width: 100%;
-	}
-	/* 九宫格布局 */
-	div[name='flex'] {
-	    display: flex;
-	    border-bottom: 0px !important;
-
-	}
-
-	div[name='flex']+[name='flex'] {
-	    border-left: 0px !important;
-	}
-
-
-
-	#videoPanel:-webkit-full-screen {
-	    background-color: rgb(73, 74, 75) !important;
-		display: block;
-		width: 100%;
-	    height: 100%;
-		margin-left: auto;
-		margin-right: auto;
-		margin-top: auto;
-		margin-bottom: auto;
-	    top: 0;
-	    left: 0;
-	    padding: 0px;
-		box-shadow: 0px 0px 50px #000;
-	}
-
-
-	#videoPanel:-moz-full-screen {
-	    background-color: rgb(73, 74, 75) !important;
-		display: block;
-		width: 100%;
-	    height: 100%;
-		margin-left: auto;
-		margin-right: auto;
-		margin-top: auto;
-		margin-bottom: auto;
-	    top: 0;
-	    left: 0;
-	    padding: 0px;
-		box-shadow: 0px 0px 50px #000;
-	}
-
-	div[name="flex"]:hover {
-	    /*background-color: #3c8dbc;*/
-	    cursor: pointer;
-	}
-
-	.videoClickColor {
-	    background-color: #616263 !important;
-	    opacity: 0.80;
-	}
-
-	.videoColor {
-	    background-color: rgb(73, 74, 75) !important;
-	}
-
-	.pre-scrollable {
-	    max-height: 480px;
-	    overflow-y: scroll;
-	}
-
-	.layout1x1 {
-	    background: url('../../assets/img/layout/1x1.png') #f2f2f2;
-	    background-repeat: no-repeat;
-	    background-size: 32px 32px;
-	    color: #000;
-	    height: 32px;
-	    width: 32px;
-	}
-	.layout1x1:hover {
-	    background: url('../../assets/img/layout/1x1.png') #7a7878;
-	    background-size: 32px 32px;
-	    color: rgb(187, 184, 184);
-	    height: 32px;
-	    width: 32px;
-	}
-
-	.layout2x2 {
-	    background: url('../../assets/img/layout/2x2.png') #f2f2f2;
-	    background-repeat: no-repeat;
-	    background-size: 32px 32px;
-	    color: #000;
-	    height: 32px;
-	    width: 32px;
-	}
-	.layout2x2:hover {
-	    background: url('../../assets/img/layout/2x2.png') #7a7878;
-	    background-size: 32px 32px;
-	    color: rgb(187, 184, 184);
-	    height: 32px;
-	    width: 32px;
-	}
-
-	.layout3x3 {
-	    background: url('../../assets/img/layout/3x3.png') #f2f2f2;
-	    background-repeat: no-repeat;
-	    background-size: 32px 32px;
-	    color: #000;
-	    height: 32px;
-	    width: 32px;
-	}
-	.layout3x3:hover {
-	    background: url('../../assets/img/layout/3x3.png') #7a7878;
-	    background-size: 32px 32px;
-	    color: rgb(187, 184, 184);
-	    height: 32px;
-	    width: 32px;
-	}
-
-	.layout4x4 {
-	    background: url('../../assets/img/layout/4x4.png') #f2f2f2;
-	    background-repeat: no-repeat;
-	    background-size: 32px 32px;
-	    color: #000;
-	    height: 32px;
-	    width: 32px;
-	}
-	.layout4x4:hover {
-	    background: url('../../assets/img/layout/4x4.png') #7a7878;
-	    background-size: 32px 32px;
-	    color: rgb(187, 184, 184);
-	    height: 32px;
-	    width: 32px;
-	}
-
-	.layoutfull {
-	    background: url('../../assets/img/layout/fullscreen.png') #f2f2f2;
-	    background-repeat: no-repeat;
-	    background-size: 32px 32px;
-	    color: #000;
-	    height: 32px;
-	    width: 32px;
-	}
-	.layoutfull:hover {
-	    background: url('../../assets/img/layout/fullscreen.png') #7a7878;
-	    background-size: 32px 32px;
-	    color: rgb(187, 184, 184);
-	    height: 32px;
-	    width: 32px;
-	}
-
-
-	/* i标签 */
-	.custom-tree-node{
-		font-size: 16px;
-	}
-	i{
-		color: 	#008B8B;
-	}
+    /* 按钮 */
+    .butt-plains{
+        position: absolute;
+        bottom: 30px;
+        right: 10px;
+    }
 </style>

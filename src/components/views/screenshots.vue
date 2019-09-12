@@ -4,7 +4,7 @@
             <!-- 头部 -->
             <div class="container-fluid">
                 <div class="row bg-title" style="margin-bottom: 0px;">
-                    <h4 class="page-title">{{$t("message.left.archive")}}</h4>
+                    <h4 class="page-title">{{$t("message.left.snapshot")}}</h4>
                 </div>
             </div>
             <!-- 内容 -->
@@ -27,12 +27,11 @@
                         v-model="filterText">
                     </el-input>
                     <!-- 这是原下拉框代码 -->
-                    <!-- accordion -->
                     <el-tree
                         :data="data"
                         show-checkbox
                         node-key="id"
-                        :check-strictly="true"
+						:check-strictly="true"
                         :filter-node-method="filterNode"
                         ref="tree"
                         highlight-current
@@ -70,42 +69,18 @@
                         </el-table-column>
                         <el-table-column
                             prop="starf"
-                            label="开始时间">
+                            label="截图时间">
                              <template slot-scope="scope">
                                 <i class="el-icon-time"></i>
                                 <span>{{ scope.row.starf }}</span>
                             </template>
                         </el-table-column>
-                        <el-table-column
-                            prop="end"
-                            label="结束时间">
-                             <template slot-scope="scope">
-                                <i class="el-icon-time"></i>
-                                <span>{{ scope.row.end }}</span>
-                            </template>
-                        </el-table-column>
-                        <el-table-column
-                            prop="end"
-                            label="type">
-                             <template slot-scope="scope">
-                                <span>{{ scope.row.type }}</span>
-                            </template>
-                        </el-table-column>
-                        <el-table-column
-                            width=310px>
+                        <el-table-column>
                             <template slot-scope="scope">
                                 <el-button
                                 size="mini"
-                                @click="handleEdit(scope.$index, scope.row)">归档</el-button>
-                                <el-button
-                                size="mini"
-                                type="primary"
-                                @click="Refresh(scope.row)">刷新</el-button>
-                                <el-progress type="circle" :percentage="scope.row.percentage" :stroke-width="2" :width="35"></el-progress>
-                                <el-button
-                                size="mini"
                                 type="success"><a :href="scope.row.url" :download="scope.row.urlto">下载</a></el-button>
-                                <el-button size="mini" style="font-size: 25px;" icon="el-icon-caret-right" circle @click="Refresh1(scope.$index, scope.row)" data-toggle="modal" data-target="#myModal"></el-button>
+                                <el-button size="mini"  @click="Refresh1(scope.$index, scope.row)" data-toggle="modal" data-target="#myModal">预览</el-button>
                             </template>
                          </el-table-column>
                     </el-table>
@@ -126,36 +101,19 @@
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true" @click="Close()">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
                             &times;
                         </button>
                         <h4 class="modal-title" id="myModalLabel">
-                            视频回放
+                            图片
                         </h4>
                         <!-- 开始结束时间 -->
                         <div class="kai">
-                            <span>开始时间:{{rowstarf}}</span>
-                            <span>结束时间:{{rowend}}</span>
+                            <span>截图时间:{{rowstarf}}</span>
                         </div>
                     </div>
                     <div class="modal-body text-center">
-                        <video class="videoo" id="playarch"></video>
-                        <div class="block">
-						    <el-slider v-model="timelink" :max="max" @change="timelinn(timelink)" :show-tooltip="false"></el-slider>
-					    </div>
-                        <!-- <el-button style="font-size: 25px;" :icon="icon" size="mini" circle  @click="resume()" class="strart"></el-button> -->
-                        <i style="font-size: 30px; margin: 0 20px;" :class="icon" @click="resume()" class="strart"></i>
-                        <!-- 倍速 -->
-                        <el-select v-model="region" size="mini" style="width:70px" @change="Speed()">
-                            <el-option label="0.5" value="0.5"></el-option>
-                            <el-option label="1.0" value="1.0"></el-option>
-                            <el-option label="2.0" value="2.0"></el-option>
-                            <el-option label="4.0" value="4.0"></el-option>
-                            <el-option label="8.0" value="8.0"></el-option>
-                            <el-option label="16.0" value="16.0"></el-option>
-                        </el-select>
-                        <!-- 实时时间 -->
-                        <span>{{displayc}}</span>
+                        <img :src="url" class="imgmin"/>
                     </div>
                 </div><!-- /.modal-content -->
             </div><!-- /.modal -->
@@ -168,7 +126,7 @@ import {H5sPlayerWS,H5sPlayerHls,H5sPlayerRTC} from '../../assets/h5splayer.js'
 import {H5siOS,H5sPlayerCreate} from '../../assets/h5splayerhelper.js'
 export default {
     
-    name:"archive",
+    name:"screenshots",
     data() {
         return {
             timelink:0,//滑块
@@ -223,198 +181,25 @@ export default {
                     }
                 }]
             },
-            v1: undefined,//视频内容
-            region:1.0,//倍速
-            icon:"mdi mdi-pause-circle fa-fw",//暂停图片
-            displayc:"",//实时时间
             rowstarf:"",//跟进进度条开始时间
-            rowend:"",//进度条结束时间
+            url:"",//图片地址
         }
     },
     mounted(){
         this.loadDevice();
+        this.loadtest();
         this.NumberDevice();
     },
     methods:{
-        PlaybackCB(event, userdata)
-        {
-            console.log("Playback callback ", event,userdata);
-            
-            var msgevent = JSON.parse(event);
-            if (msgevent.type === 'H5S_EVENT_PB_TIME')
-            {
-                this.displayc=msgevent.pbTime.strTime;
-                var starf=new Date(this.rowstarf).getTime()/1000;
-                var endd=new Date(msgevent.pbTime.strTime).getTime()/1000;
-                var staefend=endd-starf;
-                this.timelink=staefend;
-            }
-            
-        },
         //播放
         Refresh1(index, row){
             console.log(index, row);
             this.rowstarf=row.starf;
-            this.rowend=row.end;
-            var root = process.env.API_ROOT;
-        	var wsroot = process.env.WS_HOST_ROOT;
-        	if (root == undefined){
-        		root = window.location.protocol + '//' + window.location.host + window.location.pathname;
-        	}
-        	if (wsroot == undefined)
-        	{
-        		wsroot = window.location.host;
-            }
-            var pbconf1 = {
-				begintime: row.starf,
-	            endtime: row.end,
-				showposter: 'true', //'true' or 'false' show poster
-				callback: this.PlaybackCB,
-				userdata:  this // user data
-			};
-        	let conf = {
-        		videoid: "playarch",
-				protocol: window.location.protocol, //http: or https:
-				host: wsroot, //localhost:8080
-				rootpath:'/', // '/'
-				token:row.name,
-				pbconf: pbconf1, //This is optional, if no pbconf, this will be live.
-				hlsver:'v1', //v1 is for ts, v2 is for fmp4
-				session:this.$store.state.token
-            };
-            var end=new Date(row.end).getTime();
-            var starf=new Date(row.starf).getTime();
-            var starfend=(end-starf)/1000;//时间差
-            console.log(starfend);
-            this.max=starfend;
-            this.v1 = new H5sPlayerRTC(conf);
-            this.v1.connect();
-            setTimeout(function(){
-				this.v1.start();
-			}.bind(this),500);
+            this.url=row.url;
         },
-        //开始
-        resume(){
-            var strart=this.icon;
-            console.log(strart);
-            if(strart=="mdi mdi-pause-circle fa-fw"){
-                this.icon="mdi mdi-play-circle fa-fw";
-                this.v1.pause();
-            }
-            if(strart=="mdi mdi-play-circle fa-fw"){
-                this.icon="mdi mdi-pause-circle fa-fw";
-                this.v1.resume();
-            }
-        },
-        //
-       timelinn(timelink){
-           console.log(timelink);
-           this.v1.seek(timelink);
-       },
-
-        //倍速
-        Speed(){
-            console.log( this.region);
-            this.v1.speed(this.region);
-        },
-        //关闭
-        
-        Close(){
-            
-            if (this.v1 != undefined)
-            {
-                this.v1.disconnect();
-                delete this.v1;
-                this.v1 = undefined;
-            }
-        },
+       
         // 表格归档 下载 刷新
-        Refresh(row){
-            let _this =this;
-		    var root = process.env.API_ROOT;
-		    var wsroot = process.env.WS_HOST_ROOT;
-		    if (root == undefined){
-		        root = window.location.protocol + '//' + window.location.host + window.location.pathname;
-		    }
-		    if (wsroot == undefined)
-		    {
-		        wsroot = window.location.host;
-		    }
-            var url1 = root + "/api/v1/GetArchiveStatus?token="+row.name+"&filename="+row.strFileName+"&session="+ this.$store.state.token;
-            //console.log(url1);
-            this.$http.get(url1).then(result1=>{
-                if (result1.status == 200)
-                {
-                    this.$Notice.info({
-                        title: "Refresh status..."
-                    })
-                    console.log(result1.data.nPercentage);
-                    row.percentage=result1.data.nPercentage;
-                }
-                
-            }).catch(error => {
-                console.log('GetArchiveStatus failed!', error);
-                this.$Notice.info({
-                    title: "Refresh failed!"
-                })
-            });
-        },
-        handleEdit(index, row) {
-            console.log(index,row);
-            var end=new Date(row.end).getTime();
-            var starf=new Date(row.starf).getTime();
-            var rqstarf=new Date(starf);
-            console.log(rqstarf);
-            //时间差
-            var starfend=(end-starf)/1000;
-            //年月日
-            var y = rqstarf.getFullYear();
-            var m = rqstarf.getMonth()+1;
-            var d = rqstarf.getDate();
-            //时分秒
-            var h = rqstarf.getHours();
-            var mm = rqstarf.getMinutes();
-            var s = rqstarf.getSeconds();
-            var rq=y+'-'+m+'-'+d;
-            var sj=h+'-'+mm+'-'+s;
-            console.log(rq,sj);
-            console.log("end",end,"starf",starf,"cha",starfend);
-            var roww=row.name;
-            //url
-            let _this =this;
-		    var root = process.env.API_ROOT;
-		    var wsroot = process.env.WS_HOST_ROOT;
-		    if (root == undefined){
-		        root = window.location.protocol + '//' + window.location.host + window.location.pathname;
-		    }
-		    if (wsroot == undefined)
-		    {
-		        wsroot = window.location.host;
-		    }
-			var url = root + "/api/v1/Archive?token="+roww+"&start1="+rq+"&start2="+sj+"&duration="+starfend+"&speed=4&session="+ this.$store.state.token;
-            console.log(url);
-            this.$http.get(url).then(result=>{
-                if (result.status == 200){
-                    this.$Notice.info({
-                            title: "Archive in progressing"
-                    })
-                    var data=result.data;
-                    var strFileName=data.strFileName;
-                    row.strFileName=strFileName;//下载的地址
-                    var strUrl=data.strUrl;
-                    row.url=strUrl;//下载的地址
-                    var urlto=strUrl.split("/");
-                    row.urlto=urlto[urlto.length-1];//下载文件
-                    // console.log("地址",strUrl);
-                    // console.log("文件",urlto);
-                }
-            }).catch(error => {
-                console.log('Snapshot failed!', error);
-                this.$Notice.info({
-                    title: "Archive failed !"
-                })
-            });
-        },
+        
         //按钮搜索
         getCheckedNodes() {
             console.log("node值",this.$refs.tree.getCheckedNodes());
@@ -440,8 +225,9 @@ export default {
 		    {
 		        wsroot = window.location.host;
 		    }
-			var url = root + "api/v1/SearchDeviceRecordByTime?token="+idname+"&start="+timevalues+"&end="+timevaluee+"&session="+ this.$store.state.token;
-            //console.log(url);
+			var url = root + "/api/v1/Search?type=snapshot&token="+idname+"&start="+timevalues+"&end="+timevaluee+"&session="+ this.$store.state.token;
+            console.log(url);
+            //return false;
             this.$http.get(url).then(result=>{
 				  if(result.status == 200){
                     this.$Notice.info({
@@ -449,25 +235,17 @@ export default {
                     })
 					var data=result.data;
 					for(var i=0;i<data.record.length;i++){
-						var item=data.record[i];
+                        var item=data.record[i];
+                        var urlto=item["strPath"].split("/");
 						var timeitem={
                                 name: idname,
                                 token: idname1,
 								starf : item['strStartTime'],
-                                end : item['strEndTime'],
-                                type: item['nType'],
                                 percentage:0,
-                                url:'',
-                                urlto:'',
+                                url:item["strPath"],
+                                urlto:urlto[urlto.length-1],
                                 strFileName:"",
                               };
-                              if(item['nType']=="H5_REC_MANUAL"){
-                                    timeitem["type"] = '手动录像';
-                              }else{
-                                    timeitem["type"] = '报警录像';
-                              }
-							  //console.log(timeitem);
-                              //填充
                               this.tableData1.push(timeitem);
                     }
                     
@@ -496,7 +274,54 @@ export default {
             console.log(`当前页: ${val}`);
             this.currentPage = val;
         },
-        
+        //测试机仓
+        loadtest(){
+            let _this =this;
+		    var root = process.env.API_ROOT;
+		    var wsroot = process.env.WS_HOST_ROOT;
+		    if (root == undefined){
+		        root = window.location.protocol + '//' + window.location.host + window.location.pathname;
+		    }
+		    if (wsroot == undefined)
+		    {
+		        wsroot = window.location.host;
+		    }
+		    //url
+            var url = root + "/api/v1/GetSrcWithoutDevice?session="+ this.$store.state.token;
+            console.log(url);
+            this.$http.get(url).then(result=>{
+                if(result.status == 200){
+					var data =  result.data;
+                    var srcGroup = {children: []};
+                    srcGroup.label=this.$t('message.live.camera');
+                    srcGroup.iconclass="mdi mdi-view-sequential fa-fw";
+                    for(var i=0; i< data.src.length; i++){
+                         var item = data.src[i];
+                        if(item['nOriginalType'] == 'H5_CH_GB'){
+                            continue;
+                        }else{
+                           
+                            var newItem ={
+                                    token : item['strToken'],
+                                    label : item['strName'],
+                                    iconclass : 'mdi mdi-camcorder fa-fw',};
+
+                            if(!item['bOnline'])
+                                newItem['iconclass'] = 'mdi mdi-camcorder-off fa-fw';
+
+                            if(item['nType'] == 'H5_CLOUD')
+                                newItem['iconclass'] = 'mdi mdi-cloud-upload fa-fw';
+                            
+                        
+
+                        srcGroup.children.push(newItem);
+                        }
+                    }
+                    this.data.push(srcGroup);
+				  } 
+            })
+
+        },
         // 机舱
         loadOneDevice(toplevels)
 		{
@@ -539,6 +364,36 @@ export default {
 			})
 		},
 
+		loadDevice() {
+		    let _this =this;
+		    var root = process.env.API_ROOT;
+		    var wsroot = process.env.WS_HOST_ROOT;
+		    if (root == undefined){
+		        root = window.location.protocol + '//' + window.location.host + window.location.pathname;
+		    }
+		    if (wsroot == undefined)
+		    {
+		        wsroot = window.location.host;
+            }
+		   //url
+		   var url = root + "/api/v1/GetDevice?session="+ this.$store.state.token;
+
+			  //重组
+			  this.$http.get(url).then(result=>{
+				  if(result.status == 200){
+                      
+					  var data=result.data;
+					  for(var i = 0; i < data.dev.length; i++){
+						  var item=data.dev[i];
+						  var toplevel=[];
+						  toplevel["strToken"]=item.strToken;
+						  toplevel["strName"]=item.strName;
+                          this.loadOneDevice(toplevel);
+                      }
+                      
+				  }
+			  })
+        },
         //数字仓机
         NumberDevice() {
 		    let _this =this;
@@ -613,37 +468,6 @@ export default {
                 console.log('GetSrc failed', error);
             });
         },
-
-		loadDevice() {
-		    let _this =this;
-		    var root = process.env.API_ROOT;
-		    var wsroot = process.env.WS_HOST_ROOT;
-		    if (root == undefined){
-		        root = window.location.protocol + '//' + window.location.host + window.location.pathname;
-		    }
-		    if (wsroot == undefined)
-		    {
-		        wsroot = window.location.host;
-            }
-		   //url
-		   var url = root + "/api/v1/GetDevice?session="+ this.$store.state.token;
-
-			  //重组
-			  this.$http.get(url).then(result=>{
-				  if(result.status == 200){
-                      
-					  var data=result.data;
-					  for(var i = 0; i < data.dev.length; i++){
-						  var item=data.dev[i];
-						  var toplevel=[];
-						  toplevel["strToken"]=item.strToken;
-						  toplevel["strName"]=item.strName;
-                          this.loadOneDevice(toplevel);
-                      }
-                      
-				  }
-			  })
-        },
         //模糊查询
         filterNode(value, data) {
             if (!value) return true;
@@ -663,8 +487,8 @@ export default {
     a{
         color: #FFFFFF;
     }
-    .videoo{
-        width: 100%
+    .imgmin{
+        width: 100%;
     }
     .kai{
         display: flex;

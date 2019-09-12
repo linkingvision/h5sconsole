@@ -21,6 +21,7 @@ module.exports={
 		playback: 'Playback',
 		archive:"Archive",
 		screenshots:"Folder",
+		event:"Event",
 		snapshot: 'Snapshot',
 		setting: 'Setting',
 		cloud: 'Cloud',
@@ -81,6 +82,7 @@ module.exports={
     {
 		setting: 'SETTING',
 		device: 'Device',
+		record: 'Record',
 		devicesdk: 'Device SDK',
 		devicertmppush: 'RTMP Push',
 		user: 'User',
@@ -90,7 +92,9 @@ module.exports={
 		name: 'Name',
 		currentpass: 'Current Password',
 		newpass: 'New Password',
-		confirmpass: 'Confirm Password'
+		confirmpass: 'Confirm Password',
+		manualstart:"Manual Start Record All Channel ",
+		manualstop:"Manual Stop Record All Channel"
     }
   }
 }

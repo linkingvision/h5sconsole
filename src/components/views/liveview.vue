@@ -86,11 +86,13 @@
         </div>
 
     </div>
+    
 
 </div>
 </template>
 
 <script>
+import * as types from '@/store/types'
 import '../../assets/material/js/custom.min.js'
 import '../../assets/adapter.js'
 import '../../assets/h5splayer.js'
@@ -115,7 +117,7 @@ export default {
                 cols: 3,
                 selectCol: 1,
                 selectRow: 1,
-                proto: 'WS',
+                proto: this.$store.state.rtc,
                 contentHeight: '',
                 contentWidth: '',
                 data:[],
@@ -128,12 +130,17 @@ export default {
             };
 
     },
+    computed:{
+        count(){
+            return this.$store.state.rtc;
+        }
+    },
     mounted() {
-
         this.updateUI();
         this.loadDevice();
         this.loadtest();
         this.NumberDevice();
+        this.$root.bus.$emit('liveplayproto',this.proto);
     },
     methods: {
         //树形节点点击
@@ -449,11 +456,15 @@ export default {
 
         changeWS(event) {
             this.proto = "WS";
+            var proto=this.proto;
+            this.$store.commit(types.RTCSW, proto);
             this.$root.bus.$emit('liveplayproto', "WS");
         },
         changeRTC(event) {
-            this.$root.bus.$emit('liveplayproto', "RTC");
             this.proto = "RTC";
+            var proto=this.proto;
+            this.$store.commit(types.RTCSW, proto);
+            this.$root.bus.$emit('liveplayproto', "RTC");
         },
 
         panelFullScreen(event) {
@@ -506,8 +517,7 @@ export default {
                 }
             } else {
                 console.log('Fullscreen is not supported on your browser.');
-        }
-
+            }
         },
 
         videoClick(r, c, $event) {
@@ -526,10 +536,38 @@ export default {
             return;
         },
         //模糊查询
-        filterNode(value, data) {
-            console.log("filter",value,data);
+        filterNode(value, data, node) {
+            // 如果什么都没填就直接返回
             if (!value) return true;
-            return data.label.indexOf(value) !== -1;
+            // 如果传入的value和data中的label相同说明是匹配到了
+            if (data.label.indexOf(value) !== -1) {
+            return true;
+            }
+            // 否则要去判断它是不是选中节点的子节点
+            return this.checkBelongToChooseNode(value, data, node);
+        },
+        // 判断传入的节点是不是选中节点的子节点
+        checkBelongToChooseNode(value, data, node) {
+            const level = node.level;
+            // 如果传入的节点本身就是一级节点就不用校验了
+            if (level === 1) {
+            return false;
+            }
+            // 先取当前节点的父节点
+            let parentData = node.parent;
+            // 遍历当前节点的父节点
+            let index = 0;
+            while (index < level - 1) {
+            // 如果匹配到直接返回
+            if (parentData.data.label.indexOf(value) !== -1) {
+                return true;
+            }
+            // 否则的话再往上一层做匹配
+            parentData = parentData.parent;
+            index ++;
+            }
+            // 没匹配到返回false
+            return false;
         },
 
     },
@@ -548,7 +586,8 @@ export default {
 <style scoped>
 .zdg{
     background-color: #ffffff;
-    height: -webkit-fill-available;
+    height: 800px;
+    overflow-y:auto
 }
 .content-header .breadcrumb {
     font-size: 1.5rem;

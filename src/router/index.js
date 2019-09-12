@@ -3,9 +3,12 @@ import VueRouter from 'vue-router'
 import Dashboard from '@/components/views/dashboard'
 import Liveview from '@/components/views/liveview'
 import Archive from '@/components/views/archive'
+import Sreenshots from '@/components/views/screenshots'
 import Playback from '@/components/views/playback'
 import Setting from '@/components/views/setting'
+import Event from '@/components/views/event'
 import DevSetting from '@/components/views/setting/device'
+import Record from '@/components/views/setting/record'
 import DevSDKSetting from '@/components/views/setting/devicesdk'
 import DevRTMPPush from '@/components/views/setting/devicertmppush'
 import DevSearch from '@/components/views/setting/devsearch'
@@ -44,6 +47,17 @@ const routes = [
         component: Archive
       },
       {
+        path: '/app/event',
+        name: 'eventRouter',
+        component: Event
+      },
+      {
+        path: '/app/screenshots',
+        name: 'screenshotsRouter',
+        component: Sreenshots
+      },
+      
+      {
         path: '/app/snapshot',
         name: 'snapshotRouter',
         redirect: {name: 'dashboardRouter'}
@@ -65,6 +79,15 @@ const routes = [
             path: '/app/setting/device',
             name: 'devSettingRouter',
             component: DevSetting,
+            meta: {
+              requireAuth: true
+            }
+          },
+          //用户管理
+          {
+            path: '/app/setting/record',
+            name: 'recordRouter',
+            component: Record,
             meta: {
               requireAuth: true
             }
@@ -133,6 +156,10 @@ if (window.localStorage.getItem('h5stoken')) {
 if (window.localStorage.getItem('h5slang')) {
   console.log('h5slang', window.localStorage.getItem('h5slang'))
   store.commit(types.LANG, window.localStorage.getItem('h5slang'))
+}
+if (window.localStorage.getItem('h5rtcsw')) {
+  console.log('h5rtcsw', window.localStorage.getItem('h5rtcsw'))
+  store.commit(types.RTCSW, window.localStorage.getItem('h5rtcsw'))
 }
 
 const Router = new VueRouter({

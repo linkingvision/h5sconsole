@@ -22,6 +22,7 @@ module.exports={
 		archive:'归档',
 		screenshots:"文件夹",
 		snapshot: '抓图',
+		event:"事件",
 		setting: '设置',
 		cloud: '云视频',
 		logout: '退出'
@@ -81,6 +82,7 @@ module.exports={
     {
 		setting: '设置',
 		device: '设备',
+		record:"录像管理",
 		devicesdk: '设备SDK',
 		devicertmppush: 'RTMP推流',
 		user: '用户',
@@ -90,7 +92,9 @@ module.exports={
 		name: '名字',
 		currentpass: '当前密码',
 		newpass: '新密码',
-		confirmpass: '新密码确认'
+		confirmpass: '新密码确认',
+		manualstart:"开启所有通道录像",
+		manualstop:"关闭所有通道录像"
     }
   }
 }

@@ -9,9 +9,15 @@ export default new Vuex.Store({
     user: {},
     token: null,
     title: '',
-    lang: 'en'
+    lang: 'en',
+    rtc:"",
   },
   mutations: {
+    [types.RTCSW]: (state, data) => {
+      localStorage.h5rtcsw= data
+      state.rtc=data
+    },
+    //..
     [types.LOGIN]: (state, data) => {
       localStorage.h5stoken = data
       state.token = data

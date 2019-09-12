@@ -12,17 +12,24 @@
             <a href="#" class="waves-effect"><i class="mdi mdi-camcorder fa-fw" data-icon="v"></i> <span class="hide-menu"> {{$t("message.left.live")}}  </span></a>
             </router-link>
             
-            <li >
-            <a href="/mediastore" class="waves-effect"><i class="mdi mdi-play-circle fa-fw" data-icon="v"></i> <span class="hide-menu"> {{$t("message.left.playback")}}  </span></a>
-            </li>
-             <!-- �鵵 -->
+            <li class="devider"></li>
+			<router-link tag="li" :to="{name:'playbackRouter'}">
+			<a href="#" class="waves-effect"><i class="mdi mdi-play-circle fa-fw" data-icon="v"></i> <span class="hide-menu"> {{$t("message.left.playback")}}  </span></a>
+			 </router-link>
+            <!-- 抓图 -->
+            <li class="devider"></li>
+			<router-link tag="li" :to="{name:'screenshotsRouter'}">
+			<a href="#" class="waves-effect"><i class="mdi mdi-camera fa-fw" data-icon="v"></i> <span class="hide-menu"> {{$t("message.left.snapshot")}}  </span></a>
+			 </router-link>
+             <!-- 归档 -->
             <li class="devider"></li>
 			<router-link tag="li" :to="{name:'archiveRouter'}">
 			<a href="#" class="waves-effect"><i class="mdi mdi-folder fa-fw" data-icon="v"></i> <span class="hide-menu"> {{$t("message.left.archive")}}  </span></a>
 			 </router-link>
+             
 
             <li >
-            <a href="/mediastore" class="waves-effect"><i class="mdi mdi-camera fa-fw"  data-icon="v"></i> <span class="hide-menu"> {{$t("message.left.snapshot")}} </span></a>
+            <a href="/mediastore" class="waves-effect"><i class="mdi mdi-folder-multiple-image fa-fw"  data-icon="v"></i> <span class="hide-menu"> {{$t("message.left.screenshots")}} </span></a>
             </li>
 
             <li class="devider"></li>
@@ -33,6 +40,11 @@
             <!-- <router-link tag="li" :to="{name:'cloudRouter'}">
             <a href="#" class="waves-effect"><i class="mdi mdi-cloud fa-fw"></i> <span class="hide-menu">{{$t("message.left.cloud")}}</span></a>
             </router-link> -->
+            <!-- 事件 -->
+             <li class="devider"></li>
+			<router-link tag="li" :to="{name:'eventRouter'}">
+			<a href="#" class="waves-effect"><i class="mdi mdi-bell fa-fw" data-icon="v"></i> <span class="hide-menu"> {{$t("message.left.event")}}  </span></a>
+			 </router-link>
 
             <li class="devider"></li>
 

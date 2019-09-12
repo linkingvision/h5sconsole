@@ -29,6 +29,7 @@
                                         <router-link  :to="{name:'devRTMPPushSettingRouter'}">
                                         <a href="javascript:void(0)" class="list-group-item">{{$t("message.setting.devicertmppush")}} </a> 
                                         </router-link>
+                                        
                                         <router-link  :to="{name:'userSettingRouter'}">
                                         <a href="javascript:void(0)" class="list-group-item">{{$t("message.setting.user")}} </a> 
                                         </router-link>
@@ -36,6 +37,10 @@
                                         <a href="javascript:void(0)" class="list-group-item ">Search</a> 
                                         </router-link>
                                         -->
+                                        <!-- 录像 -->
+                                        <router-link  :to="{name:'recordRouter'}">
+                                        <a href="javascript:void(0)" class="list-group-item">{{$t("message.setting.record")}} </a> 
+                                        </router-link>
                                        
                                     </div>
 

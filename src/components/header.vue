@@ -18,8 +18,9 @@
                 <!-- Search input and Toggle icon -->
                 <ul class="nav navbar-top-links navbar-left">
                     <li><a href="javascript:void(0)" class="open-close waves-effect waves-light visible-xs"><i class="ti-close ti-menu"></i></a></li>
-                    <li class="dropdown">
-                        <a class="dropdown-toggle waves-effect waves-light" data-toggle="dropdown" href="#"> <i class="mdi mdi-bell"></i>
+                    <!-- <li class="dropdown">
+                        <a class="dropdown-toggle waves-effect waves-light" data-toggle="dropdown" href="#">
+                             <i class="mdi mdi-bell"></i>
                             <div class="notify">  <span class="point"></span> </div>
                         </a>
                         <ul class="dropdown-menu mailbox animated bounceInDown">
@@ -35,7 +36,24 @@
                                 <a class="text-center" href="javascript:void(0);"> <strong>{{$t("message.header.see_alarm")}}</strong> <i class="fa fa-angle-right"></i> </a>
                             </li>
                         </ul>
-                        <!-- /.dropdown-messages -->
+                    </li> -->
+                    <li  class="dropdown" style="margin: 20px 20px 0 0;color: #fff;" >
+                        <el-badge :value="gEvvalue" :max="999" class="item" data-toggle="dropdown">
+                            <i  class="mdi mdi-bell" type="primary"></i>
+                        </el-badge>
+                        <ul class="dropdown-menu mailbox animated bounceInDown">
+                            <li>
+                                <div class="drop-title">{{$t("message.header.alarm")}}</div>
+                            </li>
+                            <li>
+                                <div class="message-center">
+
+                                </div>
+                            </li>
+                            <li>
+                                <a class="text-center" href="javascript:void(0);"> <strong>{{$t("message.header.see_alarm")}}</strong> <i class="fa fa-angle-right"></i> </a>
+                            </li>
+                        </ul>
                     </li>
 
                     <!-- .Megamenu -->
@@ -49,6 +67,7 @@
                         <form role="search" class="app-search hidden-sm hidden-xs m-r-10">
                             <input type="text" placeholder="Search..." class="form-control"> <a href=""><i class="fa fa-search"></i></a> </form>
                     </li>
+                    
                     <li class="dropdown">
                         <a class="dropdown-toggle profile-pic" data-toggle="dropdown" href="#"> <img src="../assets/img/user.png" alt="user-img" width="36" class="img-circle"><b class="hidden-xs">admin</b><span class="caret"></span> </a>
                         <ul class="dropdown-menu dropdown-user animated flipInY">
@@ -60,6 +79,7 @@
                                         <p class="text-muted">{{$t("message.header.user_name")}}</p></div>
                                 </div>
                             </li>
+                            
                             <li role="separator" class="divider"></li>
                             <li><a href="javascript:void(0);"><i class="ti-settings"></i> {{$t("message.header.setting")}}</a></li>
                             <li role="separator" class="divider"></li>
@@ -81,6 +101,21 @@ export default {
     name:'vheader',
     methods:{
 
+    },
+    data(){
+        return {
+            gEvvalue:0,
+        }
+    },
+    mounted(){
+        this.gEventval();
+    },
+    methods:{
+        gEventval(){
+            setInterval(function(){
+                this.gEvvalue=this.EVENT.gEvent.length;
+            }.bind(this),1000)
+        },
     }
 }
 </script>

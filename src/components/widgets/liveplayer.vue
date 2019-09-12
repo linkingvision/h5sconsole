@@ -65,10 +65,10 @@ export default {
         }
     },
     activated() {
-        console.log(this.h5id, "activated");
+        //console.log(this.h5id, "activated");
     },
     deactivated() {
-        console.log(this.h5id, "deactivated");
+        //console.log(this.h5id, "deactivated");
     },
     beforeDestroy() {
         console.log(this.h5id, "beforeDestroy");
@@ -81,10 +81,10 @@ export default {
         this.currtoken = undefined;
     },
     destroyed() {
-        console.log(this.h5id, "destroyed");
+        //console.log(this.h5id, "destroyed");
     },
     mounted() {
-        console.log(this.h5id, "mount");
+        //console.log(this.h5id, "mount");
         var $container = $("#"+this.h5id);
         var $video =$container.children("video");
         var videodom = $container.children("video").get(0);
@@ -104,7 +104,7 @@ export default {
         this.$root.bus.$on('liveplayproto', function(proto)
         {
             _this.proto = proto;
-            //´¢´æ
+            //å‚¨å­˜
             localStorage.setItem("proto",_this.proto);
             console.log("liveplayproto", _this.proto);
         });
@@ -125,8 +125,8 @@ export default {
                 this.h5handler = undefined;
             }
             this.currtoken = token;
-            console.log("play ", token);
-            console.log("play ",streamprofile);
+            //console.log("play ", token);
+            //console.log("play ",streamprofile);
             var root = process.env.API_ROOT;
             var wsroot = process.env.WS_HOST_ROOT;
             if (root == undefined){

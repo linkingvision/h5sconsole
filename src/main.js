@@ -27,6 +27,7 @@ import './assets/plugins/bower_components/styleswitcher/jQuery.style.switcher'
 import axios from '@/http'
 import store from '@/store/store'
 import VeeValidate from 'vee-validate'
+
 import iView from 'iview'
 import 'iview/dist/styles/iview.css'
 import * as types from '@/store/types'
@@ -39,6 +40,8 @@ Vue.use(ElementUI)
 Vue.use(VeeValidate)
 Vue.use(iView)
 
+import event from '@/components/views/js/event'
+Vue.prototype.EVENT = event
 Vue.prototype.$http = axios
 Vue.prototype.$http.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded'
 const bus = new Vue()
