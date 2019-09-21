@@ -11,6 +11,7 @@
         <button type="button" class="btn vidbuttion pull-right" @click="DoManualRecordStart($event)"> <i class="mdi mdi-record"></i></button>
         <button type="button" class="btn vidbuttion pull-right" @click="DoSnapshot($event)"> <i class="mdi mdi-camera"></i></button>
         <button type="button" class="btn vidbuttion pull-right" @click="DoSnapshotWeb($event)"> <i class="mdi mdi-file-image"></i></button>
+        <button type="button" class="btn vidbuttion pull-right" @click="Shoutwheat($event)"> <i :class="Shoutwheatclass"></i></button>
         <!-- audio
         <button type="button" class="btn vidbuttion pull-right" > <i class="mdi  mdi-record"></i></button>
         <button type="button" class="btn vidbuttion pull-right" href="#"> <i class="mdi mdi-volume-high"></i></button>
@@ -50,7 +51,7 @@
 
 <script>
 import '../../assets/adapter.js'
-import {H5sPlayerWS,H5sPlayerHls,H5sPlayerRTC} from '../../assets/h5splayer.js'
+import {H5sPlayerWS,H5sPlayerHls,H5sPlayerRTC,H5sPlayerAudBack} from '../../assets/h5splayer.js'
 import {H5siOS,H5sPlayerCreate} from '../../assets/h5splayerhelper.js'
 export default {
     name: 'liveplayer',
@@ -58,10 +59,13 @@ export default {
     data () {
         return {
             videoid: this.h5videoid,
-            h5handler: undefined,
+            h5handler: undefined,//视频内容
             currtoken: undefined,
             ptzshow: false,
-            proto: 'WS'
+            proto: 'WS',
+            Shoutwheatclass:"mdi mdi-microphone-off",
+            tokenshou:"",
+            audioback: undefined,//Audio Back
         }
     },
     activated() {
@@ -99,6 +103,7 @@ export default {
                 return;
             }
             _this.PlayVideo(token,streamprofile);
+            _this.tokenshou=token;
         });
 
         this.$root.bus.$on('liveplayproto', function(proto)
@@ -140,7 +145,7 @@ export default {
                 videoid: this.h5videoid,
                 protocol: window.location.protocol, //http: or https:
                 host: wsroot, //localhost:8080
-	        streamprofile: streamprofile, // {string} - stream profile, main/sub or other predefine transcoding profile
+	            streamprofile: streamprofile, // {string} - stream profile, main/sub or other predefine transcoding profile
                 rootpath: '/', // '/'
                 token: token,
                 hlsver: 'v1', //v1 is for ts, v2 is for fmp4
@@ -428,6 +433,53 @@ export default {
             document.body.appendChild(dlLink);
             dlLink.click();
             document.body.removeChild(dlLink);
+        },
+        //麦克风
+        Shoutwheat(event){
+            if (this.h5handler == undefined)
+            {
+                return;
+            }
+            var tokenshou=this.tokenshou;
+            var root = process.env.API_ROOT;
+            var wsroot = process.env.WS_HOST_ROOT;
+            if (root == undefined){
+                root = window.location.protocol + '//' + window.location.host + window.location.pathname;
+            }
+            if (wsroot == undefined)
+            {
+                wsroot = window.location.host;
+            }
+            var conf2 = {
+                protocol: window.location.protocol, //http: or https:
+                host: wsroot, //localhost:8080
+                rootpath:'/', // '/' or window.location.pathname
+                token:tokenshou,
+                session:this.$store.state.token //session got from login
+            };
+            
+            var Shoutwheat = this.Shoutwheatclass;
+            if(Shoutwheat=="mdi mdi-microphone-off"){
+                if (this.audioback != undefined)
+                {
+                    this.audioback.disconnect();
+                    delete this.audioback;
+                    this.audioback = undefined;
+                } 
+                this.audioback = new H5sPlayerAudBack(conf2);
+                console.log("audio back connect");
+                this.audioback.connect();
+                this.Shoutwheatclass="mdi mdi-microphone";
+            }else{
+                console.log("audio back disconnect");
+                if (this.audioback != undefined)
+                {
+                    this.audioback.disconnect();
+                    delete this.audioback;
+                    this.audioback = undefined;
+                }
+                this.Shoutwheatclass="mdi mdi-microphone-off";
+            }
         }
     }
 }
