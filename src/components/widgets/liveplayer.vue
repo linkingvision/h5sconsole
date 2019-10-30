@@ -65,7 +65,7 @@ export default {
             proto: 'WS',
             Shoutwheatclass:"mdi mdi-microphone-off",
             tokenshou:"",
-            audioback: undefined,//Audio Back
+            v2: undefined,//视频内容
         }
     },
     activated() {
@@ -75,7 +75,7 @@ export default {
         //console.log(this.h5id, "deactivated");
     },
     beforeDestroy() {
-        console.log(this.h5id, "beforeDestroy");
+        //console.log(this.h5id, "beforeDestroy");
         if (this.h5handler != undefined)
         {
             this.h5handler.disconnect();
@@ -111,7 +111,7 @@ export default {
             _this.proto = proto;
             //储存
             localStorage.setItem("proto",_this.proto);
-            console.log("liveplayproto", _this.proto);
+            //console.log("liveplayproto", _this.proto);
         });
 
         // control visibility
@@ -145,7 +145,7 @@ export default {
                 videoid: this.h5videoid,
                 protocol: window.location.protocol, //http: or https:
                 host: wsroot, //localhost:8080
-	            streamprofile: streamprofile, // {string} - stream profile, main/sub or other predefine transcoding profile
+	        streamprofile: streamprofile, // {string} - stream profile, main/sub or other predefine transcoding profile
                 rootpath: '/', // '/'
                 token: token,
                 hlsver: 'v1', //v1 is for ts, v2 is for fmp4
@@ -237,6 +237,12 @@ export default {
             } else {
                 console.log('Fullscreen is not supported on your browser.');
         }
+        },
+        updateUIExitFullScreen(){
+            if (!document.fullscreenElement && !document.webkitIsFullScreen && !document.mozFullScreen && !document.msFullscreenElement)
+            {
+                $('div[name="flex"]').height(this.contentHeight / this.rows);
+            }
         },
         PtzControlShow(event)
         {
@@ -436,48 +442,22 @@ export default {
         },
         //麦克风
         Shoutwheat(event){
-            if (this.h5handler == undefined)
-            {
-                return;
-            }
-            var tokenshou=this.tokenshou;
-            var root = process.env.API_ROOT;
-            var wsroot = process.env.WS_HOST_ROOT;
-            if (root == undefined){
-                root = window.location.protocol + '//' + window.location.host + window.location.pathname;
-            }
-            if (wsroot == undefined)
-            {
-                wsroot = window.location.host;
-            }
+            var tokenshou=this.tokenshou
             var conf2 = {
                 protocol: window.location.protocol, //http: or https:
-                host: wsroot, //localhost:8080
+                host: window.location.host, //localhost:8080
                 rootpath:'/', // '/' or window.location.pathname
                 token:tokenshou,
                 session:this.$store.state.token //session got from login
             };
+            this.v2 = new H5sPlayerAudBack(conf2);
             
-            var Shoutwheat = this.Shoutwheatclass;
+            var Shoutwheat=this.Shoutwheatclass;
             if(Shoutwheat=="mdi mdi-microphone-off"){
-                if (this.audioback != undefined)
-                {
-                    this.audioback.disconnect();
-                    delete this.audioback;
-                    this.audioback = undefined;
-                } 
-                this.audioback = new H5sPlayerAudBack(conf2);
-                console.log("audio back connect");
-                this.audioback.connect();
+                this.v2.connect();
                 this.Shoutwheatclass="mdi mdi-microphone";
             }else{
-                console.log("audio back disconnect");
-                if (this.audioback != undefined)
-                {
-                    this.audioback.disconnect();
-                    delete this.audioback;
-                    this.audioback = undefined;
-                }
+                this.v2.disconnect();
                 this.Shoutwheatclass="mdi mdi-microphone-off";
             }
         }

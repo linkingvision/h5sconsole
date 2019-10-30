@@ -1,6 +1,6 @@
 <template>
 <div class="h5videowrapper h5container" >
-    <video class="h5video" :id="videoid" autoplay webkit-playsinline playsinline></video>
+    <video class="h5video" :id="videoid" autoplay webkit-playsinline playsinline @click="loseVideo($event)"></video>
 
     <div class="h5controls"  style="display:none padding:0px">
         <button type="button" class="btn vidbuttion pull-right" @click="CloseVideo($event)"> <i class="mdi mdi-close"></i></button>
@@ -54,7 +54,7 @@ import {H5sPlayerWS,H5sPlayerHls,H5sPlayerRTC} from '../../assets/h5splayer.js'
 import {H5siOS,H5sPlayerCreate} from '../../assets/h5splayerhelper.js'
 export default {
     name: 'pbplayer',
-    props:['h5id', 'h5videoid','value'],
+    props:['h5id', 'h5videoid','xzvalue',"Adswitch"],
     data () {
         return {
             videoid: this.h5videoid,
@@ -62,6 +62,7 @@ export default {
             currtoken: undefined,
             ptzshow: false,
             proto: 'WS',
+            tokenplay:"",
         }
     },
     activated() {
@@ -71,7 +72,7 @@ export default {
         console.log(this.h5id, "deactivated");
     },
     beforeDestroy() {
-        console.log(this.h5id, "beforeDestroy");
+        //console.log(this.h5id, "beforeDestroy");
         if (this.h5handler != undefined)
         {
             this.h5handler.disconnect();
@@ -81,11 +82,14 @@ export default {
         this.currtoken = undefined;
     },
     destroyed() {
-        console.log(this.h5id, "destroyed");
+        //console.log(this.h5id, "destroyed");
     },
     mounted() {
-        
-        console.log(this.h5id, "mount");
+        console.log(this.$store.state.xzvalue)
+        var h5videoid1=this.h5videoid
+        console.log(this.h5videoid);
+        this.$emit("h5videoid1",h5videoid1);
+
         var $container = $("#"+this.h5id);
         var $video =$container.children("video");
         var videodom = $container.children("video").get(0);
@@ -100,12 +104,13 @@ export default {
                 return;
             }
             _this.PlayVideo(token);
+            _this.tokenplay=token;
         });
 
         this.$root.bus.$on('liveplayproto', function(proto)
         {
             _this.proto = proto;
-            console.log("liveplayproto", _this.proto);
+            //console.log("liveplayproto", _this.proto);
         });
 
         // control visibility
@@ -119,7 +124,7 @@ export default {
 
         PlaybackCB(event, userdata)
         {
-            console.log("Playback callback ", event);
+            //console.log("Playback callback ", event);
             var msgevent = JSON.parse(event);
             if (msgevent.type === 'H5S_EVENT_PB_TIME')
             {
@@ -130,23 +135,26 @@ export default {
         msg(pbtime){
             //this.$emit('childByValue', this.name);
             this.$emit("titleChanged",pbtime);
+            //console.log("1111",pbtime);
+            
+            
         },
 		PlayVideo(token)
         {
-            var starf=new Date(this.value).getTime();
-            var rqstarf=new Date(starf);
-            console.log(rqstarf);
-            //年月日
-            var y = rqstarf.getFullYear();
-            var m = rqstarf.getMonth()+1;
-            var d = rqstarf.getDate();
-
-            var h = rqstarf.getHours();
-            var mm = rqstarf.getMinutes();
-            var s = rqstarf.getSeconds();
-            var rq=y+'-'+m+'-'+d;
-            var sj=h+mm+s;
-            console.log(rq);
+            var timevalue=this.$store.state.xzvalue;
+            //var timevalue=this.xzvalue;
+            console.log(timevalue);
+            
+            var year = timevalue.getFullYear();
+            var month = timevalue.getMonth() + 1;
+            var strDate = timevalue.getDate();
+            var timevalues=new Date(year+"-"+month+"-"+strDate+" 00:00:00").toISOString();
+            var timevaluee=new Date(year+"-"+month+"-"+strDate+" 24:00:00").toISOString();
+            // var timevalues=""+year+"-"+month+"-"+strDate+"T00:00:00+08:00";
+            // var timevaluee=""+year+"-"+month+"-"+strDate+"T24:00:00+08:00";
+            console.log(year,month,strDate);
+            console.log(timevalues,timevaluee);
+            //return false;
         	if (this.h5handler != undefined)
         	{
         		this.h5handler.disconnect();
@@ -165,12 +173,13 @@ export default {
         		wsroot = window.location.host;
         	}
 			var pbconf1 = {
-				begintime: rq+'T000100+08',
-				endtime: rq+'T235959+08',
-				showposter: 'true', //'true' or 'false' show poster
-				callback: this.PlaybackCB,
+				begintime: timevalues,
+				endtime: timevaluee,
+                showposter:true, //'true' or 'false' show poster
+                callback: this.PlaybackCB,
+	            serverpb: this.Adswitch, 
 				userdata:  this // user data
-			};
+            };
         	let conf = {
         		videoid: this.h5videoid,
 				protocol: window.location.protocol, //http: or https:
@@ -193,13 +202,23 @@ export default {
         	{
         		$rtcbutton.css("display", "none");
         		this.h5handler = new H5sPlayerRTC(conf);
-        	}
+            }
+            //console.log("v1",this.h5handler);
 
         	this.h5handler.connect();
 			setTimeout(function(){
 				this.h5handler.start();
-			}.bind(this),500);
+            }.bind(this),500);
+            var timetz=this.h5handler;
+            //console.log("000",timetz);
+            this.$emit("vv",timetz);
+            
 
+        },
+        loseVideo(){
+            var h5handler=this.currtoken;
+            console.log("v3",h5handler);
+            this.$emit("videh5handler",h5handler);
         },
 		//以上不知道
         FullScreen(event)

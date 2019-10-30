@@ -27,17 +27,26 @@ import './assets/plugins/bower_components/styleswitcher/jQuery.style.switcher'
 import axios from '@/http'
 import store from '@/store/store'
 import VeeValidate from 'vee-validate'
+const config = {
+    //errorBagName: 'errorBags', // change if property conflicts.
+    fieldsBagName: 'fieldBags',
+};
 
 import iView from 'iview'
 import 'iview/dist/styles/iview.css'
 import * as types from '@/store/types'
+
+import 'vue-event-calendar/dist/style.css' //1.1.10之后的版本，css被放在了单独的文件中，方便替换
+import vueEventCalendar from 'vue-event-calendar'
+Vue.use(vueEventCalendar, {locale: 'zh'}) //可以设置语言，支持中文和英文
 
 
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
 
 Vue.use(ElementUI)
-Vue.use(VeeValidate)
+Vue.use(VeeValidate, config)
+//Vue.use(VeeValidate)
 Vue.use(iView)
 
 import event from '@/components/views/js/event'

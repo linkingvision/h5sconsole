@@ -3,16 +3,26 @@ import VueRouter from 'vue-router'
 import Dashboard from '@/components/views/dashboard'
 import Liveview from '@/components/views/liveview'
 import Archive from '@/components/views/archive'
+import AdvancePB from '@/components/views/Advancepbs'
+import Gaogao1 from '@/components/views/gaogao1'
 import Sreenshots from '@/components/views/screenshots'
 import Playback from '@/components/views/playback'
-import Setting from '@/components/views/setting'
+import Tour from '@/components/views/tour'
+//import AdvancePB from '@/components/views/Advancepb'
 import Event from '@/components/views/event'
-import DevSetting from '@/components/views/setting/device'
-import Record from '@/components/views/setting/record'
-import DevSDKSetting from '@/components/views/setting/devicesdk'
-import DevRTMPPush from '@/components/views/setting/devicertmppush'
-import DevSearch from '@/components/views/setting/devsearch'
-import UserSetting from '@/components/views/setting/usersetting'
+
+
+import Settings from '@/components/views/settings'
+import devices from '@/components/views/settings/devices'
+import devicesdks from '@/components/views/settings/devicesdks'
+import devicertmppushs from '@/components/views/settings/devicertmppushs'
+import records from '@/components/views/settings/record'
+import usersettings from '@/components/views/settings/usersetting'
+
+import GB from '@/components/views/GB'
+import GB28181 from '@/components/views/GB/GB28181'
+import GBplatfoem from '@/components/views/GB/GBplatform'
+
 import H5S from '@/components/h5s'
 import Login from '@/components/login'
 import Logout from '@/components/logout'
@@ -42,6 +52,44 @@ const routes = [
         component: Playback
       },
       {
+        path: '/app/AdvancePB',
+        name: 'AdvancePBRouter',
+        component: AdvancePB
+      },
+      {
+        path: '/app/GB',
+        name: 'GBRouter',
+        meta: {
+          requireAuth: true
+        },
+        component: GB,
+        children: [
+          //1
+          {
+            path: '/app/GB/GB28181',
+            name: 'GB28181Router',
+            component: GB28181,
+            meta: {
+              requireAuth: true
+            }
+          },
+          //2
+          {
+            path: '/app/GB/GBplatfoem',
+            name: 'GBplatfoemRouter',
+            component: GBplatfoem,
+            meta: {
+              requireAuth: true
+            }
+          },
+        ]
+      },
+      {
+        path: '/app/Gaogao1',
+        name: 'Gaogao1Router',
+        component: Gaogao1
+      },
+      {
         path: '/app/archive',
         name: 'archiveRouter',
         component: Archive
@@ -50,6 +98,11 @@ const routes = [
         path: '/app/event',
         name: 'eventRouter',
         component: Event
+      },
+      {
+        path: '/app/Tour',
+        name: 'TourRouter',
+        component: Tour
       },
       {
         path: '/app/screenshots',
@@ -67,63 +120,60 @@ const routes = [
         name: 'dashboardRouter',
         component: Dashboard
       },
+      //样式   管理
       {
-        path: '/app/setting',
-        name: 'settingRouter',
+        path: '/app/settings',
+        name: 'settingsRouter',
         meta: {
           requireAuth: true
         },
-        component: Setting,
+        component: Settings,
         children: [
+          //1
           {
-            path: '/app/setting/device',
-            name: 'devSettingRouter',
-            component: DevSetting,
+            path: '/app/setting/devices',
+            name: 'devicesRouter',
+            component: devices,
             meta: {
               requireAuth: true
             }
           },
-          //用户管理
+          //2
           {
-            path: '/app/setting/record',
-            name: 'recordRouter',
-            component: Record,
+            path: '/app/setting/devicesdks',
+            name: 'devicesdksRouter',
+            component: devicesdks,
             meta: {
               requireAuth: true
             }
           },
+          //3
           {
-            path: '/app/setting/user',
-            name: 'userSettingRouter',
-            component: UserSetting,
+            path: '/app/setting/devicertmppushs',
+            name: 'devicertmppushsRouter',
+            component: devicertmppushs,
             meta: {
               requireAuth: true
             }
           },
+          //4
           {
-            path: '/app/setting/devicesdk',
-            name: 'devSDKSettingRouter',
-            component: DevSDKSetting,
+            path: '/app/setting/records',
+            name: 'recordsRouter',
+            component: records,
             meta: {
               requireAuth: true
             }
           },
+          //5
           {
-            path: '/app/setting/devicertmppush',
-            name: 'devRTMPPushSettingRouter',
-            component: DevRTMPPush,
+            path: '/app/setting/usersettings',
+            name: 'usersettingsRouter',
+            component: usersettings,
             meta: {
               requireAuth: true
             }
           },
-          {
-            path: '/app/setting/devsearch',
-            name: 'devSearchRouter',
-            component: DevSearch,
-            meta: {
-              requireAuth: true
-            }
-          }
         ]
       },
       {
@@ -154,12 +204,16 @@ if (window.localStorage.getItem('h5stoken')) {
 }
 
 if (window.localStorage.getItem('h5slang')) {
-  console.log('h5slang', window.localStorage.getItem('h5slang'))
   store.commit(types.LANG, window.localStorage.getItem('h5slang'))
 }
 if (window.localStorage.getItem('h5rtcsw')) {
-  console.log('h5rtcsw', window.localStorage.getItem('h5rtcsw'))
   store.commit(types.RTCSW, window.localStorage.getItem('h5rtcsw'))
+}
+if (window.localStorage.getItem('watermarkstring')) {
+  store.commit(types.WATERMARKSTRING, window.localStorage.getItem('watermarkstring'))
+}
+if (window.localStorage.getItem('h5watermarktoggle')) {
+  store.commit(types.WATERMARKTOGGLE, window.localStorage.getItem('h5watermarktoggle'))
 }
 
 const Router = new VueRouter({

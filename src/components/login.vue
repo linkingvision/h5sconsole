@@ -17,7 +17,6 @@
         <div class="new-login-box">
             <div class="white-box">
                 <h3 class="box-title m-b-0">{{ $t("message.login.signin") }}</h3>
-                <small id='loginStatusId'>{{loginStatus}}</small>
                 <form class="form-horizontal new-lg-form" id="loginform" novalidate @submit.stop.prevent="login">
                     
                     <div class="form-group  m-t-20">
@@ -64,7 +63,6 @@ export default {
             user: '',
             passwd: '',
             session:'',
-            loginStatus: '',
             langList: [
                     {
                         value: 'en',
@@ -102,16 +100,14 @@ export default {
             if (root == undefined){
                 root = window.location.protocol + '//' + window.location.host + window.location.pathname;
             }
-            console.log('passwd md5', $.md5(_this.passwd));
             $.ajax({
                 type: "GET",
                 url: root + "/api/v1/Login?user=" + _this.user + "&password=" + $.md5(_this.passwd),
                 dataType: "json",
                 success: function(data){
                     console.log(data);
-                    if (data['bStatus'] == true)
+                    if (data.bStatus == true)
                     {
-                        console.log('session', data['strSession']);
                         _this.$store.commit(types.LOGIN, data['strSession']);
                         let redirect = decodeURIComponent(_this.$route.query.redirect || '/');
                         console.log('redirect', redirect);
@@ -124,14 +120,11 @@ export default {
                         });
                     }else 
                     {
-                        _this.loginStatus = this.$t("message.login.login_status_failed");
-                        $('#loginStatusId').addClass('longStatusFailColor');
+                         _this.$message(_this.$t("message.login.login_status_failed"));
                     }
                 },
                 error:function(e){
-                    console.log('Login failed!');
-                    _this.loginStatus = this.$t("message.login.login_status_failed");
-                    $('#loginStatusId').addClass('longStatusFailColor');
+                    console.log('Login failed!',e);
 
                 }
             });

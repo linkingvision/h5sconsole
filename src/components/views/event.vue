@@ -12,7 +12,7 @@
             style="width: 100%; height: 800px;overflow-y: auto;">
             <el-table-column
                 prop="index"
-                label="index"
+                label="Index"
                 width="70">
                 <template slot-scope="scope">
                     {{scope.$index+1}}
@@ -46,6 +46,7 @@
         <!-- 分页 -->
         <el-pagination
             style="text-align: center;"
+            layout=" prev, pager, next,total"
             @size-change="handleSizeChange" 
             @current-change="handleCurrentChange"
             :current-page="currentPage"

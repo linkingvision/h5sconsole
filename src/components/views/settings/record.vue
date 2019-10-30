@@ -1,9 +1,9 @@
 <template>
 <div>
-    <div>{{$t("message.setting.manualstart")}}</div>
-    <el-button type="danger" @click="start()">开启录像</el-button>
-    <div>{{$t("message.setting.manualstop")}}</div>
-    <el-button type="success" @click="stop()">关闭录像</el-button>
+    <div class="ziti">{{$t("message.setting.manualstart")}}</div>
+    <el-button type="danger" @click="start()">{{$t("message.tour.Start")}}</el-button>
+    <div class="ziti">{{$t("message.setting.manualstop")}}</div>
+    <el-button type="success" @click="stop()">{{$t("message.tour.stop")}}</el-button>
 </div>
 </template>   
 
@@ -114,4 +114,8 @@ export default {
 }
 </script>
 <style scoped>
+.ziti{
+    color: #000;
+    font-size: 14px;
+}
 </style>

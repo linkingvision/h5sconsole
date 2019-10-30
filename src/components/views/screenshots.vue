@@ -46,8 +46,8 @@
                 <div class="content-mythe-two">
                     <!-- 查询按钮 -->
                     <div style="margin: 10px 20px;display: flex;justify-content: space-between;">
-                        <el-button @click="getCheckedNodes"  icon="el-icon-search">查询</el-button>
-                        <el-button size="mini" @click="tableDatak">清空</el-button>
+                        <el-button @click="getCheckedNodes"  icon="el-icon-search">{{$t("message.archive.search")}}</el-button>
+                        <el-button size="mini" @click="tableDatak">{{$t("message.archive.Clear")}}</el-button>
                     </div>
                     <!-- 有按钮 -->
                     <el-table
@@ -55,21 +55,21 @@
                         style="width: 100%;">
                         <el-table-column
                             prop="token"
-                            label="名称" >
+                            :label="label.label2" >
                             <template slot-scope="scope">
                                 <span style="margin-left: 10px">{{ scope.row.token }}</span>
                             </template>
                         </el-table-column>
                         <el-table-column
                             prop="name"
-                            label="token">
+                            label="Token">
                              <template slot-scope="scope">
                                 <span>{{ scope.row.name }}</span>
                             </template>
                         </el-table-column>
                         <el-table-column
                             prop="starf"
-                            label="截图时间">
+                            :label="label.label3">
                              <template slot-scope="scope">
                                 <i class="el-icon-time"></i>
                                 <span>{{ scope.row.starf }}</span>
@@ -79,8 +79,8 @@
                             <template slot-scope="scope">
                                 <el-button
                                 size="mini"
-                                type="success"><a :href="scope.row.url" :download="scope.row.urlto">下载</a></el-button>
-                                <el-button size="mini"  @click="Refresh1(scope.$index, scope.row)" data-toggle="modal" data-target="#myModal">预览</el-button>
+                                type="success"><a :href="scope.row.url" :download="scope.row.urlto">{{$t("message.archive.Clear")}}</a></el-button>
+                                <el-button size="mini"  @click="Refresh1(scope.$index, scope.row)" data-toggle="modal" data-target="#myModal">{{$t("message.archive.Preview")}}</el-button>
                             </template>
                          </el-table-column>
                     </el-table>
@@ -105,11 +105,11 @@
                             &times;
                         </button>
                         <h4 class="modal-title" id="myModalLabel">
-                            图片
+                            {{$t("message.archive.Picture")}}
                         </h4>
                         <!-- 开始结束时间 -->
                         <div class="kai">
-                            <span>截图时间:{{rowstarf}}</span>
+                            <span>{{$t("message.archive.Time")}}:{{rowstarf}}</span>
                         </div>
                     </div>
                     <div class="modal-body text-center">
@@ -129,6 +129,10 @@ export default {
     name:"screenshots",
     data() {
         return {
+            label:{
+                label2:this.$t("message.archive.Name"),
+                label3:this.$t("message.archive.Time"),
+            },
             timelink:0,//滑块
             max:0,//滑块最大值
             value: [new Date(new Date().getTime()- 3600 * 1000 * 1), new Date()],
@@ -148,7 +152,7 @@ export default {
             tableData1: [],
             pickerOptions: {
                 shortcuts: [{
-                    text: '最近一小时',
+                    text: this.$t("message.archive.Onehour"),
                     onClick(picker) {
                     const end = new Date();
                     const start = new Date();
@@ -156,7 +160,7 @@ export default {
                     picker.$emit('pick', [start, end]);
                     }
                 },{
-                    text: '最近一天',
+                    text: this.$t("message.archive.Oneday"),
                     onClick(picker) {
                     const end = new Date();
                     const start = new Date();
@@ -164,7 +168,7 @@ export default {
                     picker.$emit('pick', [start, end]);
                     }
                 },{
-                    text: '最近一周',
+                    text: this.$t("message.archive.Oneweek"),
                     onClick(picker) {
                     const end = new Date();
                     const start = new Date();
@@ -172,7 +176,7 @@ export default {
                     picker.$emit('pick', [start, end]);
                     }
                 }, {
-                    text: '最近一个月',
+                    text: this.$t("message.archive.Onemonth"),
                     onClick(picker) {
                     const end = new Date();
                     const start = new Date();
@@ -208,7 +212,7 @@ export default {
             var idname=nodes[0].token;
             var idname1=nodes[0].label;
             }else{
-                alert("请选择一个");
+               this.$message(this.$t("message.archive.Pleaseselectone"));
                 return false;
             }
             var timevalue=this.value;

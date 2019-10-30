@@ -1,7 +1,7 @@
 <template>
 <div>
     <div id="page-wrapper"  >
-
+        <div id="watermarktoggle"></div>
         <!-- Header -->
         <div class="container-fluid ">
             <div class="row bg-title">
@@ -9,12 +9,52 @@
                     <h4 class="page-title">{{$t("message.live.liveview")}}</h4>
                 </div>
                 <div class="col-lg-9 col-sm-8 col-md-8 col-xs-12">
-                    <button class="right-side-toggle waves-effect waves-light btn-info btn-circle pull-right m-l-20"><i class="ti-settings text-white"></i></button>
-
+                    <el-button class="pull-right" @click="drawer = true" size="mini" type="primary" icon="ti-settings text-white" circle>
+                    </el-button>
                 </div>
             </div>
         </div>
 
+
+
+        <el-drawer
+        :title="title"
+            size="16%"
+            :visible.sync="drawer"
+            :direction="direction">
+            <div class="slimscrollright">
+                <div class="r-panel-body">
+                    <ul  class="m-t-20">
+                        <li><b>{{$t("message.live.protocol")}}: {{proto}}</b>
+                        <div class="row">
+                            <div class="col-lg-12 col-sm-12 col-xs-12">
+                                <button class="btn btn-block btn-success" @click="changeWS($event)">WEBSOCKET</button>
+                            </div>
+                            <div class="col-lg-12 col-sm-12 col-xs-12">
+                                <button class="btn btn-block btn-info"  @click="changeRTC($event)">WEBRTC</button>
+                            </div>
+                        </div>
+                        </li>
+                        <li><b>{{$t("message.live.waterprint")}}: </b>
+                              <el-input
+                                    size="mini"
+                                    placeholder="请输入内容"
+                                    v-model="watermarkstring">
+                                </el-input>
+                        </li>
+                        <div class="row">
+                            <div class="col-lg-12 col-sm-12 col-xs-12">
+                                <button class="btn btn-block btn-success" @click="waterprintoff($event)">打开水印</button>
+                            </div>
+                            <div class="col-lg-12 col-sm-12 col-xs-12">
+                                <button class="btn btn-block btn-info"  @click="waterprintno($event)">关闭水印</button>
+                            </div>
+                        </div>
+                    </ul>
+                </div>
+            </div>
+        </el-drawer>
+        
         <!-- Video -->
         <div class="row">
             <!-- Device tree -->
@@ -50,40 +90,21 @@
                     </div>
                 </div>
                 <div class="btn-group blocks">
-                    <button type="button" class="btn btn-default layout1x1 waves-effect" data-row="1|1" @click="changePanel($event)">
-                        </button>
-                    <button type="button" class="btn btn-default layout2x2 waves-effect" data-row="2|2" @click="changePanel($event)">
-                        </button>
-                    <button type="button" class="hidden-xs btn btn-default layout3x3 waves-effect" data-row="3|3" @click="changePanel($event)">
-                        </button>
-                    <button type="button" class="hidden-xs btn btn-default layout4x4 waves-effect" data-row="4|4" @click="changePanel($event)">
-                        </button>
-                    <button type="button" class="btn btn-default layoutfull waves-effect" @click="panelFullScreen($event)"> </button>
+                    <el-button type="button" class="layout1x1" data-row="1|1" @click="changePanel($event)">
+                        </el-button>
+                    <el-button type="button" class="layout2x2" data-row="2|2" @click="changePanel($event)">
+                        </el-button>
+                    <el-button type="button" class="hidden-xs layout3x3" data-row="3|3" @click="changePanel($event)">
+                        </el-button>
+                    <el-button type="button" class="hidden-xs  layout4x4" data-row="4|4" @click="changePanel($event)">
+                        </el-button>
+                    <el-button type="button" class="layoutfull" @click="panelFullScreen($event)"> </el-button>
                 </div>
             </div>
             
             
 
         </div><!-- Video -->
-
-        <div class="right-sidebar">
-            <div class="slimscrollright">
-                <div class="rpanel-title"> {{$t("message.live.setting")}} <span><i class="ti-close right-side-toggle"></i></span> </div>
-                <div class="r-panel-body">
-                    <ul  class="m-t-20">
-                        <li><b>{{$t("message.live.protocol")}}: {{proto}}</b></li>
-                        <div class="row">
-                            <div class="col-lg-12 col-sm-12 col-xs-12">
-                                <button class="btn btn-block btn-success" @click="changeWS($event)">WEBSOCKET</button>
-                            </div>
-                            <div class="col-lg-12 col-sm-12 col-xs-12">
-                                <button class="btn btn-block btn-info"  @click="changeRTC($event)">WEBRTC</button>
-                            </div>
-                        </div>
-                    </ul>
-                </div>
-            </div>
-        </div>
 
     </div>
     
@@ -127,12 +148,17 @@ export default {
                     token:"token",
                     iconclass:"iconclass"
                 },
+                watermarkstring:this.$store.state.watermarkstring,//水印、
+                drawer: false,//右侧栏
+                direction: 'rtl',//右侧栏
+                watermarktoggle:this.$store.state.watermarktoggle,
+                title:this.$t("message.live.setting"),
             };
 
     },
     computed:{
         count(){
-            return this.$store.state.rtc;
+            return this.$store.state.rtc,this.$store.state.watermarkstring,this.$store.state.watermarktoggle;
         }
     },
     mounted() {
@@ -140,9 +166,57 @@ export default {
         this.loadDevice();
         this.loadtest();
         this.NumberDevice();
+        this.addWaterMarker();
+        document.getElementById("watermarktoggle").style.display=this.watermarktoggle;
         this.$root.bus.$emit('liveplayproto',this.proto);
     },
     methods: {
+        
+        //水印
+        waterprintoff(){
+            this.$store.commit(types.WATERMARKSTRING, this.watermarkstring);
+            console.log(this.watermarktoggle);
+
+            this.watermarktoggle = "block";
+            var watermarktoggle=this.watermarktoggle;
+            this.$store.commit(types.WATERMARKTOGGLE, watermarktoggle);
+
+            this.addWaterMarker();
+            this.$store.state.watermarktoggle="block";
+            document.getElementById("watermarktoggle").style.display=this.watermarktoggle;
+        }, 
+        waterprintno(){
+            console.log(this.watermarktoggle);
+
+            this.watermarktoggle = "none";
+            var watermarktoggle=this.watermarktoggle;
+            this.$store.commit(types.WATERMARKTOGGLE, watermarktoggle);
+            document.getElementById("watermarktoggle").style.display=this.watermarktoggle;
+        },
+        addWaterMarker(){
+            var date=new Date();
+            var Y = date.getFullYear() + '-';
+            var M = (date.getMonth()+1 < 10 ? '0'+(date.getMonth()+1) : date.getMonth()+1) + '-';
+            var D = date.getDate() + ' ';
+            var dates=Y+M+D;
+            var watermarkstring= this.watermarkstring;
+            console.log(watermarkstring);
+
+            var can = document.createElement('canvas');
+            var body = document.body;
+            body.appendChild(can);
+            can.width=300; //画布的宽
+            can.height=200;//画布的高度
+            can.style.display='none';
+            var cans = can.getContext('2d');
+            cans.rotate(-20*Math.PI/180); //画布里面文字的旋转角度
+            cans.font = "16px Microsoft JhengHei"; //画布里面文字的字体
+            cans.fillStyle = "rgba(17, 17, 17, 0.50)";//画布里面文字的颜色
+            cans.textAlign = 'left'; //画布里面文字的水平位置
+            cans.textBaseline = 'Middle'; //画布里面文字的垂直位置
+            cans.fillText(watermarkstring,can.width/3,can.height/2); //画布里面文字的间距比例
+            document.getElementById("watermarktoggle").style.backgroundImage="url("+can.toDataURL("image/png")+")";
+        },
         //树形节点点击
         handleNodeClick(data, checked, indeterminate){
             console.log(data.token);
@@ -174,16 +248,14 @@ export default {
                 $('.h5video').prop("controls", true);
             }
 
-            $(".right-side-toggle").on("click", function () {
+            /*$(".right-side-toggle").on("click", function () {
                 $(".right-sidebar").slideDown(50).toggleClass("shw-rside");
                 $(".fxhdr").on("click", function () {
-                    body.toggleClass("fix-header"); /* Fix Header JS */
+                    body.toggleClass("fix-header"); 
                 });
                 $(".fxsdr").on("click", function () {
-                    body.toggleClass("fix-sidebar"); /* Fix Sidebar JS */
+                    body.toggleClass("fix-sidebar");
                 });
-
-                /* ===== Service Panel JS ===== */
                 var fxhdr = $('.fxhdr');
                 console.log(fxhdr);
                 if (body.hasClass("fix-header")) {
@@ -191,15 +263,13 @@ export default {
                 } else {
                     fxhdr.attr('checked', false);
                 }
-            });
+            });*/
         },
-        updateUIEnterFullScreen()
-        {
+        updateUIEnterFullScreen(){
 
             $('div[name="flex"]').height(screen.height / this.rows);
         },
-        updateUIExitFullScreen()
-        {
+        updateUIExitFullScreen(){
             if (!document.fullscreenElement && !document.webkitIsFullScreen && !document.mozFullScreen && !document.msFullscreenElement)
             {
                 $('div[name="flex"]').height(this.contentHeight / this.rows);
@@ -248,7 +318,7 @@ export default {
                                     label : item['strName'],
                                     iconclass : 'mdi mdi-camcorder fa-fw',
                                     children:node};
-
+                            //console.log("itme",item['bOnline'],item)
                             if(!item['bOnline'])
                                 newItem['iconclass'] = 'mdi mdi-camcorder-off fa-fw';
 
@@ -584,10 +654,42 @@ export default {
 
 
 <style scoped>
+.el-button+.el-button {
+    margin-left: 0;
+}
+.el-drawer__header {
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    color: #ffffff;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    padding: 10px 20px;
+    background-color: #f44336;
+}
+.slimscrollright{
+    padding: 0 24px;
+}
+.m-t-20 li{
+    margin-bottom: 10px;
+}
+/* 水印 */
+#watermarktoggle{
+    position: fixed;
+    z-index: 100;
+    width: 100%;
+    height: 100%;
+    left: 0;
+    top: 0;
+    display: block;
+    pointer-events: none;
+}
+/* gao */
 .zdg{
     background-color: #ffffff;
     height: 800px;
-    overflow-y:auto
+    overflow-y:auto;
 }
 .content-header .breadcrumb {
     font-size: 1.5rem;
@@ -670,6 +772,7 @@ div[name="flex"]:hover {
     color: #000;
     height: 32px;
     width: 32px;
+    padding: 0;
 }
 .layout1x1:hover {
     background: url('../../assets/img/layout/1x1.png') #7a7878;
@@ -686,6 +789,7 @@ div[name="flex"]:hover {
     color: #000;
     height: 32px;
     width: 32px;
+    padding: 0;
 }
 .layout2x2:hover {
     background: url('../../assets/img/layout/2x2.png') #7a7878;
@@ -702,6 +806,7 @@ div[name="flex"]:hover {
     color: #000;
     height: 32px;
     width: 32px;
+    padding: 0;
 }
 .layout3x3:hover {
     background: url('../../assets/img/layout/3x3.png') #7a7878;
@@ -718,6 +823,7 @@ div[name="flex"]:hover {
     color: #000;
     height: 32px;
     width: 32px;
+    padding: 0;
 }
 .layout4x4:hover {
     background: url('../../assets/img/layout/4x4.png') #7a7878;
@@ -734,6 +840,7 @@ div[name="flex"]:hover {
     color: #000;
     height: 32px;
     width: 32px;
+    padding: 0;
 }
 .layoutfull:hover {
     background: url('../../assets/img/layout/fullscreen.png') #7a7878;
@@ -742,4 +849,5 @@ div[name="flex"]:hover {
     height: 32px;
     width: 32px;
 }
+
 </style>

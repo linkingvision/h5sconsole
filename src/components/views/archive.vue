@@ -47,8 +47,8 @@
                 <div class="content-mythe-two">
                     <!-- 查询按钮 -->
                     <div style="margin: 10px 20px;display: flex;justify-content: space-between;">
-                        <el-button @click="getCheckedNodes"  icon="el-icon-search">查询</el-button>
-                        <el-button size="mini" @click="tableDatak">清空</el-button>
+                        <el-button @click="getCheckedNodes"  icon="el-icon-search">{{$t("message.archive.search")}}</el-button>
+                        <el-button size="mini" @click="tableDatak">{{$t("message.archive.Clear")}}</el-button>
                     </div>
                     <!-- 有按钮 -->
                     <el-table
@@ -56,21 +56,22 @@
                         style="width: 100%;">
                         <el-table-column
                             prop="token"
-                            label="名称" >
+                            :label="label.label2"
+                            min-width="50" >
                             <template slot-scope="scope">
                                 <span style="margin-left: 10px">{{ scope.row.token }}</span>
                             </template>
                         </el-table-column>
                         <el-table-column
                             prop="name"
-                            label="token">
+                            label="Token">
                              <template slot-scope="scope">
                                 <span>{{ scope.row.name }}</span>
                             </template>
                         </el-table-column>
                         <el-table-column
                             prop="starf"
-                            label="开始时间">
+                            :label="label.label3">
                              <template slot-scope="scope">
                                 <i class="el-icon-time"></i>
                                 <span>{{ scope.row.starf }}</span>
@@ -78,7 +79,7 @@
                         </el-table-column>
                         <el-table-column
                             prop="end"
-                            label="结束时间">
+                            :label="label.label4">
                              <template slot-scope="scope">
                                 <i class="el-icon-time"></i>
                                 <span>{{ scope.row.end }}</span>
@@ -86,25 +87,26 @@
                         </el-table-column>
                         <el-table-column
                             prop="end"
-                            label="type">
+                            label="Type"
+                            min-width="50">
                              <template slot-scope="scope">
                                 <span>{{ scope.row.type }}</span>
                             </template>
                         </el-table-column>
                         <el-table-column
-                            width=310px>
+                            min-width="160">
                             <template slot-scope="scope">
                                 <el-button
                                 size="mini"
-                                @click="handleEdit(scope.$index, scope.row)">归档</el-button>
+                                @click="handleEdit(scope.$index, scope.row)">{{$t("message.archive.archive")}}</el-button>
                                 <el-button
                                 size="mini"
                                 type="primary"
-                                @click="Refresh(scope.row)">刷新</el-button>
+                                @click="Refresh(scope.row)">{{$t("message.archive.Refresh")}}</el-button>
                                 <el-progress type="circle" :percentage="scope.row.percentage" :stroke-width="2" :width="35"></el-progress>
                                 <el-button
                                 size="mini"
-                                type="success"><a :href="scope.row.url" :download="scope.row.urlto">下载</a></el-button>
+                                type="success"><a :href="scope.row.url" :download="scope.row.urlto">{{$t("message.archive.Download")}}</a></el-button>
                                 <el-button size="mini" style="font-size: 25px;" icon="el-icon-caret-right" circle @click="Refresh1(scope.$index, scope.row)" data-toggle="modal" data-target="#myModal"></el-button>
                             </template>
                          </el-table-column>
@@ -130,12 +132,12 @@
                             &times;
                         </button>
                         <h4 class="modal-title" id="myModalLabel">
-                            视频回放
+                            {{$t("message.archive.Playback")}}
                         </h4>
                         <!-- 开始结束时间 -->
                         <div class="kai">
-                            <span>开始时间:{{rowstarf}}</span>
-                            <span>结束时间:{{rowend}}</span>
+                            <span>{{$t("message.archive.StartTime")}}:{{rowstarf}}</span>
+                            <span>{{$t("message.archive.EndTime")}}:{{rowend}}</span>
                         </div>
                     </div>
                     <div class="modal-body text-center">
@@ -171,8 +173,12 @@ export default {
     name:"archive",
     data() {
         return {
+            label:{
+                label2:this.$t("message.archive.Name"),
+                label3:this.$t("message.archive.StartTime"),
+                label4:this.$t("message.archive.EndTime"),
+            },
             timelink:0,//滑块
-            max:0,//滑块最大值
             value: [new Date(new Date().getTime()- 3600 * 1000 * 1), new Date()],
             //分页
             currentPage: 1, // 当前页码
@@ -188,9 +194,9 @@ export default {
                 iconclass:"iconclass"
             },
             tableData1: [],
-            pickerOptions: {
+             pickerOptions: {
                 shortcuts: [{
-                    text: '最近一小时',
+                    text: this.$t("message.archive.Onehour"),
                     onClick(picker) {
                     const end = new Date();
                     const start = new Date();
@@ -198,7 +204,7 @@ export default {
                     picker.$emit('pick', [start, end]);
                     }
                 },{
-                    text: '最近一天',
+                    text: this.$t("message.archive.Oneday"),
                     onClick(picker) {
                     const end = new Date();
                     const start = new Date();
@@ -206,7 +212,7 @@ export default {
                     picker.$emit('pick', [start, end]);
                     }
                 },{
-                    text: '最近一周',
+                    text: this.$t("message.archive.Oneweek"),
                     onClick(picker) {
                     const end = new Date();
                     const start = new Date();
@@ -214,7 +220,7 @@ export default {
                     picker.$emit('pick', [start, end]);
                     }
                 }, {
-                    text: '最近一个月',
+                    text: this.$t("message.archive.Onemonth"),
                     onClick(picker) {
                     const end = new Date();
                     const start = new Date();
@@ -229,6 +235,11 @@ export default {
             displayc:"",//实时时间
             rowstarf:"",//跟进进度条开始时间
             rowend:"",//进度条结束时间
+            rename:"",//刷新的名字
+            redata:"",//刷新的数据
+            rebfb:"",//刷新的百分比
+            rerow:[],
+            max:100,
         }
     },
     mounted(){
@@ -247,6 +258,7 @@ export default {
                 var starf=new Date(this.rowstarf).getTime()/1000;
                 var endd=new Date(msgevent.pbTime.strTime).getTime()/1000;
                 var staefend=endd-starf;
+                console.log("=============",staefend,endd,starf)
                 this.timelink=staefend;
             }
             
@@ -265,6 +277,8 @@ export default {
         	{
         		wsroot = window.location.host;
             }
+            console.log("aaaaaaaaaaaaaa===",row.starf,row.end);
+            //return false;
             var pbconf1 = {
 				begintime: row.starf,
 	            endtime: row.end,
@@ -285,8 +299,11 @@ export default {
             var end=new Date(row.end).getTime();
             var starf=new Date(row.starf).getTime();
             var starfend=(end-starf)/1000;//时间差
-            console.log(starfend);
             this.max=starfend;
+            console.log("++++++++++++",row.end,row.starf);
+            console.log("==============",starfend,this.max);
+            //return false;
+            
             this.v1 = new H5sPlayerRTC(conf);
             this.v1.connect();
             setTimeout(function(){
@@ -306,7 +323,7 @@ export default {
                 this.v1.resume();
             }
         },
-        //
+        //拉播
        timelinn(timelink){
            console.log(timelink);
            this.v1.seek(timelink);
@@ -323,13 +340,21 @@ export default {
             
             if (this.v1 != undefined)
             {
+                this.timelink=0;
                 this.v1.disconnect();
                 delete this.v1;
                 this.v1 = undefined;
             }
         },
         // 表格归档 下载 刷新
+
         Refresh(row){
+            console.log(row);
+            
+            //3m刷新数据
+            this.rename=row.name;
+            this.redata=row.strFileName;
+            this.rerow=row;
             let _this =this;
 		    var root = process.env.API_ROOT;
 		    var wsroot = process.env.WS_HOST_ROOT;
@@ -339,32 +364,33 @@ export default {
 		    if (wsroot == undefined)
 		    {
 		        wsroot = window.location.host;
-		    }
-            var url1 = root + "/api/v1/GetArchiveStatus?token="+row.name+"&filename="+row.strFileName+"&session="+ this.$store.state.token;
-            //console.log(url1);
-            this.$http.get(url1).then(result1=>{
-                if (result1.status == 200)
-                {
-                    this.$Notice.info({
-                        title: "Refresh status..."
-                    })
-                    console.log(result1.data.nPercentage);
-                    row.percentage=result1.data.nPercentage;
-                }
+            }
+            setInterval(function(){
+                var url1 = root + "/api/v1/GetArchiveStatus?token="+row.name+"&filename="+row.strFileName+"&session="+ this.$store.state.token;
                 
-            }).catch(error => {
-                console.log('GetArchiveStatus failed!', error);
-                this.$Notice.info({
-                    title: "Refresh failed!"
-                })
-            });
+                this.$http.get(url1).then(result1=>{
+                    if (result1.status == 200)
+                    {
+                        console.log(result1.data.nPercentage);
+                        row.percentage=result1.data.nPercentage;
+                    }
+                    
+                    }).catch(error => {
+                        console.log('GetArchiveStatus failed!', error);
+                        this.$Notice.info({
+                            title: "Refresh failed!"
+                        })
+                    });
+                }.bind(this),3000)
+            
+            
         },
         handleEdit(index, row) {
             console.log(index,row);
+            
             var end=new Date(row.end).getTime();
             var starf=new Date(row.starf).getTime();
             var rqstarf=new Date(starf);
-            console.log(rqstarf);
             //时间差
             var starfend=(end-starf)/1000;
             //年月日
@@ -377,8 +403,6 @@ export default {
             var s = rqstarf.getSeconds();
             var rq=y+'-'+m+'-'+d;
             var sj=h+'-'+mm+'-'+s;
-            console.log(rq,sj);
-            console.log("end",end,"starf",starf,"cha",starfend);
             var roww=row.name;
             //url
             let _this =this;
@@ -392,9 +416,10 @@ export default {
 		        wsroot = window.location.host;
 		    }
 			var url = root + "/api/v1/Archive?token="+roww+"&start1="+rq+"&start2="+sj+"&duration="+starfend+"&speed=4&session="+ this.$store.state.token;
-            console.log(url);
+           
             this.$http.get(url).then(result=>{
                 if (result.status == 200){
+                    
                     this.$Notice.info({
                             title: "Archive in progressing"
                     })
@@ -405,8 +430,6 @@ export default {
                     row.url=strUrl;//下载的地址
                     var urlto=strUrl.split("/");
                     row.urlto=urlto[urlto.length-1];//下载文件
-                    // console.log("地址",strUrl);
-                    // console.log("文件",urlto);
                 }
             }).catch(error => {
                 console.log('Snapshot failed!', error);
@@ -427,9 +450,16 @@ export default {
                 return false;
             }
             var timevalue=this.value;
-            console.log(timevalue ,"nodes",nodes);
-            var timevalues=timevalue[0].toISOString();
-            var timevaluee=timevalue[1].toISOString();
+            // var timevalues=timevalue[0].toISOString();
+            // var timevaluee=timevalue[1].toISOString();
+            var starfs=new Date(timevalue[0]).getTime();
+            var endds=new Date(timevalue[1]).getTime();
+            var ks=new Date(starfs).toISOString()+"08:00";
+            var jss=new Date(endds).toISOString()+"08:00";
+            //var kss=ks.getTimezoneOffset()/60;
+            //console.log(kss);
+            console.log(ks,jss);
+            //return false;
             let _this =this;
 		    var root = process.env.API_ROOT;
 		    var wsroot = process.env.WS_HOST_ROOT;
@@ -440,8 +470,9 @@ export default {
 		    {
 		        wsroot = window.location.host;
 		    }
-			var url = root + "api/v1/SearchDeviceRecordByTime?token="+idname+"&start="+timevalues+"&end="+timevaluee+"&session="+ this.$store.state.token;
-            //console.log(url);
+			var url = root + "api/v1/SearchDeviceRecordByTime?token="+idname+"&start="+ks+"&end="+jss+"&session="+ this.$store.state.token;
+            console.log(url);
+            //return false;
             this.$http.get(url).then(result=>{
 				  if(result.status == 200){
                     this.$Notice.info({
@@ -462,9 +493,9 @@ export default {
                                 strFileName:"",
                               };
                               if(item['nType']=="H5_REC_MANUAL"){
-                                    timeitem["type"] = '手动录像';
+                                    timeitem["type"] = this.$t("message.archive.ManualRecord");
                               }else{
-                                    timeitem["type"] = '报警录像';
+                                    timeitem["type"] = this.$t("message.archive.AlarmRecord");
                               }
 							  //console.log(timeitem);
                               //填充
