@@ -5,8 +5,8 @@
 
 ![](https://github.com/linkingvision/h5sconsole/raw/master/doc/login.PNG)
 ![](https://github.com/linkingvision/h5sconsole/raw/master/doc/dashboard.PNG)
-![](https://github.com/linkingvision/h5sconsole/raw/master/doc/liveplack.PNG)
-![](https://github.com/linkingvision/h5sconsole/raw/master/doc/playplack.PNG)
+![](https://github.com/linkingvision/h5sconsole/raw/master/doc/liveview.PNG)
+![](https://github.com/linkingvision/h5sconsole/raw/master/doc/playback.PNG)
 ![](https://github.com/linkingvision/h5sconsole/raw/master/doc/SNAPSHOT.PNG)
 ![](https://github.com/linkingvision/h5sconsole/raw/master/doc/ARCHIVE.PNG)
 ![](https://github.com/linkingvision/h5sconsole/raw/master/doc/PLAYBACKpb.PNG)
