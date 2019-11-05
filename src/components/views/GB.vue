@@ -18,7 +18,7 @@
                         </router-link>
                     </div>
                     <div :class="{setting_tj:index_lj==2}"  @click="setting_ys1" class="setting_left">
-                        <router-link  :to="{name:'GBplatfoemRouter'}">
+                        <router-link  :to="{name:'GBplatformRouter'}">
                             <a href="javascript:void(0)" class="setting_left_a">{{$t("message.GB.GBPlatform")}} </a> 
                         </router-link>
                     </div>

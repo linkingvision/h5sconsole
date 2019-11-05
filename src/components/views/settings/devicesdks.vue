@@ -22,7 +22,7 @@
                     <input class="editinput" v-model="editform.Token"/>
                 </el-form-item>
                 <el-form-item label="Username">
-                    <input class="editinput" v-model="editform.Username"/>
+                    <input class="editinput" v-model="editform.User"/>
                 </el-form-item>
                 <el-form-item label="Password">
                     <input class="editinput" v-model="editform.Password"/>
@@ -441,7 +441,17 @@ import uuid from '@/store/uuid'
               this.$http.get(url).then(result=>{
                 console.log(result);
                 if(result.status==200){
-                   this.reload();
+                    if(result.data.bStatus==true){
+                        this.tableData=[];
+                        this.loadHIK();
+                    }else{
+                        this.$message({
+                            message: '添加失败',
+                            type: 'warning'
+                        });
+                        return false;
+                    }
+                  
                 }
               })
             }else if(form.Type=="H5_DEV_DH"){
@@ -458,7 +468,16 @@ import uuid from '@/store/uuid'
                 this.$http.get(url).then(result=>{
                     console.log(result);
                     if(result.status==200){
-                    this.reload();
+                        if(result.data.bStatus==true){
+                        this.tableData=[];
+                        this.loadHIK();
+                    }else{
+                        this.$message({
+                            message: '添加失败',
+                            type: 'warning'
+                        });
+                        return false;
+                    }
                     }
                 })
             }

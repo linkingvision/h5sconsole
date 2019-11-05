@@ -53,7 +53,6 @@
                         :filter-node-method="filterNode"
                         ref="tree"
                         highlight-current
-                        @node-click="handleNodeClick"
                         :props="defaultProps">
                         <span slot-scope="{ node, data }">
                             <i :class="data.iconclass" style="color:rgb(142, 132, 132);"></i>
@@ -67,7 +66,7 @@
             <div class="col-sm-9" id="videoPanel">
                 <div name='flex' class="videoColor" v-for="r in rows" :key="r">
                     <div calss="videoflexitem" style="flex:1; border:1px solid black;" name="flex" v-for="c in cols" @contextmenu.prevent="stopVideo($event)" @click="videoClick(r,c,$event)" :key="c">
-                    <v-liveplayer v-bind:id="'h'+r+c" :h5id="'h'+r+c" :h5videoid="'hvideo'+r+c"></v-liveplayer>
+                    <v-liveplayer v-bind:id="'h'+r+c" :h5id="'tour'+r+c" :h5videoid="'hvid'+r+c"></v-liveplayer>
                     </div>
                 </div>
                 <div>
@@ -82,6 +81,10 @@
                     <el-select v-model="streamprofile" size="mini" style="width:120px">
                         <el-option :label="label.label2" value="main"></el-option>
                         <el-option :label="label.label3" value="sub"></el-option>
+                    </el-select>
+                    <el-select v-model="proto" size="mini" style="width:120px" @change="changeWS">
+                        <el-option label="WS" value="WS"></el-option>
+                        <el-option label="RTC" value="RTC"></el-option>
                     </el-select>
                 </div>
                 <div class="btn-group blocks">
@@ -113,7 +116,6 @@ import Vue from 'vue'
 import 'patternfly-bootstrap-treeview/dist/bootstrap-treeview.min.css'
 import 'patternfly-bootstrap-treeview/dist/bootstrap-treeview.min.js'
 import Liveplayer from '../../components/widgets/tourplayer'
-var timersetInterval="";//定时器
 export default {
     name: "tour",
     components: {
@@ -146,13 +148,16 @@ export default {
                 title:this.$t("message.live.setting"),
                 region:10,//几秒钟更换
                 streamprofile:"main",//码流
+                proto: this.$store.state.tour,//协议
                 h5playev1:[],//内容
+                timersetInterval:"",//定时器
+                token_index:"",//删除个数
             };
 
     },
     computed:{
         count(){
-            return this.$store.state.rtc;
+            return this.$store.state.tour;
         }
     },
     mounted() {
@@ -164,6 +169,7 @@ export default {
         this.$root.bus.$emit('liveplayproto',this.proto);
     },
     methods: {
+       
         //全部开始
         Playall(){
             this.Allpause();
@@ -187,91 +193,105 @@ export default {
                 //console.log("a",result);
                 if(result.status == 200){
                     var data =  result.data;
+                    //console.log(data);
+                    //return false;
                     for(var i=0; i< data.src.length; i++){
                         token_q.push(data.src[i].strToken);
-                        if(i<10){
-                        var item = token_q[i];
-                        if (i==1) {
-                                vid = 'h' +11;
-                            }else if (i==2) {
-                                vid = 'h' +12;
-                            }
-                            else if (i==3) {
-                                vid = 'h' +13;
-                            }
-                            else if (i==4) {
-                                vid = 'h' +21;
-                            }
-                            else if (i==5) {
-                                vid = 'h' +22;
-                            }
-                            else if (i==6) {
-                                vid = 'h' +23;
-                            }
+                        this.token_index=token_q.length;
+                        if(i<9){
+                            var item = token_q[i];
+                            if (i==0) {
+                                    vid = 'tour' +11;
+                                }else if (i==1) {
+                                    vid = 'tour' +12;
+                                }
+                                else if (i==2) {
+                                    vid = 'tour' +13;
+                                }
+                                else if (i==3) {
+                                    vid = 'tour' +21;
+                                }
+                                else if (i==4) {
+                                    vid = 'tour' +22;
+                                }
+                                else if (i==5) {
+                                    vid = 'tour' +23;
+                                }
 
-                            else if (i==7) {
-                                vid = 'h' +31;
+                                else if (i==6) {
+                                    vid = 'tour' +31;
+                                }
+                                else if (i==7) {
+                                    vid = 'tour' +32;
+                                }
+                                else if (i==8) {
+                                    vid = 'tour' +33;
                             }
-                            else if (i==8) {
-                                vid = 'h' +32;
-                            }
-                            else if (i==9) {
-                                vid = 'h' +33;
-                        }
-                        //console.log(vid,item,token_q);
-                        this.$root.bus.$emit('liveplay', item ,this.streamprofile, vid);
-                        }else{
-                            break;
+                            this.$root.bus.$emit('livetour', item ,this.streamprofile, vid);
                         }
                     }
+                    //console.log("00000000",token_q);
                 }
             })
-            timersetInterval=setInterval(function(){
+            
+            this.timersetInterval=setInterval(function(){
                 for(var l=0; l< token_q.length; l++){
-                    if(l<10){
+                    if(l<9){
                         var item = token_q[l];
-                        if (l==1) {
-                                vid = 'h' +11;
-                            }else if (l==2) {
-                                vid = 'h' +12;
+                        if (l==0) {
+                                vid = 'tour' +11;
+                            }else if (l==1) {
+                                vid = 'tour' +12;
+                            }
+                            else if (l==2) {
+                                vid = 'tour' +13;
                             }
                             else if (l==3) {
-                                vid = 'h' +13;
+                                vid = 'tour' +21;
                             }
                             else if (l==4) {
-                                vid = 'h' +21;
+                                vid = 'tour' +22;
                             }
                             else if (l==5) {
-                                vid = 'h' +22;
-                            }
-                            else if (l==6) {
-                                vid = 'h' +23;
+                                vid = 'tour' +23;
                             }
 
+                            else if (l==6) {
+                                vid = 'tour' +31;
+                            }
                             else if (l==7) {
-                                vid = 'h' +31;
+                                vid = 'tour' +32;
                             }
                             else if (l==8) {
-                                vid = 'h' +32;
-                            }
-                            else if (l==9) {
-                                vid = 'h' +33;
+                                vid = 'tour' +33;
                         }
-                        
-                        this.$root.bus.$emit('liveplay', item ,this.streamprofile, vid);
-                        token_q.push(token_q[0]);
-                        token_q.splice(0,1);
+                        //console.log("i",vid);
+                        this.$root.bus.$emit('livetour', item ,this.streamprofile, vid);
+
                     }else{
-                        continue;
+                        break;
                     }
+                    token_q.push(token_q[l]);
+                    //console.log("-----------------",token_q[l]);
                 }
+                if(this.token_index>9){
+                    token_q.splice(0,9);
+                }else{
+                    token_q.splice(0,this.token_index);
+                }
+                
+                //console.log("==================",token_q);
+
             }.bind(this),timing)
+            this.$once('hook:beforeDestroy', () => {            
+                clearInterval(timersetInterval);                                    
+            })
             
         }, 
         //全部暂停
         Allpause(){
             this.$root.bus.$emit('liveplaystop');
-            clearInterval(timersetInterval);
+            clearInterval(this.timersetInterval);
             //console.log("b");
         },
         //快换时间
@@ -280,19 +300,6 @@ export default {
             //this.v1.speed(this.region);
         },
         //水印
-       
-        //树形节点点击
-        handleNodeClick(data, checked, indeterminate){
-            console.log(data);
-            let _this =this;
-            if (data.token) {
-                let vid = 'h' + _this.$data.selectRow + _this.$data.selectCol;
-                console.log(vid);
-                //return false;
-                _this.$root.bus.$emit('liveplay', data.token,data.streamprofile, vid);
-            }
-        },
-
         updateUI()
         {
             $(".content").innerHeight($('.content-wrapper').innerHeight() - $('.content-header').outerHeight() - $('.main-header').innerHeight());
@@ -365,23 +372,10 @@ export default {
                         if(item['nOriginalType'] == 'H5_CH_GB'){
                             continue;
                         }else{
-                            // 主副流
-                            var node=[{
-                            token : item['strToken'],
-                            streamprofile : "main",
-                            label :this.$t('message.live.mainstream'),
-                            iconclass : 'mdi mdi-playlist-play fa-fw'
-                            },{
-                            token : item['strToken'],
-                            streamprofile : "sub",
-                            label :this.$t('message.live.substream'),
-                            iconclass : 'mdi mdi-playlist-play fa-fw'
-                            }]
                             var newItem ={
                                     token : item['strToken'],
                                     label : item['strName'],
-                                    iconclass : 'mdi mdi-camcorder fa-fw',
-                                    children:node};
+                                    iconclass : 'mdi mdi-camcorder fa-fw'};
                             //console.log("itme",item['bOnline'],item)
                             if(!item['bOnline'])
                                 newItem['iconclass'] = 'mdi mdi-camcorder-off fa-fw';
@@ -453,23 +447,10 @@ export default {
                     srcGroup.iconclass="mdi mdi-view-sequential fa-fw";
                     for(var i=0; i< data.src.length; i++){
                         var item = data.src[i];
-                        // 主副流
-                        var node=[{
-                          token : item['strToken'],
-                          streamprofile : "main",
-                          label :this.$t('message.live.mainstream'),
-                          iconclass : 'mdi mdi-playlist-play fa-fw'
-                        },{
-                          token : item['strToken'],
-                          streamprofile : "sub",
-                          label :this.$t('message.live.substream'),
-                          iconclass : 'mdi mdi-playlist-play fa-fw'
-                        }]
                         var newItem ={
                                 token : item['strToken'],
                                 label : item['strName'],
-                                iconclass : 'mdi mdi-camcorder fa-fw',
-                                children:node};
+                                iconclass : 'mdi mdi-camcorder fa-fw'};
 
                         if(!item['bOnline'])
                             newItem['iconclass'] = 'mdi mdi-camcorder-off fa-fw';
@@ -539,23 +520,10 @@ export default {
                     srcGroup.iconclass="mdi mdi-view-sequential fa-fw";
                     for(var i=0; i< data.src.length; i++){
                         var item = data.src[i];
-                        // 主副流
-                        var node=[{
-                          token : item['strToken'],
-                          streamprofile : "main",
-                          label :this.$t('message.live.mainstream'),
-                          iconclass : 'mdi mdi-playlist-play fa-fw'
-                        },{
-                          token : item['strToken'],
-                          streamprofile : "sub",
-                          label :this.$t('message.live.substream'),
-                          iconclass : 'mdi mdi-playlist-play fa-fw'
-                        }]
                         var newItem ={
                                 token : item['strToken'],
                                 label : item['strName'],
-                                iconclass : 'mdi mdi-camcorder fa-fw',
-                                children:node};
+                                iconclass : 'mdi mdi-camcorder fa-fw'};
 
                         if(!item['bOnline'])
                             newItem['iconclass'] = 'mdi mdi-camcorder-off fa-fw';
@@ -656,6 +624,13 @@ export default {
         stopVideo(event){
             return;
         },
+        changeWS(event) {
+            //this.proto = "WS";
+            console.log(this.proto);
+            var proto=this.proto;
+            this.$store.commit(types.TRTCSW, proto);
+            this.$root.bus.$emit('liveplayproto',proto);
+        },
         //模糊查询
         filterNode(value, data, node) {
             // 如果什么都没填就直接返回
@@ -691,6 +666,10 @@ export default {
             return false;
         },
 
+    },
+    beforeDestroy() {
+        clearInterval(this.timersetInterval);        
+        this.timersetInterval = null;
     },
     //模糊查询
     watch: {

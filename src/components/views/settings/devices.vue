@@ -14,19 +14,19 @@
               <el-form-item label="Token">
                   <input class="editinput" v-model="editform.Token"/>
               </el-form-item>
-              <el-form-item label="Username" v-if="options.value!='H5_FILE'">
+              <el-form-item label="Username" v-if="editform.Type!='H5_FILE'">
                   <input class="editinput" v-model="editform.Username"/>
               </el-form-item>
-              <el-form-item label="Password" v-if="options.value!='H5_FILE'">
+              <el-form-item label="Password" v-if="editform.Type!='H5_FILE'">
                   <input class="editinput" v-model="editform.Password"/>
               </el-form-item>
-              <el-form-item label="IP" v-if="options.value==='H5_ONVIF'">
+              <el-form-item label="IP" v-if="editform.Type==='H5_ONVIF'">
                   <input class="editinput" v-model="editform.IP"/>
               </el-form-item>
-              <el-form-item label="Port" v-if="options.value==='H5_ONVIF'">
+              <el-form-item label="Port" v-if="editform.Type==='H5_ONVIF'">
                   <input class="editinput" v-model="editform.Port"/>
               </el-form-item>
-              <el-form-item label="URL" v-if="options.value!='H5_ONVIF'">
+              <el-form-item label="URL" v-if="editform.Type!='H5_ONVIF'">
                   <input class="editinput" v-model="editform.URL"/>
               </el-form-item>
               <el-form-item label="Audio">
@@ -1236,7 +1236,7 @@ import uuid from '@/store/uuid'
         //有用
         removeTab(targetName) {
             this.form.Type=targetName.label;
-            //console.log(targetName.label);
+            console.log(targetName.label);
             
             console.log();
             if(targetName.label=="H5_ONVIF"){
@@ -1245,7 +1245,7 @@ import uuid from '@/store/uuid'
             }else if(targetName.label=="H5_FILE"){
                 this.tableData2=[];
                 this.loadfile();
-            }else if(targetName.label=="全部"||targetName.label=="OVER"){
+            }else if(targetName.label=="全部"||targetName.label=="All"){
                 this.tableData3=[];
                 this.loadqb();
             }

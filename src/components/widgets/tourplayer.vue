@@ -96,7 +96,7 @@ export default {
         var $rtcbutton = $controls.children(".rtcbutton");
 
         let _this = this;
-        this.$root.bus.$on('liveplay', function(token,streamprofile, id)
+        this.$root.bus.$on('livetour', function(token,streamprofile, id)
         {
             if (_this.h5id != id)
             {
@@ -126,8 +126,8 @@ export default {
     },
     methods: {
         PlayVideostop(){
-            console.log("aaa");
-            console.log("-----------",this.h5handler);
+            //console.log("aaa");
+            //console.log("-----------",this.h5handler);
             var $container = $("#"+this.h5id);
             var $controls = $container.children(".h5controls");
             var $rtcbutton = $controls.children(".rtcbutton");
@@ -144,8 +144,8 @@ export default {
         },
         PlayVideo(token,streamprofile)
         {
-            var hvideoshu=this.h5videoid;
-            $("#"+hvideoshu+"").get(0).load();
+            //console.log(token);
+            $("#" + this.h5videoid).get(0).load();
             //console.log("**************",hvideoshu);
             //return false;
             //console.log("-----------",this.h5handler);
@@ -155,6 +155,7 @@ export default {
                 this.h5handler.disconnect();
                 delete this.h5handler;
                 this.h5handler = undefined;
+                //console.log("=======+++++",this.h5handler);
             }
             this.currtoken = token;
             //console.log("play ", token);
@@ -178,16 +179,16 @@ export default {
                 hlsver: 'v1', //v1 is for ts, v2 is for fmp4
                 session: this.$store.state.token //session got from login
             };
-            console.log("+++++++++++++",conf);
+            //console.log("+++++++++++++",conf);
             
             var $container = $("#"+this.h5id);
             var $controls = $container.children(".h5controls");
             var $rtcbutton = $controls.children(".rtcbutton");
 
-            if ((H5siOS() === true))
+            if (this.proto == 'RTC' || (H5siOS() === true))
             {
-                //this.h5handler = new H5sPlayerWS(conf);
-                console.log("++++++++++++++++++++++++++++++++++");
+                $rtcbutton.css("display", "block");
+                this.h5handler = new H5sPlayerRTC(conf);
             }else
             {
                 $rtcbutton.css("display", "none");

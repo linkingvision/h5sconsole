@@ -21,7 +21,7 @@ import usersettings from '@/components/views/settings/usersetting'
 
 import GB from '@/components/views/GB'
 import GB28181 from '@/components/views/GB/GB28181'
-import GBplatfoem from '@/components/views/GB/GBplatform'
+import GBplatform from '@/components/views/GB/GBplatform'
 
 import H5S from '@/components/h5s'
 import Login from '@/components/login'
@@ -75,9 +75,9 @@ const routes = [
           },
           //2
           {
-            path: '/app/GB/GBplatfoem',
-            name: 'GBplatfoemRouter',
-            component: GBplatfoem,
+            path: '/app/GB/GBplatform',
+            name: 'GBplatformRouter',
+            component: GBplatform,
             meta: {
               requireAuth: true
             }
@@ -214,6 +214,10 @@ if (window.localStorage.getItem('watermarkstring')) {
 }
 if (window.localStorage.getItem('h5watermarktoggle')) {
   store.commit(types.WATERMARKTOGGLE, window.localStorage.getItem('h5watermarktoggle'))
+}
+//巡更
+if (window.localStorage.getItem('h5toursw')) {
+  store.commit(types.WATERMARKTOGGLE, window.localStorage.getItem('h5toursw'))
 }
 
 const Router = new VueRouter({

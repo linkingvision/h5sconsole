@@ -11,7 +11,8 @@ export default new Vuex.Store({
     token: null,
     title: '',
     lang: 'en',
-    rtc:"",
+    rtc:"WS",
+    tour:"WS",
     watermarkstring:"linkingvision",
     watermarktoggle:"",
   },
@@ -24,6 +25,12 @@ export default new Vuex.Store({
       localStorage.h5watermarkstring= data
       state.watermarkstring=data
     },
+    //巡更协议
+    [types.TRTCSW]: (state, data) => {
+      localStorage.h5toursw= data
+      state.tour=data
+    },
+    //实时播放协议
     [types.RTCSW]: (state, data) => {
       localStorage.h5rtcsw= data
       state.rtc=data

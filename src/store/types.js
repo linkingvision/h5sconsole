@@ -6,3 +6,4 @@ export const LANG = 'lang'
 export const RTCSW = 'rtc'
 export const WATERMARKSTRING = 'watermarkstring'
 export const WATERMARKTOGGLE = 'watermarktoggle'
+export const TRTCSW="tour"
