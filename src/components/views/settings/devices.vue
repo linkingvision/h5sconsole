@@ -584,6 +584,7 @@ import uuid from '@/store/uuid'
             Port:"80",
         },
         editform: {
+            Audio:"false",
         },
         edittoken:"",//编辑时要删除的token
         editindex:"",//编辑时所在索引
@@ -1074,7 +1075,7 @@ import uuid from '@/store/uuid'
             this.editform["IP"]=row.IP;
             this.editform["Port"]=row.Port;
             this.editform["URL"]=row.strUrl;
-            this.editform["Audio"]=row.Audio;
+            this.editform["Audio"]=this.tableData[index].Audio;
             this.editform["Online"]=row.Online;
             this.editform["bPasswdEncrypt"]=row.bPasswdEncrypt;
             // console.log(this.editform)

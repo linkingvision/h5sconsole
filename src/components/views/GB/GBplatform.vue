@@ -287,7 +287,8 @@ import uuid from '@/store/uuid'
 		        wsroot = window.location.host;
 		    }
 		   //url
-		   var url = root + "/api/v1/GetGbPlatform?session="+ this.$store.state.token;
+           var url = root + "/api/v1/GetGbPlatform?session="+ this.$store.state.token;
+           console.log(url);
 			  this.$http.get(url).then(result=>{
 				  if(result.status == 200){
                       var itme=result.data.platform;

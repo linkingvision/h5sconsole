@@ -16,17 +16,12 @@
 			 </router-link>
             <!-- 抓图 -->
 			<router-link tag="li" :to="{name:'screenshotsRouter'}">
-			<a href="#" class=""><i class="mdi mdi-camera fa-fw" data-icon="v"></i> <span class="hide-menu"> {{$t("message.left.snapshot")}}  </span></a>
+			<a href="#" class=""><i class="mdi mdi-camera-iris fa-fw" data-icon="v"></i> <span class="hide-menu"> {{$t("message.left.snapshot")}}  </span></a>
 			 </router-link>
              <!-- 归档 -->
 			<router-link tag="li" :to="{name:'archiveRouter'}">
-			<a href="#" class=""><i class="mdi mdi-folder fa-fw" data-icon="v"></i> <span class="hide-menu"> {{$t("message.left.archive")}}  </span></a>
+			<a href="#" class=""><i class="mdi mdi-folder-move fa-fw" data-icon="v"></i> <span class="hide-menu"> {{$t("message.left.archive")}}  </span></a>
 			 </router-link>
-             
-             
-
-            
-
             <!-- <router-link tag="li" :to="{name:'cloudRouter'}">
             <a href="#" class="waves-effect"><i class="mdi mdi-cloud fa-fw"></i> <span class="hide-menu">{{$t("message.left.cloud")}}</span></a>
             </router-link> -->
@@ -41,13 +36,15 @@
 			<a href="#" class="waves-effect"><i class="mdi mdi-play-circle fa-fw" data-icon="v"></i> <span class="hide-menu"> {{$t("message.left.AdvancePB")}}  </span></a>
 			 </router-link> -->
 			<router-link tag="li" :to="{name:'GB28181Router'}">
-			<a href="#" class=""><i class="mdi mdi-google-glass fa-fw" data-icon="v"></i> <span class="hide-menu"> GB</span></a>
+			<a href="#" class=""><i class="mdi mdi-equal-box fa-fw" data-icon="v"></i> <span class="hide-menu"> GB</span></a>
 			 </router-link>
+             <!-- 巡更 apps -->
 			<router-link tag="li" :to="{name:'TourRouter'}">
-			<a href="#" class=""><i class="mdi mdi-airplay fa-fw" data-icon="v"></i> <span class="hide-menu"> {{$t("message.left.tour")}}</span></a>
+			<a href="#" class=""><i class="mdi mdi-view-grid fa-fw" data-icon="v"></i> <span class="hide-menu"> {{$t("message.left.tour")}}</span></a>
 			 </router-link>
+             <!-- 本地查看 -->
             <li >
-            <a href="/mediastore" class=""><i class="mdi mdi-folder-multiple-image fa-fw"  data-icon="v"></i> <span class="hide-menu"> {{$t("message.left.screenshots")}} </span></a>
+            <a href="/mediastore" class=""><i class="mdi mdi-folder fa-fw"  data-icon="v"></i> <span class="hide-menu"> {{$t("message.left.screenshots")}} </span></a>
             </li>
             
             <!-- 事件 -->
@@ -59,7 +56,7 @@
             <a href="#" class=""><i class="mdi mdi-settings fa-fw"  data-icon="v"></i> <span class="hide-menu"> {{$t("message.left.setting")}}  </span></a>
             </router-link>
             <router-link tag="li" :to="{name:'logoutRouter'}">
-            <a  class="waves-effect" ><i class="mdi mdi-logout fa-fw" ></i> <span class="hide-menu">{{$t("message.left.logout")}}</span></a>
+            <a  class="waves-effect" ><i class="mdi mdi-arrow-right-bold-circle fa-fw" ></i> <span class="hide-menu">{{$t("message.left.logout")}}</span></a>
             </router-link>
 
             <!-- <li class="devider"></li> -->

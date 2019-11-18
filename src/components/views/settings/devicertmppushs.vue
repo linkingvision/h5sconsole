@@ -23,7 +23,7 @@
                 </el-form-item>
                 <el-form-item label="Audio">
                     <el-switch
-                    v-model="form.Audio"
+                    v-model="editform.Audio"
                     active-text="ON"
                     inactive-text="OFF">
                     </el-switch>
@@ -225,6 +225,7 @@ import uuid from '@/store/uuid'
             Audio:false,
         },
         editform: {
+            Audio:false,
         },
         edittoken:"",//编辑时要删除的token
         editindex:"",//编辑时所在索引

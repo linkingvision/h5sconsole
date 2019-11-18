@@ -25,12 +25,12 @@ export default new Vuex.Store({
       localStorage.h5watermarkstring= data
       state.watermarkstring=data
     },
-    //巡更协议
+    //宸℃洿鍗忚
     [types.TRTCSW]: (state, data) => {
       localStorage.h5toursw= data
       state.tour=data
     },
-    //实时播放协议
+    //瀹炴椂鎾斁鍗忚
     [types.RTCSW]: (state, data) => {
       localStorage.h5rtcsw= data
       state.rtc=data

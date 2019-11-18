@@ -145,7 +145,7 @@ export default {
                 videoid: this.h5videoid,
                 protocol: window.location.protocol, //http: or https:
                 host: wsroot, //localhost:8080
-	        streamprofile: streamprofile, // {string} - stream profile, main/sub or other predefine transcoding profile
+	            streamprofile: streamprofile, // {string} - stream profile, main/sub or other predefine transcoding profile
                 rootpath: '/', // '/'
                 token: token,
                 hlsver: 'v1', //v1 is for ts, v2 is for fmp4

@@ -98,7 +98,7 @@ module.exports={
 		confirmpass: 'Confirm Password',
 		manualstart:"Manual Start Record All Channel ",
 		manualstop:"Manual Stop Record All Channel",
-		DeleteAll:"DeleteAll",
+		DeleteAll:"Delete",
 		Detail:"Detail",
 		Cancel:"Cancel",
 		OK:"OK",
