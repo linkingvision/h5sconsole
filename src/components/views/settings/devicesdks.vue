@@ -433,7 +433,7 @@ import uuid from '@/store/uuid'
               var url = root + "/api/v1/AddDeviceHik?&name="+form.Name+
               "&token="+form.Token+
               "&user="+form.Username+
-              "&password="+form.Password+
+              "&password="+encodeURIComponent(form.Password)+
               "&ip="+form.IP+
               "&port="+form.Port+
               "&audio="+form.Audio+
@@ -460,7 +460,7 @@ import uuid from '@/store/uuid'
                 var url = root + "/api/v1/AddDeviceDh?&name="+form.Name+
                 "&token="+form.Token+
                 "&user="+form.Username+
-                "&password="+form.Password+
+                "&password="+encodeURIComponent(form.Password)+
                 "&ip="+form.IP+
                 "&port="+form.Port+
                 "&audio="+form.Audio+

@@ -963,9 +963,9 @@ import uuid from '@/store/uuid'
               var url = root + "/api/v1/AddSrcRTSP?&name="+form.Name+
               "&token="+form.Token+
               "&user="+form.Username+
-              "&password="+form.Password+
+              "&password="+encodeURIComponent(form.Password)+
               "&audio="+form.Audio+
-              "&url="+form.URL+
+              "&url="+encodeURIComponent(form.URL)+
               "&session="+ this.$store.state.token;
               //console.log(url);
               this.$http.get(url).then(result=>{
@@ -990,7 +990,7 @@ import uuid from '@/store/uuid'
                 +form.Name+
                 "&token="+form.Token+
                 "&user="+form.Username+
-                "&password="+form.Password+
+                "&password="+encodeURIComponent(form.Password)+
                 "&audio="+form.Audio+
                 "&ip="+form.IP+
                 "&port="+form.Port+

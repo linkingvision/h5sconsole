@@ -7,10 +7,14 @@ import AdvancePB from '@/components/views/Advancepbs'
 import Gaogao1 from '@/components/views/gaogao1'
 import Sreenshots from '@/components/views/screenshots'
 import Playback from '@/components/views/playback'
+
 import Tour from '@/components/views/tour'
 //import AdvancePB from '@/components/views/Advancepb'
 import Event from '@/components/views/event'
 
+
+import cloud from '@/components/views/cloud'
+import clouds from '@/components/views/cloud/clouds'
 
 import Settings from '@/components/views/settings'
 import devices from '@/components/views/settings/devices'
@@ -120,6 +124,25 @@ const routes = [
         name: 'dashboardRouter',
         component: Dashboard
       },
+      {
+        path: '/app/cloud',
+        name: 'cloudRouter',
+        component: cloud,
+        meta: {
+          requireAuth: true
+        },
+        children: [
+          //1
+          {
+            path: '/app/cloud/clouds',
+            name: 'cloudsRouter',
+            component: clouds,
+            meta: {
+              requireAuth: true
+            }
+          }
+        ]
+      },
       //样式   管理
       {
         path: '/app/settings',
@@ -176,14 +199,14 @@ const routes = [
           },
         ]
       },
-      {
-        path: '/app/cloud',
-        name: 'cloudRouter',
-        meta: {
-          requireAuth: true
-        },
-        redirect: {name: 'dashboardRouter'}
-      },
+      // {
+      //   path: '/app/cloud',
+      //   name: 'cloudRouter',
+      //   meta: {
+      //     requireAuth: true
+      //   },
+      //   redirect: {name: 'dashboardRouter'}
+      // },
       {
         path: '/app/logout',
         name: 'logoutRouter',

@@ -22,9 +22,7 @@
 			<router-link tag="li" :to="{name:'archiveRouter'}">
 			<a href="#" class=""><i class="mdi mdi-folder-move fa-fw" data-icon="v"></i> <span class="hide-menu"> {{$t("message.left.archive")}}  </span></a>
 			 </router-link>
-            <!-- <router-link tag="li" :to="{name:'cloudRouter'}">
-            <a href="#" class="waves-effect"><i class="mdi mdi-cloud fa-fw"></i> <span class="hide-menu">{{$t("message.left.cloud")}}</span></a>
-            </router-link> -->
+             
             
              <!-- 高级回放 -->
 			<router-link tag="li" :to="{name:'AdvancePBRouter'}">
@@ -35,9 +33,14 @@
 			<router-link tag="li" :to="{name:'Gaogao1Router'}">
 			<a href="#" class="waves-effect"><i class="mdi mdi-play-circle fa-fw" data-icon="v"></i> <span class="hide-menu"> {{$t("message.left.AdvancePB")}}  </span></a>
 			 </router-link> -->
+             <!-- 国标 -->
 			<router-link tag="li" :to="{name:'GB28181Router'}">
 			<a href="#" class=""><i class="mdi mdi-equal-box fa-fw" data-icon="v"></i> <span class="hide-menu"> GB</span></a>
 			 </router-link>
+             <!-- 级联 -->
+            <router-link tag="li" :to="{name:'cloudsRouter'}">
+            <a href="#" class="waves-effect"><i class="mdi mdi-cloud fa-fw"></i> <span class="hide-menu">{{$t("message.left.cloud")}}</span></a>
+            </router-link>
              <!-- 巡更 apps -->
 			<router-link tag="li" :to="{name:'TourRouter'}">
 			<a href="#" class=""><i class="mdi mdi-view-grid fa-fw" data-icon="v"></i> <span class="hide-menu"> {{$t("message.left.tour")}}</span></a>
