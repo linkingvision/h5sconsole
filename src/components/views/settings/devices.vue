@@ -29,7 +29,7 @@
               <el-form-item label="URL" v-if="editform.Type!='H5_ONVIF'">
                   <input class="editinput" v-model="editform.URL"/>
               </el-form-item>
-              <el-form-item label="Audio">
+              <el-form-item label="Audio" v-if="editform.Type!='H5_FILE'">
                 <el-switch
                   v-model="editform.Audio"
                   active-text="ON"
@@ -71,7 +71,7 @@
                         <el-form-item label="URL" v-if="form.Type!='H5_ONVIF'">
                             <input class="editinput" v-model="form.URL"/>
                         </el-form-item>
-                        <el-form-item label="Audio">
+                        <el-form-item label="Audio" v-if="form.Type!='H5_FILE'">
                           <el-switch
                             v-model="form.Audio"
                             active-text="ON"
@@ -359,9 +359,6 @@
                                 <el-form-item label="strDevPort :">
                                     <span>{{ props.row.Port }}</span>
                                 </el-form-item>
-                                <el-form-item label="bEnableAudio :">
-                                    <span>{{ props.row.Audio }}</span>
-                                </el-form-item>
                                 <el-form-item label="bOnline :">
                                     <span>{{ props.row.Online }}</span>
                                 </el-form-item>
@@ -420,7 +417,7 @@
                             placeholder="输入关键字"/>
                         </template>
                         <template slot-scope="scope">
-                            <el-button @click="handleClick(scope.$index,scope.row)" type="text" size="small">{{$t("message.setting.DeleteAll")}}</el-button>
+                            <el-button @click="handleClick(scope.$index,scope.row)" type="text" size="small">{{$t("message.setting.Detail")}}</el-button>
                             <el-button @click="handleEdit(scope.$index,scope.row)" type="text" size="small">{{$t("message.setting.edit")}}</el-button>
                             <el-button @click.native.prevent="deleteRow(scope.$index,scope.row, tableData2)" type="text" size="small">{{$t("message.setting.DeleteAll")}}</el-button>
                         </template>
@@ -646,10 +643,11 @@ import uuid from '@/store/uuid'
                           bPasswdEncrypt:itme[i].bPasswdEncrypt,
                       };
                       this.tableData.push(tabledata);
-                      //console.log(tabledata);
-                      //console.log(tabledata);
+                      console.log(tabledata);
+                      
                   }
                   this.total=this.tableData.length;
+                  console.log(this.tabledata);
               }
             })
         },
@@ -724,7 +722,7 @@ import uuid from '@/store/uuid'
                           bPasswdEncrypt:itme[i].bPasswdEncrypt,
                       };
                       this.tableData2.push(tabledata);
-                      //console.log(tabledata);
+                      console.log(tabledata);
                   }
                   this.total2=this.tableData2.length;
               }
@@ -817,7 +815,7 @@ import uuid from '@/store/uuid'
                 Online:form.Online+"",
                 bPasswdEncrypt:form.bPasswdEncrypt,
             }
-            //console.log("form",form);
+            console.log("form",form);
            
             //return false;
             var url1 = root + "/api/v1/DelSrc?token="+this.edittoken+"&session="+ this.$store.state.token;
@@ -827,7 +825,6 @@ import uuid from '@/store/uuid'
                     //console.log("1",result);
                     if(result.status==200){
                         if(result.data.bStatus==true){
-                            console.log(result.data.bStatus);
                             this.tableData.splice(this.editindex, 1,list)
                         }else{
                             this.$message({
@@ -841,17 +838,18 @@ import uuid from '@/store/uuid'
               var url = root + "/api/v1/AddSrcRTSP?&name="+form.Name+
               "&token="+form.Token+
               "&user="+form.Username+
-              "&password="+form.Password+
+              "&password="+encodeURIComponent(form.Password)+
               "&audio="+form.Audio+
-              "&url="+form.URL+
+              "&url="+encodeURIComponent(form.URL)+
               "&session="+ this.$store.state.token;
-              //console.log(url);
+              console.log("++++++++++++++++",url);
               this.$http.get(url).then(result=>{
                 //console.log(result);
                 if(result.status==200){
                   if(result.data.bStatus==true){
+                        this.tableData=[];
+                        this.loadstream();
                         //this.reload();
-                        console.log(result.data.bStatus);
                     }else{
                         this.$message({
                             message: '编辑失败',
@@ -867,7 +865,6 @@ import uuid from '@/store/uuid'
                     //console.log("1",result);
                     if(result.status==200){
                         if(result.data.bStatus==true){
-                            console.log(result.data.bStatus);
                             this.tableData1.splice(this.editindex, 1,list)
                         }else{
                             this.$message({
@@ -882,7 +879,7 @@ import uuid from '@/store/uuid'
                 +form.Name+
                 "&token="+form.Token+
                 "&user="+form.Username+
-                "&password="+form.Password+
+                "&password="+encodeURIComponent(form.Password)+
                 "&audio="+form.Audio+
                 "&ip="+form.IP+
                 "&port="+form.Port+
@@ -892,6 +889,8 @@ import uuid from '@/store/uuid'
                     //console.log(result);
                     if(result.status==200){
                         if(result.data.bStatus==true){
+                            this.tableData1=[];
+                            this.loadonvif();
                         }else{
                             this.$message({
                                 message: '编辑失败',
@@ -907,7 +906,6 @@ import uuid from '@/store/uuid'
                     //console.log("1",result);
                     if(result.status==200){
                         if(result.data.bStatus==true){
-                            console.log(result.data.bStatus);
                             this.tableData2.splice(this.editindex, 1,list)
                         }else{
                             this.$message({
@@ -918,6 +916,7 @@ import uuid from '@/store/uuid'
                         }
                     }
                 })
+                console.log("H5_FILE",form.Audio);
                 var url = root + "/api/v1/AddSrcFile?&name="
                 +form.Name+
                 "&token="+form.Token+
@@ -929,9 +928,11 @@ import uuid from '@/store/uuid'
                     if(result.status==200){
                         if(result.data.bStatus==true){
                             //this.reload();
+                            this.tableData2=[];
+                            this.loadfile();
                         }else{
                             this.$message({
-                                message: '添加失败',
+                                message: '编辑失败',
                                 type: 'warning'
                             });
                             return false;
@@ -960,6 +961,7 @@ import uuid from '@/store/uuid'
             }
             //console.log(form.Type)
             if(form.Type=="H5_STREAM"){
+              console.log("stream",form.Audio);
               var url = root + "/api/v1/AddSrcRTSP?&name="+form.Name+
               "&token="+form.Token+
               "&user="+form.Username+
@@ -967,7 +969,7 @@ import uuid from '@/store/uuid'
               "&audio="+form.Audio+
               "&url="+encodeURIComponent(form.URL)+
               "&session="+ this.$store.state.token;
-              //console.log(url);
+              console.log("---------------------",url);
               this.$http.get(url).then(result=>{
                 //console.log(result);
                 if(result.status==200){
@@ -986,6 +988,7 @@ import uuid from '@/store/uuid'
                 }
               })
             }else if(form.Type=="H5_ONVIF"){
+                console.log("H5_ONVIF",form.Audio);
                 var url = root + "/api/v1/AddSrcONVIF?&name="
                 +form.Name+
                 "&token="+form.Token+
@@ -1014,6 +1017,7 @@ import uuid from '@/store/uuid'
                     }
                 })
             }else if(form.Type=="H5_FILE"){
+                console.log("H5_FILE",form.Audio);
                 var url = root + "/api/v1/AddSrcFile?&name="
                 +form.Name+
                 "&token="+form.Token+
@@ -1061,7 +1065,7 @@ import uuid from '@/store/uuid'
         },
         handleEdit(index,row){
             console.log(index,row);
-            // console.log(this.editform);
+            console.log(row.Audio,row.strUrl);
             // console.log(this.tableData[index]);
             //return false;
             this.editPopup = true;
@@ -1075,10 +1079,10 @@ import uuid from '@/store/uuid'
             this.editform["IP"]=row.IP;
             this.editform["Port"]=row.Port;
             this.editform["URL"]=row.strUrl;
-            this.editform["Audio"]=this.tableData[index].Audio;
+            this.editform["Audio"]=row.Audio;
             this.editform["Online"]=row.Online;
             this.editform["bPasswdEncrypt"]=row.bPasswdEncrypt;
-            // console.log(this.editform)
+            console.log(this.editform)
             // console.log(this.tableData[index])
         },
         //点击添加时随机获取到token数据
@@ -1239,7 +1243,6 @@ import uuid from '@/store/uuid'
             this.form.Type=targetName.label;
             console.log(targetName.label);
             
-            console.log();
             if(targetName.label=="H5_ONVIF"){
                 this.tableData1=[];
                 this.loadonvif();
@@ -1249,6 +1252,9 @@ import uuid from '@/store/uuid'
             }else if(targetName.label=="全部"||targetName.label=="All"){
                 this.tableData3=[];
                 this.loadqb();
+            }else if(targetName.label=="H5_STREAM"){
+                this.tableData=[];
+                this.loadstream();
             }
             
             //this.reload();
