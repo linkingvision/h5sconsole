@@ -312,8 +312,8 @@
                 <el-pagination
                     style="text-align: center;"
                     layout="prev, pager, next"
-                    @size-change="handleSizeChange1" 
-                    @current-change="handleCurrentChange1"
+                    @size-change="handleSizeChange2" 
+                    @current-change="handleCurrentChange2"
                     :current-page="currentPage1"
                     :total="total1">
                 </el-pagination>
@@ -427,8 +427,8 @@
                 <el-pagination
                     style="text-align: center;"
                     layout="prev, pager, next"
-                    @size-change="handleSizeChange1" 
-                    @current-change="handleCurrentChange1"
+                    @size-change="handleSizeChange3" 
+                    @current-change="handleCurrentChange3"
                     :current-page="currentPage2"
                     :total="total2">
                 </el-pagination>
@@ -526,8 +526,8 @@
                 <el-pagination
                     style="text-align: center;"
                     layout="prev, pager, next"
-                    @size-change="handleSizeChange1" 
-                    @current-change="handleCurrentChange1"
+                    @size-change="handleSizeChange4" 
+                    @current-change="handleCurrentChange4"
                     :current-page="currentPage3"
                     :total="total3">
                 </el-pagination>
@@ -825,6 +825,7 @@ import uuid from '@/store/uuid'
                     //console.log("1",result);
                     if(result.status==200){
                         if(result.data.bStatus==true){
+                            console.log("*************************",result.data.bStatus)
                             this.tableData.splice(this.editindex, 1,list)
                         }else{
                             this.$message({
@@ -861,12 +862,15 @@ import uuid from '@/store/uuid'
                 }
               })
             }else if(form.Type=="H5_ONVIF"){
+                console.log("onvif++++++++++++",url1);
                 this.$http.get(url1).then(result=>{
                     //console.log("1",result);
                     if(result.status==200){
                         if(result.data.bStatus==true){
+                            console.log("*************************",result.data.bStatus)
                             this.tableData1.splice(this.editindex, 1,list)
                         }else{
+                            console.log("*************************3",result.data.bStatus)
                             this.$message({
                                 message: '删除失败',
                                 type: 'warning'
@@ -875,6 +879,7 @@ import uuid from '@/store/uuid'
                         }
                     }
                 })
+                // return false
                 var url = root + "/api/v1/AddSrcONVIF?&name="
                 +form.Name+
                 "&token="+form.Token+
@@ -884,14 +889,16 @@ import uuid from '@/store/uuid'
                 "&ip="+form.IP+
                 "&port="+form.Port+
                 "&session="+ this.$store.state.token;
-                //console.log(url);
+                console.log("onvif++++++++++++1",url);
                 this.$http.get(url).then(result=>{
                     //console.log(result);
                     if(result.status==200){
                         if(result.data.bStatus==true){
+                            console.log("*************************1",result.data.bStatus)
                             this.tableData1=[];
                             this.loadonvif();
                         }else{
+                            console.log("*************************2",result.data.bStatus)
                             this.$message({
                                 message: '编辑失败',
                                 type: 'warning'
@@ -1209,32 +1216,32 @@ import uuid from '@/store/uuid'
             this.currentPage = val;
         },
         //2
-        handleSizeChange1(val) {
+        handleSizeChange2(val) {
             console.log(`每页 ${val} 条`);
             this.currentPage1 = 1;
             this.pageSize = val;
         },
-        handleCurrentChange1(val) {
+        handleCurrentChange2(val) {
             console.log(`当前页: ${val}`);
             this.currentPage1 = val;
         },
         //3
-        handleSizeChange1(val) {
+        handleSizeChange3(val) {
             console.log(`每页 ${val} 条`);
             this.currentPage2 = 1;
             this.pageSize = val;
         },
-        handleCurrentChange1(val) {
+        handleCurrentChange3(val) {
             console.log(`当前页: ${val}`);
             this.currentPage2 = val;
         },
         //4
-        handleSizeChange1(val) {
+        handleSizeChange4(val) {
             console.log(`每页 ${val} 条`);
             this.currentPage3 = 1;
             this.pageSize = val;
         },
-        handleCurrentChange1(val) {
+        handleCurrentChange4(val) {
             console.log(`当前页: ${val}`);
             this.currentPage3 = val;
         },
