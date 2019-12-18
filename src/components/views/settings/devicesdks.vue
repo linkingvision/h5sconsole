@@ -76,17 +76,27 @@
                         <el-form-item label="Token">
                             <input class="editinput" v-model="form.Token"/>
                         </el-form-item>
-                        <el-form-item label="Username">
+                        <el-form-item label="Username" v-if="form.Type!='H5_DEV_HIKISC'">
                             <input class="editinput" v-model="form.Username"/>
                         </el-form-item>
-                        <el-form-item label="Password">
-                            <input class="editinput" v-model="form.Password"/>
+                        <el-form-item label="Password" v-if="form.Type!='H5_DEV_HIKISC'">
+                            <input class="editinput"  v-model="form.Password"/>
                         </el-form-item>
+                        <!-- lingyige -->
+                        <el-form-item label="AppKey "  v-if="form.Type=='H5_DEV_HIKISC'">
+                            <input class="editinput" v-model="form.Username_isc"/>
+                        </el-form-item>
+                        <el-form-item label="AppSecret"  v-if="form.Type=='H5_DEV_HIKISC'">
+                            <input class="editinput" v-model="form.Password_isc"/>
+                        </el-form-item>
+
                         <el-form-item label="IP">
                             <input class="editinput" v-model="form.IP"/>
                         </el-form-item>
                         <el-form-item label="Port">
-                            <input class="editinput" v-model="form.Port"/>
+                            <input class="editinput" v-if="form.Type=='H5_DEV_HIK'" v-model="form.Port"/>
+                            <input class="editinput" v-if="form.Type=='H5_DEV_DH'" v-model="form.Port_dh"/>
+                            <input class="editinput" v-if="form.Type=='H5_DEV_HIKISC'" v-model="form.Port_isc"/>
                         </el-form-item>
                         <el-form-item label="Audio">
                           <el-switch
@@ -248,6 +258,10 @@ import uuid from '@/store/uuid'
                 value: 'H5_DEV_DH',
                 label: 'H5_DEV_DH'
             }
+            , {
+                value: 'H5_DEV_HIKISC',
+                label: 'H5_DEV_HIKISC'
+            }
         ],
         //分页
         pageSize: 10,//一页数量
@@ -260,9 +274,13 @@ import uuid from '@/store/uuid'
             Name:"Device1",
             Token:"platform1",
             Username:"admin",
+            Username_isc:"22936233",
             Password:"12345",
+            Password_isc:"px50TzrNNUiU1uxloJLG",
             IP:"192.168.1.1",
             Port:"8000",
+            Port_dh:"37777",
+            Port_isc:"443",
             Audio:false,
         },
         editform: {
@@ -290,7 +308,8 @@ import uuid from '@/store/uuid'
               wsroot = window.location.host;
           }
           //url
-          var url = root + "/api/v1/GetDevice?getonline=false&session="+ this.$store.state.token;
+          var url = root + "/api/v1/GetDevice?getonline=true&session="+ this.$store.state.token;
+          //   console.log("***********************",url)
             this.$http.get(url).then(result=>{
               if(result.status == 200){
                   var itme=result.data.dev;
@@ -337,6 +356,7 @@ import uuid from '@/store/uuid'
             }
             //url
             var form=this.editform;
+            console.log("45111111******",form)
             var list = {
                             Type:form.Type,
                             Name:form.Name,
@@ -382,7 +402,7 @@ import uuid from '@/store/uuid'
             if(form.Type=="H5_DEV_HIK"){
               var url = root + "/api/v1/AddDeviceHik?&name="+form.Name+
               "&token="+form.Token+
-              "&user="+form.Username+
+              "&user="+form.User+
               "&password="+form.Password+
               "&ip="+form.IP+
               "&port="+form.Port+
@@ -398,10 +418,26 @@ import uuid from '@/store/uuid'
                 console.log(form.Type)
                 var url = root + "/api/v1/AddDeviceDh?&name="+form.Name+
                 "&token="+form.Token+
-                "&user="+form.Username+
+                "&user="+form.User+
                 "&password="+form.Password+
                 "&ip="+form.IP+
                 "&port="+form.Port+
+                "&audio="+form.Audio+
+                "&session="+ this.$store.state.token;
+                console.log(url);
+                this.$http.get(url).then(result=>{
+                    console.log(result);
+                    if(result.status==200){
+                    }
+                })
+            }else if(form.Type=="H5_DEV_HIKISC"){
+                console.log(form.Type)
+                var url = root + "/api/v1/AddDeviceDh?&name="+form.Name+
+                "&token="+form.Token+
+                "&user="+form.User+
+                "&password="+form.Password_isc+
+                "&ip="+form.IP+
+                "&port="+form.Port_isc+
                 "&audio="+form.Audio+
                 "&session="+ this.$store.state.token;
                 console.log(url);
@@ -462,7 +498,7 @@ import uuid from '@/store/uuid'
                 "&user="+form.Username+
                 "&password="+encodeURIComponent(form.Password)+
                 "&ip="+form.IP+
-                "&port="+form.Port+
+                "&port="+form.Port_dh+
                 "&audio="+form.Audio+
                 "&session="+ this.$store.state.token;
                 console.log(url);
@@ -470,15 +506,41 @@ import uuid from '@/store/uuid'
                     console.log(result);
                     if(result.status==200){
                         if(result.data.bStatus==true){
-                        this.tableData=[];
-                        this.loadHIK();
-                    }else{
-                        this.$message({
-                            message: '添加失败',
-                            type: 'warning'
-                        });
-                        return false;
+                            this.tableData=[];
+                            this.loadHIK();
+                        }else{
+                            this.$message({
+                                message: '添加失败',
+                                type: 'warning'
+                            });
+                            return false;
+                        }
                     }
+                })
+            }else if(form.Type=="H5_DEV_HIKISC"){
+                console.log(form.Type)
+                var url = root + "/api/v1/AddDeviceDh?&name="+form.Name+
+                "&token="+form.Token+
+                "&user="+form.Username_isc+
+                "&password="+form.Password_isc+
+                "&ip="+form.IP+
+                "&port="+form.Port_isc+
+                "&audio="+form.Audio+
+                "&session="+ this.$store.state.token;
+                console.log(url);
+                this.$http.get(url).then(result=>{
+                    console.log(result);
+                    if(result.status==200){
+                        if(result.data.bStatus==true){
+                            this.tableData=[];
+                            this.loadHIK();
+                        }else{
+                            this.$message({
+                                message: '添加失败',
+                                type: 'warning'
+                            });
+                            return false;
+                        }
                     }
                 })
             }
@@ -504,7 +566,7 @@ import uuid from '@/store/uuid'
             })
         },
         handleEdit(index,row){
-            console.log(index);
+            console.log("****************",this.tableData[index].User);
             console.log(this.tableData[index]);
             //return false;
             this.editPopup = true;

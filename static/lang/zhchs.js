@@ -41,6 +41,7 @@ module.exports={
     },
 	dashboard:
     {
+		about:"关于",
 		dashboard: '仪表盘',
 		system_info: '系统',
 		version: '版本',

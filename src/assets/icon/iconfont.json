@@ -1,0 +1,79 @@
+{
+  "id": "1553652",
+  "name": "后台",
+  "font_family": "iconfont",
+  "css_prefix_text": "icon-",
+  "description": "",
+  "glyphs": [
+    {
+      "icon_id": "30104",
+      "name": "设置",
+      "font_class": "shezhi",
+      "unicode": "e67b",
+      "unicode_decimal": 59003
+    },
+    {
+      "icon_id": "7549827",
+      "name": "发布",
+      "font_class": "RectangleCopy1",
+      "unicode": "e6a9",
+      "unicode_decimal": 59049
+    },
+    {
+      "icon_id": "8068680",
+      "name": "语音通话",
+      "font_class": "yuyintonghua",
+      "unicode": "e61f",
+      "unicode_decimal": 58911
+    },
+    {
+      "icon_id": "12214825",
+      "name": "camerafill",
+      "font_class": "camerafill",
+      "unicode": "e605",
+      "unicode_decimal": 58885
+    },
+    {
+      "icon_id": "12215120",
+      "name": "full",
+      "font_class": "full",
+      "unicode": "e612",
+      "unicode_decimal": 58898
+    },
+    {
+      "icon_id": "12215190",
+      "name": "picfill",
+      "font_class": "picfill",
+      "unicode": "e621",
+      "unicode_decimal": 58913
+    },
+    {
+      "icon_id": "12215203",
+      "name": "radioboxfill",
+      "font_class": "radioboxfill",
+      "unicode": "e624",
+      "unicode_decimal": 58916
+    },
+    {
+      "icon_id": "12215227",
+      "name": "roundclosefill",
+      "font_class": "roundclosefill",
+      "unicode": "e629",
+      "unicode_decimal": 58921
+    },
+    {
+      "icon_id": "12215284",
+      "name": "voicefill",
+      "font_class": "voicefill",
+      "unicode": "e634",
+      "unicode_decimal": 58932
+    },
+    {
+      "icon_id": "12215289",
+      "name": "videofill",
+      "font_class": "videofill",
+      "unicode": "e635",
+      "unicode_decimal": 58933
+    }
+  ]
+}

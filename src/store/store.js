@@ -1,4 +1,4 @@
-
+import "babel-polyfill"
 import Vuex from 'vuex'
 import Vue from 'vue'
 import * as types from './types'

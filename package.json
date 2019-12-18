@@ -15,6 +15,7 @@
   },
   "dependencies": {
     "axios": "^0.18.1",
+    "babel-polyfill": "^6.26.0",
     "bootstrap": "^3.4.1",
     "datatables.net": "^1.10.16",
     "datatables.net-bs": "^1.10.16",

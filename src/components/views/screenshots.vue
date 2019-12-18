@@ -79,7 +79,7 @@
                             <template slot-scope="scope">
                                 <el-button
                                 size="mini"
-                                type="success"><a :href="scope.row.url" :download="scope.row.urlto">{{$t("message.archive.Clear")}}</a></el-button>
+                                type="success"><a :href="scope.row.url" :download="scope.row.urlto">{{$t("message.archive.Download")}}</a></el-button>
                                 <el-button size="mini"  @click="Refresh1(scope.$index, scope.row)" data-toggle="modal" data-target="#myModal">{{$t("message.archive.Preview")}}</el-button>
                             </template>
                          </el-table-column>

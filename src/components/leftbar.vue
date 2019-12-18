@@ -51,16 +51,17 @@
             </li>
             
             <!-- 事件 -->
-			<router-link tag="li" :to="{name:'eventRouter'}">
+			<!-- <router-link tag="li" :to="{name:'eventRouter'}">
 			<a href="#" class=""><i class="mdi mdi-bell fa-fw" data-icon="v"></i> <span class="hide-menu"> {{$t("message.left.event")}}  </span></a>
-			 </router-link>
+			 </router-link> -->
             <!-- 样式设置 -->
             <router-link tag="li" :to="{name:'devicesRouter'}">
             <a href="#" class=""><i class="mdi mdi-settings fa-fw"  data-icon="v"></i> <span class="hide-menu"> {{$t("message.left.setting")}}  </span></a>
             </router-link>
-            <router-link tag="li" :to="{name:'logoutRouter'}">
+            <!-- 关闭 -->
+            <!-- <router-link tag="li" :to="{name:'logoutRouter'}">
             <a  class="waves-effect" ><i class="mdi mdi-arrow-right-bold-circle fa-fw" ></i> <span class="hide-menu">{{$t("message.left.logout")}}</span></a>
-            </router-link>
+            </router-link> -->
 
             <!-- <li class="devider"></li> -->
  

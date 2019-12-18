@@ -308,11 +308,11 @@ export default {
     mounted:function(){
         let _this =this;
         this.GetSystemInfo();
-        this.GetSrcInfo();
         this.GetRunInfo();
         this.GetCodecInfo();
         this.timerRunInfo = setInterval(() => {
                             this.GetRunInfo();
+                            // this.GetSrcInfo();
                             }, 5000);
     },
     methods: {
@@ -369,9 +369,11 @@ export default {
             }
 
             var url = root + "/api/v1/GetSrc?session="+ this.$store.state.token;
-
+            console.log("****************",url)
+            
             this.$http.get(url).then(result => {
-                //console.log(result);
+                console.log( result.data.src.length);
+                
                 if (result.status == 200) 
                 {
                     var data =  result.data;
@@ -383,8 +385,11 @@ export default {
                         if(item['bOnline'])
                         {
                             _this.srcInfo.nSrcOnline ++;
+                            
                         }
                     }
+                    
+                    console.log("---------------------",_this.srcInfo.nSrcOnline);
                 }
             }).catch(error => {
                 console.log('GetSrc', error);

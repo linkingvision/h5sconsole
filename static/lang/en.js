@@ -42,6 +42,7 @@ module.exports={
     },
 	dashboard:
     {
+		about:"	About",
 		dashboard: 'Dashboard',
 		system_info: 'System Info',
 		version: 'Version',

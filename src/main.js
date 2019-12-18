@@ -1,5 +1,6 @@
 // The Vue build version to load with the `import` command
 // (runtime-only or standalone) has been set in webpack.base.conf with an alias.
+import "babel-polyfill"
 import Vue from 'vue'
 import App from './App'
 import router from './router'
@@ -24,6 +25,9 @@ import './assets/material/js/jquery.slimscroll'
 import './assets/material/js/waves'
 import './assets/material/js/custom.min'
 import './assets/plugins/bower_components/styleswitcher/jQuery.style.switcher'
+
+import './assets/icon/iconfont.css'//字体图标
+
 import axios from '@/http'
 import store from '@/store/store'
 import VeeValidate from 'vee-validate'
