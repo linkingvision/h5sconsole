@@ -309,6 +309,7 @@ export default {
         let _this =this;
         this.GetSystemInfo();
         this.GetRunInfo();
+        this.GetSrcInfo();
         this.GetCodecInfo();
         this.timerRunInfo = setInterval(() => {
                             this.GetRunInfo();
