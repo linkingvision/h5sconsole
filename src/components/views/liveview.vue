@@ -9,7 +9,8 @@
                     <h4 class="page-title">{{$t("message.live.liveview")}}</h4>
                 </div>
                 <div class="col-lg-9 col-sm-8 col-md-8 col-xs-12">
-                    <el-button class="pull-right" @click="drawer = true" size="mini" type="primary" icon="ti-settings text-white" circle>
+                    <el-button class="pull-right" @click="drawer = true" size="mini" circle>
+                        <img src="./gallery/shezhi@2x.png" alt="">
                     </el-button>
                 </div>
             </div>
@@ -56,15 +57,17 @@
         </el-drawer>
         
         <!-- Video -->
-        <div class="row">
+        <div class="rowflex">
             <!-- Device tree -->
-            <div class="col-sm-3">
-                <div class="zdg">
+            <div class="flexlist">
+                <div class="zdg" id="height_zdg">
                     <!-- 模糊查询搜查 -->
-                    <el-input
-                        placeholder="输入关键字进行过滤"
-                        v-model="filterText">
-                    </el-input>
+                    <div class="input-pin">
+                        <el-input
+                            placeholder="输入关键字进行过滤"
+                            v-model="filterText">
+                        </el-input>
+                    </div>
                     <el-tree
                         :data="data"
                         node-key="id"
@@ -74,7 +77,8 @@
                         @node-click="handleNodeClick"
                         :props="defaultProps">
                         <span slot-scope="{ node, data }">
-                            <i :class="data.iconclass" style="color:rgb(142, 132, 132);"></i>
+                            <div :class="data.iconclass" style="color:rgb(142, 132, 132);"></div>
+                            <!-- <img src="" alt=""> -->
                             <span style="padding-left: 4px;">{{data.label}}</span>
                         </span>
                     </el-tree>
@@ -82,34 +86,37 @@
             </div>
 
             <!-- Video 1 4 9 16 -->
-            <div class="col-sm-9" id="videoPanel">
-                <div name='flex' class="videoColor" v-for="r in rows" :key="r">
-                    <div calss="videoflexitem" style="flex:1; border:1px solid black;" name="flex" v-for="c in cols" @contextmenu.prevent="stopVideo($event)" @click="videoClick(r,c,$event)" :key="c">
-                    <v-liveplayer v-bind:id="'h'+r+c" :h5id="'h'+r+c" :h5videoid="'hvideo'+r+c"></v-liveplayer>
+            <div class="flexvideo" id="videoPanel">
+                <div name='flex' style="position: relative;" class="videoColor" v-for="r in rows" :key="r">
+                    <div class="palace" name="flex" v-for="c in cols" @contextmenu.prevent="stopVideo($event)" @click="videoClick(r,c,$event)" :key="c">
+                    <v-liveplayer v-bind:id="'h'+r+c" :h5id="'h'+r+c" :rows="rows" :cols="cols" :h5videoid="'hvideo'+r+c"></v-liveplayer>
                     </div>
                 </div>
                 <div class="btn-group blocks">
-                    <el-button type="button" class="layout1x1" data-row="1|1" @click="changePanel($event)">
-                        </el-button>
-                    <el-button type="button" class="layout2x2" data-row="2|2" @click="changePanel($event)">
-                        </el-button>
-                    <el-button type="button" class="hidden-xs layout3x3" data-row="3|3" @click="changePanel($event)">
-                        </el-button>
-                    <el-button type="button" class="hidden-xs  layout4x4" data-row="4|4" @click="changePanel($event)">
-                        </el-button>
-                    <el-button type="button" class="layoutfull" @click="panelFullScreen($event)"> </el-button>
+                        <el-button type="button" class="layout1x1" data-row="1|1" @click="changePanel($event)"></el-button>
+                        <el-button type="button" class="layout1x3" data-row="1|3" @click="changePanel($event)"></el-button>
+                        <el-button type="button" class="layout2x2" data-row="2|2" @click="changePanel($event)"></el-button>
+
+                        <el-button type="button" class="layout2x3" data-row="1|6" @click="changePanel($event)"></el-button>
+                        <el-button type="button" class="layout1x7" data-row="1|7" @click="changePanel($event)"></el-button>
+
+                        <el-button type="button" class="layout3x3" data-row="3|3" @click="changePanel($event)"></el-button>
+
+                        
+                        <el-button type="button" class="layout1x13" data-row="1|13" @click="changePanel($event)"></el-button>
+
+                        <el-button type="button" class="layout4x4" data-row="4|4" @click="changePanel($event)"></el-button>
+                        <el-button type="button" class="layout5x5" data-row="5|5" @click="changePanel($event)"></el-button>
+                        <el-button type="button" class="layoutfull" @click="panelFullScreen($event)"> </el-button>
                 </div>
             </div>
-            
-            
-
         </div><!-- Video -->
-
+        
     </div>
-    
 
 </div>
 </template>
+
 
 <script>
 import * as types from '@/store/types'
@@ -133,6 +140,7 @@ export default {
             return {
                 //过滤文字
                 filterText:"",
+                rc:13,
                 rows: 3,
                 cols: 3,
                 selectCol: 1,
@@ -167,7 +175,7 @@ export default {
         this.NumberDevice();
         this.addWaterMarker();
         this.cloudDevice();
-
+        this.height_zsy();
         // 水印
         document.getElementById("watermarktoggle").style.display=this.watermarktoggle;
         this.$root.bus.$emit('liveplayproto',this.proto);
@@ -221,13 +229,15 @@ export default {
         },
         //树形节点点击
         handleNodeClick(data, checked, indeterminate){
-            console.log(data.token);
-            console.log(data.streamprofile);
+            console.log(data.name)
+            // console.log(data.label);
+            // console.log(data.streamprofile);
             let _this =this;
+            //return false;
             if (data.token) {
                 let vid = 'h' + _this.$data.selectRow + _this.$data.selectCol;
-                console.log(vid);
-                _this.$root.bus.$emit('liveplay', data.token,data.streamprofile, vid);
+                // console.log("----------------------",data.label);
+                _this.$root.bus.$emit('liveplay', data.token, data.streamprofile, data.name, vid);
             }
         },
 
@@ -308,17 +318,20 @@ export default {
                             token : item['strToken'],
                             streamprofile : "main",
                             label :this.$t('message.live.mainstream'),
+                            name:item['strName']+"--"+this.$t('message.live.mainstream'),
                             iconclass : 'mdi mdi-playlist-play fa-fw'
                             },{
                             token : item['strToken'],
                             streamprofile : "sub",
                             label :this.$t('message.live.substream'),
+                            name:item['strName']+"--"+this.$t('message.live.substream'),
                             iconclass : 'mdi mdi-playlist-play fa-fw'
                             }]
                             var newItem ={
                                     token : item['strToken'],
                                     label : item['strName'],
                                     iconclass : 'mdi mdi-camcorder fa-fw',
+                                    name:item['strName']+"--"+this.$t('message.live.mainstream'),
                                     children:node};
                             //console.log("itme",item['bOnline'],item)
                             if(!item['bOnline'])
@@ -396,17 +409,20 @@ export default {
                           token : item['strToken'],
                           streamprofile : "main",
                           label :this.$t('message.live.mainstream'),
+                          name:item['strName']+"--"+this.$t('message.live.mainstream'),
                           iconclass : 'mdi mdi-playlist-play fa-fw'
                         },{
                           token : item['strToken'],
                           streamprofile : "sub",
                           label :this.$t('message.live.substream'),
+                          name:item['strName']+"--"+this.$t('message.live.substream'),
                           iconclass : 'mdi mdi-playlist-play fa-fw'
                         }]
                         var newItem ={
                                 token : item['strToken'],
                                 label : item['strName'],
                                 iconclass : 'mdi mdi-camcorder fa-fw',
+                                name:item['strName']+"--"+this.$t('message.live.mainstream'),
                                 children:node};
 
                         if(!item['bOnline'])
@@ -482,17 +498,20 @@ export default {
                           token : item['strToken'],
                           streamprofile : "main",
                           label :this.$t('message.live.mainstream'),
+                          name:item['strName']+"--"+this.$t('message.live.mainstream'),
                           iconclass : 'mdi mdi-playlist-play fa-fw'
                         },{
                           token : item['strToken'],
                           streamprofile : "sub",
                           label :this.$t('message.live.substream'),
+                          name:item['strName']+"--"+this.$t('message.live.substream'),
                           iconclass : 'mdi mdi-playlist-play fa-fw'
                         }]
                         var newItem ={
                                 token : item['strToken'],
                                 label : item['strName'],
                                 iconclass : 'mdi mdi-camcorder fa-fw',
+                                name:item['strName']+"--"+this.$t('message.live.mainstream'),
                                 children:node};
 
                         if(!item['bOnline'])
@@ -568,24 +587,27 @@ export default {
                           token : item['strToken'],
                           streamprofile : "main",
                           label :this.$t('message.live.mainstream'),
+                          name:item['strName']+"--"+this.$t('message.live.mainstream'),
                           iconclass : 'mdi mdi-playlist-play fa-fw'
                         },{
                           token : item['strToken'],
                           streamprofile : "sub",
                           label :this.$t('message.live.substream'),
+                          name:item['strName']+"--"+this.$t('message.live.substream'),
                           iconclass : 'mdi mdi-playlist-play fa-fw'
                         }]
                         var newItem ={
                                 token : item['strToken'],
                                 label : item['strName'],
-                                iconclass : 'mdi mdi-camcorder fa-fw',
+                                iconclass : 'cascade',
+                                name:item['strName']+"--"+this.$t('message.live.mainstream'),
                                 children:node};
 
                         if(!item['bOnline'])
                             newItem['iconclass'] = 'mdi mdi-camcorder-off fa-fw';
 
                         if(item['nType'] == 'H5_CLOUD')
-                            newItem['iconclass'] = 'mdi mdi-cloud-upload fa-fw';
+                            newItem['iconclass'] = 'cascade';
 
                        srcGroup.children.push(newItem);
                     }
@@ -595,12 +617,47 @@ export default {
                 console.log('GetSrc failed', error);
             });
         },
+        //点击宫格
         changePanel(event) {
             let data = $(event.target).data('row');
+            let _this = this;
+             window.setTimeout(function() {
+                if(data=='1|6'||data=='1|7'||data=='1|13'){
+                    console.log("121");
+                    
+                }else{
+                    console.log("45845454545");
+                    $("#videoPanel .videoColor .palace").removeClass("Seven_Palace");
+                    $("#videoPanel .videoColor .palace").removeClass("Six_Palace");
+                    $("#videoPanel .videoColor .palace").removeClass("videoflexitem");
+                }
+                var list_gong=$(".palace");
+                if(data=='1|6'){
+                    console.log("23")
+                    list_gong.removeClass("videoflexitem");
+                    list_gong.removeClass("Seven_Palace");
+
+                    list_gong.addClass("Six_Palace");
+                }
+                if(data=='1|7'){
+                    console.log("234")
+                    list_gong.removeClass("videoflexitem");
+                    list_gong.removeClass("Six_Palace");
+
+                    list_gong.addClass("Seven_Palace");
+                }
+                if(data=='1|13'){
+                    console.log("2345")
+                    list_gong.removeClass("Six_Palace");
+                    list_gong.removeClass("Seven_Palace");
+
+                    list_gong.addClass("videoflexitem");
+                }
+
+		    }, 50);
             let cols = data.split('|')[1];
             let rows = data.split('|')[0];
             //this.map.clear();
-            let _this = this;
             Object.assign(this.$data, {
                 rows: parseInt(rows),
                 cols: parseInt(cols)
@@ -726,6 +783,14 @@ export default {
             // 没匹配到返回false
             return false;
         },
+        //自适应高
+        height_zsy(){
+            var winHeight = $(window).height()-64;//winHeight即浏览器高度
+            console.log("******",winHeight-100);
+            $(".zdg").css("height",winHeight);
+            $(".flexvideo").css("height",winHeight);
+
+        }
 
     },
     //模糊查询
@@ -741,6 +806,169 @@ export default {
 
 
 <style scoped>
+
+.palace{
+    flex: 1 1 25%;
+    border:1px solid black;
+}
+.Seven_Palace{
+    flex: 1 1 33.33%;
+    height: 33.33% !important;
+}
+.Seven_Palace:nth-child(1){
+    height: 100% !important;
+}
+.Seven_Palace:nth-child(3){
+    width: 33.33% !important;
+    position: absolute;
+    top: 33.33%;
+    right: 0;
+}
+.Seven_Palace:nth-child(2){
+    width: 33.33% !important;
+    position: absolute;
+    top: 33.33%;
+    right: 33.33%;
+}
+.Seven_Palace:nth-child(6){
+    width: 33.33% !important;
+    position: absolute;
+    bottom: 0;
+    right: 33.33%;
+}
+.Seven_Palace:nth-child(7){
+    width: 33.33% !important;
+    position: absolute;
+    bottom: 0;
+    right: 0;
+}
+
+/* 六 */
+.Six_Palace{
+    flex: 1 1 33.33%;
+    height: 33.33% !important;
+}
+.Six_Palace:nth-child(1){
+    flex: 1 1 66.66%;
+    height: 66.66% !important;
+}
+.Six_Palace:nth-child(3){
+    width: 33.33% !important;
+    position: absolute;
+    top: 33.33%;
+    right: 0;
+}
+
+/* 十三宫格 */
+.videoflexitem{
+    width: 25% !important;
+    height: 25% !important;
+}
+.videoflexitem:nth-child(6){
+    position: absolute;
+    top: 50%;
+    left: 0;
+}
+.videoflexitem:nth-child(7){
+    flex: 1 1 50%;
+    height: 50% !important;
+}
+.videoflexitem:nth-child(8){
+    flex: 1 1 25%;
+    position: absolute;
+    top: 50%;
+    right: 0;
+}
+.blocks{
+    margin-top: 20px;
+}
+
+/* 级联 */
+.cascade{
+    width: 17px;
+    height: 25px;
+    background: url("./gallery/Cloud.svg") no-repeat;
+    background-size: 100%;
+    background-position: center center;
+    vertical-align:middle;
+    display: inline-block;
+    
+}
+
+/* 再次修改 */
+/* 头部 */
+.container-fluid{
+    padding-bottom: 0px;
+}
+.bg-title{
+    margin-bottom: 8px;
+}
+.el-button{
+    border: 0;
+}
+/* 内容 */
+.rowflex{
+    width: 100%;
+    display: flex;
+    height: 100%;
+    justify-content:space-between;
+}
+.zdg{
+    width: 100%;
+    background-color: #ffffff;
+    /* height: 900px; */
+    overflow-y:auto;
+}
+.flexlist{
+    width: 18%;
+    height: 100%;
+    min-width: 330px;
+}
+.flexvideo{
+    width: 81.5%;
+    height: 100%;
+}
+#videoPanel{
+    background-color: #ffffff;
+}
+.btn-group{
+    width: 100%;
+    text-align: center;
+    padding: 20px;
+}
+.btn-group .el-button{
+    margin-right: 30px;
+}
+.btn-group .el-button:last-child{
+    margin-right: 0;
+}
+/* 左边数据栏 */
+.el-input >>> .el-input__inner {
+    -webkit-appearance: none;
+    /* background:url("./gallery/ksr.png") no-repeat; */
+    background-color: #FAFAFA;
+    background-size: 100%;
+    border-radius: 50px;
+    border: 0;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    color: #606266;
+    display: inline-block;
+    font-size: inherit;
+    height: 38px;
+    line-height: 40px;
+    outline: 0;
+    padding: 0 30px;
+    -webkit-transition: border-color .2s cubic-bezier(.645,.045,.355,1);
+    transition: border-color .2s cubic-bezier(.645,.045,.355,1);
+    width: 100%;
+}
+.input-pin{
+    padding:16px 24px;
+    text-align: center；
+}
+
+
 .el-button+.el-button {
     margin-left: 0;
 }
@@ -771,13 +999,10 @@ export default {
     top: 0;
     display: block;
     pointer-events: none;
+    margin-top: 40px;
 }
 /* gao */
-.zdg{
-    background-color: #ffffff;
-    height: 800px;
-    overflow-y:auto;
-}
+
 .content-header .breadcrumb {
     font-size: 1.5rem;
     position: static;
@@ -789,6 +1014,7 @@ export default {
 
 div[name='flex'] {
     display: flex;
+    flex-wrap: wrap;
     border-bottom: 0px !important;
 
 }
@@ -837,13 +1063,13 @@ div[name="flex"]:hover {
     /*background-color: #3c8dbc;*/
     cursor: pointer;
 }
-
-.videoClickColor {
+/* .videoClickColor {
     background-color: #616263 !important;
     opacity: 0.80;
-}
+} */
 
 .videoColor {
+    /* width: 1500px; */
     background-color: rgb(73, 74, 75) !important;
 }
 
@@ -853,7 +1079,7 @@ div[name="flex"]:hover {
 }
 
 .layout1x1 {
-    background: url('../../assets/img/layout/1x1.png') #f2f2f2;
+    background: url('./gallery/1@2x.png') #f2f2f2;
     background-repeat: no-repeat;
     background-size: 32px 32px;
     color: #000;
@@ -861,16 +1087,33 @@ div[name="flex"]:hover {
     width: 32px;
     padding: 0;
 }
-.layout1x1:hover {
-    background: url('../../assets/img/layout/1x1.png') #7a7878;
+/* .layout1x1:hover {
+    background: url('./gallery/1@2x.png') #7a7878;
     background-size: 32px 32px;
     color: rgb(187, 184, 184);
     height: 32px;
     width: 32px;
+} */
+
+.layout1x3 {
+    background: url('./gallery/3@2x.png') #f2f2f2;
+    background-repeat: no-repeat;
+    background-size: 32px 32px;
+    color: #000;
+    height: 32px;
+    width: 32px;
+    padding: 0;
 }
+/* .layout1x3:hover {
+    background: url('./gallery/3@2x.png') #7a7878;
+    background-size: 32px 32px;
+    color: rgb(187, 184, 184);
+    height: 32px;
+    width: 32px;
+} */
 
 .layout2x2 {
-    background: url('../../assets/img/layout/2x2.png') #f2f2f2;
+    background: url('./gallery/4@2x.png') #f2f2f2;
     background-repeat: no-repeat;
     background-size: 32px 32px;
     color: #000;
@@ -878,16 +1121,49 @@ div[name="flex"]:hover {
     width: 32px;
     padding: 0;
 }
-.layout2x2:hover {
-    background: url('../../assets/img/layout/2x2.png') #7a7878;
+/* .layout2x2:hover {
+    background: url('./gallery/4@2x.png') #7a7878;
     background-size: 32px 32px;
     color: rgb(187, 184, 184);
     height: 32px;
     width: 32px;
+} */
+.layout2x3 {
+    background: url('./gallery/6@2x.png') #f2f2f2;
+    background-repeat: no-repeat;
+    background-size: 32px 32px;
+    color: #000;
+    height: 32px;
+    width: 32px;
+    padding: 0;
 }
+/* .layout2x3:hover {
+    background: url('./gallery/6@2x.png') #7a7878;
+    background-size: 32px 32px;
+    color: rgb(187, 184, 184);
+    height: 32px;
+    width: 32px;
+} */
+
+.layout1x7 {
+    background: url('./gallery/7@2x.png') #f2f2f2;
+    background-repeat: no-repeat;
+    background-size: 32px 32px;
+    color: #000;
+    height: 32px;
+    width: 32px;
+    padding: 0;
+}
+/* .layout1x7:hover {
+    background: url('./gallery/7@2x.png') #7a7878;
+    background-size: 32px 32px;
+    color: rgb(187, 184, 184);
+    height: 32px;
+    width: 32px;
+} */
 
 .layout3x3 {
-    background: url('../../assets/img/layout/3x3.png') #f2f2f2;
+    background: url('./gallery/9@2x.png') #f2f2f2;
     background-repeat: no-repeat;
     background-size: 32px 32px;
     color: #000;
@@ -895,16 +1171,33 @@ div[name="flex"]:hover {
     width: 32px;
     padding: 0;
 }
-.layout3x3:hover {
-    background: url('../../assets/img/layout/3x3.png') #7a7878;
+/* .layout3x3:hover {
+    background: url('./gallery/9@2x.png') #7a7878;
     background-size: 32px 32px;
     color: rgb(187, 184, 184);
     height: 32px;
     width: 32px;
+} */
+
+.layout1x13 {
+    background: url('./gallery/13@2x.png') #f2f2f2;
+    background-repeat: no-repeat;
+    background-size: 32px 32px;
+    color: #000;
+    height: 32px;
+    width: 32px;
+    padding: 0;
 }
+/* .layout1x13:hover {
+    background: url('./gallery/13@2x.png') #7a7878;
+    background-size: 32px 32px;
+    color: rgb(187, 184, 184);
+    height: 32px;
+    width: 32px;
+} */
 
 .layout4x4 {
-    background: url('../../assets/img/layout/4x4.png') #f2f2f2;
+    background: url('./gallery/16@2x.png') #f2f2f2;
     background-repeat: no-repeat;
     background-size: 32px 32px;
     color: #000;
@@ -912,16 +1205,33 @@ div[name="flex"]:hover {
     width: 32px;
     padding: 0;
 }
-.layout4x4:hover {
-    background: url('../../assets/img/layout/4x4.png') #7a7878;
+/* .layout4x4:hover {
+    background: url('./gallery/16@2x.png') #7a7878;
     background-size: 32px 32px;
     color: rgb(187, 184, 184);
     height: 32px;
     width: 32px;
+} */
+
+.layout5x5 {
+    background: url('./gallery/25@2x.png') #ffffff;
+    background-repeat: no-repeat;
+    background-size: 32px 32px;
+    color: #000;
+    height: 32px;
+    width: 32px;
+    padding: 0;
 }
+/* .layout5x5:hover {
+    background: url('./gallery/25@2x.png') #7a7878;
+    background-size: 32px 32px;
+    color: rgb(187, 184, 184);
+    height: 32px;
+    width: 32px;
+} */
 
 .layoutfull {
-    background: url('../../assets/img/layout/fullscreen.png') #f2f2f2;
+    background: url('./gallery/quanping.png') #ffffff;
     background-repeat: no-repeat;
     background-size: 32px 32px;
     color: #000;
@@ -929,12 +1239,12 @@ div[name="flex"]:hover {
     width: 32px;
     padding: 0;
 }
-.layoutfull:hover {
-    background: url('../../assets/img/layout/fullscreen.png') #7a7878;
+/* .layoutfull:hover {
+    background: url('./gallery/quanping.png') #7a7878;
     background-size: 32px 32px;
     color: rgb(187, 184, 184);
     height: 32px;
     width: 32px;
-}
+} */
 
 </style>
