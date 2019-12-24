@@ -4,7 +4,7 @@
         <div class="container-fluid">
             <div class="row bg-title">
                 <div class="col-lg-3 col-md-4 col-sm-4 col-xs-4">
-                    <h4 class="page-title">GB</h4> 
+                    <h4 class="page-title">GB | <span style="color:rgba(95,191,167,1);">{{language}}</span></h4> 
                 </div>
             </div>
         </div>
@@ -14,12 +14,12 @@
                 <div class="grid-content bg-purple">
                     <div :class="{setting_tj:index_lj==1}"  @click="setting_ys" class="setting_left">
                         <router-link  :to="{name:'GB28181Router'}">
-                            <a href="javascript:void(0)" class="setting_left_a">{{$t("message.GB.GB28181")}} </a> 
+                            <a href="javascript:void(0)" class="setting_left_a" :class="{setting_tj1:index_lj==1}">{{$t("message.GB.GB28181")}} </a> 
                         </router-link>
                     </div>
                     <div :class="{setting_tj:index_lj==2}"  @click="setting_ys1" class="setting_left">
                         <router-link  :to="{name:'GBplatformRouter'}">
-                            <a href="javascript:void(0)" class="setting_left_a">{{$t("message.GB.GBPlatform")}} </a> 
+                            <a href="javascript:void(0)" class="setting_left_a" :class="{setting_tj1:index_lj==2}">{{$t("message.GB.GBPlatform")}} </a> 
                         </router-link>
                     </div>
                 </div>
@@ -49,6 +49,7 @@ export default {
                 {name:this.$t("message.setting.devicesdk"),name1:'./setting/devicesdks'}
             ],*/
             index_lj:"1",
+            language:this.$t("message.GB.GB28181"),
         }
     },
     mounted(){
@@ -56,9 +57,11 @@ export default {
     methods: {
         setting_ys(){
              this.index_lj=1;
+             this.language=this.$t("message.GB.GB28181");
         },
         setting_ys1(){
              this.index_lj=2;
+             this.language=this.$t("message.GB.GBPlatform");
         },
      
     }
@@ -85,23 +88,23 @@ export default {
     border-right: 2px solid #eee;
     box-sizing: border-box;
 }
-.setting_left:hover{
-    color: #409EFF;
-    /* border-right: 2px solid #409EFF; */
-    box-sizing: border-box;
-}
+/* 点击变换颜色 */
 .setting_tj{
-    color: #409EFF;
-    border-right: 2px solid #409EFF;
+    border-right: 2px solid rgba(95,191,167,1);
     box-sizing: border-box;
 }
+.setting_tj1{
+    color:rgba(95,191,167,1) !important;
+}
+
+
 .setting_left .setting_left_a{
     color: #000;
     font-size: 14px;
     padding: 10px 20px;
 }
 .setting_left .setting_left_a:hover{
-    color: #409EFF;
+    color:rgba(95,191,167,1) !important;
 }
 
 /* 布局 */

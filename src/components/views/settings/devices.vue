@@ -90,12 +90,13 @@
             <!-- 1 -->
              <el-tab-pane :label="label.label" name="H5_STREAM">
                <!-- 添加 -->
-                <el-button type="text" @click="addto">{{$t("message.setting.ADD")}}</el-button>
-                <el-button type="text" @click="deleteselect">{{$t("message.setting.DeleteAll")}}</el-button>
+               <div class="button_edi">
+                    <button @click="addto" type="button" class="iconfont icon-add"></button>
+                    <button @click="deleteselect" type="button" class="iconfont icon-ashbin"></button>
+                </div>
                  <!-- 表格 -->
                 <el-table
                     :data="tableData.slice((currentPage-1)*pageSize,currentPage*pageSize).filter(data => !search || data.Name.toLowerCase().includes(search.toLowerCase()))"
-                    border
                     @select='selectCall'
                     @select-all='select_Call'
                     style="width: 100%">
@@ -143,8 +144,9 @@
                         width="55">
                     </el-table-column>
                     <el-table-column
-                        type="index"
-                        width="50">
+                        prop="index"
+                        label="index"
+                        width="100">
                     </el-table-column>
                     <el-table-column
                     prop="Name"
@@ -196,7 +198,7 @@
                 <!-- 分页 -->
                 <el-pagination
                     style="text-align: center;"
-                    layout="prev, pager, next"
+                    layout=" prev, pager, next,total, jumper"
                     @size-change="handleSizeChange1" 
                     @current-change="handleCurrentChange1"
                     :current-page="currentPage"
@@ -206,14 +208,13 @@
             <!-- 2 -->
             <el-tab-pane :label="label.label1" name="H5_ONVIF">
                 <!-- 添加 -->
-                <div>
-                    <el-button type="text" @click="addto" >{{$t("message.setting.ADD")}}</el-button>
-                    <el-button type="text" @click="deleteselect">{{$t("message.setting.DeleteAll")}}</el-button>
+                <div class="button_edi">
+                    <button @click="addto" type="button" class="iconfont icon-add"></button>
+                    <button @click="deleteselect" type="button" class="iconfont icon-ashbin"></button>
                 </div>
                  <!-- 表格 -->
                 <el-table
                     :data="tableData1.slice((currentPage1-1)*pageSize,currentPage1*pageSize).filter(data => !search || data.Name.toLowerCase().includes(search.toLowerCase()))"
-                    border
                     @select='selectCall'
                     @select-all='select_Call'
                     style="width: 100%">
@@ -258,8 +259,9 @@
                         width="55">
                     </el-table-column>
                     <el-table-column
-                        type="index"
-                        width="50">
+                        prop="index"
+                        label="index"
+                        width="100">
                     </el-table-column>
                     <el-table-column
                     prop="Name"
@@ -311,7 +313,7 @@
                 <!-- 分页 -->
                 <el-pagination
                     style="text-align: center;"
-                    layout="prev, pager, next"
+                    layout=" prev, pager, next,total, jumper"
                     @size-change="handleSizeChange2" 
                     @current-change="handleCurrentChange2"
                     :current-page="currentPage1"
@@ -321,14 +323,13 @@
             <!-- 3 -->
             <el-tab-pane :label="label.label2" name="H5_FILE">
               <!-- 添加 -->
-                <div>
-                    <el-button type="text" @click="addto" >{{$t("message.setting.ADD")}}</el-button>
-                    <el-button type="text" @click="deleteselect">{{$t("message.setting.DeleteAll")}}</el-button>
+                <div class="button_edi">
+                    <button @click="addto" type="button" class="iconfont icon-add"></button>
+                    <button @click="deleteselect" type="button" class="iconfont icon-ashbin"></button>
                 </div>
                  <!-- 表格 -->
                 <el-table
                     :data="tableData2.slice((currentPage2-1)*pageSize,currentPage2*pageSize).filter(data => !search || data.Name.toLowerCase().includes(search.toLowerCase()))"
-                    border
                     @select='selectCall'
                     @select-all='select_Call'
                     style="width: 100%">
@@ -373,8 +374,9 @@
                         width="55">
                     </el-table-column>
                     <el-table-column
-                        type="index"
-                        width="50">
+                        prop="index"
+                        label="index"
+                        width="100">
                     </el-table-column>
                     <el-table-column
                     prop="Name"
@@ -426,7 +428,7 @@
                 <!-- 分页 -->
                 <el-pagination
                     style="text-align: center;"
-                    layout="prev, pager, next"
+                    layout=" prev, pager, next,total, jumper"
                     @size-change="handleSizeChange3" 
                     @current-change="handleCurrentChange3"
                     :current-page="currentPage2"
@@ -442,7 +444,6 @@
                  <!-- 表格 -->
                 <el-table
                     :data="tableData3.slice((currentPage3-1)*pageSize,currentPage3*pageSize).filter(data => !search || data.Name.toLowerCase().includes(search.toLowerCase()))"
-                    border
                      @select='selectCall'
                     @select-all='select_Call'
                     style="width: 100%">
@@ -487,8 +488,9 @@
                         width="55">
                     </el-table-column> -->
                     <el-table-column
-                        type="index"
-                        width="50">
+                        prop="index"
+                        label="index"
+                        width="100">
                     </el-table-column>
                     <el-table-column
                     prop="Name"
@@ -525,7 +527,7 @@
                 <!-- 分页 -->
                 <el-pagination
                     style="text-align: center;"
-                    layout="prev, pager, next"
+                    layout=" prev, pager, next,total, jumper"
                     @size-change="handleSizeChange4" 
                     @current-change="handleCurrentChange4"
                     :current-page="currentPage3"
@@ -671,6 +673,7 @@ import uuid from '@/store/uuid'
                   
                   for(var i=0;i<itme.length;i++){
                       var tabledata={
+                          index:i+1,
                           Type:itme[i].nType,
                           Name:itme[i].strName,
                           Token:itme[i].strToken,
@@ -709,6 +712,7 @@ import uuid from '@/store/uuid'
                   
                   for(var i=0;i<itme.length;i++){
                       var tabledata={
+                          index:i+1,
                           Type:itme[i].nType,
                           Name:itme[i].strName,
                           Token:itme[i].strToken,
@@ -749,6 +753,7 @@ import uuid from '@/store/uuid'
                   
                   for(var i=0;i<itme.length;i++){
                       var tabledata={
+                          index:i+1,
                           Type:itme[i].nType,
                           Name:itme[i].strName,
                           Token:itme[i].strToken,
@@ -1073,11 +1078,25 @@ import uuid from '@/store/uuid'
         handleEdit(index,row){
             console.log(index,row);
             console.log(row.Audio,row.strUrl);
+            var index_xlh="";
+            //return false;
+            if(this.form.Type=="H5_ONVIF"){
+                console.log("序列号H5_ONVIF",this.currentPage1,((this.currentPage1-1)*10)+index);
+                index_xlh=((this.currentPage1-1)*10)+index;
+            }else if(this.form.Type=="H5_FILE"){
+                console.log("序列号H5_FILE",this.currentPage2,((this.currentPage2-1)*10)+index);
+                index_xlh=((this.currentPage2-1)*10)+index;
+            }else if(this.form.Type=="H5_STREAM"){
+                console.log("序列号H5_STREAM",this.currentPage,((this.currentPage-1)*10)+index);
+                index_xlh=((this.currentPage-1)*10)+index;
+            }
+            
+            console.log("序列号1",index_xlh);
             // console.log(this.tableData[index]);
             //return false;
             this.editPopup = true;
             this.edittoken=row.Token;
-            this.editindex=index;
+            this.editindex=index_xlh;
             this.editform["Type"]=row.Type;
             this.editform["Name"]=row.Name;
             this.editform["Token"]=row.Token;
@@ -1100,7 +1119,21 @@ import uuid from '@/store/uuid'
         //点击删除
         deleteRow(index, row,rows) {
           //var form=this.form;
-            console.log(rows);
+            console.log(rows,this.form.Type,index);
+            var index_xlh="";
+            //return false;
+            if(this.form.Type=="H5_ONVIF"){
+                console.log("序列号H5_ONVIF",this.currentPage1,((this.currentPage1-1)*10)+index);
+                index_xlh=((this.currentPage1-1)*10)+index;
+            }else if(this.form.Type=="H5_FILE"){
+                console.log("序列号H5_FILE",this.currentPage2,((this.currentPage2-1)*10)+index);
+                index_xlh=((this.currentPage2-1)*10)+index;
+            }else if(this.form.Type=="H5_STREAM"){
+                console.log("序列号H5_STREAM",this.currentPage,((this.currentPage-1)*10)+index);
+                index_xlh=((this.currentPage-1)*10)+index;
+            }
+            
+            console.log("序列号1",index_xlh);
             //return false;
             var root = process.env.API_ROOT;
             var wsroot = process.env.WS_HOST_ROOT;
@@ -1118,7 +1151,7 @@ import uuid from '@/store/uuid'
                 console.log(this.tableData);
                 if(result.status==200){
                     if(result.data.bStatus==true){
-                        rows.splice(index, 1);
+                        rows.splice(index_xlh, 1);
                     }else{
                         this.$message({
                             message: '删除失败',
@@ -1224,6 +1257,7 @@ import uuid from '@/store/uuid'
         handleCurrentChange2(val) {
             console.log(`当前页: ${val}`);
             this.currentPage1 = val;
+            console.log(`当前页: ${this.currentPage1 }`);
         },
         //3
         handleSizeChange3(val) {

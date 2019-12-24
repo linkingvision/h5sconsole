@@ -4,7 +4,7 @@
         <div class="container-fluid">
             <div class="row bg-title">
                 <div class="col-lg-3 col-md-4 col-sm-4 col-xs-4">
-                    <h4 class="page-title">{{$t("message.setting.setting")}}</h4> 
+                    <h4 class="page-title">{{$t("message.setting.setting")}} | <span style="color:rgba(95,191,167,1);">{{language}}</span></h4> 
                 </div>
             </div>
         </div>
@@ -17,27 +17,27 @@
                     </div> -->
                     <div :class="{setting_tj:index_lj==1}"  @click="setting_ys" class="setting_left">
                         <router-link  :to="{name:'devicesRouter'}">
-                            <a href="javascript:void(0)" class="setting_left_a">{{$t("message.setting.device")}} </a> 
+                            <a href="javascript:void(0)" class="setting_left_a" :class="{setting_tj1:index_lj==1}">{{$t("message.setting.device")}} </a> 
                         </router-link>
                     </div>
                     <div :class="{setting_tj:index_lj==2}"  @click="setting_ys1" class="setting_left">
                         <router-link  :to="{name:'devicesdksRouter'}">
-                            <a href="javascript:void(0)" class="setting_left_a">{{$t("message.setting.devicesdk")}} </a> 
+                            <a href="javascript:void(0)" class="setting_left_a" :class="{setting_tj1:index_lj==2}">{{$t("message.setting.devicesdk")}} </a> 
                         </router-link>
                     </div>
                     <div :class="{setting_tj:index_lj==3}"  @click="setting_ys2" class="setting_left">
                         <router-link  :to="{name:'devicertmppushsRouter'}">
-                            <a href="javascript:void(0)" class="setting_left_a">{{$t("message.setting.devicertmppush")}} </a> 
+                            <a href="javascript:void(0)" class="setting_left_a" :class="{setting_tj1:index_lj==3}">{{$t("message.setting.devicertmppush")}} </a> 
                         </router-link>
                     </div>
                     <div :class="{setting_tj:index_lj==4}"  @click="setting_ys3" class="setting_left">
                         <router-link  :to="{name:'usersettingsRouter'}">
-                            <a href="javascript:void(0)" class="setting_left_a">{{$t("message.setting.user")}} </a> 
+                            <a href="javascript:void(0)" class="setting_left_a" :class="{setting_tj1:index_lj==4}">{{$t("message.setting.user")}} </a> 
                         </router-link>
                     </div>
                     <div :class="{setting_tj:index_lj==5}"  @click="setting_ys4" class="setting_left">
                         <router-link  :to="{name:'recordsRouter'}">
-                            <a href="javascript:void(0)" class="setting_left_a">{{$t("message.setting.record")}} </a> 
+                            <a href="javascript:void(0)" class="setting_left_a" :class="{setting_tj1:index_lj==5}">{{$t("message.setting.record")}} </a> 
                         </router-link>
                     </div>
                 </div>
@@ -69,6 +69,7 @@ export default {
                 {name:this.$t("message.setting.devicesdk"),name1:'./setting/devicesdks'}
             ],*/
             index_lj:"1",
+            language:this.$t("message.setting.device"),
         }
     },
     mounted(){
@@ -76,18 +77,23 @@ export default {
     methods: {
         setting_ys(){
              this.index_lj=1;
+             this.language=this.$t("message.setting.device");
         },
         setting_ys1(){
              this.index_lj=2;
+             this.language=this.$t("message.setting.devicesdk");
         },
         setting_ys2(){
              this.index_lj=3;
+             this.language=this.$t("message.setting.devicertmppush");
         },
         setting_ys3(){
              this.index_lj=4;
+             this.language=this.$t("message.setting.user");
         },
         setting_ys4(){
              this.index_lj=5;
+             this.language=this.$t("message.setting.record");
         },
      
     }
@@ -114,23 +120,23 @@ export default {
     border-right: 2px solid #eee;
     box-sizing: border-box;
 }
-.setting_left:hover{
-    color: #409EFF;
-    /* border-right: 2px solid #409EFF; */
-    box-sizing: border-box;
-}
+/* 点击变换颜色 */
 .setting_tj{
-    color: #409EFF;
-    border-right: 2px solid #409EFF;
+    border-right: 2px solid rgba(95,191,167,1);
     box-sizing: border-box;
 }
+.setting_tj1{
+    color:rgba(95,191,167,1) !important;
+}
+
+
 .setting_left .setting_left_a{
     color: #000;
     font-size: 14px;
     padding: 10px 20px;
 }
 .setting_left .setting_left_a:hover{
-    color: #409EFF;
+    color:rgba(95,191,167,1) !important;
 }
 
 /* 布局 */

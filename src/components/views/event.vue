@@ -46,7 +46,7 @@
         <!-- 分页 -->
         <el-pagination
             style="text-align: center;"
-            layout=" prev, pager, next,total"
+            layout=" prev, pager, next,total, jumper"
             @size-change="handleSizeChange" 
             @current-change="handleCurrentChange"
             :current-page="currentPage"

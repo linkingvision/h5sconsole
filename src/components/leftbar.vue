@@ -37,6 +37,10 @@
 			<router-link tag="li" :to="{name:'GB28181Router'}">
 			<a href="#" class=""><i class="mdi mdi-equal-box fa-fw" data-icon="v"></i> <span class="hide-menu"> GB</span></a>
 			 </router-link>
+             <!-- 监控点 -->
+             <router-link tag="li" :to="{name:'cameraRouter'}">
+			<a href="#" class="" style="display: flex"><div class="camera" data-icon="v"></div> <span class="hide-menu"> {{$t("message.left.camera")}}</span></a>
+			 </router-link>
              <!-- 级联 -->
             <router-link tag="li" :to="{name:'cloudsRouter'}">
             <a href="#" class="waves-effect"><i class="mdi mdi-cloud fa-fw"></i> <span class="hide-menu">{{$t("message.left.cloud")}}</span></a>
@@ -74,6 +78,14 @@
     /* background: #f44336; */
     color: #ffffff;
     font-weight: 500;
+}
+.camera{
+    width: 20px;
+    height: 20px;
+    background: url("./gallery/camera.svg") no-repeat;
+    background-size: 100%;
+    margin-right: 9px;
+    
 }
 </style>
 

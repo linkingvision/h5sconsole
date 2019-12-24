@@ -28,6 +28,7 @@ module.exports={
 		cloud: 'Cloud',
 		logout: 'Logout',
 		tour:"Tour",
+		camera:"Camera",
     },
     login:
     {
@@ -164,6 +165,13 @@ module.exports={
 	tour:{
 		Start:"Start",
 		stop:"Stop",
+	},
+	camera:{
+		Editorial_success:"Editorial success!",
+		Editor_failure:"Editorial_success!",
+		Delete_successful:"Delete_successful!",
+		Delete_failed:"Delete_successful！",
+		open_Close:"Open/Close",
 	}
   }
 }

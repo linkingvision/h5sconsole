@@ -27,7 +27,8 @@ module.exports={
 		setting: '设置',
 		tour:"巡更",
 		cloud: '云视频',
-		logout: '退出'
+		logout: '退出',
+		camera:"监控点",
     },
     login:
     {
@@ -163,6 +164,13 @@ module.exports={
 	tour:{
 		Start:"开始",
 		stop:"停止",
+	},
+	camera:{
+		Editorial_success:"编辑成功！",
+		Editor_failure:"编辑失败！",
+		Delete_successful:"删除成功！",
+		Delete_failed:"删除失败！",
+		open_Close:"开启/关闭",
 	}
   }
 }

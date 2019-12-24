@@ -7,6 +7,7 @@ import AdvancePB from '@/components/views/Advancepbs'
 import Gaogao1 from '@/components/views/gaogao1'
 import Sreenshots from '@/components/views/screenshots'
 import Playback from '@/components/views/playback'
+import camera from '@/components/views/camera'
 
 import Tour from '@/components/views/tour'
 //import AdvancePB from '@/components/views/Advancepb'
@@ -54,6 +55,11 @@ const routes = [
         path: '/app/playback',
         name: 'playbackRouter',
         component: Playback
+      },
+      {
+        path: '/app/camera',
+        name: 'cameraRouter',
+        component: camera
       },
       {
         path: '/app/AdvancePB',

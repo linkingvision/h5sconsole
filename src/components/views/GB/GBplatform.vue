@@ -58,9 +58,13 @@
             <!-- 1 -->
             <el-tab-pane :label="label.label1" name="GBPlatform">
                 <!-- 添加 -->
-                <div>
-                    <el-button type="text" @click="addto" >{{$t("message.setting.ADD")}}</el-button>
-                    <el-button type="text" @click="deleteselect">{{$t("message.setting.DeleteAll")}}</el-button>
+                <!-- <div style="color:#000">
+                    <el-button style="color:#000" type="text" @click="addto" >{{$t("message.setting.ADD")}}</el-button>
+                    <el-button style="color:#000" type="text" @click="deleteselect">{{$t("message.setting.DeleteAll")}}</el-button>
+                </div> -->
+                <div class="button_edi">
+                    <button @click="addto" type="button" class="iconfont icon-add"></button>
+                    <button @click="deleteselect" type="button" class="iconfont icon-ashbin"></button>
                 </div>
                 <el-dialog :title="label.eltitle" :visible.sync="dialogFormVisible">
                     <el-form label-position="right" label-width="180px" :model="form">
@@ -106,6 +110,7 @@
                         </el-form-item>
                         
                     </el-form>
+                   
                     <div slot="footer" class="dialog-footer">
                         <el-button @click="dialogFormVisible = false">{{$t("message.setting.Cancel")}}</el-button>
                         <el-button type="primary" @click="platformyes">{{$t("message.setting.ADD")}}</el-button>
@@ -113,7 +118,6 @@
                 </el-dialog>
                 <el-table
                     :data="tableData.slice((currentPage-1)*pageSize,currentPage*pageSize)"
-                    border
                     @select='selectCall'
                     @select-all='select_Call'
                     style="width: 100%">
@@ -170,8 +174,9 @@
                         width="55">
                     </el-table-column>
                     <el-table-column
-                        type="index"
-                        width="50">
+                        prop="index"
+                        label="index"
+                        width="100">
                     </el-table-column>
                     <el-table-column
                     prop="name"
@@ -204,7 +209,7 @@
                 <!-- 分页 -->
                 <el-pagination
                     style="text-align: center;"
-                    layout="prev, pager, next"
+                    layout=" prev, pager, next,total, jumper"
                     @size-change="handleSizeChange" 
                     @current-change="handleCurrentChange"
                     :current-page="currentPage"
@@ -295,6 +300,7 @@ import uuid from '@/store/uuid'
                       //console.log(itme);
                       for(var i=0;i<itme.length;i++){
                           var tabledata={
+                              index:i+1,
                               Token:itme[i].strToken,
                               name:itme[i].strName,
                               strGbServerIpAddr:itme[i].strGbServerIpAddr,
@@ -454,19 +460,19 @@ import uuid from '@/store/uuid'
            this.$Modal.info({
                 title: '详情',
                 content: 
-                `${this.$t("message.GB.Name")}: ${this.tableData[index].name}<br>
-                Token: ${this.tableData[index].Token}<br>
-                ${this.$t("message.GB.SIPServerIP")}: ${this.tableData[index].strGbServerIpAddr }<br>
-                ${this.$t("message.GB.SIPServerPort")}: ${this.tableData[index].nGbServerPort }<br>
-                ${this.$t("message.GB.SIPPort")}: ${this.tableData[index].nGbLocalPort  }<br>
-                ${this.$t("message.GB.SIPUserID")}: ${this.tableData[index].strGbID }<br>
-                ${this.$t("message.GB.SIPServerID")}: ${this.tableData[index].strGbServerID }<br>
-                ${this.$t("message.GB.Domain")}: ${this.tableData[index].strGbDomain }<br>
-                ${this.$t("message.GB.Password")}: ${this.tableData[index].strGbServerPassword }<br>
-                ${this.$t("message.GB.SIPProtocol")}: ${this.tableData[index].strGbProto  }<br>
-                ${this.$t("message.GB.SIPChannelBaseID")}: ${this.tableData[index].strGbIDChBase }<br>
-                ${this.$t("message.GB.RegisterPeriod")}: ${this.tableData[index].nGbRegisterPeriod }<br>
-                ${this.$t("message.GB.KeepaliveTime")}: ${this.tableData[index].nGbKeepaliveTime }<br>
+                `${this.$t("message.GB.Name")}: ${row.name}<br>
+                Token: ${row.Token}<br>
+                ${this.$t("message.GB.SIPServerIP")}: ${row.strGbServerIpAddr }<br>
+                ${this.$t("message.GB.SIPServerPort")}: ${row.nGbServerPort }<br>
+                ${this.$t("message.GB.SIPPort")}: ${row.nGbLocalPort  }<br>
+                ${this.$t("message.GB.SIPUserID")}: ${row.strGbID }<br>
+                ${this.$t("message.GB.SIPServerID")}: ${row.strGbServerID }<br>
+                ${this.$t("message.GB.Domain")}: ${row.strGbDomain }<br>
+                ${this.$t("message.GB.Password")}: ${row.strGbServerPassword }<br>
+                ${this.$t("message.GB.SIPProtocol")}: ${row.strGbProto  }<br>
+                ${this.$t("message.GB.SIPChannelBaseID")}: ${row.strGbIDChBase }<br>
+                ${this.$t("message.GB.RegisterPeriod")}: ${row.nGbRegisterPeriod }<br>
+                ${this.$t("message.GB.KeepaliveTime")}: ${row.nGbKeepaliveTime }<br>
                 `
             })
         },
@@ -474,21 +480,23 @@ import uuid from '@/store/uuid'
             //console.log(index);
             this.editPopup = true;
             this.edittoken=row.Token;
-            this.editindex=index;
+            console.log("序列号",((this.currentPage-1)*10)+index);
+            var index_xlh=((this.currentPage-1)*10)+index;
+            this.editindex=index_xlh;
 
-            this.editform["name"]=this.tableData[index].name;
-            this.editform["Token"]=this.tableData[index].Token;
-            this.editform["strGbServerIpAddr"]=this.tableData[index].strGbServerIpAddr;
-            this.editform["nGbServerPort"]=this.tableData[index].nGbServerPort;
-            this.editform["strGbID"]=this.tableData[index].strGbID;
-            this.editform["strGbServerID"]=this.tableData[index].strGbServerID;
-            this.editform["strGbProto"]=this.tableData[index].strGbProto;
-            this.editform["strGbDomain"]=this.tableData[index].strGbDomain;
-            this.editform["strGbServerPassword"]=this.tableData[index].strGbServerPassword;
-            this.editform["strGbIDChBase"]=this.tableData[index].strGbIDChBase;
-            this.editform["nGbKeepaliveTime"]=this.tableData[index].nGbKeepaliveTime;
-            this.editform["nGbRegisterPeriod"]=this.tableData[index].nGbRegisterPeriod;
-            this.editform["nGbLocalPort"]=this.tableData[index].nGbLocalPort;
+            this.editform["name"]=row.name;
+            this.editform["Token"]=row.Token;
+            this.editform["strGbServerIpAddr"]=row.strGbServerIpAddr;
+            this.editform["nGbServerPort"]=row.nGbServerPort;
+            this.editform["strGbID"]=row.strGbID;
+            this.editform["strGbServerID"]=row.strGbServerID;
+            this.editform["strGbProto"]=row.strGbProto;
+            this.editform["strGbDomain"]=row.strGbDomain;
+            this.editform["strGbServerPassword"]=row.strGbServerPassword;
+            this.editform["strGbIDChBase"]=row.strGbIDChBase;
+            this.editform["nGbKeepaliveTime"]=row.nGbKeepaliveTime;
+            this.editform["nGbRegisterPeriod"]=row.nGbRegisterPeriod;
+            this.editform["nGbLocalPort"]=row.nGbLocalPort;
             console.log(this.editform)
             // console.log(this.tableData[index])
             
@@ -498,7 +506,9 @@ import uuid from '@/store/uuid'
         //删除
         deleteRow(index, row,rows) {
             //var form=this.form;
-            console.log(row);
+            // console.log(row,index,rows,this.currentPage);
+            console.log("序列号",((this.currentPage-1)*10)+index);
+            var index_xlh=((this.currentPage-1)*10)+index;
             //return false;
             var root = process.env.API_ROOT;
             var wsroot = process.env.WS_HOST_ROOT;
@@ -516,7 +526,7 @@ import uuid from '@/store/uuid'
                 console.log(this.tableData);
                 if(result.status==200){
                     if(result.data.bStatus==true){
-                        rows.splice(index, 1);
+                        rows.splice(index_xlh, 1);
                     }else{
                         this.$message({
                             message: '删除失败',
@@ -603,6 +613,15 @@ import uuid from '@/store/uuid'
     width: 30%;
   }
 
+.button_edi button{
+    border: 0;
+    background:none;
+    font-size: 24px;
+    margin-right: 40px;
+}
+.button_edi button:nth-child(2){
+    margin-right: 0;
+}
   .editinput{
       -webkit-appearance: none;
     background-color: #FFF;

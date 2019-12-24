@@ -53,9 +53,9 @@
             
              <el-tab-pane :label="label.label" name="first">
                 <!-- 添加 -->
-                <div>
-                    <el-button type="text" @click="addto" >{{$t("message.setting.ADD")}}</el-button>
-                    <el-button type="text" @click="deleteselect">{{$t("message.setting.DeleteAll")}}</el-button>
+                <div class="button_edi">
+                    <button @click="addto" type="button" class="iconfont icon-add"></button>
+                    <button @click="deleteselect" type="button" class="iconfont icon-ashbin"></button>
                 </div>
                 <el-dialog :title="eltitle" :visible.sync="dialogFormVisible">
                     <el-form label-position="right" label-width="140px" :model="form">
@@ -115,7 +115,6 @@
                  <!-- 表格 -->
                 <el-table
                     :data="tableData.slice((currentPage1-1)*pageSize,currentPage1*pageSize).filter(data => !search || data.Name.toLowerCase().includes(search.toLowerCase()))"
-                    border
                     @select='selectCall'
                     @select-all='select_Call'
                     style="width: 100%">
@@ -160,8 +159,9 @@
                         width="55">
                     </el-table-column>
                     <el-table-column
-                        type="index"
-                        width="50">
+                        prop="index"
+                        label="index"
+                        width="100">
                     </el-table-column>
                     <el-table-column
                     prop="Name"
@@ -213,7 +213,7 @@
                 <!-- 分页 -->
                 <el-pagination
                     style="text-align: center;"
-                    layout="prev, pager, next"
+                    layout=" prev, pager, next,total, jumper"
                     @size-change="handleSizeChange1" 
                     @current-change="handleCurrentChange1"
                     :current-page="currentPage1"
@@ -316,6 +316,7 @@ import uuid from '@/store/uuid'
                   console.log(result);
                   for(var i=0;i<itme.length;i++){
                       var tabledata={
+                          index:i+1,
                           Type:itme[i].nType,
                           Name:itme[i].strName,
                           Token:itme[i].strToken,
@@ -432,7 +433,7 @@ import uuid from '@/store/uuid'
                 })
             }else if(form.Type=="H5_DEV_HIKISC"){
                 console.log(form.Type)
-                var url = root + "/api/v1/AddDeviceDh?&name="+form.Name+
+                var url = root + "/api/v1/AddDeviceHikISC?&name="+form.Name+
                 "&token="+form.Token+
                 "&user="+form.User+
                 "&password="+form.Password_isc+
@@ -519,7 +520,7 @@ import uuid from '@/store/uuid'
                 })
             }else if(form.Type=="H5_DEV_HIKISC"){
                 console.log(form.Type)
-                var url = root + "/api/v1/AddDeviceDh?&name="+form.Name+
+                var url = root + "/api/v1/AddDeviceHikISC?&name="+form.Name+
                 "&token="+form.Token+
                 "&user="+form.Username_isc+
                 "&password="+form.Password_isc+
@@ -552,37 +553,39 @@ import uuid from '@/store/uuid'
            this.$Modal.info({
                 title: '详情',
                 content: 
-                `Type: ${this.tableData[index].Type}<br>
-                Name: ${this.tableData[index].Name}<br>
-                Token: ${this.tableData[index].Token}<br>
-                User: ${this.tableData[index].User}<br>
-                Password: ${this.tableData[index].Password}<br>
-                IP: ${this.tableData[index].IP}<br>
-                Port: ${this.tableData[index].Port}<br>
-                Audio: ${this.tableData[index].Audio}<br>
-                Online: ${this.tableData[index].Online}<br>
-                bPasswdEncrypt: ${this.tableData[index].bPasswdEncrypt}<br>
+                `Type: ${row.Type}<br>
+                Name: ${row.Name}<br>
+                Token: ${row.Token}<br>
+                User: ${row.User}<br>
+                Password: ${row.Password}<br>
+                IP: ${row.IP}<br>
+                Port: ${row.Port}<br>
+                Audio: ${row.Audio}<br>
+                Online: ${row.Online}<br>
+                bPasswdEncrypt: ${row.bPasswdEncrypt}<br>
                 `
             })
         },
         handleEdit(index,row){
             console.log("****************",this.tableData[index].User);
             console.log(this.tableData[index]);
+            console.log("序列号",((this.currentPage1-1)*10)+index);
+            var index_xlh=((this.currentPage1-1)*10)+index;
             //return false;
             this.editPopup = true;
             this.edittoken=row.Token;
-            this.editindex=index;
+            this.editindex=index_xlh;
             
-            this.editform["Type"]=this.tableData[index].Type;
-            this.editform["Name"]=this.tableData[index].Name;
-            this.editform["Token"]=this.tableData[index].Token;
-            this.editform["User"]=this.tableData[index].User;
-            this.editform["Password"]=this.tableData[index].Password;
-            this.editform["IP"]=this.tableData[index].IP;
-            this.editform["Port"]=this.tableData[index].Port;
-            this.editform["Audio"]=this.tableData[index].Audio;
-            this.editform["Online"]=this.tableData[index].Online;
-            this.editform["bPasswdEncrypt"]=this.tableData[index].bPasswdEncrypt;
+            this.editform["Type"]=row.Type;
+            this.editform["Name"]=row.Name;
+            this.editform["Token"]=row.Token;
+            this.editform["User"]=row.User;
+            this.editform["Password"]=row.Password;
+            this.editform["IP"]=row.IP;
+            this.editform["Port"]=row.Port;
+            this.editform["Audio"]=row.Audio;
+            this.editform["Online"]=row.Online;
+            this.editform["bPasswdEncrypt"]=row.bPasswdEncrypt;
             // console.log(this.editform)
             // console.log(this.tableData[index])
             
@@ -593,17 +596,19 @@ import uuid from '@/store/uuid'
         //删除
         deleteRow(index, row,rows) {
             //var form=this.form;
-            console.log(this.edittoken);
+            console.log(index)
+            console.log("序列号",((this.currentPage1-1)*10)+index);
+            var index_xlh=((this.currentPage1-1)*10)+index;
             //return false;
             var root = process.env.API_ROOT;
             var wsroot = process.env.WS_HOST_ROOT;
             if (root == undefined){
                 root = window.location.protocol + '//' + window.location.host + window.location.pathname;
             }
-            if (wsroot == undefined)
-            {
-                wsroot = window.location.host;
-            }
+            // if (wsroot == undefined)
+            // {
+            //     wsroot = window.location.host;
+            // }
             //url
             var url = root + "/api/v1/DelDevice?token="+row.Token+"&session="+ this.$store.state.token;
             this.$http.get(url).then(result=>{
@@ -611,7 +616,7 @@ import uuid from '@/store/uuid'
                 console.log(this.tableData);
                 if(result.status==200){
                     if(result.data.bStatus==true){
-                        rows.splice(index, 1);
+                        rows.splice(index_xlh, 1);
                     }else{
                         this.$message({
                             message: '删除失败',

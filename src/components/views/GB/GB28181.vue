@@ -9,7 +9,6 @@
                  <!-- 表格 -->
                 <el-table
                     :data="tableData1.slice((currentPage1-1)*pageSize,currentPage1*pageSize)"
-                    border
                     style="width: 100%">
                     <el-table-column type="expand">
                         <template slot-scope="props">
@@ -65,14 +64,23 @@
                     prop="nType"
                     label="nType">
                     </el-table-column>
+                    <el-table-column
+                        label="edit">
+                        <template slot-scope="scope">
+                            <div class="button_edi">
+                                <el-button type="text" size="small" @click="handleRefresh(scope.$index,scope.row)">刷新</el-button>
+                                <el-button type="text" size="small" @click="handlerestart(scope.$index,scope.row)">重启</el-button>
+                            </div>
+                        </template>
+                    </el-table-column>
                 </el-table>
-                <!-- 分页 -->
                 <el-pagination
                     style="text-align: center;"
-                    layout="prev, pager, next"
-                    @size-change="handleSizeChange1" 
+                    @size-change="handleSizeChange1"
                     @current-change="handleCurrentChange1"
                     :current-page="currentPage1"
+                    :page-size="pageSize"
+                    layout=" prev, pager, next,total, jumper"
                     :total="total2">
                 </el-pagination>
             </el-tab-pane>
@@ -140,7 +148,42 @@ import uuid from '@/store/uuid'
 				  }
 			  })
         },
-
+        //刷新
+        handleRefresh(index,row){
+            var root = process.env.API_ROOT;
+            if (root == undefined){
+              root = window.location.protocol + '//' + window.location.host + window.location.pathname;
+            }
+            var url = root + "/api/v1/RefreshGbDevice?token="+row.token+"&session="+ this.$store.state.token;
+            console.log(url);
+            this.$http.get(url).then(result=>{
+                console.log(result);
+                if(result.status==200){
+                    this.$message({
+                        message: this.$t('message.camera.Editorial_success'),
+                        type: 'success'
+                    });
+                }
+            })
+        },
+        //重启
+        handlerestart(index,row){
+            var root = process.env.API_ROOT;
+            if (root == undefined){
+              root = window.location.protocol + '//' + window.location.host + window.location.pathname;
+            }
+            var url = root + "/api/v1/RebootGbDevice?token="+row.token+"&session="+ this.$store.state.token;
+            console.log(url);
+            this.$http.get(url).then(result=>{
+                console.log(result);
+                if(result.status==200){
+                    this.$message({
+                        message: this.$t('message.camera.Editorial_success'),
+                        type: 'success'
+                    });
+                }
+            })
+        },
         //分页
         handleSizeChange1(val) {
             console.log(`每页 ${val} 条`);
@@ -154,30 +197,21 @@ import uuid from '@/store/uuid'
     },
   };
 </script>
-<style>
+<style scoped>
+.button_edi button{
+    border: 0;
+    background:none;
+    /* font-size: 14px; */
+    margin-right: 40px;
+}
+.button_edi button:nth-child(2){
+    margin-right: 0;
+}
+
   .el-dialog {
     width: 30%;
   }
 
-  .editinput{
-      -webkit-appearance: none;
-    background-color: #FFF;
-    background-image: none;
-    border-radius: 4px;
-    border: 1px solid #DCDFE6;
-    -webkit-box-sizing: border-box;
-    box-sizing: border-box;
-    color: #606266;
-    display: inline-block;
-    font-size: inherit;
-    height: 40px;
-    line-height: 40px;
-    outline: 0;
-    padding: 0 15px;
-    -webkit-transition: border-color .2s cubic-bezier(.645,.045,.355,1);
-    transition: border-color .2s cubic-bezier(.645,.045,.355,1);
-    width: 100%;
-  }
   .demo-table-expand {
     font-size: 0;
     background: #e1e1e1;
