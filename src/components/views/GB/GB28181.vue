@@ -201,7 +201,7 @@ import uuid from '@/store/uuid'
 .button_edi button{
     border: 0;
     background:none;
-    /* font-size: 14px; */
+    font-size: 14px;
     margin-right: 40px;
 }
 .button_edi button:nth-child(2){

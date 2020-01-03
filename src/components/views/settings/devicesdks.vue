@@ -55,7 +55,7 @@
                 <!-- 添加 -->
                 <div class="button_edi">
                     <button @click="addto" type="button" class="iconfont icon-add"></button>
-                    <button @click="deleteselect" type="button" class="iconfont icon-ashbin"></button>
+                    <button @click="deleteselect" type="button" class="iconfont icon-reduce"></button>
                 </div>
                 <el-dialog :title="eltitle" :visible.sync="dialogFormVisible">
                     <el-form label-position="right" label-width="140px" :model="form">
@@ -97,6 +97,7 @@
                             <input class="editinput" v-if="form.Type=='H5_DEV_HIK'" v-model="form.Port"/>
                             <input class="editinput" v-if="form.Type=='H5_DEV_DH'" v-model="form.Port_dh"/>
                             <input class="editinput" v-if="form.Type=='H5_DEV_HIKISC'" v-model="form.Port_isc"/>
+                            <input class="editinput" v-if="form.Type=='H5_DEV_TD'" v-model="form.Port_td"/>
                         </el-form-item>
                         <el-form-item label="Audio">
                           <el-switch
@@ -114,7 +115,7 @@
                 </el-dialog>
                  <!-- 表格 -->
                 <el-table
-                    :data="tableData.slice((currentPage1-1)*pageSize,currentPage1*pageSize).filter(data => !search || data.Name.toLowerCase().includes(search.toLowerCase()))"
+                    :data="tableData.filter(data => !search || data.Name.toLowerCase().includes(search.toLowerCase())).slice((currentPage1-1)*pageSize,currentPage1*pageSize)"
                     @select='selectCall'
                     @select-all='select_Call'
                     style="width: 100%">
@@ -262,6 +263,10 @@ import uuid from '@/store/uuid'
                 value: 'H5_DEV_HIKISC',
                 label: 'H5_DEV_HIKISC'
             }
+            , {
+                value: 'H5_DEV_TD',
+                label: 'H5_DEV_TD'
+            }
         ],
         //分页
         pageSize: 10,//一页数量
@@ -281,6 +286,7 @@ import uuid from '@/store/uuid'
             Port:"8000",
             Port_dh:"37777",
             Port_isc:"443",
+            Port_td:"3000",
             Audio:false,
         },
         editform: {
@@ -358,26 +364,15 @@ import uuid from '@/store/uuid'
             //url
             var form=this.editform;
             console.log("45111111******",form)
-            var list = {
-                            Type:form.Type,
-                            Name:form.Name,
-                            Token:form.Token,
-                            User:form.User,
-                            Password:form.Password,
-                            IP:form.IP,
-                            Port:form.Port,
-                            Audio :form.Audio,
-                            Online:form.Online+"",
-                            bPasswdEncrypt:form.bPasswdEncrypt,
-                            }
-            console.log("form", form,list);
             //return false;
             var url1 = root + "/api/v1/DelDevice?token="+this.edittoken+"&session="+ this.$store.state.token;
+            console.log("isc------------------------",url1)
             this.$http.get(url1).then(result=>{
                 //console.log("1",result);
                 if(result.status==200){
                     if(result.data.bStatus==true){
                         var list = {
+                            index:form.index,
                             Type:form.Type,
                             Name:form.Name,
                             Token:form.Token,
@@ -436,12 +431,28 @@ import uuid from '@/store/uuid'
                 var url = root + "/api/v1/AddDeviceHikISC?&name="+form.Name+
                 "&token="+form.Token+
                 "&user="+form.User+
-                "&password="+form.Password_isc+
+                "&password="+form.Password+
                 "&ip="+form.IP+
-                "&port="+form.Port_isc+
+                "&port="+form.Port+
                 "&audio="+form.Audio+
                 "&session="+ this.$store.state.token;
-                console.log(url);
+                console.log("isc****************************",url);
+                this.$http.get(url).then(result=>{
+                    console.log(result);
+                    if(result.status==200){
+                    }
+                })
+            }else if(form.Type=="H5_DEV_TD"){
+                console.log(form.Type)
+                var url = root + "/api/v1/AddDeviceTd?&name="+form.Name+
+                "&token="+form.Token+
+                "&user="+form.User+
+                "&password="+form.Password+
+                "&ip="+form.IP+
+                "&port="+form.Port+
+                "&audio="+form.Audio+
+                "&session="+ this.$store.state.token;
+                console.log("td****************************",url);
                 this.$http.get(url).then(result=>{
                     console.log(result);
                     if(result.status==200){
@@ -544,6 +555,32 @@ import uuid from '@/store/uuid'
                         }
                     }
                 })
+            }else if(form.Type=="H5_DEV_TD"){
+                console.log(form.Type)
+                var url = root + "/api/v1/AddDeviceTd?&name="+form.Name+
+                "&token="+form.Token+
+                "&user="+form.Username+
+                "&password="+form.Password+
+                "&ip="+form.IP+
+                "&port="+form.Port_td+
+                "&audio="+form.Audio+
+                "&session="+ this.$store.state.token;
+                console.log(url);
+                this.$http.get(url).then(result=>{
+                    console.log(result);
+                    if(result.status==200){
+                        if(result.data.bStatus==true){
+                            this.tableData=[];
+                            this.loadHIK();
+                        }else{
+                            this.$message({
+                                message: '添加失败',
+                                type: 'warning'
+                            });
+                            return false;
+                        }
+                    }
+                })
             }
             
         },
@@ -577,6 +614,7 @@ import uuid from '@/store/uuid'
             this.editindex=index_xlh;
             
             this.editform["Type"]=row.Type;
+            this.editform["index"]=row.index;
             this.editform["Name"]=row.Name;
             this.editform["Token"]=row.Token;
             this.editform["User"]=row.User;

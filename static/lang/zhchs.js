@@ -55,6 +55,7 @@ module.exports={
 		network_in: '网络进流量',
 		network_out: '网络出流量',
 		free_space: "剩余空间",
+		an_out:"网络进出量",
 		online_cam: "在线摄像机",
 		cameras: "摄像机总数",
 		total_space: "总空间",	
@@ -70,7 +71,9 @@ module.exports={
 		devicesdkpb:"设备SDK回放",
 		gb28181:"国标",
 		transcoding:"转码",
-		cluster:"集群"
+		cluster:"集群",
+		Online:"在线",
+		Not_nline:"不在线",
     },
 	live:
     {
@@ -166,11 +169,14 @@ module.exports={
 		stop:"停止",
 	},
 	camera:{
-		Editorial_success:"编辑成功！",
-		Editor_failure:"编辑失败！",
+		Save_successfully:"保存成功！",
+		// Editor_failure:"保存失败！",
 		Delete_successful:"删除成功！",
 		Delete_failed:"删除失败！",
 		open_Close:"开启/关闭",
+		name: "名称",
+		audio:"音频" ,
+		save:"保存",
 	}
   }
 }

@@ -77,10 +77,14 @@
                         </el-table-column>
                         <el-table-column>
                             <template slot-scope="scope">
-                                <el-button
+                                <div class="button_edi">
+                                    <a :href="scope.row.url" :download="scope.row.urlto"><button type="button" class="iconfont icon-download"></button></a>
+                                    <button type="button" class="iconfont icon-browse" @click="Refresh1(scope.$index, scope.row)" data-toggle="modal" data-target="#myModal"></button>
+                                </div>
+                                <!-- <el-button
                                 size="mini"
                                 type="success"><a :href="scope.row.url" :download="scope.row.urlto">{{$t("message.archive.Download")}}</a></el-button>
-                                <el-button size="mini"  @click="Refresh1(scope.$index, scope.row)" data-toggle="modal" data-target="#myModal">{{$t("message.archive.Preview")}}</el-button>
+                                <el-button size="mini"  @click="Refresh1(scope.$index, scope.row)" data-toggle="modal" data-target="#myModal">{{$t("message.archive.Preview")}}</el-button> -->
                             </template>
                          </el-table-column>
                     </el-table>
@@ -567,7 +571,7 @@ export default {
 </script>
 <style scoped>
     a{
-        color: #FFFFFF;
+        color: #797979;
     }
     .imgmin{
         width: 100%;

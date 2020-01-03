@@ -44,6 +44,9 @@ import 'vue-event-calendar/dist/style.css' //1.1.10之后的版本，css被放�
 import vueEventCalendar from 'vue-event-calendar'
 Vue.use(vueEventCalendar, {locale: 'zh'}) //可以设置语言，支持中文和英文
 
+import dataV from '@jiaminghi/data-view'
+Vue.use(dataV)
+
 
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'

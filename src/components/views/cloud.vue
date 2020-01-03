@@ -24,6 +24,7 @@
                 <div class="grid-content bg-purple">
                     <router-view></router-view>
                 </div>
+                
             </el-col>
         </el-row>
     </div>

@@ -61,6 +61,10 @@ export default {
 .bg-title{
   margin-bottom: 4px !important;
 }
+.flex_ld{
+  display: flex;
+  justify-content: space-between;
+}
 
 /* 表格 */
 .el-table th{
@@ -99,6 +103,7 @@ export default {
 .el-tabs__active-bar{
   background-color: rgba(95,191,167,1) !important;
 }
+
 </style>
 
 

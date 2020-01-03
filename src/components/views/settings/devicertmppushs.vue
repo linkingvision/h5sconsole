@@ -77,7 +77,7 @@
                 <!-- 添加 -->
                 <div class="button_edi">
                     <button @click="addto" type="button" class="iconfont icon-add"></button>
-                    <button @click="deleteselect" type="button" class="iconfont icon-ashbin"></button>
+                    <button @click="deleteselect" type="button" class="iconfont icon-reduce"></button>
                 </div>
                  <!-- 表格 -->
                 <el-table
@@ -296,19 +296,19 @@ import uuid from '@/store/uuid'
             }
             //url
             var form=this.editform;
-            var list = {
-                Type:form.Type,
-                Name:form.Name,
-                Token:form.Token,
-                User:form.User,
-                Password:form.Password,
-                IP:form.IP,
-                Port:form.Port,
-                Audio :form.Audio,
-                Online:form.Online+"",
-                bPasswdEncrypt:form.bPasswdEncrypt,
-            }
-            console.log("form", form,list);
+            // var list = {
+            //     Type:form.Type,
+            //     Name:form.Name,
+            //     Token:form.Token,
+            //     User:form.User,
+            //     Password:form.Password,
+            //     IP:form.IP,
+            //     Port:form.Port,
+            //     Audio :form.Audio,
+            //     Online:form.Online+"",
+            //     bPasswdEncrypt:form.bPasswdEncrypt,
+            // }
+            // console.log("form", form,list);
             //return false;
             var url1 = root + "/api/v1/DelSrc?token="+this.edittoken+"&session="+ this.$store.state.token;
             this.$http.get(url1).then(result=>{
@@ -316,6 +316,7 @@ import uuid from '@/store/uuid'
                 if(result.status==200){
                     if(result.data.bStatus==true){
                         var list = {
+                            index:form.index,
                             Type:form.Type,
                             Name:form.Name,
                             Token:form.Token,
@@ -413,6 +414,7 @@ import uuid from '@/store/uuid'
             this.editindex=index_xlh;
             
             this.editform["Type"]=row.Type;
+            this.editform["index"]=row.index;
             this.editform["Name"]=row.Name;
             this.editform["Token"]=row.Token;
             this.editform["User"]=row.User;

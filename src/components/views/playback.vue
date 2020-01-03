@@ -94,10 +94,14 @@
                         <el-table-column
                             width=310px>
                             <template slot-scope="scope">
-                                <el-button
+                                <div class="button_edi">
+                                    <a :href="scope.row.url" :download="scope.row.urlto"><button type="button" class="iconfont icon-download"></button></a>
+                                    <button type="button" class="iconfont icon-play" @click="Refresh1(scope.$index, scope.row)" data-toggle="modal" data-target="#myModal"></button>
+                                </div>
+                                <!-- <el-button
                                 size="mini"
                                 type="success"><a :href="scope.row.url" :download="scope.row.urlto">{{$t("message.archive.Download")}}</a></el-button>
-                                <el-button size="mini" style="font-size: 25px;" icon="el-icon-caret-right" circle @click="Refresh1(scope.$index, scope.row)" data-toggle="modal" data-target="#myModal"></el-button>
+                                <el-button size="mini" style="font-size: 25px;" icon="el-icon-caret-right" circle @click="Refresh1(scope.$index, scope.row)" data-toggle="modal" data-target="#myModal"></el-button> -->
                             </template>
                          </el-table-column>
                     </el-table>
@@ -710,7 +714,8 @@ export default {
 </script>
 <style scoped>
     a{
-        color: #FFFFFF;
+        color: #797979;
+        text-align: center;
     }
     .videoo{
         width: 100%

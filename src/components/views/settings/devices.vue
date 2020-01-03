@@ -92,11 +92,11 @@
                <!-- 添加 -->
                <div class="button_edi">
                     <button @click="addto" type="button" class="iconfont icon-add"></button>
-                    <button @click="deleteselect" type="button" class="iconfont icon-ashbin"></button>
+                    <button @click="deleteselect" type="button" class="iconfont icon-reduce"></button>
                 </div>
                  <!-- 表格 -->
                 <el-table
-                    :data="tableData.slice((currentPage-1)*pageSize,currentPage*pageSize).filter(data => !search || data.Name.toLowerCase().includes(search.toLowerCase()))"
+                    :data="tableData.filter(data => !search || data.Name.toLowerCase().includes(search.toLowerCase())).slice((currentPage-1)*pageSize,currentPage*pageSize)"
                     @select='selectCall'
                     @select-all='select_Call'
                     style="width: 100%">
@@ -210,11 +210,11 @@
                 <!-- 添加 -->
                 <div class="button_edi">
                     <button @click="addto" type="button" class="iconfont icon-add"></button>
-                    <button @click="deleteselect" type="button" class="iconfont icon-ashbin"></button>
+                    <button @click="deleteselect" type="button" class="iconfont icon-reduce"></button>
                 </div>
                  <!-- 表格 -->
                 <el-table
-                    :data="tableData1.slice((currentPage1-1)*pageSize,currentPage1*pageSize).filter(data => !search || data.Name.toLowerCase().includes(search.toLowerCase()))"
+                    :data="tableData1.filter(data => !search || data.Name.toLowerCase().includes(search.toLowerCase())).slice((currentPage1-1)*pageSize,currentPage1*pageSize)"
                     @select='selectCall'
                     @select-all='select_Call'
                     style="width: 100%">
@@ -325,11 +325,11 @@
               <!-- 添加 -->
                 <div class="button_edi">
                     <button @click="addto" type="button" class="iconfont icon-add"></button>
-                    <button @click="deleteselect" type="button" class="iconfont icon-ashbin"></button>
+                    <button @click="deleteselect" type="button" class="iconfont icon-reduce"></button>
                 </div>
                  <!-- 表格 -->
                 <el-table
-                    :data="tableData2.slice((currentPage2-1)*pageSize,currentPage2*pageSize).filter(data => !search || data.Name.toLowerCase().includes(search.toLowerCase()))"
+                    :data="tableData2.filter(data => !search || data.Name.toLowerCase().includes(search.toLowerCase())).slice((currentPage2-1)*pageSize,currentPage2*pageSize)"
                     @select='selectCall'
                     @select-all='select_Call'
                     style="width: 100%">
@@ -443,7 +443,7 @@
                 </div>
                  <!-- 表格 -->
                 <el-table
-                    :data="tableData3.slice((currentPage3-1)*pageSize,currentPage3*pageSize).filter(data => !search || data.Name.toLowerCase().includes(search.toLowerCase()))"
+                    :data="tableData3.filter(data => !search || data.Name.toLowerCase().includes(search.toLowerCase())).slice((currentPage3-1)*pageSize,currentPage3*pageSize)"
                      @select='selectCall'
                     @select-all='select_Call'
                     style="width: 100%">
@@ -666,6 +666,7 @@ import uuid from '@/store/uuid'
           }
           //url
           var url = root + "/api/v1/GetSrc?type=H5_ONVIF&session="+ this.$store.state.token;
+          //   console.log("------------",url)
             this.$http.get(url).then(result=>{
               //console.log("a",result);
               if(result.status == 200){
@@ -744,7 +745,7 @@ import uuid from '@/store/uuid'
               wsroot = window.location.host;
           }
           //url
-          var url = root + "/api/v1/GetSrc?getonline=false&session="+ this.$store.state.token;
+          var url = root + "/api/v1/GetSrc?session="+ this.$store.state.token;
           //console.log("444",url);
             this.$http.get(url).then(result=>{
               //console.log("a",result);
@@ -809,6 +810,7 @@ import uuid from '@/store/uuid'
             //url
             var form=this.editform;
             var list = {
+                index:form.index,
                 Type:form.Type,
                 Name:form.Name,
                 Token:form.Token,
@@ -1098,6 +1100,7 @@ import uuid from '@/store/uuid'
             this.edittoken=row.Token;
             this.editindex=index_xlh;
             this.editform["Type"]=row.Type;
+            this.editform["index"]=row.index;
             this.editform["Name"]=row.Name;
             this.editform["Token"]=row.Token;
             this.editform["Username"]=row.User;

@@ -13,6 +13,13 @@
       "unicode_decimal": 59003
     },
     {
+      "icon_id": "4940114",
+      "name": "用户",
+      "font_class": "yonghu1",
+      "unicode": "e602",
+      "unicode_decimal": 58882
+    },
+    {
       "icon_id": "7549827",
       "name": "发布",
       "font_class": "RectangleCopy1",
@@ -48,11 +55,25 @@
       "unicode_decimal": 59627
     },
     {
+      "icon_id": "11474270",
+      "name": "history",
+      "font_class": "history",
+      "unicode": "e6f8",
+      "unicode_decimal": 59128
+    },
+    {
       "icon_id": "11474272",
       "name": "editor",
       "font_class": "editor",
       "unicode": "e6f6",
       "unicode_decimal": 59126
+    },
+    {
+      "icon_id": "11474324",
+      "name": "play",
+      "font_class": "play",
+      "unicode": "e701",
+      "unicode_decimal": 59137
     },
     {
       "icon_id": "11487973",
@@ -69,11 +90,32 @@
       "unicode_decimal": 59204
     },
     {
+      "icon_id": "11487988",
+      "name": "browse",
+      "font_class": "browse",
+      "unicode": "e745",
+      "unicode_decimal": 59205
+    },
+    {
       "icon_id": "11488030",
       "name": "download",
       "font_class": "download",
       "unicode": "e74d",
       "unicode_decimal": 59213
+    },
+    {
+      "icon_id": "11488106",
+      "name": "reduce",
+      "font_class": "reduce",
+      "unicode": "e75e",
+      "unicode_decimal": 59230
+    },
+    {
+      "icon_id": "11488152",
+      "name": "trade alert",
+      "font_class": "guiding",
+      "unicode": "e76a",
+      "unicode_decimal": 59242
     },
     {
       "icon_id": "12214825",

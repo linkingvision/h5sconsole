@@ -33,7 +33,7 @@
                     </div>
                     <div class="form-group">
                         <div class="col-xs-12">
-                            <button class="btn btn-info btn-lg btn-block btn-rounded text-uppercase waves-effect waves-light" type="submit">{{ $t("message.login.login") }}</button>
+                            <button @click="login" class="btn btn-info btn-lg btn-block btn-rounded text-uppercase waves-effect waves-light" type="submit">{{ $t("message.login.login") }}</button>
                         </div>
                     </div>
                     <div class="form-group">

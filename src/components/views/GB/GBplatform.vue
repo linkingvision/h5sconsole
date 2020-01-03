@@ -64,7 +64,7 @@
                 </div> -->
                 <div class="button_edi">
                     <button @click="addto" type="button" class="iconfont icon-add"></button>
-                    <button @click="deleteselect" type="button" class="iconfont icon-ashbin"></button>
+                    <button @click="deleteselect" type="button" class="iconfont icon-reduce"></button>
                 </div>
                 <el-dialog :title="label.eltitle" :visible.sync="dialogFormVisible">
                     <el-form label-position="right" label-width="180px" :model="form">
@@ -117,7 +117,7 @@
                     </div>
                 </el-dialog>
                 <el-table
-                    :data="tableData.slice((currentPage-1)*pageSize,currentPage*pageSize)"
+                    :data="tableData.filter(data => !search || data.name.toLowerCase().includes(search.toLowerCase())).slice((currentPage-1)*pageSize,currentPage*pageSize)"
                     @select='selectCall'
                     @select-all='select_Call'
                     style="width: 100%">
@@ -199,6 +199,13 @@
                     <el-table-column
                         fixed="right"
                         width="180">
+                        <template slot="header" slot-scope="scope">
+                            <el-input
+                            v-model="search"
+                            @change="handlechange(scope.$index,scope.row)"
+                            size="mini"
+                            placeholder="输入关键字"/>
+                        </template>
                         <template slot-scope="scope">
                             <el-button @click="handleClick(scope.$index,scope.row)" type="text" size="small">{{$t("message.setting.Detail")}}</el-button>
                             <el-button @click="handleEdit(scope.$index,scope.row)" type="text" size="small">{{$t("message.setting.edit")}}</el-button>
@@ -248,6 +255,7 @@ import uuid from '@/store/uuid'
             label13:this.$t("message.GB.Domain"),
         },
         //分页
+        search:"",//搜索
         currentPage: 1, // 当前页码
         total1: 0, // 总条数
         pageSize: 10,//一页数量
@@ -280,6 +288,7 @@ import uuid from '@/store/uuid'
         this.loadplatform();
     },
     methods:{
+        handlechange(){},
         //第一个表格的数据
         loadplatform(){
 		    var root = process.env.API_ROOT;
@@ -350,6 +359,7 @@ import uuid from '@/store/uuid'
                 if(result.status==200){
                     if(result.data.bStatus==true){
                         var list = {
+                        index:editform.index,
                         Token:editform.Token,
                         name:editform.name,
                         strGbServerIpAddr:editform.strGbServerIpAddr,
@@ -485,6 +495,7 @@ import uuid from '@/store/uuid'
             this.editindex=index_xlh;
 
             this.editform["name"]=row.name;
+            this.editform["index"]=row.index;
             this.editform["Token"]=row.Token;
             this.editform["strGbServerIpAddr"]=row.strGbServerIpAddr;
             this.editform["nGbServerPort"]=row.nGbServerPort;

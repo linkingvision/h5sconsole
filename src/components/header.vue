@@ -50,7 +50,7 @@
 
         <li class="dropdown">
           <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-            <img src="./gallery/user@2x.png" alt="user-img"  class="img-circle" />
+            <span class="iconfont icon-yonghu1"></span>
             <b class="hidden-xs">admin</b>
             <span class="caret"></span>
           </a>
@@ -183,7 +183,17 @@ a{
 .el-badge >>> .el-badge__content.is-fixed {
     top: 12px;
 }
-
+.el-badge >>> .el-badge__content{
+  width: 26px;
+  border: 0px;
+  border-right: 9px;
+}
+.el-badge >>> .mdi{
+  font-size: 20px;
+}
+.el-badge >>> .fa{
+  font-size: 17px;
+}
 /*  */
 .top-left-part {
     width: 20%;
@@ -195,6 +205,12 @@ a{
     background: #292929;
 }
 /* admin */
+.hidden-xs{
+  font-size: 14px;
+}
+.el-button{
+  font-size: 14px;
+}
 .navbar-top-links .dropdown-user{
   width: 104px !important;
   text-align: center;

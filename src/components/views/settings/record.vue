@@ -1,9 +1,21 @@
 <template>
-<div>
+<div class="cont">
     <div class="ziti">{{$t("message.setting.manualstart")}}</div>
-    <el-button type="danger" @click="start()">{{$t("message.tour.Start")}}</el-button>
+    <el-switch
+        v-model="value"
+         @change="start()"
+        active-color="#5FBFA7"
+        inactive-color="#E9E9E9">
+    </el-switch>
+    <!-- <el-button type="danger" @click="start()">{{$t("message.tour.Start")}}</el-button> -->
     <div class="ziti">{{$t("message.setting.manualstop")}}</div>
-    <el-button type="success" @click="stop()">{{$t("message.tour.stop")}}</el-button>
+    <el-switch
+        v-model="value1"
+         @change="stop()"
+        active-color="#5FBFA7"
+        inactive-color="#E9E9E9">>
+    </el-switch>
+    <!-- <el-button type="success" @click="stop()">{{$t("message.tour.stop")}}</el-button> -->
 </div>
 </template>   
 
@@ -17,6 +29,8 @@ export default {
     name: 'record',
     data(){
         return {
+            value:false,
+            value1:true,
             recordstart:[],
         }
     },
@@ -25,6 +39,7 @@ export default {
     },
     methods:{
      getsrc(){
+        
         let _this =this;
         var root = process.env.API_ROOT;
         var wsroot = process.env.WS_HOST_ROOT;
@@ -53,6 +68,7 @@ export default {
         })
      },
      start(){
+         this.value1=false
          console.log(this.recordstart);
          for(var i=0;i<this.recordstart.length;i++){
             var Token=this.recordstart[i];
@@ -68,7 +84,7 @@ export default {
                 wsroot = window.location.host;
             }
             var url = root + "/api/v1/ManualRecordStart?token="+Token.token+"&session="+ this.$store.state.token;
-            //console.log(url);
+            // console.log(url);
             //return false;
             this.$http.get(url).then(result=>{
                 if(result.status==200){
@@ -82,6 +98,7 @@ export default {
          }
      },
      stop(){
+         this.value=false;
          console.log(this.recordstart);
          for(var i=0;i<this.recordstart.length;i++){
             var Token=this.recordstart[i];
@@ -97,7 +114,7 @@ export default {
                 wsroot = window.location.host;
             }
             var url = root + "/api/v1/ManualRecordStop?token="+Token.token+"&session="+ this.$store.state.token;
-            //console.log(url);
+            // console.log(url);
             //return false;
             this.$http.get(url).then(result=>{
                 if(result.status==200){
@@ -114,8 +131,13 @@ export default {
 }
 </script>
 <style scoped>
+.cont{
+    padding: 20px;
+}
+
 .ziti{
     color: #000;
     font-size: 14px;
+    margin: 10px 0;
 }
 </style>

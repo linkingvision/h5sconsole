@@ -11,7 +11,7 @@
 
   <v-content></v-content>
   
-  <footer class="footer text-center hidden-xs"> 2019 &copy; linkingvision.com </footer>
+  <footer class="footer text-center hidden-xs"> {{date}} &copy; linkingvision.com </footer>
   </div>
 </template>
 
@@ -30,7 +30,13 @@ export default {
         'v-content': Content,
         'v-dashboard': Dashboard,
         'v-timeline': Timeline
+    },
+    data(){
+      return {
+        date:new Date().getFullYear(),
+      }
     }
+    
 }
 </script>
 

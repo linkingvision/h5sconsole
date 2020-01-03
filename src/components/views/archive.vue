@@ -96,7 +96,22 @@
                         <el-table-column
                             min-width="160">
                             <template slot-scope="scope">
-                                <el-button
+                                <div class="button_edi">
+                                    <el-tooltip class="item" effect="dark" :content="content.content1" placement="top-start">
+                                        <button type="button" class="iconfont icon-guiding" @click="handleEdit(scope.$index, scope.row)"></button>
+                                    </el-tooltip>
+                                    <el-tooltip class="item" effect="dark" :content="content.content2" placement="top-start">
+                                        <button type="button" class="iconfont icon-history" @click="Refresh(scope.row)"></button>
+                                    </el-tooltip>
+                                        <el-progress type="circle" style="margin: 0 0 0 16px;" :percentage="scope.row.percentage" :stroke-width="2" :width="35"></el-progress>
+                                    <el-tooltip class="item" effect="dark" :content="content.content3" placement="top-start">
+                                        <a :href="scope.row.url" :download="scope.row.urlto"><button style="margin: 0 16px;" class="iconfont icon-download"></button></a>
+                                    </el-tooltip>
+                                    <el-tooltip class="item" effect="dark" :content="content.content4" placement="top-start">
+                                        <el-button size="mini" style="font-size: 25px;" @click="Refresh1(scope.$index, scope.row)" data-toggle="modal" data-target="#myModal" class="iconfont icon-play"></el-button>
+                                    </el-tooltip>
+                                </div>
+                                <!-- <el-button
                                 size="mini"
                                 @click="handleEdit(scope.$index, scope.row)">{{$t("message.archive.archive")}}</el-button>
                                 <el-button
@@ -107,7 +122,7 @@
                                 <el-button
                                 size="mini"
                                 type="success"><a :href="scope.row.url" :download="scope.row.urlto">{{$t("message.archive.Download")}}</a></el-button>
-                                <el-button size="mini" style="font-size: 25px;" icon="el-icon-caret-right" circle @click="Refresh1(scope.$index, scope.row)" data-toggle="modal" data-target="#myModal"></el-button>
+                                <el-button size="mini" style="font-size: 25px;" icon="el-icon-caret-right" circle @click="Refresh1(scope.$index, scope.row)" data-toggle="modal" data-target="#myModal"></el-button> -->
                             </template>
                          </el-table-column>
                     </el-table>
@@ -173,6 +188,12 @@ export default {
     name:"archive",
     data() {
         return {
+            content:{
+                content1:this.$t("message.archive.archive"),
+                content2:this.$t("message.archive.Refresh"),
+                content3:this.$t("message.archive.Download"),
+                content4:this.$t("message.archive.Playback"),
+            },
             label:{
                 label2:this.$t("message.archive.Name"),
                 label3:this.$t("message.archive.StartTime"),
@@ -770,7 +791,7 @@ export default {
 </script>
 <style scoped>
     a{
-        color: #FFFFFF;
+        color: #797979;
     }
     .videoo{
         width: 100%

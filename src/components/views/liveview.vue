@@ -77,9 +77,9 @@
                         @node-click="handleNodeClick"
                         :props="defaultProps">
                         <span slot-scope="{ node, data }">
-                            <div :class="data.iconclass" style="color:rgb(142, 132, 132);"></div>
+                            <span :class="data.iconclass" style="color:rgb(142, 132, 132);"></span>
                             <!-- <img src="" alt=""> -->
-                            <span style="padding-left: 4px;">{{data.label}}</span>
+                            <span :class="data.iconclass1" style="padding-left: 4px;">{{data.label}}</span>
                         </span>
                     </el-tree>
                 </div>
@@ -229,16 +229,24 @@ export default {
         },
         //树形节点点击
         handleNodeClick(data, checked, indeterminate){
-            console.log(data.name)
+            console.log(data.disabled_me)
             // console.log(data.label);
             // console.log(data.streamprofile);
             let _this =this;
-            //return false;
-            if (data.token) {
-                let vid = 'h' + _this.$data.selectRow + _this.$data.selectCol;
-                // console.log("----------------------",data.label);
-                _this.$root.bus.$emit('liveplay', data.token, data.streamprofile, data.name, vid);
+            // return false;
+            if(data.disabled_me==false){
+                console.log("----------------------");
+                if (data.token) {
+                    let vid = 'h' + _this.$data.selectRow + _this.$data.selectCol;
+                    // console.log("----------------------",data.label);
+                    _this.$root.bus.$emit('liveplay', data.token, data.streamprofile, data.name, vid);
+                }
+            }else{
+
+                console.log("不可用");
             }
+            
+            
         },
 
         updateUI()
@@ -319,28 +327,33 @@ export default {
                             streamprofile : "main",
                             label :this.$t('message.live.mainstream'),
                             name:item['strName']+"--"+this.$t('message.live.mainstream'),
-                            iconclass : 'mdi mdi-playlist-play fa-fw'
+                            iconclass : 'mdi mdi-playlist-play fa-fw',
+                            disabled_me:false
                             },{
                             token : item['strToken'],
                             streamprofile : "sub",
                             label :this.$t('message.live.substream'),
                             name:item['strName']+"--"+this.$t('message.live.substream'),
-                            iconclass : 'mdi mdi-playlist-play fa-fw'
+                            iconclass : 'mdi mdi-playlist-play fa-fw',
+                            disabled_me:false
                             }]
                             var newItem ={
                                     token : item['strToken'],
                                     label : item['strName'],
                                     iconclass : 'mdi mdi-camcorder fa-fw',
                                     name:item['strName']+"--"+this.$t('message.live.mainstream'),
-                                    children:node};
-                            //console.log("itme",item['bOnline'],item)
+                                    children:node,
+                                    disabled_me:false};
+                            
                             if(!item['bOnline'])
                                 newItem['iconclass'] = 'mdi mdi-camcorder-off fa-fw';
 
                             if(item['nType'] == 'H5_CLOUD')
                                 newItem['iconclass'] = 'mdi mdi-cloud-upload fa-fw';
+                                
                             
-                        
+                            
+                        console.log("itme",newItem,item)
 
                         srcGroup.children.push(newItem);
                         }
@@ -410,26 +423,42 @@ export default {
                           streamprofile : "main",
                           label :this.$t('message.live.mainstream'),
                           name:item['strName']+"--"+this.$t('message.live.mainstream'),
-                          iconclass : 'mdi mdi-playlist-play fa-fw'
+                          iconclass : 'mdi mdi-playlist-play fa-fw',
+                          disabled_me:false
                         },{
                           token : item['strToken'],
                           streamprofile : "sub",
                           label :this.$t('message.live.substream'),
                           name:item['strName']+"--"+this.$t('message.live.substream'),
-                          iconclass : 'mdi mdi-playlist-play fa-fw'
+                          iconclass : 'mdi mdi-playlist-play fa-fw',
+                          disabled_me:false
                         }]
+                        for(var l=0; l< node.length; l++){
+                            console.log("1111111111111111111",node[l].disabled_me)
+                            if(item['bDisable'] == true){
+                                node[l].disabled_me =true;
+                            }
+                        }
+                        
                         var newItem ={
                                 token : item['strToken'],
                                 label : item['strName'],
                                 iconclass : 'mdi mdi-camcorder fa-fw',
+                                iconclass1 : '',
                                 name:item['strName']+"--"+this.$t('message.live.mainstream'),
-                                children:node};
+                                children:node,
+                                disabled_me:false};
 
                         if(!item['bOnline'])
                             newItem['iconclass'] = 'mdi mdi-camcorder-off fa-fw';
 
                         if(item['nType'] == 'H5_CLOUD')
                             newItem['iconclass'] = 'mdi mdi-cloud-upload fa-fw';
+
+                        if(item['bDisable'] == true){
+                            newItem['disabled_me'] =true;
+                            newItem['iconclass1'] = 'camera';
+                        }
 
                        srcGroup.children.push(newItem);
                     }
@@ -499,20 +528,23 @@ export default {
                           streamprofile : "main",
                           label :this.$t('message.live.mainstream'),
                           name:item['strName']+"--"+this.$t('message.live.mainstream'),
-                          iconclass : 'mdi mdi-playlist-play fa-fw'
+                          iconclass : 'mdi mdi-playlist-play fa-fw',
+                          disabled_me:false
                         },{
                           token : item['strToken'],
                           streamprofile : "sub",
                           label :this.$t('message.live.substream'),
                           name:item['strName']+"--"+this.$t('message.live.substream'),
-                          iconclass : 'mdi mdi-playlist-play fa-fw'
+                          iconclass : 'mdi mdi-playlist-play fa-fw',
+                          disabled_me:false
                         }]
                         var newItem ={
                                 token : item['strToken'],
                                 label : item['strName'],
                                 iconclass : 'mdi mdi-camcorder fa-fw',
                                 name:item['strName']+"--"+this.$t('message.live.mainstream'),
-                                children:node};
+                                children:node,
+                                disabled_me:false};
 
                         if(!item['bOnline'])
                             newItem['iconclass'] = 'mdi mdi-camcorder-off fa-fw';
@@ -588,20 +620,23 @@ export default {
                           streamprofile : "main",
                           label :this.$t('message.live.mainstream'),
                           name:item['strName']+"--"+this.$t('message.live.mainstream'),
-                          iconclass : 'mdi mdi-playlist-play fa-fw'
+                          iconclass : 'mdi mdi-playlist-play fa-fw',
+                          disabled_me:false
                         },{
                           token : item['strToken'],
                           streamprofile : "sub",
                           label :this.$t('message.live.substream'),
                           name:item['strName']+"--"+this.$t('message.live.substream'),
-                          iconclass : 'mdi mdi-playlist-play fa-fw'
+                          iconclass : 'mdi mdi-playlist-play fa-fw',
+                          disabled_me:false
                         }]
                         var newItem ={
                                 token : item['strToken'],
                                 label : item['strName'],
                                 iconclass : 'cascade',
                                 name:item['strName']+"--"+this.$t('message.live.mainstream'),
-                                children:node};
+                                children:node,
+                                disabled_me:false};
 
                         if(!item['bOnline'])
                             newItem['iconclass'] = 'mdi mdi-camcorder-off fa-fw';
@@ -806,6 +841,10 @@ export default {
 
 
 <style scoped>
+/* 自制图标 */
+.camera{
+    text-decoration:line-through
+}
 
 .palace{
     flex: 1 1 25%;

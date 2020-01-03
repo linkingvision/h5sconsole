@@ -55,6 +55,7 @@ module.exports={
 		running: 'Running',
 		network_in: 'Network In',
 		network_out: 'Network Out',
+		an_out:"Network in and out",
 		free_space: "Free Space",
 		online_cam: "Online Cameras",
 		cameras: "Cameras",
@@ -70,7 +71,9 @@ module.exports={
 		gb28181:"GB28181",
 		devicesdkpb:"Device SDK Playback",
 		transcoding:"Transcoding",
-		cluster:"Cluster"
+		cluster:"Cluster",
+		Online:"Online",
+		Not_nline:"Not_nline",
     },
 	live:
     {
@@ -167,11 +170,14 @@ module.exports={
 		stop:"Stop",
 	},
 	camera:{
-		Editorial_success:"Editorial success!",
-		Editor_failure:"Editorial_success!",
+		Save_successfully:"Save successfully!",
+		// Editor_failure:"Editorial_success!",
 		Delete_successful:"Delete_successful!",
 		Delete_failed:"Delete_successful！",
 		open_Close:"Open/Close",
+		name: 'Name',
+		audio:"Audio" ,
+		save:"Save",
 	}
   }
 }
