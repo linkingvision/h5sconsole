@@ -76,10 +76,15 @@
                         highlight-current
                         @node-click="handleNodeClick"
                         :props="defaultProps">
-                        <span slot-scope="{ node, data }">
-                            <span :class="data.iconclass" style="color:rgb(142, 132, 132);"></span>
-                            <!-- <img src="" alt=""> -->
-                            <span :class="data.iconclass1" style="padding-left: 4px;">{{data.label}}</span>
+                        <span slot-scope="{ node, data }" style="width:100%;">
+                            <div style="width:100%;display: flex;justify-content: space-between;">
+                                <span >
+                                    <span :class="data.iconclass" style="color:rgb(142, 132, 132);"></span>
+                                    <!-- <img src="" alt=""> -->
+                                    <span :class="data.iconclass1" style="padding-left: 4px;">{{data.label}}</span>
+                                </span>
+                                <span :class="data.iconclass2" class="black" style="">{{$t("message.live.Videorecording")}}</span>
+                            </div>
                         </span>
                     </el-tree>
                 </div>
@@ -175,7 +180,7 @@ export default {
         this.NumberDevice();
         this.addWaterMarker();
         this.cloudDevice();
-        this.height_zsy();
+        // this.height_zsy();
         // 水印
         document.getElementById("watermarktoggle").style.display=this.watermarktoggle;
         this.$root.bus.$emit('liveplayproto',this.proto);
@@ -341,6 +346,7 @@ export default {
                                     token : item['strToken'],
                                     label : item['strName'],
                                     iconclass : 'mdi mdi-camcorder fa-fw',
+                                    iconclass2 : 'mdi mdi-camcorder fa-fw',
                                     name:item['strName']+"--"+this.$t('message.live.mainstream'),
                                     children:node,
                                     disabled_me:false};
@@ -350,6 +356,9 @@ export default {
 
                             if(item['nType'] == 'H5_CLOUD')
                                 newItem['iconclass'] = 'mdi mdi-cloud-upload fa-fw';
+                            
+                            if(item['bRec'] == true)
+                                newItem['iconclass2'] = 'iconfont icon-radioboxfill none';
                                 
                             
                             
@@ -455,6 +464,9 @@ export default {
                         if(item['nType'] == 'H5_CLOUD')
                             newItem['iconclass'] = 'mdi mdi-cloud-upload fa-fw';
 
+                        if(item['bRec'] == true)
+                                newItem['iconclass2'] = 'iconfont icon-radioboxfill none';
+
                         if(item['bDisable'] == true){
                             newItem['disabled_me'] =true;
                             newItem['iconclass1'] = 'camera';
@@ -552,6 +564,9 @@ export default {
                         if(item['nType'] == 'H5_CLOUD')
                             newItem['iconclass'] = 'mdi mdi-cloud-upload fa-fw';
 
+                        if(item['bRec'] == true)
+                                newItem['iconclass2'] = 'iconfont icon-radioboxfill none';
+
                        srcGroup.children.push(newItem);
                     }
                     this.data.push(srcGroup);
@@ -643,6 +658,9 @@ export default {
 
                         if(item['nType'] == 'H5_CLOUD')
                             newItem['iconclass'] = 'cascade';
+
+                        if(item['bRec'] == true)
+                                newItem['iconclass2'] = 'iconfont icon-radioboxfill none';
 
                        srcGroup.children.push(newItem);
                     }
@@ -822,8 +840,9 @@ export default {
         height_zsy(){
             var winHeight = $(window).height()-64;//winHeight即浏览器高度
             console.log("******",winHeight-100);
-            $(".zdg").css("height",winHeight);
-            $(".flexvideo").css("height",winHeight);
+            // $(".rowflex").css("height",winHeight);
+            // $(".zdg").css("height",winHeight);
+            // $(".flexvideo").css("height",winHeight);
 
         }
 
@@ -844,6 +863,12 @@ export default {
 /* 自制图标 */
 .camera{
     text-decoration:line-through
+}
+.black{
+    display: none!important;font-size: 12px;color: #606266; padding-left: 4px;line-height: 26px;color: #f00;
+}
+.none{
+    display: block!important;
 }
 
 .palace{
@@ -949,13 +974,13 @@ export default {
 .rowflex{
     width: 100%;
     display: flex;
-    height: 100%;
+    height: 900px;
     justify-content:space-between;
 }
 .zdg{
     width: 100%;
     background-color: #ffffff;
-    /* height: 900px; */
+    height: 100%;
     overflow-y:auto;
 }
 .flexlist{

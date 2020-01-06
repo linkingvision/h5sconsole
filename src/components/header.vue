@@ -78,7 +78,7 @@
             <el-button type="text" class="about" @click="centerDialogVisible = true">{{$t("message.dashboard.about")}}</el-button>
             <el-dialog
                 :visible.sync="centerDialogVisible"
-                width="40%"
+                width="30%"
                 append-to-body
                 center>
                 <div class="about_flex">
@@ -203,6 +203,10 @@ a{
 
 .el-dialog__wrapper >>> .el-dialog{
     background: #292929;
+}
+
+.el-dialog__wrapper >>>  .el-dialog--center .el-dialog__body {
+    padding: 1px 30px;
 }
 /* admin */
 .hidden-xs{

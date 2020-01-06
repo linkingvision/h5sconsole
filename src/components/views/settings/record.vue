@@ -1,21 +1,21 @@
 <template>
 <div class="cont">
     <div class="ziti">{{$t("message.setting.manualstart")}}</div>
-    <el-switch
+    <!-- <el-switch
         v-model="value"
          @change="start()"
         active-color="#5FBFA7"
         inactive-color="#E9E9E9">
-    </el-switch>
-    <!-- <el-button type="danger" @click="start()">{{$t("message.tour.Start")}}</el-button> -->
+    </el-switch> -->
+    <el-button type="success" @click="start()" round size="mini">{{$t("message.tour.Start")}}</el-button>
     <div class="ziti">{{$t("message.setting.manualstop")}}</div>
-    <el-switch
+    <!-- <el-switch
         v-model="value1"
          @change="stop()"
         active-color="#5FBFA7"
         inactive-color="#E9E9E9">>
-    </el-switch>
-    <!-- <el-button type="success" @click="stop()">{{$t("message.tour.stop")}}</el-button> -->
+    </el-switch> -->
+    <el-button type="danger" @click="stop()" round size="mini">{{$t("message.tour.stop")}}</el-button>
 </div>
 </template>   
 

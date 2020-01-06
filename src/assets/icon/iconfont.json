@@ -13,11 +13,53 @@
       "unicode_decimal": 59003
     },
     {
+      "icon_id": "1045362",
+      "name": "筛选",
+      "font_class": "filter",
+      "unicode": "e631",
+      "unicode_decimal": 58929
+    },
+    {
+      "icon_id": "2741962",
+      "name": "日历",
+      "font_class": "rili",
+      "unicode": "e600",
+      "unicode_decimal": 58880
+    },
+    {
+      "icon_id": "3466820",
+      "name": "左右",
+      "font_class": "zuoyou",
+      "unicode": "e615",
+      "unicode_decimal": 58901
+    },
+    {
+      "icon_id": "3481874",
+      "name": "筛选",
+      "font_class": "saixuan",
+      "unicode": "e603",
+      "unicode_decimal": 58883
+    },
+    {
+      "icon_id": "3680431",
+      "name": "s-保存",
+      "font_class": "baocun",
+      "unicode": "e601",
+      "unicode_decimal": 58881
+    },
+    {
       "icon_id": "4940114",
       "name": "用户",
       "font_class": "yonghu1",
       "unicode": "e602",
       "unicode_decimal": 58882
+    },
+    {
+      "icon_id": "6431514",
+      "name": "声音",
+      "font_class": "shengyin1",
+      "unicode": "e626",
+      "unicode_decimal": 58918
     },
     {
       "icon_id": "7549827",
@@ -41,11 +83,32 @@
       "unicode_decimal": 58986
     },
     {
+      "icon_id": "8882338",
+      "name": "暂停 停止",
+      "font_class": "zantingtingzhi",
+      "unicode": "e674",
+      "unicode_decimal": 58996
+    },
+    {
+      "icon_id": "9070590",
+      "name": "播放",
+      "font_class": "bofang",
+      "unicode": "e6c1",
+      "unicode_decimal": 59073
+    },
+    {
       "icon_id": "9334795",
       "name": "桌面共享",
       "font_class": "zhuomiangongxiang",
       "unicode": "e6a2",
       "unicode_decimal": 59042
+    },
+    {
+      "icon_id": "9659178",
+      "name": "下  拉 (3)",
+      "font_class": "arrow-bottom",
+      "unicode": "e609",
+      "unicode_decimal": 58889
     },
     {
       "icon_id": "11310397",

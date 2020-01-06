@@ -103,6 +103,11 @@ export default {
 .el-tabs__active-bar{
   background-color: rgba(95,191,167,1) !important;
 }
+/* 自制图标 */
+.camera{
+    text-decoration:line-through
+}
+
 
 </style>
 

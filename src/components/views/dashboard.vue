@@ -1,7 +1,7 @@
 <template>
   <div>
     <div id="page-wrapper">
-        <!-- Õ∑≤ø -->
+        <!-- Â§¥ÈÉ® -->
         <!--  -->
         <div class="container-fluid">
             <div class="bg-title" style="margin-bottom: 0px;">
@@ -35,12 +35,12 @@
                         <div class="flex_beibiao">
                             <div class="beibiao_zi">
                                 <img src="./gallery/daId@2x.png"/>
-                                <span>{{this.$t("message.dashboard.devicesdk")}}</span>
+                                <span>{{this.$t("message.dashboard.device")}}</span>
                             </div>
                             <div style="display: flex;">
-                                <div class="beibiao_zi1">‘⁄œﬂ</div>
+                                <div class="beibiao_zi1">{{this.$t("message.dashboard.Online")}}</div>
                                 <div class="beibiao_bg"></div>
-                                <div class="beibiao_zi1">≤ª‘⁄œﬂ</div>
+                                <div class="beibiao_zi1">{{this.$t("message.dashboard.Offline")}}</div>
                                 <div class="beibiao_bg1"></div>
                             </div>
                         </div>
@@ -57,36 +57,36 @@
                     <div class="flex_nc1">
                         <div class="beibiao_zi">
                             <img src="./gallery/daId@2x.png"/>
-                            <span>{{this.$t("message.dashboard.memory")}}</span>
+                            <span>{{this.$t("message.dashboard.DiskMemory")}}</span>
                         </div>
                         <div class="nr_mory">
                             <div class="nr_mory1">
                                 <el-progress
                                 type="circle" 
-                                width='100'
+                                :width='100'
                                 :percentage="Number(Math.round((strRunTime.nTotalSpaceByte-strRunTime.nFreeSpaceByte)/strRunTime.nTotalSpaceByte*100))"></el-progress> 
-                                <div> £”‡ø’º‰</div>
+                                <div>{{this.$t("message.dashboard.free_space")}}</div>
                                 <div>{{strRunTime.strFreeSpace}}</div>
                             </div>
                             <div class="nr_mory1">
                                 <el-progress
                                 type="circle"
-                                width='100'
+                                :width='100'
                                 color="#FF952C"
                                 :percentage="Number(strRunTime.nMemoryUsage)" ></el-progress>
-                                <div>◊‹ƒ⁄¥Ê</div>
-                                <div>(ƒ⁄¥Êπ≤º∆: {{strRunTime.nTotalMemoryByte}})</div>
+                                <div>{{this.$t("message.dashboard.memory")}}</div>
+                                <div>({{this.$t("message.dashboard.TotalMemory")}}: {{(strRunTime.nTotalMemoryByte/1024/1024/1024).toFixed(1)}}G)</div>
                             </div>
                         </div>
                     </div>
                     <div class="flex_nc1">
                         <div class="beibiao_zi">
                             <img src="./gallery/daId@2x.png"/>
-                            <span>{{this.$t("message.dashboard.cpudecoder")}}</span>
+                            <span>{{this.$t("message.dashboard.codec_info")}}</span>
                         </div>
                         <div class="flex_nc_ag">
                             <div class="flex_nc_cpu" v-for="a in codecInfo" :key="a.id">
-                                <span class="cpu_zuo">{{a.name}} </span>
+                                <span class="cpu_zuo">{{a.name}}:</span>
                                 <span class="cpu_you"> {{a.id}}</span>
                             </div>
                         </div>
@@ -118,7 +118,7 @@
                     </div>
                     <div class="flex_nc_ag">
                         <div class="flex_nc_cpu" v-for="b in capability" :key="b.id">
-                            <span class="cpu_zuo">{{b.name}} </span>
+                            <span class="cpu_zuo">{{b.name}}:</span>
                             <span class="cpu_you"> {{b.id}}</span>
                         </div>
                     </div>
@@ -149,35 +149,35 @@
                 <div class="container_srd">
                     <div class="beibiao_zi">
                         <img src="./gallery/daId@2x.png"/>
-                        <span>{{this.$t("message.dashboard.devicesdk")}}</span>
+                        <span>{{this.$t("message.dashboard.device")}}</span>
                     </div>
                     <div class="container_sdk">
                         <div class="containesr_sdks">
                             <dv-water-level-pond :config="config"/>
                             <div class="containesr_sdks_zi">
-                                <div>{{this.$t("message.dashboard.devicesdk")}}</div>
-                                <div>“ªπ≤{{dev.nCloudTotal}}∏ˆ</div>
+                                <div>{{this.$t("message.dashboard.Cloud")}}</div>
+                                <div>{{this.total}}{{dev.nCloudTotal}}{{this.ge}}</div>
                             </div>
                         </div>
                         <div class="containesr_sdks">
                             <dv-water-level-pond :config="config1"/>
                             <div class="containesr_sdks_zi">
-                                <div>RTSP</div>
-                                <div>“ªπ≤{{dev.nRTSPRTMPTotal}}∏ˆ</div>
+                                <div>RTSP/RTMP</div>
+                                <div>{{this.total}}{{dev.nRTSPRTMPTotal}}{{this.ge}}</div>
                             </div>
                         </div>
                         <div class="containesr_sdks">
                             <dv-water-level-pond :config="config2"/>
                             <div class="containesr_sdks_zi">
                                 <div>ONVIF</div>
-                                <div>“ªπ≤{{dev.nONVIFTotal}}∏ˆ</div>
+                                <div>{{this.total}}{{dev.nONVIFTotal}}{{this.ge}}</div>
                             </div>
                         </div>
                         <div class="containesr_sdks">
                             <dv-water-level-pond :config="config3"/>
                             <div class="containesr_sdks_zi">
-                                <div>RTMP</div>
-                                <div>“ªπ≤{{dev.nRTMPPushTotal}}∏ˆ</div>
+                                <div>{{this.$t("message.dashboard.RTMP")}}</div>
+                                <div>{{this.total}}{{dev.nRTMPPushTotal}}{{this.ge}}</div>
                             </div>
                         </div>
                     </div>
@@ -259,7 +259,14 @@ export default {
         title_text:this.$t("message.dashboard.an_out"),
         network_in:this.$t("message.dashboard.network_in"),
         network_out:this.$t("message.dashboard.network_out"),
-        strRunTime:"",//‘À–– ±º‰
+
+        Hikvision:this.$t("message.dashboard.Hikvision"),
+        Dahua:this.$t("message.dashboard.Dahua"),
+        Tiandy:this.$t("message.dashboard.Tiandy"),
+
+        total:this.$t("message.dashboard.total"),
+        ge:this.$t("message.dashboard.ge"), 
+        strRunTime:"",//ËøêË°åÊó∂Èó¥
     };
   },
     beforeDestroy() {
@@ -278,7 +285,7 @@ export default {
         // this.GetSrcInfo();
         this.GetCodecInfo();
         this.GetDeviceSummary();
-        this.height_zsy();
+        // this.height_zsy();
         this.height_zsy1();
         this.cpu();
         this.flow();
@@ -306,7 +313,7 @@ export default {
 
     },
     methods: {
-        //¡˜¡ø
+        //ÊµÅÈáè
         flow() {
             var base = +new Date();
             var date = [];
@@ -320,15 +327,16 @@ export default {
             // console.log(this.data)
             
             // console.log(this.data,this.data1)
-            // ª˘”⁄◊º±∏∫√µƒdom£¨≥ı ºªØecharts µ¿˝
+            // Âü∫‰∫éÂáÜÂ§áÂ•ΩÁöÑdomÔºåÂàùÂßãÂåñechartsÂÆû‰æã
             var myChart = echarts.init(document.getElementById('container'))
-            // ªÊ÷∆Õº±Ì
+            // ÁªòÂà∂ÂõæË°®
             myChart.setOption({
                 tooltip: {
                     trigger: 'axis',
                     position: function(pt) {
                         return [pt[0], '10%']
-                    }
+                    },
+                    formatter:"{b0}<br />{a0}:{c0}Kbps<br />{a1}:{c1}Kbps"
                 },
                 title: {
                     left: 'center',
@@ -351,7 +359,7 @@ export default {
                     axisTick: {
                         show: false
                     },
-                    splitLine: { //Õ¯∏Òœﬂ
+                    splitLine: { //ÁΩëÊ†ºÁ∫ø
                         "show": false
                     }
                 },
@@ -360,7 +368,7 @@ export default {
                     axisLine: {
                         show: false
                     },
-                    splitLine: { //Õ¯∏Òœﬂ
+                    splitLine: { //ÁΩëÊ†ºÁ∫ø
                         "show": false
                     },
                     axisTick: {
@@ -423,15 +431,16 @@ export default {
                     [('0' + now.getSeconds()).slice(-2) + 's']
                 )
             }
-            // ª˘”⁄◊º±∏∫√µƒdom£¨≥ı ºªØecharts µ¿˝
+            // Âü∫‰∫éÂáÜÂ§áÂ•ΩÁöÑdomÔºåÂàùÂßãÂåñechartsÂÆû‰æã
             var myChart = echarts.init(document.getElementById('container1'))
-            // ªÊ÷∆Õº±Ì
+            // ÁªòÂà∂ÂõæË°®
             myChart.setOption({
                 tooltip: {
                     trigger: 'axis',
                     position: function(pt) {
                         return [pt[0], '10%']
-                    }
+                    },
+                    formatter:"{b0}<br />{a0}:{c0}%"
                 },
                 title: {
                     left: 'center',
@@ -454,7 +463,7 @@ export default {
                     axisTick: {
                         show: false
                     },
-                    splitLine: { //Õ¯∏Òœﬂ
+                    splitLine: { //ÁΩëÊ†ºÁ∫ø
                         "show": false
                     }
                 },
@@ -463,7 +472,7 @@ export default {
                     axisLine: {
                         show: false
                     },
-                    splitLine: { //Õ¯∏Òœﬂ
+                    splitLine: { //ÁΩëÊ†ºÁ∫ø
                         "show": false
                     },
                     axisTick: {
@@ -494,7 +503,7 @@ export default {
                 },]
             })
         },
-        //∫£øµ
+        //Êµ∑Â∫∑
         devhk(){
             window.setTimeout(function() {
                 // console.log("11111111111111111",this.dev)
@@ -509,13 +518,13 @@ export default {
                         x: 'center',
                         y: 'center',
                         textStyle:{
-                            fontSize:16,
+                            fontSize:12,
                             fontWeight:400,
                         },
                     },
                     
                     series: [{
-                        name: '∫£øµSDK',
+                        name: this.Hikvision,
                         type: 'pie',
                         radius: ['60%', '70%'],
                         avoidLabelOverlap: false,
@@ -559,7 +568,7 @@ export default {
                 myChart.setOption({
                     title: {
                         show: true,
-                        text: '∫£øµSDK\nπ≤'+this.dev.nHikDevTotal+"∏ˆ"
+                        text: this.Hikvision+'\n'+this.total+this.dev.nHikDevTotal+this.ge
                     }
                 })
                 
@@ -575,13 +584,13 @@ export default {
                     myChart.setOption({
                         title: {
                             show: true,
-                            text: '∫£øµSDK\nπ≤'+this.dev.nHikDevTotal+"∏ˆ"
+                            text: this.Hikvision+'\n'+this.total+this.dev.nHikDevTotal+this.ge
                         }
                     })
                 });
             }.bind(this), 1000);
         },
-        //¥Ûª™
+        //Â§ßÂçé
         devdh(){
             // console.log("this.dev)
             window.setTimeout(function() {
@@ -594,12 +603,12 @@ export default {
                         x: 'center',
                         y: 'center',
                         textStyle:{
-                            fontSize:16,
+                            fontSize:12,
                             fontWeight:400,
                         },
                     },
                     series: [{
-                        name: '¥Ûª™SDK',
+                        name: this.Dahua,
                         type: 'pie',
                         radius: ['60%', '70%'],
                         avoidLabelOverlap: false,
@@ -643,7 +652,7 @@ export default {
                 myChart.setOption({
                     title: {
                         show: true,
-                        text: '¥Ûª™SDK\nπ≤'+this.dev.nDhDevTotal+"∏ˆ"
+                        text: this.Dahua+'\n'+this.total+this.dev.nDhDevTotal+this.ge
                     }
                 })
                 
@@ -659,7 +668,7 @@ export default {
                     myChart.setOption({
                         title: {
                             show: true,
-                            text: '¥Ûª™SDK\nπ≤'+this.dev.nDhDevTotal+"∏ˆ"
+                            text: this.Dahua+'\n'+this.total+this.dev.nDhDevTotal+this.ge
                         }
                     })
                 });
@@ -678,12 +687,12 @@ export default {
                         x: 'center',
                         y: 'center',
                         textStyle:{
-                            fontSize:16,
+                            fontSize:12,
                             fontWeight:400,
                         },
                     },
                     series: [{
-                        name: '∫£øµISC',
+                        name: 'iSecure Center',
                         type: 'pie',
                         radius: ['60%', '70%'],
                         avoidLabelOverlap: false,
@@ -727,7 +736,7 @@ export default {
                 myChart.setOption({
                     title: {
                         show: true,
-                        text: '∫£øµISC\nπ≤'+this.dev.nHikIscDevTotal+"∏ˆ"
+                        text: 'iSecure Center\n'+this.total+this.dev.nHikIscDevTotal+this.ge
                     }
                 })
                 
@@ -743,13 +752,13 @@ export default {
                     myChart.setOption({
                         title: {
                             show: true,
-                            text: '∫£øµISC\nπ≤'+this.dev.nHikIscDevTotal+"∏ˆ"
+                            text: 'iSecure Center\n'+this.total+this.dev.nHikIscDevTotal+this.ge
                         }
                     })
                 });
             }.bind(this), 1000);
         },
-        //ÃÏµÿ
+        //Â§©Âú∞
         devtd(){
             window.setTimeout(function() {
                 var myChart = echarts.init(document.getElementById('mian3'));
@@ -762,12 +771,12 @@ export default {
                         x: 'center',
                         y: 'center',
                         textStyle:{
-                            fontSize:16,
+                            fontSize:12,
                             fontWeight:400,
                         },
                     },
                     series: [{
-                        name: 'ÃÏµÿSDK',
+                        name:this.Tiandy,
                         type: 'pie',
                         radius: ['60%', '70%'],
                         avoidLabelOverlap: false,
@@ -811,7 +820,7 @@ export default {
                 myChart.setOption({
                     title: {
                         show: true,
-                        text: 'ÃÏµÿSDK\nπ≤'+this.dev.nTdDevTotal+"∏ˆ"
+                        text: this.Tiandy+'\n'+this.total+this.dev.nTdDevTotal+this.ge
                     }
                 })
                 
@@ -827,13 +836,13 @@ export default {
                     myChart.setOption({
                         title: {
                             show: true,
-                            text: 'ÃÏµÿSDK\nπ≤'+this.dev.nTdDevTotal+"∏ˆ"
+                            text: this.Tiandy+'\n'+this.total+this.dev.nTdDevTotal+this.ge
                         }
                     })
                 });
             }.bind(this), 1000);
         },
-        //π˙±Í
+        //ÂõΩÊ†á
         devgb(){
             window.setTimeout(function() {
                 var myChart = echarts.init(document.getElementById('mian4'));
@@ -846,7 +855,7 @@ export default {
                         x: 'center',
                         y: 'center',
                         textStyle:{
-                            fontSize:16,
+                            fontSize:12,
                             fontWeight:400,
                         },
                     },
@@ -895,7 +904,7 @@ export default {
                 myChart.setOption({
                     title: {
                         show: true,
-                        text: 'GB\nπ≤'+this.dev.nGbDevTotal+"∏ˆ"
+                        text: 'GB\n'+this.total+this.dev.nGbDevTotal+this.ge
                     }
                 })
                 
@@ -911,13 +920,13 @@ export default {
                     myChart.setOption({
                         title: {
                             show: true,
-                            text: 'GB\nπ≤'+this.dev.nGbDevTotal+"∏ˆ"
+                            text: 'GB\n'+this.total+this.dev.nGbDevTotal+this.ge
                         }
                     })
                 });
             }.bind(this), 1000);
         },
-        //¡˜¡ø
+        //ÊµÅÈáè
         GetRunInfo() {
             var root = process.env.API_ROOT;
             if (root == undefined){
@@ -941,7 +950,7 @@ export default {
                 }
             })
         },
-        //…Ë±∏
+        //ËÆæÂ§á
         GetDeviceSummary(){
             var root = process.env.API_ROOT;
             if (root == undefined){
@@ -1006,7 +1015,7 @@ export default {
                                 waveHeight:10,
                                 waveNum:2
                             };
-                        // console.log("…Ë±∏",this.dev,result.data);
+                        // console.log("ËÆæÂ§á",this.dev,result.data);
                 }
             })
         },
@@ -1026,41 +1035,41 @@ export default {
                 if (result.status == 200) {
                     var data =  result.data;
                     var cpu=[{
-                        name:"∞Ê±æ",
+                        name:this.$t("message.dashboard.version"),
                         id:data.strVersion
                     },{
-                        name:"÷˜ª˙∫≈",
+                        name:this.$t("message.dashboard.hostid"),
                         id:data.strHostId
                     },{
-                        name:"∞Ê»®",
+                        name:this.$t("message.dashboard.license"),
                         id:data.strLicenseType
                     },{
-                        name:"Õ®µ¿",
+                        name:this.$t("message.dashboard.channel"),
                         id:data.strChannelLimit
                     },{
-                        name:"∞Ê»® ±º‰",
+                        name:this.$t("message.dashboard.endtime"),
                         id:data.strEndtime
                     }]
                     var fun=[{
-                        name:"…Ë±∏SDK",
+                        name:this.$t("message.dashboard.devicesdk"),
                         id:data.bDeviceSDK
                     },{
-                        name:"◊™¬Î",
+                        name:this.$t("message.dashboard.transcoding"),
                         id:data.bTranscoding
                     },{
-                        name:"π˙±Í",
+                        name:this.$t("message.dashboard.gb28181"),
                         id:data.bGB28181
                     },{
-                        name:"…Ë±∏SDKªÿ∑≈",
+                        name:this.$t("message.dashboard.devicesdkpb"),
                         id:data.bDeviceSDKPb
                     },{
-                        name:"ºØ»∫",
+                        name:this.$t("message.dashboard.cluster"),
                         id:data.bCluster
                     },{
-                        name:" ”“Ù∆µ–≠◊˜",
+                        name:this.$t("message.dashboard.VideoConference"),
                         id:data.bVideoConference
                     },{
-                        name:"∆ΩÃ®",
+                        name:this.$t("message.dashboard.Platform"),
                         id:data.bPlatform
                     }]
                     this.capability=cpu;
@@ -1092,25 +1101,25 @@ export default {
                 if (result.status == 200) {
                     var data =  result.data;
                     var cpu=[{
-                        name:"CPU–Õ∫≈",
+                        name:this.$t("message.dashboard.cpumodel"),
                         id:data.strCPUModel
                     },{
-                        name:"CPU¬∑ ˝",
+                        name:this.$t("message.dashboard.PhysicalCPU"),
                         id:data.nCPU
                     },{
-                        name:"CPU∫À ˝",
+                        name:this.$t("message.dashboard.CPUCore"),
                         id:data.nCPUCore
                     },{
-                        name:"CPU±‡¬Î∆˜",
+                        name:this.$t("message.dashboard.gpuencoder"),
                         id:data.strHWEncoders
                     },{
-                        name:"CPUΩ‚¬Î∆˜",
+                        name:this.$t("message.dashboard.gpudecoder"),
                         id:data.strHWDecoders
                     },{
-                        name:"»Ìº˛±‡¬Î∆˜",
+                        name:this.$t("message.dashboard.cpuencoder"),
                         id:data.strSWEncoders
                     },{
-                        name:"»Ìº˛Ω‚¬Î∆˜",
+                        name:this.$t("message.dashboard.cpudecoder"),
                         id:data.strSWDecoders
                     }]
                     this.codecInfo = cpu;
@@ -1161,13 +1170,13 @@ export default {
 
     
         height_zsy(){
-            var winHeight = $(window).height()-100;//winHeightº¥‰Ø¿¿∆˜∏ﬂ∂»
+            var winHeight = $(window).height()-100;//winHeightÂç≥ÊµèËßàÂô®È´òÂ∫¶
             // console.log("******",winHeight-100);
             $(".container").css("height",winHeight);
 
         },
         height_zsy1(){
-            var winHeight = $(window).height();//winHeightº¥‰Ø¿¿∆˜∏ﬂ∂»
+            var winHeight = $(window).height();//winHeightÂç≥ÊµèËßàÂô®È´òÂ∫¶
             // console.log("******",winHeight-100);
             this.timerRunInfo = setInterval(() => {
             $("rect").css("height","98%");
@@ -1183,6 +1192,7 @@ export default {
 }
 .container{
     width: 100%;
+    height: 900px;
     padding: 0;
 }
 .container_flex{
@@ -1205,7 +1215,7 @@ export default {
     height: 100%;
     margin-right: 10px;
 }
-/* œ¬±ﬂ */
+/* ‰∏ãËæπ */
 .container_zong .container_srd{
     width: 25%;
     padding: 10px;
@@ -1224,6 +1234,9 @@ export default {
 .zong_img{
     width: 100%;
     text-align: center;
+}
+.zong_img img{
+    width: 100%;
 }
 .zong_flex .zong_mve div{
     margin-bottom: 10px;
@@ -1267,7 +1280,7 @@ export default {
     background-color: #ffffff;
     padding: 5px;
 }
-/* …Ë±∏ */
+/* ËÆæÂ§á */
 .flex_bei{
     width:100%;
     height: 40%;
@@ -1314,7 +1327,7 @@ export default {
     margin-right: 10px;
     background-color: #FFC15E;
 }
-/* ƒ⁄¥Ê */
+/* ÂÜÖÂ≠ò */
 .flex_nc{
     width: 30%;
     height: 100%;
@@ -1361,7 +1374,7 @@ export default {
     font-weight:400;
     color:rgba(51,51,51,1);
 }
-/* π¶ƒ‹¡–±Ì */
+/* ÂäüËÉΩÂàóË°® */
 .flex_nc .flex_nc1{
     width: 100%;
     background-color: #ffffff;

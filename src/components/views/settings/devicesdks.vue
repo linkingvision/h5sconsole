@@ -6,13 +6,7 @@
             <el-form label-position="right" label-width="140px" :model="editform">
                     
                 <el-form-item label="Type">
-                    <el-select v-model="form.Type" placeholder="请选择">
-                    <el-option
-                        v-for="item in options"
-                        :key="item.value"
-                        :label="item.label"
-                        :value="item.value">
-                    </el-option>
+                    <el-select v-model="editform.Type" placeholder="请选择">
                     </el-select>
                 </el-form-item>
                 <el-form-item label="Name">

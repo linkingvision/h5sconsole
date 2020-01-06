@@ -52,7 +52,7 @@
                         :props="defaultProps">
                         <span slot-scope="{ node, data }">
                             <i :class="data.iconclass" style="color:rgb(142, 132, 132);"></i>
-                            <span style="padding-left: 4px;">{{data.label}}</span>
+                            <span :class="data.iconclass1" style="padding-left: 4px;">{{data.label}}</span>
                         </span>
                     </el-tree>
                 </div>
@@ -521,6 +521,11 @@ export default {
 
                               if(item['nType'] == 'H5_CLOUD')
 								topitem['iconclass'] = 'mdi mdi-cloud-upload fa-fw';
+
+							if(item['bDisable'] == true){
+                                // newItem['disabled_me'] =true;
+                                topitem['iconclass1'] = 'camera';
+                            }
 
                        		topGroup.children.push(topitem);
                     }

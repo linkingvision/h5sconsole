@@ -38,7 +38,8 @@
                         :props="defaultProps">
                         <span slot-scope="{ node, data }">
                             <i :class="data.iconclass" style="color:rgb(142, 132, 132);"></i>
-                            <span style="padding-left: 4px;">{{data.label}}</span>
+                            <span :class="data.iconclass1" style="padding-left: 4px;">{{data.label}}</span>
+                            <!-- <span style="padding-left: 4px;">{{data.label}}</span> -->
                         </span>
                     </el-tree>
                    
@@ -455,6 +456,7 @@ export default {
                             var newItem ={
                                     token : item['strToken'],
                                     label : item['strName'],
+                                    iconclass1:"",
                                     iconclass : 'mdi mdi-camcorder fa-fw',};
 
                             if(!item['bOnline'])
@@ -462,7 +464,11 @@ export default {
 
                             if(item['nType'] == 'H5_CLOUD')
                                 newItem['iconclass'] = 'mdi mdi-cloud-upload fa-fw';
-                            
+
+                            if(item['bDisable'] == true){
+                                // newItem['disabled_me'] =true;
+                                newItem['iconclass1'] = 'camera';
+                            }
                         
 
                         srcGroup.children.push(newItem);
@@ -500,6 +506,7 @@ export default {
                                 id : i,
                                 token:item['strToken'],
                                 label : item['strName'],
+                                iconclass1:"",
                                 iconclass:"mdi mdi-camcorder fa-fw"
 							  };
                               topGroup.children.push(topitem);
@@ -508,6 +515,11 @@ export default {
 
                               if(item['nType'] == 'H5_CLOUD')
                                 topitem['iconclass'] = 'mdi mdi-cloud-upload fa-fw';
+
+                            if(item['bDisable'] == true){
+                                // newItem['disabled_me'] =true;
+                                topitem['iconclass1'] = 'camera';
+                            }
                       }
                        this.data.push(topGroup);
                        
@@ -713,6 +725,7 @@ export default {
 }
 </script>
 <style scoped>
+    
     a{
         color: #797979;
         text-align: center;

@@ -23,7 +23,10 @@
 			<a href="#" class=""><i class="mdi mdi-folder-move fa-fw" data-icon="v"></i> <span class="hide-menu"> {{$t("message.left.archive")}}  </span></a>
 			 </router-link>
              
-            
+            <!-- 音视频对讲 -->
+            <router-link tag="li" :to="{name:'avintercomRouter'}">
+			<a href="#" class=""><i class="mdi mdi-youtube-play fa-fw" data-icon="v"></i> <span class="hide-menu"> {{$t("message.left.AdvancePB")}}  </span></a>
+			 </router-link>
              <!-- 高级回放 -->
 			<router-link tag="li" :to="{name:'AdvancePBRouter'}">
 			<a href="#" class=""><i class="mdi mdi-youtube-play fa-fw" data-icon="v"></i> <span class="hide-menu"> {{$t("message.left.AdvancePB")}}  </span></a>

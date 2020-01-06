@@ -8,6 +8,7 @@ import Gaogao1 from '@/components/views/gaogao1'
 import Sreenshots from '@/components/views/screenshots'
 import Playback from '@/components/views/playback'
 import camera from '@/components/views/camera'
+import avintercom from '@/components/views/avintercom'
 
 import Tour from '@/components/views/tour'
 //import AdvancePB from '@/components/views/Advancepb'
@@ -60,6 +61,11 @@ const routes = [
         path: '/app/camera',
         name: 'cameraRouter',
         component: camera
+      },
+      {
+        path: '/app/avintercom',
+        name: 'avintercomRouter',
+        component: avintercom
       },
       {
         path: '/app/AdvancePB',

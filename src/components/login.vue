@@ -118,6 +118,7 @@ export default {
                         _this.$router.push({
                             path: redirect
                         });
+                        location.reload();
                     }else 
                     {
                          _this.$message(_this.$t("message.login.login_status_failed"));
