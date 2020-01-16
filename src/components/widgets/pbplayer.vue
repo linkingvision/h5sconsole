@@ -262,9 +262,9 @@ export default {
                     elem.msRequestFullscreen();
                 }
             }
-        } else {
-            console.log('Fullscreen is not supported on your browser.');
-        }
+            } else {
+                console.log('Fullscreen is not supported on your browser.');
+            }
         },
         PtzControlShow(event)
         {

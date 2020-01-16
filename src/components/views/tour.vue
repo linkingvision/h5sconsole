@@ -73,7 +73,6 @@
                     <el-button size="mini" @click="Playall">{{$t("message.tour.Start")}}</el-button>
                     <el-button size="mini" @click="Allpause">{{$t("message.tour.stop")}}</el-button>
                     <el-select v-model="region" size="mini" style="width:70px" @change="Speed()">
-                        <el-option label="10" value="10"></el-option>
                         <el-option label="20" value="20"></el-option>
                         <el-option label="30" value="30"></el-option>
                         <el-option label="60" value="60"></el-option>
@@ -146,7 +145,7 @@ export default {
                 drawer: false,//右侧栏
                 direction: 'rtl',//右侧栏
                 title:this.$t("message.live.setting"),
-                region:10,//几秒钟更换
+                region:20,//几秒钟更换
                 streamprofile:"main",//码流
                 proto: this.$store.state.tour,//协议
                 h5playev1:[],//内容

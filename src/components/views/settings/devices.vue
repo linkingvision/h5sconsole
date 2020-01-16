@@ -793,7 +793,106 @@ import uuid from '@/store/uuid'
                 ${this.$t("message.GB.KeepaliveTime")}: ${this.tableData[index].nGbKeepaliveTime }<br>
                 `
             })
-        },//  编辑  添加 的确定键
+        },
+        Success(){
+            this.editPopup = false;
+            var root = process.env.API_ROOT;
+            var wsroot = process.env.WS_HOST_ROOT;
+            if (root == undefined){
+                root = window.location.protocol + '//' + window.location.host + window.location.pathname;
+            }
+            if (wsroot == undefined)
+            {
+                wsroot = window.location.host;
+            }
+            //url
+            var form=this.editform;
+            if(form.Type=="H5_STREAM"){
+                            
+                var url = root + "/api/v1/AddSrcRTSP?&name="+form.Name+
+                "&token="+form.Token+
+                "&user="+form.Username+
+                "&password="+encodeURIComponent(form.Password)+
+                "&audio="+form.Audio+
+                "&url="+encodeURIComponent(form.URL)+
+                "&session="+ this.$store.state.token;
+                console.log("++++++++++++++++",url);
+                this.$http.get(url).then(result=>{
+                    //console.log(result);
+                    if(result.status==200){
+                    if(result.data.bStatus==true){
+                            this.tableData=[];
+                            this.loadstream();
+                            //this.reload();
+                        }else{
+                            this.$message({
+                                message: '编辑失败',
+                                type: 'warning'
+                            });
+                            return false;
+                        }
+                    
+                    }
+                })
+            }else if(form.Type=="H5_ONVIF"){
+                
+                var url = root + "/api/v1/AddSrcONVIF?&name="
+                +form.Name+
+                "&token="+form.Token+
+                "&user="+form.Username+
+                "&password="+encodeURIComponent(form.Password)+
+                "&audio="+form.Audio+
+                "&ip="+form.IP+
+                "&port="+form.Port+
+                "&session="+ this.$store.state.token;
+                console.log("onvif++++++++++++1",url);
+                this.$http.get(url).then(result=>{
+                    //console.log(result);
+                    if(result.status==200){
+                        if(result.data.bStatus==true){
+                            console.log("*************************1",result.data.bStatus)
+                            this.tableData1=[];
+                            this.loadonvif();
+                        }else{
+                            console.log("*************************2",result.data.bStatus)
+                            this.$message({
+                                message: '编辑失败',
+                                type: 'warning'
+                            });
+                            return false;
+                        }
+                        
+                    }
+                })
+            }else if(form.Type=="H5_FILE"){
+                
+                console.log("H5_FILE",form.Audio);
+                var url = root + "/api/v1/AddSrcFile?&name="
+                +form.Name+
+                "&token="+form.Token+
+                "&url="+form.URL+
+                "&session="+ this.$store.state.token;
+                //console.log(url);
+                this.$http.get(url).then(result=>{
+                    //console.log(result);
+                    if(result.status==200){
+                        if(result.data.bStatus==true){
+                            //this.reload();
+                            this.tableData2=[];
+                            this.loadfile();
+                        }else{
+                            this.$message({
+                                message: '编辑失败',
+                                type: 'warning'
+                            });
+                            return false;
+                        }
+                        
+                    }
+                })
+            }
+        },
+        //  编辑  添加 的确定键
         edityes(){
             console.log(this.editindex);
             //return false;
@@ -826,135 +925,23 @@ import uuid from '@/store/uuid'
            
             //return false;
             var url1 = root + "/api/v1/DelSrc?token="+this.edittoken+"&session="+ this.$store.state.token;
-            
-            if(form.Type=="H5_STREAM"){
-                this.$http.get(url1).then(result=>{
-                    //console.log("1",result);
-                    if(result.status==200){
-                        if(result.data.bStatus==true){
-                            console.log("*************************",result.data.bStatus)
-                            this.tableData.splice(this.editindex, 1,list)
-                        }else{
-                            this.$message({
-                                message: '删除失败',
-                                type: 'warning'
-                            });
-                            return false;
-                        }
-                    }
-                })
-              var url = root + "/api/v1/AddSrcRTSP?&name="+form.Name+
-              "&token="+form.Token+
-              "&user="+form.Username+
-              "&password="+encodeURIComponent(form.Password)+
-              "&audio="+form.Audio+
-              "&url="+encodeURIComponent(form.URL)+
-              "&session="+ this.$store.state.token;
-              console.log("++++++++++++++++",url);
-              this.$http.get(url).then(result=>{
-                //console.log(result);
+            this.$http.get(url1).then(result=>{
+                //console.log("1",result);
                 if(result.status==200){
-                  if(result.data.bStatus==true){
-                        this.tableData=[];
-                        this.loadstream();
-                        //this.reload();
+                    if(result.data.bStatus==true){
+                        console.log("*************************",result.data.bStatus)
+                        this.tableData.splice(this.editindex, 1,list)
+                        this.Success();
+                        
                     }else{
                         this.$message({
-                            message: '编辑失败',
+                            message: this.$t("message.setting.Editorfailure"),
                             type: 'warning'
                         });
                         return false;
                     }
-                   
                 }
-              })
-            }else if(form.Type=="H5_ONVIF"){
-                console.log("onvif++++++++++++",url1);
-                this.$http.get(url1).then(result=>{
-                    //console.log("1",result);
-                    if(result.status==200){
-                        if(result.data.bStatus==true){
-                            console.log("*************************",result.data.bStatus)
-                            this.tableData1.splice(this.editindex, 1,list)
-                        }else{
-                            console.log("*************************3",result.data.bStatus)
-                            this.$message({
-                                message: '删除失败',
-                                type: 'warning'
-                            });
-                            return false;
-                        }
-                    }
-                })
-                // return false
-                var url = root + "/api/v1/AddSrcONVIF?&name="
-                +form.Name+
-                "&token="+form.Token+
-                "&user="+form.Username+
-                "&password="+encodeURIComponent(form.Password)+
-                "&audio="+form.Audio+
-                "&ip="+form.IP+
-                "&port="+form.Port+
-                "&session="+ this.$store.state.token;
-                console.log("onvif++++++++++++1",url);
-                this.$http.get(url).then(result=>{
-                    //console.log(result);
-                    if(result.status==200){
-                        if(result.data.bStatus==true){
-                            console.log("*************************1",result.data.bStatus)
-                            this.tableData1=[];
-                            this.loadonvif();
-                        }else{
-                            console.log("*************************2",result.data.bStatus)
-                            this.$message({
-                                message: '编辑失败',
-                                type: 'warning'
-                            });
-                            return false;
-                        }
-                        
-                    }
-                })
-            }else if(form.Type=="H5_FILE"){
-                this.$http.get(url1).then(result=>{
-                    //console.log("1",result);
-                    if(result.status==200){
-                        if(result.data.bStatus==true){
-                            this.tableData2.splice(this.editindex, 1,list)
-                        }else{
-                            this.$message({
-                                message: '删除失败',
-                                type: 'warning'
-                            });
-                            return false;
-                        }
-                    }
-                })
-                console.log("H5_FILE",form.Audio);
-                var url = root + "/api/v1/AddSrcFile?&name="
-                +form.Name+
-                "&token="+form.Token+
-                "&url="+form.URL+
-                "&session="+ this.$store.state.token;
-                //console.log(url);
-                this.$http.get(url).then(result=>{
-                    //console.log(result);
-                    if(result.status==200){
-                        if(result.data.bStatus==true){
-                            //this.reload();
-                            this.tableData2=[];
-                            this.loadfile();
-                        }else{
-                            this.$message({
-                                message: '编辑失败',
-                                type: 'warning'
-                            });
-                            return false;
-                        }
-                        
-                    }
-                })
-            }
+            })
             
             
         },

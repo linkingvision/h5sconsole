@@ -359,25 +359,49 @@ import uuid from '@/store/uuid'
                 if(result.status==200){
                     if(result.data.bStatus==true){
                         var list = {
-                        index:editform.index,
-                        Token:editform.Token,
-                        name:editform.name,
-                        strGbServerIpAddr:editform.strGbServerIpAddr,
-                        nGbServerPort:editform.nGbServerPort,
-                        nGbLocalPort:editform.nGbLocalPort,
-                        strGbID:editform.strGbID,
-                        strGbServerID:editform.strGbServerID,
-                        strGbServerPassword:editform.strGbServerPassword,
-                        strGbProto:editform.strGbProto,
-                        strGbIDChBase:editform.strGbIDChBase,
-                        nGbRegisterPeriod:editform.nGbRegisterPeriod,
-                        nGbKeepaliveTime:editform.nGbKeepaliveTime,
-                        strGbDomain:editform.strGbDomain,
-                    }
+                            index:editform.index,
+                            Token:editform.Token,
+                            name:editform.name,
+                            strGbServerIpAddr:editform.strGbServerIpAddr,
+                            nGbServerPort:editform.nGbServerPort,
+                            nGbLocalPort:editform.nGbLocalPort,
+                            strGbID:editform.strGbID,
+                            strGbServerID:editform.strGbServerID,
+                            strGbServerPassword:editform.strGbServerPassword,
+                            strGbProto:editform.strGbProto,
+                            strGbIDChBase:editform.strGbIDChBase,
+                            nGbRegisterPeriod:editform.nGbRegisterPeriod,
+                            nGbKeepaliveTime:editform.nGbKeepaliveTime,
+                            strGbDomain:editform.strGbDomain,
+                        }
                         this.tableData.splice(this.editindex, 1,list)
+                        var url = root + "/api/v1/AddGbPlatform?name="
+                        +editform.name+
+                        "&token="+editform.Token+
+                        "&localport="+editform.nGbLocalPort+
+                        "&gbid="+editform.strGbID+
+                        "&gbserverid="+editform.strGbServerID+
+                        "&gbdomain="+editform.strGbDomain+
+                        "&gbserverpw="+editform.strGbServerPassword+
+                        "&gbproto="+editform.strGbProto+
+                        "&gbserverip="+editform.strGbServerIpAddr+
+                        "&gbserverport="+editform.nGbServerPort+
+                        "&gbidchbase="+editform.strGbIDChBase+
+                        "&registerperiod="+editform.nGbRegisterPeriod+
+                        "&keepalivetime="+editform.nGbKeepaliveTime+
+                        "&session="+ this.$store.state.token;
+                        //console.log(url);
+                        this.$http.get(url).then(result=>{
+                            if(result.status==200){
+                                if(result.data.bStatus){
+                                }else{
+                                    console.log("添加失败")
+                                }
+                            }
+                        })
                     }else{
                         this.$message({
-                            message: '编辑失败',
+                            message: this.$t("message.setting.Editorfailure"),
                             type: 'warning'
                         });
                         return false;
@@ -385,34 +409,7 @@ import uuid from '@/store/uuid'
                 }
             })
             console.log("form",editform)
-            var url = root + "/api/v1/AddGbPlatform?name="
-            +editform.name+
-            "&token="+editform.Token+
-            "&localport="+editform.nGbLocalPort+
-            "&gbid="+editform.strGbID+
-            "&gbserverid="+editform.strGbServerID+
-            "&gbdomain="+editform.strGbDomain+
-            "&gbserverpw="+editform.strGbServerPassword+
-            "&gbproto="+editform.strGbProto+
-            "&gbserverip="+editform.strGbServerIpAddr+
-            "&gbserverport="+editform.nGbServerPort+
-            "&gbidchbase="+editform.strGbIDChBase+
-            "&registerperiod="+editform.nGbRegisterPeriod+
-            "&keepalivetime="+editform.nGbKeepaliveTime+
-            "&session="+ this.$store.state.token;
-            //console.log(url);
-            this.$http.get(url).then(result=>{
-                if(result.status==200){
-                    if(result.data.bStatus){
-                    }else{
-                        this.$message({
-                            message: '编辑失败',
-                            type: 'warning'
-                        });
-                        return false;
-                    }
-                }
-            })
+            
             
         },
         platformyes(){

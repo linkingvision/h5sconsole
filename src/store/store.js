@@ -15,6 +15,7 @@ export default new Vuex.Store({
     tour:"WS",
     watermarkstring:"linkingvision",
     watermarktoggle:"",
+    conference:"",
   },
   mutations: {
     [types.WATERMARKTOGGLE]: (state, data) => {
@@ -22,8 +23,13 @@ export default new Vuex.Store({
       state.watermarktoggle=data
     },
     [types.WATERMARKSTRING]: (state, data) => {
-      localStorage.h5watermarkstring= data
+      localStorage.watermarkstring= data
       state.watermarkstring=data
+    },
+    // 视频会议
+    [types.CONFERENCE]: (state, data) => {
+      localStorage.h5conference= data
+      state.conference=data
     },
     //巡更协议
     [types.TRTCSW]: (state, data) => {

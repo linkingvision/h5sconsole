@@ -341,11 +341,10 @@ import uuid from '@/store/uuid'
             this.dialogFormVisible=true;
             this.form["Token"] = uuid(4, 16).toLowerCase();
         },
-        //  编辑  添加 的确定键
-        edityes(){
+        //编辑成功
+        Success(){
             console.log(this.editindex);
             //return false;
-            this.editPopup = false;
             var root = process.env.API_ROOT;
             var wsroot = process.env.WS_HOST_ROOT;
             if (root == undefined){
@@ -357,53 +356,21 @@ import uuid from '@/store/uuid'
             }
             //url
             var form=this.editform;
-            console.log("45111111******",form)
-            //return false;
-            var url1 = root + "/api/v1/DelDevice?token="+this.edittoken+"&session="+ this.$store.state.token;
-            console.log("isc------------------------",url1)
-            this.$http.get(url1).then(result=>{
-                //console.log("1",result);
-                if(result.status==200){
-                    if(result.data.bStatus==true){
-                        var list = {
-                            index:form.index,
-                            Type:form.Type,
-                            Name:form.Name,
-                            Token:form.Token,
-                            User:form.User,
-                            Password:form.Password,
-                            IP:form.IP,
-                            Port:form.Port,
-                            Audio :form.Audio,
-                            Online:form.Online+"",
-                            bPasswdEncrypt:form.bPasswdEncrypt,
-                            }
-                        this.tableData.splice(this.editindex, 1,list)
-                    }else{
-                        this.$message({
-                            message: '删除失败',
-                            type: 'warning'
-                        });
-                        return false;
-                    }
-                }
-            })
-            
             if(form.Type=="H5_DEV_HIK"){
-              var url = root + "/api/v1/AddDeviceHik?&name="+form.Name+
-              "&token="+form.Token+
-              "&user="+form.User+
-              "&password="+form.Password+
-              "&ip="+form.IP+
-              "&port="+form.Port+
-              "&audio="+form.Audio+
-              "&session="+ this.$store.state.token;
-              console.log(url);
-              this.$http.get(url).then(result=>{
-                console.log(result);
-                if(result.status==200){
-                }
-              })
+                var url = root + "/api/v1/AddDeviceHik?&name="+form.Name+
+                "&token="+form.Token+
+                "&user="+form.User+
+                "&password="+form.Password+
+                "&ip="+form.IP+
+                "&port="+form.Port+
+                "&audio="+form.Audio+
+                "&session="+ this.$store.state.token;
+                console.log(url);
+                this.$http.get(url).then(result=>{
+                    console.log(result);
+                    if(result.status==200){
+                    }
+                })
             }else if(form.Type=="H5_DEV_DH"){
                 console.log(form.Type)
                 var url = root + "/api/v1/AddDeviceDh?&name="+form.Name+
@@ -453,6 +420,60 @@ import uuid from '@/store/uuid'
                     }
                 })
             }
+
+        },
+        //  编辑  添加 的确定键
+        edityes(){
+            console.log(this.editindex);
+            //return false;
+            this.editPopup = false;
+            var root = process.env.API_ROOT;
+            var wsroot = process.env.WS_HOST_ROOT;
+            if (root == undefined){
+                root = window.location.protocol + '//' + window.location.host + window.location.pathname;
+            }
+            if (wsroot == undefined)
+            {
+                wsroot = window.location.host;
+            }
+            //url
+            var form=this.editform;
+            console.log("45111111******",form)
+            //return false;
+            var url1 = root + "/api/v1/DelDevice?token="+this.edittoken+"&session="+ this.$store.state.token;
+            console.log("isc------------------------",url1)
+            this.$http.get(url1).then(result=>{
+                //console.log("1",result);
+                if(result.status==200){
+                    if(result.data.bStatus==true){
+                        var list = {
+                            index:form.index,
+                            Type:form.Type,
+                            Name:form.Name,
+                            Token:form.Token,
+                            User:form.User,
+                            Password:form.Password,
+                            IP:form.IP,
+                            Port:form.Port,
+                            Audio :form.Audio,
+                            Online:form.Online+"",
+                            bPasswdEncrypt:form.bPasswdEncrypt,
+                            }
+                        this.tableData.splice(this.editindex, 1,list)
+                        
+                        this.Success();
+            
+                        
+                    }else{
+                        console.log("编辑失败")
+                        this.$message({
+                            message: this.$t("message.setting.Editorfailure"),
+                            type: 'warning'
+                        });
+                        return false;
+                    }
+                }
+            })
             
         },
         platformyes(){

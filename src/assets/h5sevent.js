@@ -12,7 +12,8 @@
 	rootpath:window.location.pathname, // {string} - path of the app running
 	callback: EventCB, //{function}(event(string), userdata(object)) 
 	userdata: user data // user data
-	session:'c1782caf-b670-42d8-ba90-2244d0b0ee83' //{string} - session got from login
+	session:'c1782caf-b670-42d8-ba90-2244d0b0ee83', //{string} - session got from login
+	consolelog: 'true' // 'true' or 'false' enable/disable console.log
 };
 */
 
@@ -22,28 +23,38 @@ function H5sEvent(conf)
 	this.keepaliveTimerId;
 	this.bNeedReconnect = false;
 	this.bDisConnected = false;
+	
+	this._debug = true;	
+	if (conf.consolelog !== undefined)
+	{
+		if (conf.consolelog === 'false')
+		{
+			this._debug = false;	
+		}
+	}	
+	
 
 	this._conf = conf;	
 }
 
 H5sEvent.prototype.ReconnectFunction = function() 
 {
-	//console.log('Try Reconnect...', this.bNeedReconnect);
+	//if(this._debug === true) console.log('Try Reconnect...', this.bNeedReconnect);
 	if (this.bNeedReconnect === true)
 	{
-		console.log('Reconnect...');
+		if(this._debug === true) console.log('Reconnect...');
 		
 		this.setupWebSocket(this._token);
 		this.bNeedReconnect = false;
 	}
-	//console.log('Try Reconnect...', this.bNeedReconnect);
+	//if(this._debug === true) console.log('Try Reconnect...', this.bNeedReconnect);
 }
 	
 	
 H5sEvent.prototype.H5SWebSocketClient = function(h5spath) 
 {
 	var socket;
-	console.log("H5SWebSocketClient");
+	if(this._debug === true) console.log("H5SWebSocketClient");
 	try {
 		//alert(this._conf.protocol);
 		if (this._conf.protocol == "http:") 
@@ -59,7 +70,7 @@ H5sEvent.prototype.H5SWebSocketClient = function(h5spath)
 		if (this._conf.protocol == "https:")
 		{	
 			//alert(this._conf.host);
-			console.log(this._conf.host);
+			if(this._debug === true) console.log(this._conf.host);
 			if (typeof MozWebSocket != "undefined")
 			{
 				socket = new MozWebSocket('wss://' + this._conf.host +  h5spath);
@@ -68,7 +79,7 @@ H5sEvent.prototype.H5SWebSocketClient = function(h5spath)
 				socket = new WebSocket('wss://' + this._conf.host + h5spath);
 			}				
 		}
-		console.log(this._conf.host);
+		if(this._debug === true) console.log(this._conf.host);
 	} catch (e) {
 		alert('error');
 		return;
@@ -83,7 +94,7 @@ H5sEvent.prototype.keepaliveTimer = function()
 		j.type = "keepalive";
 		this.wsSocket.send(JSON.stringify(j));
 	} catch (e) {
-	  console.log(e);
+	  if(this._debug === true) console.log(e);
 	}
 }
 
@@ -104,27 +115,27 @@ H5sEvent.prototype.setupWebSocket = function(token)
 
 	h5spath = this._conf.rootpath + h5spath + '&session=' + this._conf.session;
 	
-	console.log(h5spath);
+	if(this._debug === true) console.log(h5spath);
 	
 	this.wsSocket = this.H5SWebSocketClient(h5spath);
-	console.log("setupWebSocket", this.wsSocket);
+	if(this._debug === true) console.log("setupWebSocket", this.wsSocket);
 	this.wsSocket.binaryType = 'arraybuffer';
 	this.wsSocket.h5 = this;
 	this.wsSocket.onmessage = this.onWebSocketData.bind(this);
 	
 	this.wsSocket.onopen = function()
 	{
-		console.log("wsSocket.onopen", this.h5);
+		if(this.h5._debug === true) console.log("wsSocket.onopen", this.h5);
 		
 		this.h5.keepaliveTimerId = setInterval(this.h5.keepaliveTimer.bind(this.h5), 1000);
 
 	}
 	
 	this.wsSocket.onclose = function () {
-		console.log("wsSocket.onclose", this.h5);
+		if(this.h5._debug === true) console.log("wsSocket.onclose", this.h5);
 		if (this.h5.bDisConnected === true)
 		{
-			console.log("wsSocket.onclose disconnect");
+			if(this.h5._debug === true) console.log("wsSocket.onclose disconnect");
 		}else
 		{
 			this.h5.bNeedReconnect = true;
@@ -138,7 +149,7 @@ H5sEvent.prototype.setupWebSocket = function(token)
 
 H5sEvent.prototype.CleanupWebSocket = function(h5sPlayer)
 {
-	console.log('CleanupWebSocket', h5sPlayer);
+	if(h5sPlayer._debug === true) console.log('CleanupWebSocket', h5sPlayer);
 	clearInterval(h5sPlayer.keepaliveTimerId);
 	h5sPlayer.emptyBuffCnt = 0;
 	h5sPlayer.lastBuffTime = 0;
@@ -160,7 +171,7 @@ H5sEvent.prototype.connect = function() {
  * Disconnect a websocket Stream and clear videoElement source
 */
 H5sEvent.prototype.disconnect = function() {
-	console.log("disconnect", this);
+	if(this._debug === true) console.log("disconnect", this);
 	this.bDisConnected = true;
 	clearInterval(this.reconnectTimerId);
 	
@@ -169,6 +180,6 @@ H5sEvent.prototype.disconnect = function() {
 		this.wsSocket.close();
 		this.wsSocket = null;
 	}
-	console.log("disconnect", this);
+	if(this._debug === true) console.log("disconnect", this);
 } 
 export {H5sEvent}

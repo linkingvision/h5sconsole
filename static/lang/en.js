@@ -11,7 +11,8 @@ module.exports={
 		search: 'Search',
 		user_name: 'User name',
 		setting: 'Account setting',
-		logout: 'Logout'
+		logout: 'Logout',
+		API:"API",
     },
     left:
     {
@@ -29,6 +30,7 @@ module.exports={
 		logout: 'Logout',
 		tour:"Tour",
 		camera:"Camera",
+		VideoConference:"Video Conference",
     },
     login:
     {
@@ -87,9 +89,10 @@ module.exports={
 		total:"Total ",
 		ge:"",
 		Cloud:"Cloud",
-		RTMP:"RTMP",
+		RTMP:"RTMP push",
 		Online:"Online",
 		Offline:"Offline",
+		Editorfailure:"Editor failure",
     },
 	live:
     {
@@ -131,6 +134,10 @@ module.exports={
 		Changesb:"Change failed",
 		Twopassword:"Two password are not same, please check!",
 		all:"All",
+	},
+	playback:{
+		H5SPlayback:"H5S Playback",
+		NVRPlayback:"NVR Playback",
 	},
 	GB:{
 		name: 'Name',
@@ -195,6 +202,16 @@ module.exports={
 		name: 'Name',
 		audio:"Audio" ,
 		save:"Save",
+	},
+	Conference:{
+		VideoConference:"Video Conference",
+		Call:"Call",
+		VideoCall:"Video Call",
+		AudioCall:"Audio Call",
+		HangUp:"Hang Up",
+		Hang:"Hang",
+		JoinConference:"Join Conference",
+		Nickname:"Nickname cannot be empty!",
 	}
   }
 }

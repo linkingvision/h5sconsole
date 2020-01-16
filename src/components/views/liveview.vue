@@ -657,7 +657,7 @@ export default {
                             newItem['iconclass'] = 'mdi mdi-camcorder-off fa-fw';
 
                         if(item['nType'] == 'H5_CLOUD')
-                            newItem['iconclass'] = 'cascade';
+                            newItem['iconclass'] = 'mdi mdi-cloud-upload fa-fw';
 
                         if(item['bRec'] == true)
                                 newItem['iconclass2'] = 'iconfont icon-radioboxfill none';

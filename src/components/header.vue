@@ -58,7 +58,7 @@
             <li>
               <a href="javascript:void(0);">
                 <router-link tag="li" :to="{name:'usersettingsRouter'}">
-                  <a href="#" class="waves-effect"><div class="rou_img"></div><span class="hide-menu"> {{$t("message.left.setting")}}  </span></a>
+                  <a href="#" class="waves-effect"><div class="tu_biao iconfont icon-icon-test"></div><span class="hide-menu"> {{$t("message.left.setting")}}  </span></a>
                 </router-link>
               </a>
             </li>
@@ -66,14 +66,57 @@
             <li>
               <a href="#/app/logout">
                 <router-link tag="li" :to="{name:'logoutRouter'}">
-                  <a  class="waves-effect" ><div class="rou_img1"></div><span class="hide-menu"> {{$t("message.left.logout")}}</span></a>
+                  <a  class="waves-effect" ><div class="tu_biao iconfont icon-shijian-"></div><span class="hide-menu"> {{$t("message.left.logout")}}</span></a>
                 </router-link> 
               </a>
             </li>
           </ul>
           <!-- /.dropdown-user -->
         </li>
-        <li class="a">
+        <!-- 关于 -->
+        <li class="dropdown">
+          <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+            <span class="iconfont icon-category" style="font-size:24px"></span>
+          </a>
+          <ul class="dropdown-menu dropdown-user animated flipInY">
+            <li>
+              <a href="javascript:void(0);">
+                  <a href="doc/api.html" class="waves-effect"><span style="margin-right: 10px;" class="tu_biao iconfont icon-icon-test"></span>API</a>
+              </a>
+            </li>
+            <li role="separator" class="divider"></li>
+            <li>
+                <span type="text" class="hide-menu" @click="centerDialogVisible = true">
+                    <span style="margin-right: 10px;" class="tu_biao iconfont icon-icon-test1"></span>
+                    <span class="admin_zi">
+                        {{$t("message.dashboard.about")}}
+                    </span>
+                </span>
+                <el-dialog
+                    :visible.sync="centerDialogVisible"
+                    width="30%"
+                    append-to-body
+                    center>
+                    <div class="about_flex">
+                        <div>
+                            <img class="adout_img" src="./gallery/logo@2x.png"/>
+                        </div>
+                        <div style="margin: 20px 0 10px 20px; text-align: center;">
+                            <img src="./gallery/H5SCONSOLE@2x.png" style="margin: 0px 0 16px 0px;"/>
+                            <div>{{$t("message.dashboard.version")}}: {{information.strVersion}}</div>
+                        </div>
+                    </div>
+                    <div class="about_but">
+                    <a href="https://linkingvision.cn/" target="_blank">
+                        <div class="about_but1">{{$t("message.dashboard.about")}}</div>
+                    </a>
+                    </div>
+                </el-dialog>
+            </li>
+          </ul>
+          <!-- /.dropdown-user -->
+        </li>
+        <!-- <li class="a">
             
             <el-button type="text" class="about" @click="centerDialogVisible = true">{{$t("message.dashboard.about")}}</el-button>
             <el-dialog
@@ -96,7 +139,7 @@
                   </a>
                 </div>
             </el-dialog>
-        </li>
+        </li> -->
         <!-- /.dropdown -->
       </ul>
     </div>
@@ -106,9 +149,6 @@
 
   </nav>
 </template>
-<style scoped>
-
-</style>
 <script>
 import * as types from "@/store/types";
 export default {
@@ -143,7 +183,7 @@ export default {
                 if (result.status == 200) 
                 {
                     _this.information = result.data;
-                    console.log(_this.information);
+                    // console.log(_this.information);
                 }
             }).catch(error => {
                 console.log('GetSystemInfo', error);
@@ -162,6 +202,9 @@ export default {
 };
 </script>
 <style scoped>
+.tu_biao{
+  font-size: 19px!important;
+}
 a{
   color: #000;
   width: 100%;
@@ -169,7 +212,7 @@ a{
 .navbar-top-links>li>a {
     padding: 0 14px;
     line-height: 40px;
-    min-height: 0;
+    min-height: 40px;
 }
 /* logo */
 .logo_ilh{
@@ -184,7 +227,7 @@ a{
     top: 12px;
 }
 .el-badge >>> .el-badge__content{
-  width: 26px;
+  min-width: 26px;
   border: 0px;
   border-right: 9px;
 }
@@ -230,21 +273,10 @@ a{
 }
 .waves-effect{
   display: flex;
-  align-items:center;
+  /* justify-content: center; */
+  /* align-items:center; */
 }
-.rou_img{
-  background: url("./gallery/shezhi-3@2x.png") no-repeat;
-  background-size: 100%;
-  background-position:center center; 
-  width: 14px;
-  height: 14px;
-}
-.rou_img1{
-  background: url("./gallery/tuichu@2x.png") no-repeat;
-  background-size: 100%;
-  width: 14px;
-  height: 14px;
-}
+
 
 .navbar-header {
   width: 100%;
@@ -255,7 +287,7 @@ a{
 .about{
     text-align: center;
     line-height: 40px;
-    color: #ffffff;
+    color: #000;
     margin: 0 16px;
     padding: 0;
 
@@ -277,6 +309,10 @@ a{
   margin: 0 auto;
   color: #5FBFA7;
 
+}
+.admin_zi{
+    color: #000;
+    font-size: 14px;
 }
 </style>
 

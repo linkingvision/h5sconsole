@@ -161,7 +161,7 @@
 						    <el-slider v-model="timelink" :max="max" @change="timelinn(timelink)" :show-tooltip="false"></el-slider>
 					    </div>
                         <!-- <el-button style="font-size: 25px;" :icon="icon" size="mini" circle  @click="resume()" class="strart"></el-button> -->
-                        <i style="font-size: 30px; margin: 0 20px;" :class="icon" @click="resume()" class="strart"></i>
+                        <i style="font-size: 30px; margin: 0 20px;" :class="icon" @click="resume1()" class="strart"></i>
                         <!-- 倍速 -->
                         <el-select v-model="region" size="mini" style="width:70px" @change="Speed()">
                             <el-option label="0.5" value="0.5"></el-option>
@@ -333,7 +333,7 @@ export default {
 			}.bind(this),500);
         },
         //开始
-        resume(){
+        resume1(){
             var strart=this.icon;
             console.log(strart);
             if(strart=="mdi mdi-pause-circle fa-fw"){

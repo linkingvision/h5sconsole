@@ -254,6 +254,10 @@ if (window.localStorage.getItem('h5watermarktoggle')) {
 if (window.localStorage.getItem('h5toursw')) {
   store.commit(types.WATERMARKTOGGLE, window.localStorage.getItem('h5toursw'))
 }
+//视频会议
+if (window.localStorage.getItem('h5conference')) {
+  store.commit(types.CONFERENCE, window.localStorage.getItem('h5conference'))
+}
 
 const Router = new VueRouter({
   routes

@@ -7,3 +7,4 @@ export const RTCSW = 'rtc'
 export const WATERMARKSTRING = 'watermarkstring'
 export const WATERMARKTOGGLE = 'watermarktoggle'
 export const TRTCSW="tour"
+export const CONFERENCE="conference"

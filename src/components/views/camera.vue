@@ -432,6 +432,32 @@
                             audio:row.audio,
                         };
                         this.tableData.splice(index, 1,tabledata)
+
+                        var url=""
+                        if(row.gbid==""){
+                            console.log("&&row.open_close==true||row.audio==true");
+                            url = root + "/api/v1/AddCamera?token="+row.token+"&enable="+row.open_close+"&audio="+row.audio+"&session="+ this.$store.state.token;
+                        }else if(row.gbid.length==20){
+                            console.log("222");
+                            url = root + "/api/v1/AddCamera?token="+row.token+"&enable="+row.open_close+"&audio="+row.audio+"&gbid="+row.gbid+"&session="+ this.$store.state.token;
+                        }
+                        
+                        console.log("----------------",url);
+                        this.$http.get(url).then(result=>{
+                            console.log(result);
+                            if(result.status==200){
+                                this.$message({
+                                    message: this.$t('message.camera.Save_successfully'),
+                                    type: 'success'
+                                });
+                            }
+                        })
+
+                        this.editform["name"]=row.name;
+                        this.editform["token"]=row.token;
+                        this.editform["open_close"]=row.open_close;
+                        this.editform["audio"]=row.audio;
+                        this.editform["gbid"]=row.gbid;
                     }
                     else{
                         console.log("保存失败");
@@ -439,31 +465,7 @@
                     }
                 }
             })
-            var url=""
-            if(row.gbid==""){
-                console.log("&&row.open_close==true||row.audio==true");
-                url = root + "/api/v1/AddCamera?token="+row.token+"&enable="+row.open_close+"&audio="+row.audio+"&session="+ this.$store.state.token;
-            }else if(row.gbid.length==20){
-                console.log("222");
-                url = root + "/api/v1/AddCamera?token="+row.token+"&enable="+row.open_close+"&audio="+row.audio+"&gbid="+row.gbid+"&session="+ this.$store.state.token;
-            }
             
-            console.log("----------------",url);
-            this.$http.get(url).then(result=>{
-                console.log(result);
-                if(result.status==200){
-                    this.$message({
-                        message: this.$t('message.camera.Save_successfully'),
-                        type: 'success'
-                    });
-                }
-            })
-
-            this.editform["name"]=row.name;
-            this.editform["token"]=row.token;
-            this.editform["open_close"]=row.open_close;
-            this.editform["audio"]=row.audio;
-            this.editform["gbid"]=row.gbid;
         },
         //删除
         handledel(index,row){

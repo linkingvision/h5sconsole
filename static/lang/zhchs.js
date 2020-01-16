@@ -11,7 +11,8 @@ module.exports={
 		search: '搜索',
 		user_name: '用户名',
 		setting: '帐号设置',
-		logout: '退出'
+		logout: '退出',
+		API:"API文档",
     },
     left:
     {
@@ -29,6 +30,7 @@ module.exports={
 		cloud: '云视频',
 		logout: '退出',
 		camera:"监控点",
+		VideoConference:"视频会议",
     },
     login:
     {
@@ -87,7 +89,7 @@ module.exports={
 		total:"共",
 		ge:"个",
 		Cloud:"云级联",
-		RTMP:"Push/RTMP推流",
+		RTMP:"RTMP推流",
 		Online:"在线",
 		Offline:"离线",
 
@@ -132,6 +134,11 @@ module.exports={
 		Changesb:"修改失败！",
 		Twopassword:"两次密码不一致，请重新输入!",
 		all:"全部",
+		Editorfailure:"编辑失败",
+	},
+	playback:{
+		H5SPlayback:"H5S回放",
+		NVRPlayback:"NVR回放",
 	},
 	GB:{
 		name: '名字',
@@ -195,6 +202,16 @@ module.exports={
 		name: "名称",
 		audio:"音频" ,
 		save:"保存",
+	},
+	Conference:{
+		VideoConference:"视频会议",
+		Call:"通话",
+		VideoCall:"接通视频",
+		AudioCall:"接通语音",
+		HangUp:"挂断",
+		Hang:"挂断",
+		JoinConference:"加入会议",
+		Nickname:"昵称不能为空!",
 	}
   }
 }

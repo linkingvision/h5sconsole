@@ -5,16 +5,16 @@
 		<div class="container-fluid">
 			<div class="row bg-title">
 				<div class="col-lg-9 col-md-4 col-sm-4 col-xs-12">
-					<h4 class="page-title">{{$t("message.left.playback")}}</h4>
+					<h4 class="page-title">{{$t("message.left.AdvancePB")}}</h4>
 				</div>
                 <div class="col-lg-3 col-md-4 col-sm-4 col-xs-12">
-                    <el-switch
+                    <!-- <el-switch
                     style="text-align: right;"
                     v-model="Adswitch"
                     active-text="H5S回放"
                     inactive-text="NVR回放"
                     disabled>
-                    </el-switch>
+                    </el-switch> -->
                 </div>
 			</div>
             
@@ -30,16 +30,15 @@
                         v-model="filterText">
                     </el-input>
 					<!-- 日历 -->
-					<vue-event-calendar :events="demoEvents" @day-changed="handleDayChanged"></vue-event-calendar>
-					<!-- <div class="block">
-                        <el-date-picker
+					<div class="block">
+                        <!-- <el-date-picker
                             style="width:100%"
                             v-model="xzvalue"
                             type="date"
                             placeholder="选择日期时间"
                             align="right">
-                        </el-date-picker>
-                    </div> -->
+                        </el-date-picker> -->
+                    </div>
 					<!-- show-checkbox 复选按钮-->
                     <el-tree
                         :data="data"
@@ -58,13 +57,12 @@
                 </div>
 			</div>
 			<!-- 九宫格 -->
-			<div class="content-mythe-two">
+			<div class="content-mythe-two" id="content-mythe-two">
 				<div class="" id="videoPanel" style="width:100%;">
 					<div class="videohb h5container" id="videohb" @mouseenter="enter()" @mouseleave="leave()">
-						<div id="mseeen" class="h5controls"  style="padding:0px">
-							<button type="button" class="vidbuttion" @click="panelFullScreen($event)"> <i class="mdi mdi-fullscreen"></i></button>
-							<button type="button" class="vidbuttion"> <i class="mdi mdi-close"></i></button>
-							
+						<div id="mseeen" class="h5controls"  style="display:bone; padding:0">
+							<button type="button" class="vidbuttion pull-right iconfont icon-roundclosefill" @click="CloseVideo($event)"></button>
+							<button type="button" class="vidbuttion pull-right iconfont icon-full" @click="panelFullScreen($event)"></button>
 						</div>
 						<video class="videoo1" id="gaovideohb" autoplay webkit-playsinline playsinline></video>
                     </div>
@@ -72,48 +70,74 @@
 					<!-- 进度条 -->
 					<canvas id="timeline" width="1500" height="92"
 						class="time"
+                        @mouseup="timetz"
 						ondragstart="return false;">
 					</canvas>
 					<!-- 日期 -->
-					<div style="width:100%;margin:10px 20px;display: flex;justify-content: center;">
-						
-						<div class="block">
-							<el-date-picker
-								v-model="value"
-								size="mini"
-								type="datetime"
+					<div style="width:100%;margin:10px 20px;display: flex;justify-content: space-between;">
+						<div>
+							<div class="back_Choice"  @mouseenter="enter1()" @mouseleave="leave1()">
+								<div id="back_Choice" class="back_Choice1">
+									<div :class="{co_Baise:Adswitch==true}" class="co_black" >{{$t("message.playback.H5SPlayback")}}</div>
+									<div :class="{co_Baise:Adswitch==false}" class="co_black">{{$t("message.playback.NVRPlayback")}}</div>
+								</div>
+								<span class="back_zi iconfont icon-filter"></span>
+							</div>
+							
+						</div>
+						<div style="display: flex;align-items:center;">
+							<!-- <el-date-picker
+								class="fixed_input1"
+								style="width:100%"
+								v-model="xzvalue"
+								type="date"
 								placeholder="选择日期时间"
-								default-time="00:00:00">
-							</el-date-picker>
+								align="right">
+							</el-date-picker> -->
+							<div id="fixed_input">
+								<el-date-picker
+									class="fixed_input"
+									v-model="xzvalue"
+									size="mini"
+									@change="input_ch"
+									type="date"
+									placeholder="选择日期时间"
+									default-time="00:00:00">
+								</el-date-picker>
+							</div>
+							<Select v-model="region" placeholder="1.0" size="small" style="width:70px" @on-change="Speed()">
+								<Option value="0.5"></Option>
+								<Option value="1.0"></Option>
+								<Option value="2.0"></Option>
+								<Option value="4.0"></Option>
+								<Option value="8.0"></Option>
+								<Option value="16.0"></Option>
+							</Select>
+							<!-- <el-select v-model="region" size="mini" style="width:70px" @change="Speed()">
+								<el-option label="0.5" value="0.5"></el-option>
+								<el-option label="1.0" value="1.0"></el-option>
+								<el-option label="2.0" value="2.0"></el-option>
+								<el-option label="4.0" value="4.0"></el-option>
+								<el-option label="8.0" value="8.0"></el-option>
+								<el-option label="16.0" value="16.0"></el-option>
+							</el-select> -->
+							<button type="button" :class="icon" @click="resume()" class="button_resume"></button>
+						</div>
+						
+						<div style="display: flex;align-items:center;width:18%">
+							<!-- 倍速 -->
+							<i style="font-size: 24px;color:#B2B1B1;margin-right:10px;" class="el-icon-full-screen" @click="panelFullScreen($event)"></i>
+							
+							<button class="mr-1" type="button"></button>{{this.$t("message.archive.ManualRecord")}}
+							<button class="mr-2" type="button"></button>{{this.$t("message.archive.AlarmRecord")}}
 							
 						</div>
 					</div>
-					<div style="margin-top:-49px;">
-                        
-						<i style="font-size: 30px;color:#535452;margin-left:20px;" :class="icon" @click="resume()" class="strart"></i>
-                        <i style="font-size: 30px;color:#535452;margin-left:20px;" class="el-icon-full-screen" @click="panelFullScreen($event)"></i>
-					</div>
-                    <div style="margin-top:-35px; text-align: right;">
-						<!-- 倍速 -->
-                        
-						<el-select v-model="region" size="mini" style="width:70px" @change="Speed()">
-							<el-option label="0.5" value="0.5"></el-option>
-							<el-option label="1.0" value="1.0"></el-option>
-							<el-option label="2.0" value="2.0"></el-option>
-							<el-option label="4.0" value="4.0"></el-option>
-							<el-option label="8.0" value="8.0"></el-option>
-							<el-option label="16.0" value="16.0"></el-option>
-						</el-select>
-                        <button class="mr-1" type="button"></button>{{this.$t("message.archive.ManualRecord")}}
-                        <button class="mr-2" type="button"></button>{{this.$t("message.archive.AlarmRecord")}}
-                        
-                    </div>
 
 					<!-- 切换九宫格 -->
-					<div class="btn-group blocks" style="margin-top: 20px;">
+					<!-- <div class="btn-group blocks" style="margin-top: 20px;">
 						
-					</div>
-					
+					</div> -->
 				</div>	
 
 			</div>
@@ -127,71 +151,35 @@
 
 </div>
 </template>
+
 <style>
-.__vev_calendar-wrapper .cal-wrapper {
-    width: 100% !important;
-    padding: 0 !important;
-}
-/* 视频画布 */
-.videohb{
-    width: 100%!;
-    height: 700px;
-    background: #494A4B;
-	position: relative;
-}
-.videoo1{
-    width: 100%;
-    height: 100%;
-	object-fit: fill;
-}
-
-/* 进度条 */
-.time{
-	cursor: pointer;border:1px solid #2b2f33;background-color: #2b2f33;display: block;width: 100%;font-size: 20px;
-}
-.__vev_calendar-wrapper .cal-wrapper {
-    width: 100%;
-    padding: 10px 10px;
-}
-.available div span:after {
-    content: "";
-    display: block;
-    width: 6px;
-    height: 6px;
-    border-radius: 50%;
-    background: #2d8cf0;
-	
-    /* position: absolute;
-    top: 1px;
-    right: 1px; */
-}
-</style>
-
-
-<script>
-	import '../../assets/adapter.js'
-	import {H5sPlayerWS,H5sPlayerHls,H5sPlayerRTC} from '../../assets/h5splayer.js'
-	import {H5siOS,H5sPlayerCreate} from '../../assets/h5splayerhelper.js'
-
-	import './js/timeline-canvas1.js'
-
-	function sleep(delay) {
-	  var start = (new Date()).getTime();
-	  while ((new Date()).getTime() - start < delay) {
-		continue;
-	  }
+	.el-tooltip__popper.is-dark{
+		width: 78px;
+		height: 68px;
+		background: rgba(255,255,255,0.5);
+		/* padding: 10px 20px; */
+		text-align: center;	
 	}
 	
+</style>
+
+<script>
+import '../../assets/adapter.js'
+import {H5sPlayerWS,H5sPlayerHls,H5sPlayerRTC} from '../../assets/h5splayer.js'
+import {H5siOS,H5sPlayerCreate} from '../../assets/h5splayerhelper.js'
+
+import './js/timeline-canvas1.js'
+
 export default {
 	name: "gaogao",
 	data() {
-	  	return {
+		return {
 			demoEvents: [],
 			//过滤文字
 			region:1.0,//倍速
-			icon:"mdi mdi-play-circle fa-fw",//暂停图片
-            Adswitch:false,//开关
-            filterText:"",
+			icon:"iconfont icon-bofang",//暂停图片
+			Adswitch:false,//开关
+			filterText:"",
 			proto: 'WS',
 			data:[],
 			defaultProps: {
@@ -206,14 +194,14 @@ export default {
 			timedata:[],//数据数组
 			timecell:[],//滚动条数组
 			v1:undefined,
-			Gtoken:"",//全局token
+			Gtoken:"",//全局点击节点后token
 		}
 	},
 	mounted() {
 		this.updateUI();
-        this.loadDevice();
-        this.loadtest();
-        this.NumberDevice();
+		this.loadDevice();
+		this.loadtest();
+		this.NumberDevice();
 		this.funtimeine();
 		this.cloudDevice();
 		//this.timetz();
@@ -225,109 +213,239 @@ export default {
 		hidt(Gtoken){
 			//return false
 			var timevalues=this.xzvalue;
-            var years = timevalues.getFullYear();
+			var years = timevalues.getFullYear();
 			var months = timevalues.getMonth() + 1;
 			console.log(years,months)
 			let _this =this;
-		    var root = process.env.API_ROOT;
-		    var wsroot = process.env.WS_HOST_ROOT;
-		    if (root == undefined){
-		        root = window.location.protocol + '//' + window.location.host + window.location.pathname;
-		    }
-		    if (wsroot == undefined)
-		    {
-		        wsroot = window.location.host;
+			var root = process.env.API_ROOT;
+			var wsroot = process.env.WS_HOST_ROOT;
+			if (root == undefined){
+				root = window.location.protocol + '//' + window.location.host + window.location.pathname;
+			}
+			if (wsroot == undefined)
+			{
+				wsroot = window.location.host;
 			}
 			var url1 = root + "/api/v1/SearchDeviceRecordCalendar?token="+Gtoken+"&year="+years+"&month="+months+"&session="+ this.$store.state.token;
-			 console.log(url1);
+			console.log(url1);
 			// console.log(Gtoken);
-            //return false;
+			//return false;
 			this.$http.get(url1).then(result=>{
-				  if(result.status == 200){
-					  var data=result.data;
-					  for(var i=1;i<data.record.length;i++){
-						  var item=data.record[i].bHasRec;
-						  //console.log(item);
-						  var day = "";
-						  if(item===true){
-							  day=data.record[i].nDay
+				if(result.status == 200){
+					var data=result.data;
+					for(var i=1;i<data.record.length;i++){
+						var item=data.record[i].bHasRec;
+						//console.log(item);
+						var day = "";
+						if(item===true){
+							day=data.record[i].nDay
 						}
 						//console.log(day)
-						  var timeitem1={
+						var timeitem1={
 								date: years+"/"+months+"/"+day,
 								title: i+'day',
-							  };
-						  //console.log(timeitem1);
-						  this.demoEvents.push(timeitem1);
-					  }
-				  }
+							};
+						//console.log(timeitem1);
+						this.demoEvents.push(timeitem1);
+					}
+				}
 			})
 		},
-				//有用啦
+		//有用啦
 		PlaybackCB(event, userdata)
-        {
-            console.log("Playback callback ", event,userdata);
-            
-            var msgevent = JSON.parse(event);
-            if (msgevent.type === 'H5S_EVENT_PB_TIME')
-            {
-				 this.value=msgevent.pbTime.strTime;
-				 var time = new Date(msgevent.pbTime.strTime).getTime();
-				 $("#timeline").TimeSlider('set_time_to_middle', time);
-                // var starf=new Date(this.rowstarf).getTime()/1000;
-                // var endd=new Date(msgevent.pbTime.strTime).getTime()/1000;
-                // var staefend=endd-starf;
-                // this.timelink=staefend;
-            }
-            
-        },
+		{
+			console.log("Playback callback ", event,userdata);
+			
+			var msgevent = JSON.parse(event);
+			if (msgevent.type === 'H5S_EVENT_PB_TIME')
+			{
+				//  this.value=msgevent.pbTime.strTime;
+				var time = new Date(msgevent.pbTime.strTime).getTime();
+				$("#timeline").TimeSlider('set_time_to_middle', time);
+				// var starf=new Date(this.rowstarf).getTime()/1000;
+				// var endd=new Date(msgevent.pbTime.strTime).getTime()/1000;
+				// var staefend=endd-starf;
+				// this.timelink=staefend;
+			}
+			
+		},
+		//点击确定键
+		input_ch(){
+			var data=this.Gtoken;
+			this.Play(data);
+			console.log("点击");
+		},
 		//树形节点点击
+		//开始播放时间  0：00 每天结束时间可能回到第二天清晨
 		handleNodeClick(data, checked, indeterminate){
-            //关闭视频并改变图标
+			var data=data.token;
+			this.Play(data);
+		},
+		//拉播
+		timetz(){
+			var timevalue=this.xzvalue;
+			var _this=this;
+			_this.timedata=[];
+			var root = process.env.API_ROOT;
+			var wsroot = process.env.WS_HOST_ROOT;
+			if (root == undefined){
+				root = window.location.protocol + '//' + window.location.host + window.location.pathname;
+			}
+			if (wsroot == undefined)
+			{
+				wsroot = window.location.host;
+			}
+			if(_this.v1==undefined){
+				return false;
+			}else{
+				setTimeout(function(){
+					var a = $("#timeline").TimeSlider('returnMouseupTime',null,null,function(time){
+						if (_this.v1 != undefined)
+						{
+							_this.v1.disconnect();
+							delete _this.v1;
+							_this.v1 = undefined;
+							console.log("上this.v1",_this.v1);
+						}
+						_this.icon="iconfont icon-zantingtingzhi";
+						// 放入视频
+						if(_this.Gtoken==undefined){
+							return false;
+						}
+						console.log("timevalue11111",_this.Gtoken);
+						// return false;
+						var timevalue=new Date(time);
+						console.log("timevalue11111",timevalue);
+						var year = timevalue.getFullYear();
+						var month = timevalue.getMonth() + 1;
+						var strDate = timevalue.getDate();
+						var getHours = timevalue.getHours();
+						var getMinutes = timevalue.getMinutes();
+						var getSeconds = timevalue.getSeconds();
+						var localOffset = Math.abs(timevalue.getTimezoneOffset() /60);
+						var timevalues=year+"-"+month+"-"+strDate+"T"+""+getHours+":"+getMinutes+":"+getSeconds+""+"+0"+localOffset+":00";
+						
+						var timevaluee=year+"-"+month+"-"+strDate+"T"+"23:59:59"+"+0"+localOffset+":00";
+						
+						console.log("======",strDate);
+						console.log("timevaluee222222",timevalues,timevaluee,"------",localOffset,"**",timevalue);
+
+						var url = root + "api/v1/SearchDeviceRecordByTime?token="+_this.Gtoken+"&start="+encodeURIComponent(timevalues)+"&end="+encodeURIComponent(timevaluee)+"&session="+ _this.$store.state.token;
+						console.log(url);
+						//  return false;
+						_this.$http.get(url).then(result=>{
+							if(result.status == 200){
+								var data=result.data;
+								//var timedata=[];
+								//console.log("length",data.record.length);
+								for(var i=0;i<data.record.length;i++){
+									var item=data.record[i];
+									//时间转换
+									var starf=new Date(item['strStartTime']).getTime();
+									var end=new Date(item['strEndTime']).getTime();
+									var starf=new Date(starf);
+									var end=new Date(end);
+									var timeitem={
+											beginTime :starf,
+											endTime :end,
+											style:{background:"rgba(60,196,60, 0.498039)"}
+										};
+									//console.log("录像段时间段颜色",timeitem["style"].background); //录像段时间段颜色
+									if(item["nType"]==="H5_REC_MANUAL"){
+										timeitem["style"].background="rgba(60,196,60, 0.498039)"
+										//console.log("录像段时间段颜色1",timeitem["style"].background);
+									}else{
+										timeitem["style"].background="rgba(238,17,17, 0.498039)"
+										//console.log("录像段时间段颜色2",timeitem["style"].background);
+									}
+									_this.timedata.push(timeitem);
+									
+								}
+							}
+						})
+						//不葫芦不花票
+						var pbconf1 = {
+							begintime: timevalues,
+							endtime: timevaluee,
+							autoplay: 'true',
+							showposter:"true", //'true' or 'false' show poster
+							callback: _this.PlaybackCB,
+							serverpb: false, 
+							userdata:  _this // user data
+						};
+						console.log(pbconf1);
+						//return false;
+						let conf = {
+							videoid: "gaovideohb",
+							protocol: window.location.protocol, //http: or https:
+							host: wsroot, //localhost:8080
+							rootpath:'/', // '/'
+							token:_this.Gtoken,
+							pbconf: pbconf1, //This is optional, if no pbconf, this will be live.
+							hlsver:'v1', //v1 is for ts, v2 is for fmp4
+							session: _this.$store.state.token
+						};
+						_this.v1 = new H5sPlayerRTC(conf);
+						console.log("v111111111111",_this.v1)
+						//return false;
+						_this.v1.connect();
+
+						console.log("mouseupTime = "+_this.xzvalue+new Date(time),_this.Gtoken);
+						// this.v1
+					})
+				},100);
+			}
+		},
+		Play(data){
+			var token=data;
+			//关闭视频并改变图标
 			if (this.v1 != undefined)
-            {
-                this.v1.disconnect();
-                delete this.v1;
+			{
+				this.v1.disconnect();
+				delete this.v1;
 				this.v1 = undefined;
 				console.log("上this.v1",this.v1);
-            }
-            this.icon="mdi mdi-pause-circle fa-fw";
-            //console.log(data.token);
-            //放入视频
-			if(data.token==undefined){
+			}
+			this.icon="iconfont icon-zantingtingzhi";
+			//console.log(data.token);
+			//放入视频
+			if(token==undefined){
 				return false;
 			}
-			var Gtoken=data.token
-			this.hidt(Gtoken);
+			// var Gtoken=data.token
+			this.Gtoken=token;
+			// this.hidt(Gtoken);
 			
 			//时间
 			var timevalue=this.xzvalue;
 			console.log("timevalue11111",timevalue);
-            var year = timevalue.getFullYear();
-            var month = timevalue.getMonth() + 1;
+			var year = timevalue.getFullYear();
+			var month = timevalue.getMonth() + 1;
 			var strDate = timevalue.getDate();
+			var strDate1 = timevalue.getDate()-1;
 			var localOffset = Math.abs(timevalue.getTimezoneOffset() /60);
-            var timevalues=year+"-"+month+"-"+strDate+"T"+"00:00:00"+"+0"+localOffset+":00";
+			var timevalues=year+"-"+month+"-"+strDate+"T"+"00:00:00"+"+0"+localOffset+":00";
+			var timevalues1=year+"-"+month+"-"+strDate1+"T"+"00:00:00"+"+0"+localOffset+":00";
 			var timevaluee=year+"-"+month+"-"+strDate+"T"+"23:59:59"+"+0"+localOffset+":00";
 			
-			console.log("======",strDate);
+			console.log("======",strDate,strDate1);
 			console.log("timevaluee222222",timevalues,timevaluee,"------",localOffset);
 
-			//return false;
-		    var root = process.env.API_ROOT;
-		    var wsroot = process.env.WS_HOST_ROOT;
-		    if (root == undefined){
-		        root = window.location.protocol + '//' + window.location.host + window.location.pathname;
-		    }
-		    if (wsroot == undefined)
-		    {
-		        wsroot = window.location.host;
+			// return false;
+			var root = process.env.API_ROOT;
+			var wsroot = process.env.WS_HOST_ROOT;
+			if (root == undefined){
+				root = window.location.protocol + '//' + window.location.host + window.location.pathname;
 			}
-			var url = root + "api/v1/SearchDeviceRecordByTime?token="+data.token+"&start="+timevalues+"&end="+timevaluee+"&session="+ this.$store.state.token;
-            console.log(url);
-            //return false;
+			if (wsroot == undefined)
+			{
+				wsroot = window.location.host;
+			}
+			var url = root + "api/v1/SearchDeviceRecordByTime?token="+token+"&start="+encodeURIComponent(timevalues1)+"&end="+encodeURIComponent(timevaluee)+"&session="+ this.$store.state.token;
+			console.log(url);
+			//return false;
 			this.$http.get(url).then(result=>{
-				  if(result.status == 200){
+				if(result.status == 200){
 					var data=result.data;
 					//var timedata=[];
 					//console.log("length",data.record.length);
@@ -342,7 +460,7 @@ export default {
 								beginTime :starf,
 								endTime :end,
 								style:{background:"rgba(60,196,60, 0.498039)"}
-							  };
+							};
 						//console.log("录像段时间段颜色",timeitem["style"].background); //录像段时间段颜色
 						if(item["nType"]==="H5_REC_MANUAL"){
 							timeitem["style"].background="rgba(60,196,60, 0.498039)"
@@ -354,88 +472,57 @@ export default {
 						this.timedata.push(timeitem);
 						
 					}
-				  }
-              })
-              
-              //不葫芦不花票
-            var pbconf1 = {
+				}
+			})
+			
+			//不葫芦不花票
+			var pbconf1 = {
 				begintime: timevalues,
 				endtime: timevaluee,
 				autoplay: 'true',
-                showposter:true, //'true' or 'false' show poster
-                callback: this.PlaybackCB,
-	            serverpb: false, 
+				showposter:"true", //'true' or 'false' show poster
+				callback: this.PlaybackCB,
+				serverpb: false, 
 				userdata:  this // user data
 			};
 			console.log(pbconf1);
 			//return false;
-        	let conf = {
-        		videoid: "gaovideohb",
+			let conf = {
+				videoid: "gaovideohb",
 				protocol: window.location.protocol, //http: or https:
 				host: wsroot, //localhost:8080
 				rootpath:'/', // '/'
-				token:data.token,
+				token:token,
 				pbconf: pbconf1, //This is optional, if no pbconf, this will be live.
 				hlsver:'v1', //v1 is for ts, v2 is for fmp4
 				session: this.$store.state.token
-        	};
+			};
 			this.v1 = new H5sPlayerRTC(conf);
 			console.log("v111111111111",this.v1)
 			//return false;
-            this.v1.connect();
-            setTimeout(function(){
-				this.v1.start();
-			}.bind(this),100);
-			
-        
-        
-        
-        },
-		//日历
-		handleDayChanged (day) {
-			this.xzvalue=new Date(day.date);
-			//this.value=new Date(day.date);
-			//this.$store.state.xzvalue=new Date(day.date);
-		   	//console.log(this.$store.state.xzvalue)
+			this.v1.connect();
 		},
-		//拉播
-		timetz(){
-			var _this=this;
-			//console.log("010101",this.vv);
-			if(_this.v1==undefined){
-				return false;
-			}
-			$("#timeline").mouseup(function() {
-			    //console.log("010101",_this.value);
-				var a = $("#timeline").TimeSlider('returnMouseupTime', null, null, function(time) {
-					//console.log("010102",_this.v1);
-					var timesjc=Math.floor(new Date(time).getTime()/1000);
-					_this.v1.seek(timesjc);
-					console.log("mouseupTime = " + timesjc);
-				});
-			})
-		},
-		
-		
 		//开始
-        resume(){
-            var strart=this.icon;
-            if(strart=="mdi mdi-pause-circle fa-fw"){
-                this.icon="mdi mdi-play-circle fa-fw";
-                this.v1.pause();
-            }
-            if(strart=="mdi mdi-play-circle fa-fw"){
-                this.icon="mdi mdi-pause-circle fa-fw";
-                this.v1.resume();
-            }
+		resume(){
+			var strart=this.icon;
+			console.log(strart);
+			//iconfont icon-zantingtingzhi  iconfont icon-bofang
+			if(strart=="iconfont icon-zantingtingzhi"){
+				this.icon="iconfont icon-bofang";
+				console.log(this.icon);
+				this.v1.pause();
+			}
+			if(strart=="iconfont icon-bofang"){
+				this.icon="iconfont icon-zantingtingzhi";
+				console.log(this.icon);
+				this.v1.resume();
+			}
 		},
 		//倍速
-        Speed(){
-            console.log( this.vv);
-            this.v1.speed(this.region);
-        },
-
-		
+		Speed(){
+			console.log(this.region);
+			this.v1.speed(this.region);
+		},
 
 		//timeline
 		funtimeine(){
@@ -448,411 +535,424 @@ export default {
 		//un ui
 		updateUI()
 		{
-			$(".events-wrapper").remove();//自己写的删除另一半日历
-		    $(".content").innerHeight($('.content-wrapper').innerHeight() - $('.content-header').outerHeight() - $('.main-header').innerHeight());
-		    //$('div[name="flex"]').height(($(".content").height() - 50) / this.rows);
-		    if($(document.body).width() < 768)
-		    {
-		        this.contentHeight = $(document.body).height()*0.4;
-		    }else
-		    {
-		        this.contentHeight = $(document.body).height()*0.8;
-		    }
-		    $('div[name="flex"]').height(this.contentHeight / this.rows);
-		    //this.contentHeight = $(document.body).height()*0.8;
-		    let _this = this;
-		    if (H5siOS() === true)
-		    {
-		        $('.h5video').prop("controls", true);
-		    }
+			$(".content").innerHeight($('.content-wrapper').innerHeight() - $('.content-header').outerHeight() - $('.main-header').innerHeight());
+			//$('div[name="flex"]').height(($(".content").height() - 50) / this.rows);
+			if($(document.body).width() < 768)
+			{
+				this.contentHeight = $(document.body).height()*0.4;
+			}else
+			{
+				this.contentHeight = $(document.body).height()*0.8;
+			}
+			$('div[name="flex"]').height(this.contentHeight / this.rows);
+			//this.contentHeight = $(document.body).height()*0.8;
+			let _this = this;
+			if (H5siOS() === true)
+			{
+				$('.h5video').prop("controls", true);
+			}
 
-		    $(".right-side-toggle").on("click", function () {
-		        $(".right-sidebar").slideDown(50).toggleClass("shw-rside");
-		        $(".fxhdr").on("click", function () {
-		            body.toggleClass("fix-header"); /* Fix Header JS */
-		        });
-		        $(".fxsdr").on("click", function () {
-		            body.toggleClass("fix-sidebar"); /* Fix Sidebar JS */
-		        });
+			$(".right-side-toggle").on("click", function () {
+				$(".right-sidebar").slideDown(50).toggleClass("shw-rside");
+				$(".fxhdr").on("click", function () {
+					body.toggleClass("fix-header"); /* Fix Header JS */
+				});
+				$(".fxsdr").on("click", function () {
+					body.toggleClass("fix-sidebar"); /* Fix Sidebar JS */
+				});
 
-		        /* ===== Service Panel JS ===== */
+				/* ===== Service Panel JS ===== */
 
-		        var fxhdr = $('.fxhdr');
-		        if (body.hasClass("fix-header")) {
-		            fxhdr.attr('checked', true);
-		        } else {
-		            fxhdr.attr('checked', false);
-		        }
-		    });
+				var fxhdr = $('.fxhdr');
+				if (body.hasClass("fix-header")) {
+					fxhdr.attr('checked', true);
+				} else {
+					fxhdr.attr('checked', false);
+				}
+			});
 		},
 
-
 		//load src
-
 		loadOneDevice(toplevels, topData)
 		{
 			let _this =this;
 			var root = process.env.API_ROOT;
 			var wsroot = process.env.WS_HOST_ROOT;
 			if (root == undefined){
-			    root = window.location.protocol + '//' + window.location.host + window.location.pathname;
+				root = window.location.protocol + '//' + window.location.host + window.location.pathname;
 			}
 			if (wsroot == undefined)
 			{
-			    wsroot = window.location.host;
+				wsroot = window.location.host;
 			}
 			var url = root + "/api/v1/GetDeviceSrc?token="+ toplevels.strToken + "&session=" + this.$store.state.token;
 
 			this.$http.get(url).then(result=>{
-				  if(result.status == 200){
-					  var data=result.data;
-					  var topGroup={children:[]};
-					  topGroup.label=toplevels.strName;
-					  topGroup.iconclass="mdi mdi-view-sequential fa-fw";
-					  for(var i = 0; i < data.src.length; i++){
-						  var item=data.src[i];
-						  var topitem={
+				if(result.status == 200){
+					var data=result.data;
+					var topGroup={children:[]};
+					topGroup.label=toplevels.strName;
+					topGroup.iconclass="mdi mdi-view-sequential fa-fw";
+					for(var i = 0; i < data.src.length; i++){
+						var item=data.src[i];
+						var topitem={
 								token : item['strToken'],
 								label : item['strName'],
 								iconclass : 'mdi mdi-camcorder fa-fw',
-							  };
-							  if(!item['bOnline'])
-                                topitem['iconclass'] = 'mdi mdi-camcorder-off fa-fw';
+							};
+							if(!item['bOnline'])
+								topitem['iconclass'] = 'mdi mdi-camcorder-off fa-fw';
 
-                              if(item['nType'] == 'H5_CLOUD')
+							if(item['nType'] == 'H5_CLOUD')
 								topitem['iconclass'] = 'mdi mdi-cloud-upload fa-fw';
 
 							if(item['bDisable'] == true){
-                                // newItem['disabled_me'] =true;
-                                topitem['iconclass1'] = 'camera';
-                            }
+								// newItem['disabled_me'] =true;
+								topitem['iconclass1'] = 'camera';
+							}
 
-                       		topGroup.children.push(topitem);
-                    }
-                    this.data.push(topGroup);
-				  }
+							topGroup.children.push(topitem);
+					}
+					this.data.push(topGroup);
+				}
 			}).catch(error => {
-                console.log('GetSrc failed', error);
-            });
+				console.log('GetSrc failed', error);
+			});
 		},
 
 		loadDevice() {
-		    let _this =this;
-		    var root = process.env.API_ROOT;
-		    var wsroot = process.env.WS_HOST_ROOT;
-		    if (root == undefined){
-		        root = window.location.protocol + '//' + window.location.host + window.location.pathname;
-		    }
-		    if (wsroot == undefined)
-		    {
-		        wsroot = window.location.host;
-		    }
-		   //url
-		   var url = root + "/api/v1/GetDevice?session="+ this.$store.state.token;
+			let _this =this;
+			var root = process.env.API_ROOT;
+			var wsroot = process.env.WS_HOST_ROOT;
+			if (root == undefined){
+				root = window.location.protocol + '//' + window.location.host + window.location.pathname;
+			}
+			if (wsroot == undefined)
+			{
+				wsroot = window.location.host;
+			}
+			//url
+			var url = root + "/api/v1/GetDevice?session="+ this.$store.state.token;
 
-			  //重组
-			  this.$http.get(url).then(result=>{
-				  if(result.status == 200){
-					  var topData=[];
-					  var data=result.data;
-					  for(var i = 0; i < data.dev.length; i++){
-						  var item=data.dev[i];
-						  var toplevel=[];
-						  toplevel["strToken"]=item.strToken;
-						  toplevel["strName"]=item.strName;
-						  this.loadOneDevice(toplevel,topData);
+			//重组
+			this.$http.get(url).then(result=>{
+				if(result.status == 200){
+					var topData=[];
+					var data=result.data;
+					for(var i = 0; i < data.dev.length; i++){
+						var item=data.dev[i];
+						var toplevel=[];
+						toplevel["strToken"]=item.strToken;
+						toplevel["strName"]=item.strName;
+						this.loadOneDevice(toplevel,topData);
 
-					  }
-				  }
-			  })
-        },
-        //测试机仓
-        loadtest(){
-            let _this =this;
-		    var root = process.env.API_ROOT;
-		    var wsroot = process.env.WS_HOST_ROOT;
-		    if (root == undefined){
-		        root = window.location.protocol + '//' + window.location.host + window.location.pathname;
-		    }
-		    if (wsroot == undefined)
-		    {
-		        wsroot = window.location.host;
-		    }
-		    //url
-            var url = root + "/api/v1/GetSrcWithoutDevice?session="+ this.$store.state.token;
-            //console.log(url);
-            this.$http.get(url).then(result=>{
-                if(result.status == 200){
+					}
+				}
+			})
+		},
+		//测试机仓
+		loadtest(){
+			let _this =this;
+			var root = process.env.API_ROOT;
+			var wsroot = process.env.WS_HOST_ROOT;
+			if (root == undefined){
+				root = window.location.protocol + '//' + window.location.host + window.location.pathname;
+			}
+			if (wsroot == undefined)
+			{
+				wsroot = window.location.host;
+			}
+			//url
+			var url = root + "/api/v1/GetSrcWithoutDevice?session="+ this.$store.state.token;
+			//console.log(url);
+			this.$http.get(url).then(result=>{
+				if(result.status == 200){
 					var data =  result.data;
-                    var srcGroup = {children: []};
-                    srcGroup.label=this.$t('message.live.camera');
-                    srcGroup.iconclass="mdi mdi-view-sequential fa-fw";
-                    for(var i=0; i< data.src.length; i++){
-                         var item = data.src[i];
-                        if(item['nOriginalType'] == 'H5_CH_GB'){
-                            continue;
-                        }else{
-                            // 主副流
-                            var node=[{
-                            token : item['strToken'],
-                            streamprofile : "main",
-                            label :this.$t('message.live.mainstream'),
-                            iconclass : 'mdi mdi-playlist-play fa-fw'
-                            },{
-                            token : item['strToken'],
-                            streamprofile : "sub",
-                            label :this.$t('message.live.substream'),
-                            iconclass : 'mdi mdi-playlist-play fa-fw'
-                            }]
-                            var newItem ={
-                                    token : item['strToken'],
-                                    label : item['strName'],
-                                    iconclass : 'mdi mdi-camcorder fa-fw',
-                                    children:node};
+					var srcGroup = {children: []};
+					srcGroup.label=this.$t('message.live.camera');
+					srcGroup.iconclass="mdi mdi-view-sequential fa-fw";
+					for(var i=0; i< data.src.length; i++){
+						var item = data.src[i];
+						if(item['nOriginalType'] == 'H5_CH_GB'){
+							continue;
+						}else{
+							// 主副流
+							var node=[{
+							token : item['strToken'],
+							streamprofile : "main",
+							label :this.$t('message.live.mainstream'),
+							iconclass : 'mdi mdi-playlist-play fa-fw'
+							},{
+							token : item['strToken'],
+							streamprofile : "sub",
+							label :this.$t('message.live.substream'),
+							iconclass : 'mdi mdi-playlist-play fa-fw'
+							}]
+							var newItem ={
+									token : item['strToken'],
+									label : item['strName'],
+									iconclass : 'mdi mdi-camcorder fa-fw',
+									children:node};
 
-                            if(!item['bOnline'])
-                                newItem['iconclass'] = 'mdi mdi-camcorder-off fa-fw';
+							if(!item['bOnline'])
+								newItem['iconclass'] = 'mdi mdi-camcorder-off fa-fw';
 
-                            if(item['nType'] == 'H5_CLOUD')
-                                newItem['iconclass'] = 'mdi mdi-cloud-upload fa-fw';
-                            
-                        
+							if(item['nType'] == 'H5_CLOUD')
+								newItem['iconclass'] = 'mdi mdi-cloud-upload fa-fw';
+							
+						
 
-                        srcGroup.children.push(newItem);
-                        }
-                    }
-                    this.data.push(srcGroup);
-				  } 
-            })
+						srcGroup.children.push(newItem);
+						}
+					}
+					this.data.push(srcGroup);
+				} 
+			})
 
-        },
-        //数字仓机
-        NumberDevice() {
-		    let _this =this;
-		    var root = process.env.API_ROOT;
-		    var wsroot = process.env.WS_HOST_ROOT;
-		    if (root == undefined){
-		        root = window.location.protocol + '//' + window.location.host + window.location.pathname;
-		    }
-		    if (wsroot == undefined)
-		    {
-		        wsroot = window.location.host;
-		    }
-		   //url
-		   var url = root + "/api/v1/GetGbDevice?session="+ this.$store.state.token;
-
-			  //重组
-			  this.$http.get(url).then(result=>{
-				  if(result.status == 200){
-					  var srcData = [];
-					  var data=result.data;
-					  for(var i = 0; i < data.dev.length; i++){
-						  var item=data.dev[i];
-						  var srclevel=[];
-						  srclevel["strToken"]=item.strToken;
-						  srclevel["strName"]=item.strName;
-						  this.NumberSrc(srclevel,srcData);
-					  }
-				  }
-			  })
 		},
-        NumberSrc(srclevel, srcData) {
+		//数字仓机
+		NumberDevice() {
+			let _this =this;
+			var root = process.env.API_ROOT;
+			var wsroot = process.env.WS_HOST_ROOT;
+			if (root == undefined){
+				root = window.location.protocol + '//' + window.location.host + window.location.pathname;
+			}
+			if (wsroot == undefined)
+			{
+				wsroot = window.location.host;
+			}
+			//url
+			var url = root + "/api/v1/GetGbDevice?session="+ this.$store.state.token;
 
-            let _this =this;
-            var root = process.env.API_ROOT;
-            var wsroot = process.env.WS_HOST_ROOT;
-            if (root == undefined){
-                root = window.location.protocol + '//' + window.location.host + window.location.pathname;
-            }
-            if (wsroot == undefined)
-            {
-                wsroot = window.location.host;
-            }
-
-            var url = root + "/api/v1/GetGbDeviceSrc?token="+ srclevel.strToken + "&session=" + this.$store.state.token;
-
-            this.$http.get(url).then(result => {
-                if (result.status == 200)
-                {
-                    var data =  result.data;
-                    var srcGroup = {children: []};
-                    srcGroup.label=srclevel.strName;
-                    srcGroup.iconclass="mdi mdi-view-sequential fa-fw";
-                    for(var i=0; i< data.src.length; i++){
-                        var item = data.src[i];
-                        // 主副流
-                        var node=[{
-                          token : item['strToken'],
-                          streamprofile : "main",
-                          label :this.$t('message.live.mainstream'),
-                          iconclass : 'mdi mdi-playlist-play fa-fw'
-                        },{
-                          token : item['strToken'],
-                          streamprofile : "sub",
-                          label :this.$t('message.live.substream'),
-                          iconclass : 'mdi mdi-playlist-play fa-fw'
-                        }]
-                        var newItem ={
-                                token : item['strToken'],
-                                label : item['strName'],
-                                iconclass : 'mdi mdi-camcorder fa-fw',
-                                children:node};
-
-                        if(!item['bOnline'])
-                            newItem['iconclass'] = 'mdi mdi-camcorder-off fa-fw';
-
-                        if(item['nType'] == 'H5_CLOUD')
-                            newItem['iconclass'] = 'mdi mdi-cloud-upload fa-fw';
-
-                       srcGroup.children.push(newItem);
-                    }
-                    this.data.push(srcGroup);
-                }
-            }).catch(error => {
-                console.log('GetSrc failed', error);
-            });
+			//重组
+			this.$http.get(url).then(result=>{
+				if(result.status == 200){
+					var srcData = [];
+					var data=result.data;
+					for(var i = 0; i < data.dev.length; i++){
+						var item=data.dev[i];
+						var srclevel=[];
+						srclevel["strToken"]=item.strToken;
+						srclevel["strName"]=item.strName;
+						this.NumberSrc(srclevel,srcData);
+					}
+				}
+			})
 		},
-		
+		NumberSrc(srclevel, srcData) {
+
+			let _this =this;
+			var root = process.env.API_ROOT;
+			var wsroot = process.env.WS_HOST_ROOT;
+			if (root == undefined){
+				root = window.location.protocol + '//' + window.location.host + window.location.pathname;
+			}
+			if (wsroot == undefined)
+			{
+				wsroot = window.location.host;
+			}
+
+			var url = root + "/api/v1/GetGbDeviceSrc?token="+ srclevel.strToken + "&session=" + this.$store.state.token;
+
+			this.$http.get(url).then(result => {
+				if (result.status == 200)
+				{
+					var data =  result.data;
+					var srcGroup = {children: []};
+					srcGroup.label=srclevel.strName;
+					srcGroup.iconclass="mdi mdi-view-sequential fa-fw";
+					for(var i=0; i< data.src.length; i++){
+						var item = data.src[i];
+						// 主副流
+						var node=[{
+						token : item['strToken'],
+						streamprofile : "main",
+						label :this.$t('message.live.mainstream'),
+						iconclass : 'mdi mdi-playlist-play fa-fw'
+						},{
+						token : item['strToken'],
+						streamprofile : "sub",
+						label :this.$t('message.live.substream'),
+						iconclass : 'mdi mdi-playlist-play fa-fw'
+						}]
+						var newItem ={
+								token : item['strToken'],
+								label : item['strName'],
+								iconclass : 'mdi mdi-camcorder fa-fw',
+								children:node};
+
+						if(!item['bOnline'])
+							newItem['iconclass'] = 'mdi mdi-camcorder-off fa-fw';
+
+						if(item['nType'] == 'H5_CLOUD')
+							newItem['iconclass'] = 'mdi mdi-cloud-upload fa-fw';
+
+					srcGroup.children.push(newItem);
+					}
+					this.data.push(srcGroup);
+				}
+			}).catch(error => {
+				console.log('GetSrc failed', error);
+			});
+		},
+		//关闭
+		CloseVideo(event)
+		{
+			if (this.v1 != undefined)
+			{
+				this.v1.disconnect();
+				delete this.v1;
+				this.v1 = undefined;
+				this.$Notice.info({
+					title: "Stop successfully"
+				});
+				$("#gaovideohb").get(0).load();
+				$("#gaovideohb").get(0).poster = '';
+				
+			}
+		},
 		//级联
-        cloudDevice() {
-		    let _this =this;
-		    var root = process.env.API_ROOT;
-		    var wsroot = process.env.WS_HOST_ROOT;
-		    if (root == undefined){
-		        root = window.location.protocol + '//' + window.location.host + window.location.pathname;
-		    }
-		    if (wsroot == undefined)
-		    {
-		        wsroot = window.location.host;
-		    }
-		   //url
-		   var url = root + "/api/v1/GetCloudDevice?session="+ this.$store.state.token;
+		cloudDevice() {
+			let _this =this;
+			var root = process.env.API_ROOT;
+			var wsroot = process.env.WS_HOST_ROOT;
+			if (root == undefined){
+				root = window.location.protocol + '//' + window.location.host + window.location.pathname;
+			}
+			if (wsroot == undefined)
+			{
+				wsroot = window.location.host;
+			}
+			//url
+			var url = root + "/api/v1/GetCloudDevice?session="+ this.$store.state.token;
 
-			  //重组
-			  this.$http.get(url).then(result=>{
-				  if(result.status == 200){
-					  var srcData = [];
-					  var data=result.data;
-					  for(var i = 0; i < data.dev.length; i++){
-						  var item=data.dev[i];
-						  var srclevel=[];
-						  srclevel["strToken"]=item.strToken;
-						  srclevel["strName"]=item.strName;
-						  this.cloudSrc(srclevel,srcData);
-					  }
-				  }
-			  })
+			//重组
+			this.$http.get(url).then(result=>{
+				if(result.status == 200){
+					var srcData = [];
+					var data=result.data;
+					for(var i = 0; i < data.dev.length; i++){
+						var item=data.dev[i];
+						var srclevel=[];
+						srclevel["strToken"]=item.strToken;
+						srclevel["strName"]=item.strName;
+						this.cloudSrc(srclevel,srcData);
+					}
+				}
+			})
 		},
-        cloudSrc(srclevel, srcData) {
+		cloudSrc(srclevel, srcData) {
 
-            let _this =this;
-            var root = process.env.API_ROOT;
-            var wsroot = process.env.WS_HOST_ROOT;
-            if (root == undefined){
-                root = window.location.protocol + '//' + window.location.host + window.location.pathname;
-            }
-            if (wsroot == undefined)
-            {
-                wsroot = window.location.host;
-            }
+			let _this =this;
+			var root = process.env.API_ROOT;
+			var wsroot = process.env.WS_HOST_ROOT;
+			if (root == undefined){
+				root = window.location.protocol + '//' + window.location.host + window.location.pathname;
+			}
+			if (wsroot == undefined)
+			{
+				wsroot = window.location.host;
+			}
 
-            var url = root + "/api/v1/GetCloudDeviceSrc?token="+ srclevel.strToken + "&session=" + this.$store.state.token;
+			var url = root + "/api/v1/GetCloudDeviceSrc?token="+ srclevel.strToken + "&session=" + this.$store.state.token;
 
-            this.$http.get(url).then(result => {
-                if (result.status == 200)
-                {
-                    var data =  result.data;
-                    var srcGroup = {children: []};
-                    srcGroup.label=srclevel.strName;
-                    srcGroup.iconclass="mdi mdi-view-sequential fa-fw";
-                    for(var i=0; i< data.src.length; i++){
-                        var item = data.src[i];
-                        
-                        var newItem ={
-                                token : item['strToken'],
-                                label : item['strName'],
-                                iconclass : 'mdi mdi-camcorder fa-fw',};
+			this.$http.get(url).then(result => {
+				if (result.status == 200)
+				{
+					var data =  result.data;
+					var srcGroup = {children: []};
+					srcGroup.label=srclevel.strName;
+					srcGroup.iconclass="mdi mdi-view-sequential fa-fw";
+					for(var i=0; i< data.src.length; i++){
+						var item = data.src[i];
+						
+						var newItem ={
+								token : item['strToken'],
+								label : item['strName'],
+								iconclass : 'mdi mdi-camcorder fa-fw',};
 
-                        if(!item['bOnline'])
-                            newItem['iconclass'] = 'mdi mdi-camcorder-off fa-fw';
+						if(!item['bOnline'])
+							newItem['iconclass'] = 'mdi mdi-camcorder-off fa-fw';
 
-                        if(item['nType'] == 'H5_CLOUD')
-                            newItem['iconclass'] = 'mdi mdi-cloud-upload fa-fw';
+						if(item['nType'] == 'H5_CLOUD')
+							newItem['iconclass'] = 'mdi mdi-cloud-upload fa-fw';
 
-                       srcGroup.children.push(newItem);
-                    }
-                    this.data.push(srcGroup);
-                }
-            }).catch(error => {
-                console.log('GetSrc failed', error);
-            });
-        },
-
+					srcGroup.children.push(newItem);
+					}
+					this.data.push(srcGroup);
+				}
+			}).catch(error => {
+				console.log('GetSrc failed', error);
+			});
+		},
 
 		panelFullScreen(event) {
-		    var elem = document.getElementById('videohb');
-		    //var elem = $("#videoPanel");
-		    console.log('panelFullScreen', event);
-		    if (
-		    document.fullscreenEnabled ||
-		    document.webkitFullscreenEnabled ||
-		    document.mozFullScreenEnabled ||
-		    document.msFullscreenEnabled
-		    ) {
-		        if (
-		            document.fullscreenElement ||
-		            document.webkitFullscreenElement ||
-		            document.mozFullScreenElement ||
-		            document.msFullscreenElement
-		        ) {
-		            if (document.exitFullscreen) {
-		                document.exitFullscreen();
-		            } else if (document.webkitExitFullscreen) {
-		                document.webkitExitFullscreen();
-		            } else if (document.mozCancelFullScreen) {
-		                document.mozCancelFullScreen();
-		            } else if (document.msExitFullscreen) {
-		                document.msExitFullscreen();
-		            }
-		            console.log("========  updateUIExitFullScreen");
-		            this.updateUIExitFullScreen();
-		        } else {
-		             console.log('panelFullScreen3');
+			var elem = document.getElementById('content-mythe-two');
+			//var elem = $("#videoPanel");
+			console.log('panelFullScreen', event);
+			// document.getElementById("fixed_input").style.display="none";
+			if (
+			document.fullscreenEnabled ||
+			document.webkitFullscreenEnabled ||
+			document.mozFullScreenEnabled ||
+			document.msFullscreenEnabled
+			) {
+				if (
+					document.fullscreenElement ||
+					document.webkitFullscreenElement ||
+					document.mozFullScreenElement ||
+					document.msFullscreenElement
+				) {
+					if (document.exitFullscreen) {
+						document.exitFullscreen();
+					} else if (document.webkitExitFullscreen) {
+						document.webkitExitFullscreen();
+					} else if (document.mozCancelFullScreen) {
+						document.mozCancelFullScreen();
+					} else if (document.msExitFullscreen) {
+						document.msExitFullscreen();
+					}
+					// document.getElementById("fixed_input").style.display="block";
+					console.log("========  updateUIExitFullScreen");
+					this.updateUIExitFullScreen();
+				} else {
+					console.log('panelFullScreen3');
 
-		            if (elem.requestFullscreen) {
-		                elem.requestFullscreen();
-		            } else if (elem.webkitRequestFullscreen) {
-		                elem.webkitRequestFullscreen();
-		            } else if (elem.mozRequestFullScreen) {
-		                elem.mozRequestFullScreen();
-		            } else if (elem.msRequestFullscreen) {
-		                elem.msRequestFullscreen();
-		            }
-		            this.updateUIEnterFullScreen();
-		            if (document.addEventListener)
-		            {
-		                document.addEventListener('webkitfullscreenchange', this.updateUIExitFullScreen, false);
-		                document.addEventListener('mozfullscreenchange', this.updateUIExitFullScreen, false);
-		                document.addEventListener('fullscreenchange', this.updateUIExitFullScreen, false);
-		                document.addEventListener('MSFullscreenChange', this.updateUIExitFullScreen, false);
-		            }
-		        }
-		    } else {
-		        console.log('Fullscreen is not supported on your browser.');
+					if (elem.requestFullscreen) {
+						elem.requestFullscreen();
+					} else if (elem.webkitRequestFullscreen) {
+						elem.webkitRequestFullscreen();
+					} else if (elem.mozRequestFullScreen) {
+						elem.mozRequestFullScreen();
+					} else if (elem.msRequestFullscreen) {
+						elem.msRequestFullscreen();
+					}
+					this.updateUIEnterFullScreen();
+					if (document.addEventListener)
+					{
+						document.addEventListener('webkitfullscreenchange', this.updateUIExitFullScreen, false);
+						document.addEventListener('mozfullscreenchange', this.updateUIExitFullScreen, false);
+						document.addEventListener('fullscreenchange', this.updateUIExitFullScreen, false);
+						document.addEventListener('MSFullscreenChange', this.updateUIExitFullScreen, false);
+					}
+				}
+			} else {
+				console.log('Fullscreen is not supported on your browser.');
 			}
 		},
 		updateUIEnterFullScreen(){
 
-            $('div[name="flex"]').height(screen.height / this.rows);
-        },
-        updateUIExitFullScreen(){
-            if (!document.fullscreenElement && !document.webkitIsFullScreen && !document.mozFullScreen && !document.msFullscreenElement)
-            {
-                $('div[name="flex"]').height(this.contentHeight / this.rows);
-            }
-        },
+			$('div[name="flex"]').height(screen.height / this.rows);
+		},
+		updateUIExitFullScreen(){
+			if (!document.fullscreenElement && !document.webkitIsFullScreen && !document.mozFullScreen && !document.msFullscreenElement)
+			{
+				$('div[name="flex"]').height(this.contentHeight / this.rows);
+			}
+		},
 		stopVideo(event){
-		    return;
+			return;
 		},
 		enter(){
 			document.getElementById("mseeen").style.display="block";
@@ -860,24 +960,140 @@ export default {
 		leave(){
 			document.getElementById("mseeen").style.display="none";
 		},
-        //模糊查询
-        filterNode(value, data) {
-            if (!value) return true;
-            return data.label.indexOf(value) !== -1;
-        },
+		enter1(){
+			document.getElementById("back_Choice").style.display="block";
+		},
+		leave1(){
+			document.getElementById("back_Choice").style.display="none";
+		},
+		//回访，模式
+		hback(){
+			this.Adswitch=true;
+		},
+		nvrback(){
+			this.Adswitch=false;
+		},
+		//模糊查询
+		filterNode(value, data) {
+			if (!value) return true;
+			return data.label.indexOf(value) !== -1;
+		},
 
 	},//模糊查询
-    watch: {
-      filterText(val) {
-        this.$refs.tree.filter(val);
-      }
-    },
+	watch: {
+		filterText(val) {
+			this.$refs.tree.filter(val);
+		}
+	},
 }
 </script>
+
 <style scoped>
+	.button_resume{
+		background: none;
+		border: 0px;
+		font-size: 24px;
+		color:#B2B1B1;
+		margin-left: 10px;
+	}
+	/* 切换播放模式 */
+	.co_Baise{
+		color: #fff !important;
+	}
+	.co_black{
+		color: #000;
+	}
+	.back_zi{
+		line-height: 46px;font-size: 20px;color:#B2B1B1;margin-left:10px;
+	}
+	.back_Choice{
+		width: 120px;
+		position: relative;
+		cursor:pointer;
+	}
+	.back_Choice1{
+		border-radius:10px; 
+		display: none;
+		width: auto;
+		position: absolute;
+		top: -60px;
+		left: -20px;
+		background:rgba(255,255,255,0.5);
+		padding: 10px 20px;
+	}
+	.back_Choice1 div:nth-child(1){
+		margin-bottom: 10px;
+	}
+	/* .tooltip_zi{
+		background: rgba(255,255,255,0.5);
+    	color: #FFF;
+	} */
+	/* 数据input框 */
+	.fixed_input{
+		width: 130px!important;
+		cursor:pointer;
+	}
+	
+	.fixed_input >>> .el-input__inner{
+		border: 0px;
+		background: none!important;
+		color: #B2B1B1;
+	}
+	.el-input >>> .el-input__inner{
+		background-color: #FAFAFA;
+		border-radius: 50px;
+		border: 0;
+	}
+	.ivu-select >>> .ivu-select-selection{
+		background: #444343;
+		border: 0px;
+		border-radius: 25px;
+		color: #B2B1B1;
+	}
+	/* .el-select >>> .el-input__inner{
+		background: #444343;
+		border: 0px;
+		border-radius: 25px;
+		color: #B2B1B1;
+	} */
+    /* 视频画布 */
+    .videohb{
+        width: 100%!;
+        height: 81%;
+        background: #474747;
+        position: relative;
+    }
+    .videoo1{
+        width: 100%;
+        height: 100%;
+        object-fit: fill;
+    }
+
+    /* 进度条 */
+    .time{
+        cursor: pointer;border:1px solid #2b2f33;background-color: #3E3D3D;display: block;width: 100%;font-size: 20px;
+    }
+    .__vev_calendar-wrapper .cal-wrapper {
+        width: 100%;
+        padding: 10px 10px;
+    }
+    .available div span:after {
+        content: "";
+        display: block;
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+        background: #2d8cf0;
+        
+        /* position: absolute;
+        top: 1px;
+        right: 1px; */
+    }
 	/* 屏内按钮 */
 	.h5controls{
-		background-color: rgba(255,255,255,0.3);
+		background:url("../views/gallery/videoxlk@2x.png") no-repeat;
+		background-size: 300px;
+    	background-position-x:right;
 		padding:0px;
 		box-sizing:content-box;
 		z-index:10000;
@@ -886,19 +1102,26 @@ export default {
 		display: none;
 		position: absolute;
 		top: 0px;
+		color: #fff;
+	}
+	.h5controls button{
+		background: none;
+		border: 0px;
+	}
+	.h5controls button:nth-child(1){
+		margin-right: 20px;
 	}
 	.vidbuttion {
 		height: 24px;
 		width: 24px;
 		margin-left: 5px;
-		color: #000;
-		opacity: 0.60;
+		color: #FFFFFF;
 	}
 	.vidbuttion i{
-		color: #3b3b3b;
+		color: #FFFFFF;
 	}
 	.vidbuttion i:hover{
-		color: #9e9b9b;
+		color: #FFFFFF;
 	}
 	/* zit1 */
 	.mr-1{
@@ -927,21 +1150,22 @@ export default {
 	}
 	.content-mythe{
 		width: 100%;
-		height: auto;
+		height: 850px;
 		display: flex;
 		flex-wrap: nowrap;
 		justify-content: space-between;
 		align-items: flex-start;
 	}
 	.content-mythe-one{
-		max-width: 17%;
+		width: 17%;
 		height: auto;
 		background-color: #FFFFFF;
 		padding: 10px;
 	}
 	.content-mythe-two{
-		width: 80%;
-		background-color: #FFFFFF;
+		width: 82.5%;
+		height: 100%;
+		background-color: #3E3D3D;
 		display: flex;
 	}
 	.content-mythe-two .content-mythe-twos{

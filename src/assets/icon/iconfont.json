@@ -6,13 +6,6 @@
   "description": "",
   "glyphs": [
     {
-      "icon_id": "30104",
-      "name": "设置",
-      "font_class": "shezhi",
-      "unicode": "e67b",
-      "unicode_decimal": 59003
-    },
-    {
       "icon_id": "1045362",
       "name": "筛选",
       "font_class": "filter",
@@ -25,6 +18,20 @@
       "font_class": "rili",
       "unicode": "e600",
       "unicode_decimal": 58880
+    },
+    {
+      "icon_id": "2953904",
+      "name": "视频会议",
+      "font_class": "shipinhuiyi",
+      "unicode": "e679",
+      "unicode_decimal": 59001
+    },
+    {
+      "icon_id": "3413079",
+      "name": "正方形",
+      "font_class": "zhengfangxing",
+      "unicode": "e620",
+      "unicode_decimal": 58912
     },
     {
       "icon_id": "3466820",
@@ -55,11 +62,18 @@
       "unicode_decimal": 58882
     },
     {
-      "icon_id": "6431514",
-      "name": "声音",
-      "font_class": "shengyin1",
-      "unicode": "e626",
-      "unicode_decimal": 58918
+      "icon_id": "6114200",
+      "name": "icon_四视图1",
+      "font_class": "icon_sishitu",
+      "unicode": "e8ac",
+      "unicode_decimal": 59564
+    },
+    {
+      "icon_id": "6869495",
+      "name": "biduoduo  相机",
+      "font_class": "xiangji",
+      "unicode": "e640",
+      "unicode_decimal": 58944
     },
     {
       "icon_id": "7549827",
@@ -81,6 +95,27 @@
       "font_class": "shishishipin-",
       "unicode": "e66a",
       "unicode_decimal": 58986
+    },
+    {
+      "icon_id": "8740376",
+      "name": "电 话",
+      "font_class": "dianhua",
+      "unicode": "e607",
+      "unicode_decimal": 58887
+    },
+    {
+      "icon_id": "8776873",
+      "name": "setting",
+      "font_class": "icon-test",
+      "unicode": "e63f",
+      "unicode_decimal": 58943
+    },
+    {
+      "icon_id": "8777414",
+      "name": "info",
+      "font_class": "icon-test1",
+      "unicode": "e654",
+      "unicode_decimal": 58964
     },
     {
       "icon_id": "8882338",
@@ -109,6 +144,13 @@
       "font_class": "arrow-bottom",
       "unicode": "e609",
       "unicode_decimal": 58889
+    },
+    {
+      "icon_id": "10225247",
+      "name": "电源",
+      "font_class": "shijian-",
+      "unicode": "e625",
+      "unicode_decimal": 58917
     },
     {
       "icon_id": "11310397",
@@ -160,6 +202,13 @@
       "unicode_decimal": 59205
     },
     {
+      "icon_id": "11488000",
+      "name": "category",
+      "font_class": "category",
+      "unicode": "e747",
+      "unicode_decimal": 59207
+    },
+    {
       "icon_id": "11488030",
       "name": "download",
       "font_class": "download",
@@ -179,6 +228,27 @@
       "font_class": "guiding",
       "unicode": "e76a",
       "unicode_decimal": 59242
+    },
+    {
+      "icon_id": "11488327",
+      "name": "sound-filling-fill",
+      "font_class": "sound-filling-fill",
+      "unicode": "e78d",
+      "unicode_decimal": 59277
+    },
+    {
+      "icon_id": "11488328",
+      "name": "sound-Mute",
+      "font_class": "sound-Mute",
+      "unicode": "e78e",
+      "unicode_decimal": 59278
+    },
+    {
+      "icon_id": "12169079",
+      "name": "视频会议",
+      "font_class": "shipinhuiyi3",
+      "unicode": "e663",
+      "unicode_decimal": 58979
     },
     {
       "icon_id": "12214825",

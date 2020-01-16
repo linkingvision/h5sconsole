@@ -25,7 +25,7 @@
              
             <!-- 音视频对讲 -->
             <router-link tag="li" :to="{name:'avintercomRouter'}">
-			<a href="#" class=""><i class="mdi mdi-youtube-play fa-fw" data-icon="v"></i> <span class="hide-menu"> {{$t("message.left.AdvancePB")}}  </span></a>
+			<a href="#" class=""><i class="iconfont icon-shipinhuiyi3" style=" margin-right: 9px;" data-icon="v"></i> <span class="hide-menu"> {{$t("message.left.VideoConference")}}  </span></a>
 			 </router-link>
              <!-- 高级回放 -->
 			<router-link tag="li" :to="{name:'AdvancePBRouter'}">

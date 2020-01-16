@@ -327,9 +327,18 @@ import uuid from '@/store/uuid'
                             bPasswdEncrypt:form.bPasswdEncrypt,
                             }
                         this.tableData.splice(this.editindex, 1,list)
+                        var url = root + "/api/v1/AddRTMPPush?&name="+form.Name+
+                        "&token="+form.Token+
+                        "&session="+ this.$store.state.token;
+                        console.log(url);
+                        this.$http.get(url).then(result=>{
+                            console.log(result);
+                            if(result.status==200){
+                            }
+                        })
                     }else{
                         this.$message({
-                            message: '编辑失败',
+                            message: this.$t("message.setting.Editorfailure"),
                             type: 'warning'
                         });
                         return false;
@@ -337,15 +346,7 @@ import uuid from '@/store/uuid'
                 }
             })
             
-            var url = root + "/api/v1/AddRTMPPush?&name="+form.Name+
-            "&token="+form.Token+
-            "&session="+ this.$store.state.token;
-            console.log(url);
-            this.$http.get(url).then(result=>{
-            console.log(result);
-            if(result.status==200){
-            }
-            })
+            
             
         },
         platformyes(){

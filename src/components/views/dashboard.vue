@@ -222,9 +222,9 @@ export default {
             waveHeight:10,
             waveNum:2
         },
-        data: [0,0,0,0,0,0,0,0,0,0],
-        data1: [0,0,0,0,0,0,0,0,0,0],
-        data2: [0,0,0,0,0,0,0,0,0,0],
+        data: [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+        data1: [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+        data2: [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
         codecInfo:"",
         capability:"",
         system:"",
@@ -265,7 +265,11 @@ export default {
         Tiandy:this.$t("message.dashboard.Tiandy"),
 
         total:this.$t("message.dashboard.total"),
-        ge:this.$t("message.dashboard.ge"), 
+        ge:this.$t("message.dashboard.ge"),
+
+        Online:this.$t("message.dashboard.Online"),
+        Offline:this.$t("message.dashboard.Offline"),
+
         strRunTime:"",//运行时间
     };
   },
@@ -318,7 +322,7 @@ export default {
             var base = +new Date();
             var date = [];
             var oneSecond = 1000;
-            for (var i = 1; i <= 10; i++) {
+            for (var i = 1; i <= 64; i++) {
                 var now = new Date((base += oneSecond));
                 date.push(
                     [('0' + now.getSeconds()).slice(-2) + 's']
@@ -425,7 +429,7 @@ export default {
             var base = +new Date()
             var oneSecond = 1000
             var date = [];
-            for (var i = 1; i <= 10; i++) {
+            for (var i = 1; i <= 64; i++) {
                 var now = new Date((base += oneSecond))
                 date.push(
                     [('0' + now.getSeconds()).slice(-2) + 's']
@@ -550,14 +554,14 @@ export default {
                         },
                         data: [{
                                 value:this.dev.nHikDevOnline,
-                                name: this.$t("message.dashboard.Online"),
+                                name: this.Online,
                                 itemStyle: {
                                     color: '#67CFB5'
                                 }
                             },
                             {
                                 value: this.dev.nHikDevTotal-this.dev.nHikDevOnline,
-                                name: this.$t("message.dashboard.Not_nline"),
+                                name: this.Offline,
                                 itemStyle: {
                                     color: '#FFC05D'
                                 }
@@ -634,14 +638,14 @@ export default {
                         },
                         data: [{
                                 value: this.dev.nDhDevOnline,
-                                name: this.$t("message.dashboard.Online"),
+                                name: this.Online,
                                 itemStyle: {
                                     color: '#67CFB5'
                                 }
                             },
                             {
                                 value: this.dev.nDhDevTotal-this.dev.nDhDevOnline,
-                                name: this.$t("message.dashboard.Not_nline"),
+                                name: this.Offline,
                                 itemStyle: {
                                     color: '#FFC05D'
                                 }
@@ -718,14 +722,14 @@ export default {
                         },
                         data: [{
                                 value: this.dev.nHikIscDevOnline,
-                                name: this.$t("message.dashboard.Online"),
+                                name: this.Online,
                                 itemStyle: {
                                     color: '#67CFB5'
                                 }
                             },
                             {
                                 value: this.dev.nHikIscDevTotal-this.dev.nHikIscDevOnline,
-                                name: this.$t("message.dashboard.Not_nline"),
+                                name: this.Offline,
                                 itemStyle: {
                                     color: '#FFC05D'
                                 }
@@ -802,14 +806,14 @@ export default {
                         },
                         data: [{
                                 value: this.dev.nTdDevOnline,
-                                name: this.$t("message.dashboard.Online"),
+                                name: this.Online,
                                 itemStyle: {
                                     color: '#67CFB5'
                                 }
                             },
                             {
                                 value: this.dev.nTdDevTotal-this.dev.nTdDevOnline,
-                                name: this.$t("message.dashboard.Not_nline"),
+                                name: this.Offline,
                                 itemStyle: {
                                     color: '#FFC05D'
                                 }
@@ -886,14 +890,14 @@ export default {
                         },
                         data: [{
                                 value: this.dev.nGbDevOnline,
-                                name: this.$t("message.dashboard.Online"),
+                                name: this.Online,
                                 itemStyle: {
                                     color: '#67CFB5'
                                 }
                             },
                             {
                                 value: this.dev.nGbDevTotal-this.dev.nGbDevOnline,
-                                name: this.$t("message.dashboard.Not_nline"),
+                                name: this.Offline,
                                 itemStyle: {
                                     color: '#FFC05D'
                                 }
