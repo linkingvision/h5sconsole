@@ -116,7 +116,6 @@
                 </div>
             </div>
         </div><!-- Video -->
-        
     </div>
 
 </div>
@@ -353,9 +352,6 @@ export default {
                             
                             if(!item['bOnline'])
                                 newItem['iconclass'] = 'mdi mdi-camcorder-off fa-fw';
-
-                            if(item['nType'] == 'H5_CLOUD')
-                                newItem['iconclass'] = 'mdi mdi-cloud-upload fa-fw';
                             
                             if(item['bRec'] == true)
                                 newItem['iconclass2'] = 'iconfont icon-radioboxfill none';
@@ -461,9 +457,6 @@ export default {
                         if(!item['bOnline'])
                             newItem['iconclass'] = 'mdi mdi-camcorder-off fa-fw';
 
-                        if(item['nType'] == 'H5_CLOUD')
-                            newItem['iconclass'] = 'mdi mdi-cloud-upload fa-fw';
-
                         if(item['bRec'] == true)
                                 newItem['iconclass2'] = 'iconfont icon-radioboxfill none';
 
@@ -561,9 +554,6 @@ export default {
                         if(!item['bOnline'])
                             newItem['iconclass'] = 'mdi mdi-camcorder-off fa-fw';
 
-                        if(item['nType'] == 'H5_CLOUD')
-                            newItem['iconclass'] = 'mdi mdi-cloud-upload fa-fw';
-
                         if(item['bRec'] == true)
                                 newItem['iconclass2'] = 'iconfont icon-radioboxfill none';
 
@@ -653,14 +643,14 @@ export default {
                                 children:node,
                                 disabled_me:false};
 
-                        if(!item['bOnline'])
-                            newItem['iconclass'] = 'mdi mdi-camcorder-off fa-fw';
-
                         if(item['nType'] == 'H5_CLOUD')
-                            newItem['iconclass'] = 'mdi mdi-cloud-upload fa-fw';
+                            newItem['iconclass'] = 'mdi mdi-camcorder fa-fw';
 
                         if(item['bRec'] == true)
                                 newItem['iconclass2'] = 'iconfont icon-radioboxfill none';
+
+                        if(!item['bOnline'])
+                            newItem['iconclass'] = 'mdi mdi-camcorder-off fa-fw';
 
                        srcGroup.children.push(newItem);
                     }

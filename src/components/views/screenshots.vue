@@ -318,11 +318,6 @@ export default {
                             if(!item['bOnline'])
                                 newItem['iconclass'] = 'mdi mdi-camcorder-off fa-fw';
 
-                            if(item['nType'] == 'H5_CLOUD')
-                                newItem['iconclass'] = 'mdi mdi-cloud-upload fa-fw';
-                            
-                        
-
                         srcGroup.children.push(newItem);
                         }
                     }
@@ -363,9 +358,6 @@ export default {
                               topGroup.children.push(topitem);
                               if(!item['bOnline'])
                                 topitem['iconclass'] = 'mdi mdi-camcorder-off fa-fw';
-
-                              if(item['nType'] == 'H5_CLOUD')
-                                topitem['iconclass'] = 'mdi mdi-cloud-upload fa-fw';
 
 
                             if(item['bDisable'] == true){
@@ -472,9 +464,6 @@ export default {
                         if(!item['bOnline'])
                             newItem['iconclass'] = 'mdi mdi-camcorder-off fa-fw';
 
-                        if(item['nType'] == 'H5_CLOUD')
-                            newItem['iconclass'] = 'mdi mdi-cloud-upload fa-fw';
-
                        srcGroup.children.push(newItem);
                     }
                     this.data.push(srcGroup);
@@ -544,11 +533,14 @@ export default {
                                 label : item['strName'],
                                 iconclass : 'mdi mdi-camcorder fa-fw',};
 
+                        if(item['nType'] == 'H5_CLOUD')
+                            newItem['iconclass'] = 'mdi mdi-camcorder fa-fw';
+
+                        if(item['bRec'] == true)
+                                newItem['iconclass2'] = 'iconfont icon-radioboxfill none';
+
                         if(!item['bOnline'])
                             newItem['iconclass'] = 'mdi mdi-camcorder-off fa-fw';
-
-                        if(item['nType'] == 'H5_CLOUD')
-                            newItem['iconclass'] = 'mdi mdi-cloud-upload fa-fw';
 
                        srcGroup.children.push(newItem);
                     }

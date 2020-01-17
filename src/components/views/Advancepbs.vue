@@ -208,49 +208,6 @@ export default {
 		this.$root.bus.$emit('liveplayproto', "RTC");
 	},
 	methods:{
-		
-		//删除并填充东西
-		hidt(Gtoken){
-			//return false
-			var timevalues=this.xzvalue;
-			var years = timevalues.getFullYear();
-			var months = timevalues.getMonth() + 1;
-			console.log(years,months)
-			let _this =this;
-			var root = process.env.API_ROOT;
-			var wsroot = process.env.WS_HOST_ROOT;
-			if (root == undefined){
-				root = window.location.protocol + '//' + window.location.host + window.location.pathname;
-			}
-			if (wsroot == undefined)
-			{
-				wsroot = window.location.host;
-			}
-			var url1 = root + "/api/v1/SearchDeviceRecordCalendar?token="+Gtoken+"&year="+years+"&month="+months+"&session="+ this.$store.state.token;
-			console.log(url1);
-			// console.log(Gtoken);
-			//return false;
-			this.$http.get(url1).then(result=>{
-				if(result.status == 200){
-					var data=result.data;
-					for(var i=1;i<data.record.length;i++){
-						var item=data.record[i].bHasRec;
-						//console.log(item);
-						var day = "";
-						if(item===true){
-							day=data.record[i].nDay
-						}
-						//console.log(day)
-						var timeitem1={
-								date: years+"/"+months+"/"+day,
-								title: i+'day',
-							};
-						//console.log(timeitem1);
-						this.demoEvents.push(timeitem1);
-					}
-				}
-			})
-		},
 		//有用啦
 		PlaybackCB(event, userdata)
 		{
@@ -319,6 +276,8 @@ export default {
 						var year = timevalue.getFullYear();
 						var month = timevalue.getMonth() + 1;
 						var strDate = timevalue.getDate();
+						var strDate1 = timevalue.getDate()+1;
+						var strDate2 = timevalue.getDate()-1;
 						var getHours = timevalue.getHours();
 						var getMinutes = timevalue.getMinutes();
 						var getSeconds = timevalue.getSeconds();
@@ -326,17 +285,21 @@ export default {
 						var timevalues=year+"-"+month+"-"+strDate+"T"+""+getHours+":"+getMinutes+":"+getSeconds+""+"+0"+localOffset+":00";
 						
 						var timevaluee=year+"-"+month+"-"+strDate+"T"+"23:59:59"+"+0"+localOffset+":00";
-						
-						console.log("======",strDate);
-						console.log("timevaluee222222",timevalues,timevaluee,"------",localOffset,"**",timevalue);
 
-						var url = root + "api/v1/SearchDeviceRecordByTime?token="+_this.Gtoken+"&start="+encodeURIComponent(timevalues)+"&end="+encodeURIComponent(timevaluee)+"&session="+ _this.$store.state.token;
-						console.log(url);
+						var timevalues1=year+"-"+month+"-"+strDate2+"T"+""+getHours+":"+getMinutes+":"+getSeconds+""+"+0"+localOffset+":00";
+						
+						var timevaluee1=year+"-"+month+"-"+strDate1+"T"+"23:59:59"+"+0"+localOffset+":00";
+						
+						// console.log("======",strDate1);
+						// console.log("timevaluee222222",timevalues,timevaluee,"------",localOffset,"**",timevalue);
+
+						var url = root + "api/v1/SearchDeviceRecordByTime?token="+_this.Gtoken+"&start="+encodeURIComponent(timevalues1)+"&end="+encodeURIComponent(timevaluee1)+"&session="+ _this.$store.state.token;
+						// console.log(url);
 						//  return false;
 						_this.$http.get(url).then(result=>{
 							if(result.status == 200){
 								var data=result.data;
-								//var timedata=[];
+								var timedata1=[];
 								//console.log("length",data.record.length);
 								for(var i=0;i<data.record.length;i++){
 									var item=data.record[i];
@@ -358,12 +321,15 @@ export default {
 										timeitem["style"].background="rgba(238,17,17, 0.498039)"
 										//console.log("录像段时间段颜色2",timeitem["style"].background);
 									}
-									_this.timedata.push(timeitem);
+									// _this.timedata.push(timeitem);
+									timedata1.push(timeitem);
+									// console.log(timedata1)
+									
+									$("#timeline").TimeSlider('init',timevalue,timedata1);
 									
 								}
 							}
 						})
-						//不葫芦不花票
 						var pbconf1 = {
 							begintime: timevalues,
 							endtime: timevaluee,
@@ -414,7 +380,6 @@ export default {
 			}
 			// var Gtoken=data.token
 			this.Gtoken=token;
-			// this.hidt(Gtoken);
 			
 			//时间
 			var timevalue=this.xzvalue;
@@ -447,7 +412,7 @@ export default {
 			this.$http.get(url).then(result=>{
 				if(result.status == 200){
 					var data=result.data;
-					//var timedata=[];
+					var timedata1=[];
 					//console.log("length",data.record.length);
 					for(var i=0;i<data.record.length;i++){
 						var item=data.record[i];
@@ -469,13 +434,16 @@ export default {
 							timeitem["style"].background="rgba(238,17,17, 0.498039)"
 							//console.log("录像段时间段颜色2",timeitem["style"].background);
 						}
-						this.timedata.push(timeitem);
+						// this.timedata.push(timeitem);
+						// timedata1=[];
+						timedata1.push(timeitem);
+						// console.log(timedata1)
 						
+						$("#timeline").TimeSlider('init',timevalue,timedata1);
 					}
 				}
 			})
-			
-			//不葫芦不花票
+			// return false;
 			var pbconf1 = {
 				begintime: timevalues,
 				endtime: timevaluee,
@@ -506,22 +474,26 @@ export default {
 		resume(){
 			var strart=this.icon;
 			console.log(strart);
-			//iconfont icon-zantingtingzhi  iconfont icon-bofang
-			if(strart=="iconfont icon-zantingtingzhi"){
-				this.icon="iconfont icon-bofang";
-				console.log(this.icon);
-				this.v1.pause();
-			}
-			if(strart=="iconfont icon-bofang"){
-				this.icon="iconfont icon-zantingtingzhi";
-				console.log(this.icon);
-				this.v1.resume();
+			if(this.v1 != undefined){
+				//iconfont icon-zantingtingzhi  iconfont icon-bofang
+				if(strart=="iconfont icon-zantingtingzhi"){
+					this.icon="iconfont icon-bofang";
+					console.log(this.icon);
+					this.v1.pause();
+				}
+				if(strart=="iconfont icon-bofang"){
+					this.icon="iconfont icon-zantingtingzhi";
+					console.log(this.icon);
+					this.v1.resume();
+				}
 			}
 		},
 		//倍速
 		Speed(){
-			console.log(this.region);
-			this.v1.speed(this.region);
+			if(this.v1 != undefined){
+				console.log(this.region);
+				this.v1.speed(this.region);
+			}
 		},
 
 		//timeline
@@ -602,9 +574,6 @@ export default {
 							};
 							if(!item['bOnline'])
 								topitem['iconclass'] = 'mdi mdi-camcorder-off fa-fw';
-
-							if(item['nType'] == 'H5_CLOUD')
-								topitem['iconclass'] = 'mdi mdi-cloud-upload fa-fw';
 
 							if(item['bDisable'] == true){
 								// newItem['disabled_me'] =true;
@@ -696,10 +665,6 @@ export default {
 
 							if(!item['bOnline'])
 								newItem['iconclass'] = 'mdi mdi-camcorder-off fa-fw';
-
-							if(item['nType'] == 'H5_CLOUD')
-								newItem['iconclass'] = 'mdi mdi-cloud-upload fa-fw';
-							
 						
 
 						srcGroup.children.push(newItem);
@@ -785,9 +750,6 @@ export default {
 						if(!item['bOnline'])
 							newItem['iconclass'] = 'mdi mdi-camcorder-off fa-fw';
 
-						if(item['nType'] == 'H5_CLOUD')
-							newItem['iconclass'] = 'mdi mdi-cloud-upload fa-fw';
-
 					srcGroup.children.push(newItem);
 					}
 					this.data.push(srcGroup);
@@ -872,11 +834,14 @@ export default {
 								label : item['strName'],
 								iconclass : 'mdi mdi-camcorder fa-fw',};
 
-						if(!item['bOnline'])
-							newItem['iconclass'] = 'mdi mdi-camcorder-off fa-fw';
-
 						if(item['nType'] == 'H5_CLOUD')
-							newItem['iconclass'] = 'mdi mdi-cloud-upload fa-fw';
+                            newItem['iconclass'] = 'mdi mdi-camcorder fa-fw';
+
+                        if(item['bRec'] == true)
+                                newItem['iconclass2'] = 'iconfont icon-radioboxfill none';
+
+                        if(!item['bOnline'])
+                            newItem['iconclass'] = 'mdi mdi-camcorder-off fa-fw';
 
 					srcGroup.children.push(newItem);
 					}
