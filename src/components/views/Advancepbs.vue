@@ -632,7 +632,7 @@ export default {
 				wsroot = window.location.host;
 			}
 			//url
-			var url = root + "/api/v1/GetSrcWithoutDevice?session="+ this.$store.state.token;
+			var url = root + "/api/v1//GetSrcCamera?session="+ this.$store.state.token;
 			//console.log(url);
 			this.$http.get(url).then(result=>{
 				if(result.status == 200){
