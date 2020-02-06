@@ -190,11 +190,11 @@ TimeSlider.prototype.mousemoveFunc = function(e){
         _this.g_isMousemove = true;
         _this.g_mousedownCursor = pos_x;
     }else{
-        var time = (_this.start_timestamp-390) + pos_x/px_per_ms-22430000;
+        var time = _this.start_timestamp + pos_x/px_per_ms;
         _this.init(_this.start_timestamp,_this.timecell,true);
-        _this.drawLine(pos_x-390,0,pos_x-390,53,"rgb(194, 202, 215)",1);
+        _this.drawLine(pos_x,0,pos_x,53,"rgb(194, 202, 215)",1);
         _this.ctx.fillStyle = "rgb(194, 202, 215)";
-        _this.ctx.fillText(_this.changeTime(time),pos_x-460,75);//黑色竖线的位置和时间位置
+        _this.ctx.fillText(_this.changeTime(time),pos_x-100,75);//黑色竖线的位置和时间位置
     }
 }
 
@@ -211,7 +211,7 @@ TimeSlider.prototype.mouseupFunc = function(e){
         _this.g_isMousedown = false;
         var posx = _this.get_cursor_x_position(e); //鼠标距离 px
         var ms_per_px = (_this.zoom * 3600 * 1000) / _this.canvansW; // ms/px
-        _this.returnTime = _this.start_timestamp + (posx-390) * ms_per_px;
+        _this.returnTime = _this.start_timestamp + posx * ms_per_px;
         _this.set_time_to_middle(_this.returnTime);
     }
 }

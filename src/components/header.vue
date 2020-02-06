@@ -58,7 +58,7 @@
             <li>
               <a href="javascript:void(0);">
                 <router-link tag="li" :to="{name:'usersettingsRouter'}">
-                  <a href="#" class="waves-effect"><div class="tu_biao iconfont icon-icon-test"></div><span class="hide-menu"> {{$t("message.left.setting")}}  </span></a>
+                  <a href="#" class="waves-effect"><div class="rou_img"></div><span class="hide-menu"> {{$t("message.left.setting")}}  </span></a>
                 </router-link>
               </a>
             </li>
@@ -66,7 +66,7 @@
             <li>
               <a href="#/app/logout">
                 <router-link tag="li" :to="{name:'logoutRouter'}">
-                  <a  class="waves-effect" ><div class="tu_biao iconfont icon-shijian-"></div><span class="hide-menu"> {{$t("message.left.logout")}}</span></a>
+                  <a  class="waves-effect" ><div class="rou_img1"></div><span class="hide-menu"> {{$t("message.left.logout")}}</span></a>
                 </router-link> 
               </a>
             </li>
@@ -81,13 +81,13 @@
           <ul class="dropdown-menu dropdown-user animated flipInY">
             <li>
               <a href="javascript:void(0);">
-                  <a href="doc/api.html" class="waves-effect"><span style="margin-right: 10px;" class="tu_biao iconfont icon-icon-test"></span>API</a>
+                  <a href="doc/api.html" class="waves-effect"><span style="margin-right: 10px;" class="iconfont icon-prompt"></span>{{$t("message.header.API")}}</a>
               </a>
             </li>
             <li role="separator" class="divider"></li>
             <li>
                 <span type="text" class="hide-menu" @click="centerDialogVisible = true">
-                    <span style="margin-right: 10px;" class="tu_biao iconfont icon-icon-test1"></span>
+                    <span style="margin-right: 10px;" class="iconfont icon-API"></span>
                     <span class="admin_zi">
                         {{$t("message.dashboard.about")}}
                     </span>
@@ -202,9 +202,6 @@ export default {
 };
 </script>
 <style scoped>
-.tu_biao{
-  font-size: 19px!important;
-}
 a{
   color: #000;
   width: 100%;
@@ -276,7 +273,19 @@ a{
   /* justify-content: center; */
   /* align-items:center; */
 }
-
+.rou_img{
+  background: url("./gallery/shezhi-3@2x.png") no-repeat;
+  background-size: 100%;
+  background-position:center center; 
+  width: 14px;
+  height: 14px;
+}
+.rou_img1{
+  background: url("./gallery/tuichu@2x.png") no-repeat;
+  background-size: 100%;
+  width: 14px;
+  height: 14px;
+}
 
 .navbar-header {
   width: 100%;

@@ -160,7 +160,7 @@ import uuid from '@/store/uuid'
                 console.log(result);
                 if(result.status==200){
                     this.$message({
-                        message: this.$t('message.camera.Editorial_success'),
+                        message: this.$t('message.GB.Refreshsuccess'),
                         type: 'success'
                     });
                 }
@@ -178,7 +178,7 @@ import uuid from '@/store/uuid'
                 console.log(result);
                 if(result.status==200){
                     this.$message({
-                        message: this.$t('message.camera.Editorial_success'),
+                        message: this.$t('message.GB.Restartsuccessfully'),
                         type: 'success'
                     });
                 }

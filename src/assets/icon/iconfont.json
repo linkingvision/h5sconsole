@@ -6,11 +6,25 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "30104",
+      "name": "设置",
+      "font_class": "shezhi",
+      "unicode": "e67b",
+      "unicode_decimal": 59003
+    },
+    {
       "icon_id": "1045362",
       "name": "筛选",
       "font_class": "filter",
       "unicode": "e631",
       "unicode_decimal": 58929
+    },
+    {
+      "icon_id": "1802602",
+      "name": "API",
+      "font_class": "API",
+      "unicode": "e67c",
+      "unicode_decimal": 59004
     },
     {
       "icon_id": "2741962",
@@ -104,20 +118,6 @@
       "unicode_decimal": 58887
     },
     {
-      "icon_id": "8776873",
-      "name": "setting",
-      "font_class": "icon-test",
-      "unicode": "e63f",
-      "unicode_decimal": 58943
-    },
-    {
-      "icon_id": "8777414",
-      "name": "info",
-      "font_class": "icon-test1",
-      "unicode": "e654",
-      "unicode_decimal": 58964
-    },
-    {
       "icon_id": "8882338",
       "name": "暂停 停止",
       "font_class": "zantingtingzhi",
@@ -144,13 +144,6 @@
       "font_class": "arrow-bottom",
       "unicode": "e609",
       "unicode_decimal": 58889
-    },
-    {
-      "icon_id": "10225247",
-      "name": "电源",
-      "font_class": "shijian-",
-      "unicode": "e625",
-      "unicode_decimal": 58917
     },
     {
       "icon_id": "11310397",
@@ -214,6 +207,13 @@
       "font_class": "download",
       "unicode": "e74d",
       "unicode_decimal": 59213
+    },
+    {
+      "icon_id": "11488103",
+      "name": "prompt",
+      "font_class": "prompt",
+      "unicode": "e75f",
+      "unicode_decimal": 59231
     },
     {
       "icon_id": "11488106",

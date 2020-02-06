@@ -136,10 +136,6 @@ module.exports={
 		all:"全部",
 		Editorfailure:"编辑失败",
 	},
-	playback:{
-		H5SPlayback:"H5S回放",
-		NVRPlayback:"NVR回放",
-	},
 	GB:{
 		name: '名字',
 		GB28181:"国标",
@@ -156,7 +152,10 @@ module.exports={
 		RegisterPeriod:"注册有效期",
 		KeepaliveTime:"心跳周期",
 		Domain:"服务器域",
-		
+		Refreshsuccess:"刷新成功",
+		Restartsuccessfully:"重启成功",
+
+
 		DeleteAll:"删除",
 		Detail:"查看",
 		Cancel:"取消",
