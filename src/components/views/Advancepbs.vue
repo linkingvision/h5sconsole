@@ -169,7 +169,7 @@ export default {
             Adswitch:false,//开关
             filterText:"",
 			proto: 'WS',
-			data:[],
+			data:this.listdatag.listdatag,
 			defaultProps: {
 				children: 'children',
 				label: 'label',
@@ -187,11 +187,11 @@ export default {
 	},
 	mounted() {
 		this.updateUI();
-        this.loadDevice();
-        this.loadtest();
-        this.NumberDevice();
+        // this.loadDevice();
+        // this.loadtest();
+        // this.NumberDevice();
+		// this.cloudDevice();
 		this.funtimeine();
-		this.cloudDevice();
 		//this.timetz();
 		this.$root.bus.$emit('liveplayproto', "RTC");
 	},
@@ -484,8 +484,6 @@ export default {
 
 			return false;
 		},
-		
-		
 		//开始
         resume(){
             var strart=this.icon;
@@ -505,8 +503,6 @@ export default {
             console.log( this.vv);
             this.v1.speed(this.region);
         },
-
-		
 
 		//timeline
 		funtimeine(){
@@ -556,9 +552,7 @@ export default {
 		    });
 		},
 
-
 		//load src
-
 		loadOneDevice(toplevels, topData)
 		{
 			let _this =this;

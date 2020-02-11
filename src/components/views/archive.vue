@@ -207,7 +207,7 @@ export default {
             pageSize: 10,//一页数量
             search: '',
             filterText: '',
-            data: [],
+            data:this.listdatag.listdatagload,
             defaultProps: {
                 children: 'children',
                 label: 'label',
@@ -215,7 +215,7 @@ export default {
                 iconclass:"iconclass"
             },
             tableData1: [],
-             pickerOptions: {
+            pickerOptions: {
                 shortcuts: [{
                     text: this.$t("message.archive.Onehour"),
                     onClick(picker) {
@@ -264,9 +264,9 @@ export default {
         }
     },
     mounted(){
-        this.loadDevice();
-        this.cloudDevice();
-        this.NumberDevice();
+        // this.loadDevice();
+        // this.cloudDevice();
+        // this.NumberDevice();
     },
     methods:{
         PlaybackCB(event, userdata)

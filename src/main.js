@@ -57,8 +57,14 @@ Vue.use(VeeValidate, config)
 Vue.use(iView)
 
 import event from '@/components/views/js/event'
+// import data from '@/components/views/js/dev'
+// Vue.prototype.EVENT = data
+// console.log("......",data);
+import listdatag from '@/components/views/js/dev'
+Vue.prototype.listdatag = listdatag
 Vue.prototype.EVENT = event
 Vue.prototype.$http = axios
+
 Vue.prototype.$http.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded'
 const bus = new Vue()
 Vue.config.productionTip = false

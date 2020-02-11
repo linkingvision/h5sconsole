@@ -146,7 +146,7 @@ export default {
             pageSize: 10,//一页数量
             search: '',
             filterText: '',
-            data: [],
+            data: this.listdatag.listdatag,
             defaultProps: {
                 children: 'children',
                 label: 'label',
@@ -194,10 +194,10 @@ export default {
         }
     },
     mounted(){
-        this.loadDevice();
-        this.loadtest();
-        this.NumberDevice();
-        this.cloudDevice();
+        // this.loadDevice();
+        // this.loadtest();
+        // this.NumberDevice();
+        // this.cloudDevice();
     },
     methods:{
         //播放

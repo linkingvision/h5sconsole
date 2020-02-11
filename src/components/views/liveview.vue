@@ -130,6 +130,7 @@ import '../../assets/adapter.js'
 import '../../assets/h5splayer.js'
 
 import {H5siOS,H5sPlayerCreate} from '../../assets/h5splayerhelper.js'
+
 import qs from 'qs'
 import Vue from 'vue'
 import 'patternfly-bootstrap-treeview/dist/bootstrap-treeview.min.css'
@@ -153,7 +154,7 @@ export default {
                 proto: this.$store.state.rtc,
                 contentHeight: '',
                 contentWidth: '',
-                data:[],
+                data:this.listdatag.listdatag,
                 defaultProps: {
                     children: 'children',
                     label: 'label',
@@ -174,12 +175,13 @@ export default {
         }
     },
     mounted() {
+        console.log("....................",this.listdatag.listdatag);
         this.updateUI();
-        this.loadDevice();
-        this.loadtest();
-        this.NumberDevice();
+        // this.loadDevice();
+        // this.loadtest();
+        // this.NumberDevice();
+        // this.cloudDevice();
         this.addWaterMarker();
-        this.cloudDevice();
         // this.height_zsy();
         // 水印
         document.getElementById("watermarktoggle").style.display=this.watermarktoggle;
@@ -190,7 +192,7 @@ export default {
         //水印
         waterprintoff(){
             this.$store.commit(types.WATERMARKSTRING, this.watermarkstring);
-            console.log("++++++++++",this.$store.state.watermarkstring);
+            // console.log("++++++++++",this.$store.state.watermarkstring);
 
             this.watermarktoggle = "block";
             var watermarktoggle=this.watermarktoggle;
@@ -201,7 +203,7 @@ export default {
             document.getElementById("watermarktoggle").style.display=this.watermarktoggle;
         }, 
         waterprintno(){
-            console.log(this.watermarktoggle);
+            // console.log(this.watermarktoggle);
 
             this.watermarktoggle = "none";
             var watermarktoggle=this.watermarktoggle;
@@ -234,7 +236,7 @@ export default {
         },
         //树形节点点击
         handleNodeClick(data, checked, indeterminate){
-            console.log(data.disabled_me)
+            // console.log(data.disabled_me)
             // console.log(data.label);
             // console.log(data.streamprofile);
             let _this =this;
@@ -314,7 +316,7 @@ export default {
 		    }
 		    //url
             var url = root + "/api/v1//GetSrcCamera?session="+ this.$store.state.token;
-            console.log(url);
+            // console.log(url);
             this.$http.get(url).then(result=>{
                 if(result.status == 200){
 					var data =  result.data;
@@ -362,7 +364,7 @@ export default {
                                 
                             
                             
-                        console.log("itme",newItem,item)
+                        // console.log("itme",newItem,item)
 
                         srcGroup.children.push(newItem);
                         }

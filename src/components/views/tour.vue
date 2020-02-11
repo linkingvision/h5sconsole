@@ -135,7 +135,7 @@ export default {
                 proto:"WS",
                 contentHeight: '',
                 contentWidth: '',
-                data:[],
+                data:this.listdatag.listdatag,
                 defaultProps: {
                     children: 'children',
                     label: 'label',
@@ -162,10 +162,10 @@ export default {
     mounted() {
         
         this.updateUI();
-        this.loadDevice();
-        this.loadtest();
-        this.NumberDevice();
-        this.cloudDevice();
+        // this.loadDevice();
+        // this.loadtest();
+        // this.NumberDevice();
+        // this.cloudDevice();
         this.$root.bus.$emit('liveplayproto',this.proto);
     },
     methods: {
