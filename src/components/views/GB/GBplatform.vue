@@ -54,7 +54,7 @@
 
 
         <!-- 两个表格 -->
-        <el-tabs v-model="activeName" style="width: 100%;padding: 0 50px;background: #fff;" max-height="850">
+        <el-tabs v-model="activeName" type="border-card" max-height="850">
             <!-- 1 -->
             <el-tab-pane :label="label.label1" name="GBPlatform">
                 <!-- 添加 -->

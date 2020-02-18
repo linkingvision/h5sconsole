@@ -18,9 +18,10 @@ const i18n = new VueI18n({
 
 console.log(i18n.tc('message.live.camera')) // 你好世界
 //测试机仓
-var listdatag=[];
-var listdatagload=[];
+var regionaldata=[];
+var regionaldataload=[];
 function loadtest(){
+    let _this =this;
     var root = process.env.API_ROOT;
     var wsroot = process.env.WS_HOST_ROOT;
     if (root == undefined){
@@ -45,29 +46,12 @@ function loadtest(){
                 if(item['nOriginalType'] == 'H5_CH_GB'){
                     continue;
                 }else{
-                    // 主副流
-                    var node=[{
-                    token : item['strToken'],
-                    streamprofile : "main",
-                    label :i18n.tc('message.live.mainstream'),
-                    name:item['strName']+"--"+i18n.tc('message.live.mainstream'),
-                    iconclass : 'mdi mdi-playlist-play fa-fw',
-                    disabled_me:false
-                    },{
-                    token : item['strToken'],
-                    streamprofile : "sub",
-                    label :i18n.tc('message.live.substream'),
-                    name:item['strName']+"--"+i18n.tc('message.live.substream'),
-                    iconclass : 'mdi mdi-playlist-play fa-fw',
-                    disabled_me:false
-                    }]
                     var newItem ={
                             token : item['strToken'],
                             label : item['strName'],
                             iconclass : 'mdi mdi-camcorder fa-fw',
                             iconclass2 : 'mdi mdi-camcorder fa-fw',
                             name:item['strName']+"--"+i18n.tc('message.live.mainstream'),
-                            children:node,
                             disabled_me:false};
                     
                     if(!item['bOnline'])
@@ -86,7 +70,7 @@ function loadtest(){
                 srcGroup.children.push(newItem);
                 }
             }
-            listdatag.push(srcGroup);
+            regionaldata.push(srcGroup);
           } 
     })
 
@@ -146,36 +130,12 @@ function loadSrc(srclevel, srcData) {
             srcGroup.iconclass="mdi mdi-view-sequential fa-fw";
             for(var i=0; i< data.src.length; i++){
                 var item = data.src[i];
-                // 主副流
-                var node=[{
-                  token : item['strToken'],
-                  streamprofile : "main",
-                  label :i18n.tc('message.live.mainstream'),
-                  name:item['strName']+"--"+i18n.tc('message.live.mainstream'),
-                  iconclass : 'mdi mdi-playlist-play fa-fw',
-                  disabled_me:false
-                },{
-                  token : item['strToken'],
-                  streamprofile : "sub",
-                  label :i18n.tc('message.live.substream'),
-                  name:item['strName']+"--"+i18n.tc('message.live.substream'),
-                  iconclass : 'mdi mdi-playlist-play fa-fw',
-                  disabled_me:false
-                }]
-                for(var l=0; l< node.length; l++){
-                    console.log("1111111111111111111",node[l].disabled_me)
-                    if(item['bDisable'] == true){
-                        node[l].disabled_me =true;
-                    }
-                }
-                
                 var newItem ={
                         token : item['strToken'],
                         label : item['strName'],
                         iconclass : 'mdi mdi-camcorder fa-fw',
                         iconclass1 : '',
                         name:item['strName']+"--"+i18n.tc('message.live.mainstream'),
-                        children:node,
                         disabled_me:false};
 
                 if(!item['bOnline'])
@@ -194,8 +154,8 @@ function loadSrc(srclevel, srcData) {
 
                srcGroup.children.push(newItem);
             }
-            listdatag.push(srcGroup);
-            listdatagload.push(srcGroup);
+            regionaldata.push(srcGroup);
+            regionaldataload.push(srcGroup);
         }
     }).catch(error => {
         console.log('GetSrc failed', error);
@@ -257,28 +217,11 @@ function NumberSrc(srclevel, srcData) {
             srcGroup.iconclass="mdi mdi-view-sequential fa-fw";
             for(var i=0; i< data.src.length; i++){
                 var item = data.src[i];
-                // 主副流
-                var node=[{
-                  token : item['strToken'],
-                  streamprofile : "main",
-                  label :i18n.tc('message.live.mainstream'),
-                  name:item['strName']+"--"+i18n.tc('message.live.mainstream'),
-                  iconclass : 'mdi mdi-playlist-play fa-fw',
-                  disabled_me:false
-                },{
-                  token : item['strToken'],
-                  streamprofile : "sub",
-                  label :i18n.tc('message.live.substream'),
-                  name:item['strName']+"--"+i18n.tc('message.live.substream'),
-                  iconclass : 'mdi mdi-playlist-play fa-fw',
-                  disabled_me:false
-                }]
                 var newItem ={
                         token : item['strToken'],
                         label : item['strName'],
                         iconclass : 'mdi mdi-camcorder fa-fw',
                         name:item['strName']+"--"+i18n.tc('message.live.mainstream'),
-                        children:node,
                         disabled_me:false};
 
                 if(!item['bOnline'])
@@ -292,8 +235,8 @@ function NumberSrc(srclevel, srcData) {
 
                srcGroup.children.push(newItem);
             }
-            listdatag.push(srcGroup);
-            listdatagload.push(srcGroup);
+            regionaldata.push(srcGroup);
+            regionaldataload.push(srcGroup);
         }
     }).catch(error => {
         console.log('GetSrc failed', error);
@@ -355,27 +298,11 @@ function cloudSrc(srclevel, srcData) {
             for(var i=0; i< data.src.length; i++){
                 var item = data.src[i];
                 // 主副流
-                var node=[{
-                  token : item['strToken'],
-                  streamprofile : "main",
-                  label :i18n.tc('message.live.mainstream'),
-                  name:item['strName']+"--"+i18n.tc('message.live.mainstream'),
-                  iconclass : 'mdi mdi-playlist-play fa-fw',
-                  disabled_me:false
-                },{
-                  token : item['strToken'],
-                  streamprofile : "sub",
-                  label :i18n.tc('message.live.substream'),
-                  name:item['strName']+"--"+i18n.tc('message.live.substream'),
-                  iconclass : 'mdi mdi-playlist-play fa-fw',
-                  disabled_me:false
-                }]
                 var newItem ={
                         token : item['strToken'],
                         label : item['strName'],
                         iconclass : 'cascade',
                         name:item['strName']+"--"+i18n.tc('message.live.mainstream'),
-                        children:node,
                         disabled_me:false};
 
                 if(!item['bOnline'])
@@ -389,12 +316,12 @@ function cloudSrc(srclevel, srcData) {
 
                srcGroup.children.push(newItem);
             }
-            listdatag.push(srcGroup);
-            listdatagload.push(srcGroup);
+            regionaldata.push(srcGroup);
+            regionaldataload.push(srcGroup);
         }
     }).catch(error => {
         console.log('GetSrc failed', error);
     });
 }
-// console.log("....................",listdatag);
-export default{listdatag,listdatagload}
+// console.log("....................",regionaldata);
+export default{regionaldata,regionaldataload}

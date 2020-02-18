@@ -12,9 +12,6 @@
         <el-row :gutter="20">
             <el-col :span="4" style="padding-right:0px">
                 <div class="grid-content bg-purple">
-                    <!-- <div>
-                        <el-button type="info">设置</el-button>
-                    </div> -->
                     <div :class="{setting_tj:index_lj==1}"  @click="setting_ys" class="setting_left">
                         <router-link  :to="{name:'devicesRouter'}">
                             <a href="javascript:void(0)" class="setting_left_a" :class="{setting_tj1:index_lj==1}">{{$t("message.setting.device")}} </a> 
@@ -40,17 +37,19 @@
                             <a href="javascript:void(0)" class="setting_left_a" :class="{setting_tj1:index_lj==5}">{{$t("message.setting.record")}} </a> 
                         </router-link>
                     </div>
+                    <div :class="{setting_tj:index_lj==6}"  @click="setting_ys5" class="setting_left">
+                        <router-link  :to="{name:'RegionalRouter'}">
+                            <a href="javascript:void(0)" class="setting_left_a" :class="{setting_tj1:index_lj==6}">{{$t("message.setting.Regional")}} </a> 
+                        </router-link>
+                    </div>
                 </div>
             </el-col>
-            <el-col :span="20">
-                
+            <el-col style="padding:0px;" :span="20">
                 <div class="grid-content bg-purple">
-                    
                     <router-view></router-view>
                 </div>
             </el-col>
         </el-row>
-
     </div>
 
 </div>
@@ -95,6 +94,10 @@ export default {
              this.index_lj=5;
              this.language=this.$t("message.setting.record");
         },
+        setting_ys5(){
+             this.index_lj=6;
+             this.language="区域管理";
+        },
      
     }
 }
@@ -115,15 +118,17 @@ export default {
 }
 /*布局 */
 .setting_left{
-    text-align: right;
+    margin-bottom: 5px;
     padding: 10px 0;
-    border-right: 2px solid #eee;
+    padding-left: 29%;
     box-sizing: border-box;
+    font-size: 18px;
 }
 /* 点击变换颜色 */
 .setting_tj{
-    border-right: 2px solid rgba(95,191,167,1);
+    border-left: 3px solid rgba(95,191,167,1);
     box-sizing: border-box;
+    background-color: #FAFAFA;
 }
 .setting_tj1{
     color:rgba(95,191,167,1) !important;
@@ -142,7 +147,8 @@ export default {
 /* 布局 */
  .el-row {
     margin-bottom: 20px;
-    height: 800px; background-color: #ffffff;
+    height: 800px;
+    /* background-color: #ffffff; */
     overflow-y: auto;
   }
   .el-col {
@@ -150,6 +156,7 @@ export default {
     height: 800px;
     overflow-y: auto;
     background-color: #ffffff;
+  border-left: 5px solid #F8F6F9;
   }
   .bg-purple-dark {
     background: #ffffff;
@@ -165,7 +172,7 @@ export default {
     min-height: 36px;
   }
   .row-bg {
-    /* padding: 10px 0; */
+    padding: 10px 0;
     background-color: #ffffff;
   }
 </style>

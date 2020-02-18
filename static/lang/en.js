@@ -113,6 +113,11 @@ module.exports={
 		record: 'Record',
 		devicesdk: 'Device SDK',
 		devicertmppush: 'RTMP Push',
+		Regional:"Regional",
+		Area:"Area delete add",
+		Please:"Please enter a name",
+		Input:"Input box cannot be empty",
+		
 		user: 'User',
 		role: 'Role',
 		action: 'Action',

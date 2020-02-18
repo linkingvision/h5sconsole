@@ -24,6 +24,7 @@ import devicesdks from '@/components/views/settings/devicesdks'
 import devicertmppushs from '@/components/views/settings/devicertmppushs'
 import records from '@/components/views/settings/record'
 import usersettings from '@/components/views/settings/usersetting'
+import Regional from '@/components/views/settings/Regional'
 
 import GB from '@/components/views/GB'
 import GB28181 from '@/components/views/GB/GB28181'
@@ -205,6 +206,15 @@ const routes = [
             path: '/app/setting/usersettings',
             name: 'usersettingsRouter',
             component: usersettings,
+            meta: {
+              requireAuth: true
+            }
+          },,
+          //6
+          {
+            path: '/app/setting/Regional',
+            name: 'RegionalRouter',
+            component: Regional,
             meta: {
               requireAuth: true
             }

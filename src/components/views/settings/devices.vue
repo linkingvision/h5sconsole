@@ -86,7 +86,7 @@
                     </div>
                 </el-dialog>
         <!-- 两个表格 -->
-        <el-tabs v-model="activeName" style="width: 100%;padding: 0 50px;" max-height="850"  @tab-click="removeTab">
+        <el-tabs type="border-card" v-model="activeName" max-height="850"  @tab-click="removeTab">
             <!-- 1 -->
              <el-tab-pane :label="label.label" name="H5_STREAM">
                <!-- 添加 -->
