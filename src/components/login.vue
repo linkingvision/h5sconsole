@@ -4,17 +4,14 @@
     <div class="cssload-speeding-wheel"></div>
     </div>
     -->
-    <section id="wrapper" class="new-login-register">
+    <section id="wrapper" class="login_con">
         <div class="lg-info-panel">
             <div class="inner-panel">
-                <a href="javascript:void(0)" class="p-20 di"><img src="../assets/img/logo.png"></a>
-                <div class="lg-content">
-                    <h2>H5S CONSOLE</h2>
-                    <p class="text-muted">{{ $t("message.login.high_perf") }}</p>
-                </div>
+                <a href="javascript:void(0)" class="p-20 di"><img src="./gallery/WechatIMG@2x.png"></a>
+                
             </div>
         </div>
-        <div class="new-login-box">
+        <div class="login_box">
             <div class="white-box">
                 <h3 class="box-title m-b-0">{{ $t("message.login.signin") }}</h3>
                 <form class="form-horizontal new-lg-form" id="loginform" novalidate @submit.stop.prevent="login">
@@ -139,6 +136,33 @@ export default {
 
 <style scoped>
 
+.login_con{
+    height: 100%;
+    width: 100%;
+    display: flex;
+}
+.lg-info-panel{
+    width: 60% !important;
+    background: url(../assets/img/layout/login.svg) center center no-repeat #042371!important;
+    /* background-size: 100%; */
+    height: 100%;
+    position: fixed;
+}
+.login_box{
+    width: 40%;
+    height: 100%;
+    position: fixed;
+    right: 0;
+}
+.white-box{
+    padding: 22%;
+    margin-top: 10%;
+    box-shadow: none!important;
+}
+.box-title{
+    font-size: 24px;
+    color: #333333;
+}
 .longStatusFailColor {
     color: #e91313 !important;
 }

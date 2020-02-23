@@ -83,6 +83,7 @@
                         show-checkbox
                         ref="tree">
                             
+                    </el-tree>
                         </el-tree>
                         <!-- <el-transfer v-model="value" :data="data1"></el-transfer> -->
                     </div>
@@ -97,7 +98,21 @@
                     </div>
                     <div class="Root_node">
                         <el-tree :data="data" :props="defaultProps" @node-click="handleNodeClick">
-                            
+                            <span slot-scope="{ node, data }" style="width:100%;">
+                                <span :class="data.iconclass" style="color:rgb(142, 132, 132);"></span>
+                                <!-- <img src="" alt=""> -->
+                                <span :class="data.iconclass1" style="padding-left: 4px;">{{data.strName}}</span>
+                                <div v-if="data.cam.length!=0">
+                                    <el-dropdown trigger="click">
+                                        <span class="el-dropdown-link">
+                                            cam<i class="el-icon-arrow-down el-icon--right"></i>
+                                        </span>
+                                        <el-dropdown-menu slot="dropdown">
+                                            <el-dropdown-item @click.native="camname(site.strToken)" v-for="site in data.cam" :key="site.strName">{{site.strName}}</el-dropdown-item>
+                                        </el-dropdown-menu>
+                                    </el-dropdown>
+                                </div>
+                            </span>
                         </el-tree>
                         <!-- <el-transfer v-model="value" :data="data1"></el-transfer> -->
                     </div>
@@ -135,7 +150,8 @@
                 data1: generateData(),//第二
                 camdata:this.regionaldata.regionaldata,
                 rootvalue:"",//节点名字
-                datatoken:"",
+                delcamtoken:"",//删除的token
+                datatoken:"",//节点token
                 value: [1, 4],
                 defaultProps: {
                     children: 'node',
@@ -148,9 +164,13 @@
             this.Regional();
         },
         methods:{
+            camname(camname){
+                this.delcamtoken=camname;
+                console.log(camname);
+            },
             //点击节点
             handleNodeClick(data) {
-                console.log(data.strToken);
+                // console.log(data.strToken);
                 this.datatoken=data.strToken;
                 this.dataname=data.strName;
             },
@@ -163,19 +183,38 @@
                 var url = root + "/api/v1/GetRegion?session="+ this.$store.state.token;
                 // console.log("////////////",url)
                 this.$http.get(url).then(result=>{
-                    // console.log("0.0.0.0.0.0..0.0",result.data.root);
-                    var dataroot=result.data.root;
-                    var tabledata={
-                        "strName": result.data.root.strName,
-                        "strToken": result.data.root.strToken,
-                        "node": result.data.root.cam,
-                        "node": result.data.root.node,
-                    };
-                    
-                    this.data.push(tabledata);
-                    console.log(this.data,result.data.root.cam)
+                    var oldarr=result.data.root;
+                    var oldarr1=result.data.src;
+                    var dataroot=this.getchild(oldarr,oldarr1);
+                    console.log(dataroot)
+                    this.data.push(dataroot);
                 })
             },
+            getchild(arr,arr1) {
+				// console.log(arr,arr1);
+				
+				for(var i in arr.cam){
+					if(!arr.cam[i].strName){
+						for(var j in arr1){
+							if(arr.cam[i].strToken == arr1[j].strToken){
+								arr.cam[i].strName = arr1[j].strName;
+							}
+						}
+					}
+                }
+                // var nodecam=[{
+                //     strName:"cam",
+                //     node:arr.cam,
+                // },{
+                    
+                // }]
+                if(arr.node && arr.node.length>0){
+					for (var i = 0; i < arr.node.length; i++) {
+                        arr.node[i] = this.getchild(arr.node[i],arr1);
+					}
+				}
+                return arr;
+			},
             //添加
             addto(){
                 if(this.rootvalue==""){
@@ -261,17 +300,18 @@
             },
             //删除
             deleteselectcam(){
-                return false;
+                // return false;
                 var root = process.env.API_ROOT;
                 if (root == undefined){
                     root = window.location.protocol + '//' + window.location.host + window.location.pathname;
                 }
-                var url = root + "/api/v1/DelRegionCam?srctoken=token1&regiontoken=19b1d713-c635-4088-a77d-354af979fa21&session="+ this.$store.state.token;
+                var url = root + "/api/v1/DelRegionCam?srctoken="+this.delcamtoken+"&regiontoken="+this.datatoken+"&session="+ this.$store.state.token;
                 console.log("////////////",url)
                 this.$http.get(url).then(result=>{
-                    
+                    console.log("111")
+                    this.data=[];
+                    this.Regional();
                 })
-                console.log("111")
             }
         },
     }
@@ -280,6 +320,10 @@
 .el-tree {
     font-size: 16px;
     color: #333333;
+}
+.el-tree >>> .el-tree-node__content{
+    min-height: 24px;
+    height: auto;
 }
 /* 两个框 */
 .tow_node{
