@@ -80,13 +80,46 @@
                             <div style="width:100%;display: flex;justify-content: space-between;">
                                 <span >
                                     <span :class="data.iconclass" style="color:rgb(142, 132, 132);"></span>
-                                    <!-- <img src="" alt=""> -->
                                     <span :class="data.iconclass1" style="padding-left: 4px;">{{data.label}}</span>
                                 </span>
                                 <span :class="data.iconclass2" class="black" style="">{{$t("message.live.Videorecording")}}</span>
                             </div>
                         </span>
                     </el-tree>
+                    <el-tree class="el_tree" :data="camdata" :props="defaultProps1" @node-click="handleNodeClick">
+                            <span slot-scope="{ node, data }" style="width:100%;">
+                                <!-- <div style="width:100%;display: flex;justify-content: space-between;"> -->
+                                    <span>
+                                        <span class="mdi mdi-view-sequential fa-fw" style="color:rgb(142, 132, 132);"></span>
+                                        <span :class="data.iconclass1" style="padding-left: 4px;">{{data.strName}}</span>
+                                    </span>
+                                    <div v-if="data.cam.length!=0">
+                                        
+                                        <el-dropdown trigger="click">
+                                            <span class="el-dropdown-link">
+                                               <i class="mdi mdi-camcorder fa-fw" style="color:rgb(142, 132, 132);"></i> {{$t("message.live.camera")}}<i class="el-icon-arrow-down el-icon--right"></i>
+                                            </span>
+                                            <el-dropdown-menu slot="dropdown">
+                                                <!--  @click.native="camname(site.strToken)" -->
+                                                <el-tree class="el_tree1" :data="data.cam" :props="defaultProps1" @node-click="handleNodeClick1">
+                                                    <span slot-scope="{ node, data }" style="width:100%;">
+                                                        <div style="width:100%;display: flex;justify-content: space-between;">
+                                                            <span >
+                                                                <span :class="data.iconclass" style="color:rgb(142, 132, 132);"></span>
+                                                                <!-- <img src="" alt=""> -->
+                                                                <span :class="data.iconclass1" style="padding-left: 4px;">{{data.strName}}</span>
+                                                            </span>
+                                                            <span :class="data.iconclass2" class="black" style="">{{$t("message.live.Videorecording")}}</span>
+                                                        </div>
+                                                    </span>
+                                                </el-tree>
+                                                <!-- <el-dropdown-item v-for="site in data.cam" :key="site.strName">{{site.strName}}</el-dropdown-item> -->
+                                            </el-dropdown-menu>
+                                        </el-dropdown>
+                                    </div>
+                                <!-- </div> -->
+                            </span>
+                        </el-tree>
                 </div>
             </div>
 
@@ -155,11 +188,17 @@ export default {
                 contentHeight: '',
                 contentWidth: '',
                 data:this.listdatag.listdatag,
+                camdata:this.listdatag.listdatag1,
                 defaultProps: {
                     children: 'children',
                     label: 'label',
                     token:"token",
                     iconclass:"iconclass"
+                },
+                defaultProps1: {
+                    children: 'node',
+                    label: 'strName',
+                    cam:"cam",
                 },
                 watermarkstring:this.$store.state.watermarkstring,//水印、
                 drawer: false,//右侧栏
@@ -251,6 +290,19 @@ export default {
             }else{
 
                 console.log("不可用");
+            }
+            
+            
+        },
+        handleNodeClick1(data, checked, indeterminate){
+            let _this =this;
+            console.log(data)
+            // return false;
+            var main="main"
+            if (data.strToken) {
+                let vid = 'h' + _this.$data.selectRow + _this.$data.selectCol;
+                // console.log("----------------------",data.label);
+                _this.$root.bus.$emit('liveplay', data.strToken,data.streamprofile, data.name, vid);
             }
             
             
@@ -862,6 +914,19 @@ export default {
 
 
 <style scoped>
+.el_tree{
+    color: #606266;
+    font-size: 14px;
+    font-weight: 500;
+}
+.el_tree1{
+    margin: 0;
+    margin-right: 10px;
+}
+.el_tree >>> .el-tree-node__content{
+    min-height: 24px;
+    height: auto;
+}
 /* 自制图标 */
 .camera{
     text-decoration:line-through

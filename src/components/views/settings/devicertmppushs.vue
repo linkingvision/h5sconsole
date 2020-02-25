@@ -329,6 +329,7 @@ import uuid from '@/store/uuid'
                         this.tableData.splice(this.editindex, 1,list)
                         var url = root + "/api/v1/AddRTMPPush?&name="+form.Name+
                         "&token="+form.Token+
+                        "&audio="+form.Audio+
                         "&session="+ this.$store.state.token;
                         console.log(url);
                         this.$http.get(url).then(result=>{
@@ -367,6 +368,7 @@ import uuid from '@/store/uuid'
             console.log(form.Type)
             var url = root + "/api/v1/AddRTMPPush?&name="+form.Name+
             "&token="+form.Token+
+            "&audio="+form.Audio+
             "&session="+ this.$store.state.token;
             console.log(url);
             this.$http.get(url).then(result=>{

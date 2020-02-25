@@ -143,8 +143,8 @@ export default {
 }
 .lg-info-panel{
     width: 60% !important;
-    background: url(../assets/img/layout/login.svg) center center no-repeat #042371!important;
-    /* background-size: 100%; */
+    background: url(../assets/img/layout/login.png) no-repeat -5px !important;
+    background-size: 100%;
     height: 100%;
     position: fixed;
 }

@@ -59,10 +59,10 @@
                 <!--  -->
                 <div class="content_video"  v-on:mouseover="sortAll()" v-on:mouseleave='leave()'>
                     <!-- <img src="./gallery/chart.png"/> -->
-                    <video id="h5sVideoRemote" src=""></video>  
+                    <video id="h5sVideoRemote" muted src=""></video>  
                     <div class="content_h5sVideoRemote">
                         
-                        <video id="h5sVideoLocal" src="" ></video>
+                        <video id="h5sVideoLocal" muted src="" ></video>
                     </div>
                     <div class="content_anniu" >
                         <div class="content_anniu1">

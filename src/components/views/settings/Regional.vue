@@ -23,7 +23,7 @@
                     </el-popover>
 
                     <!-- 节点添加按钮 -->
-                    <el-popover
+                    <!-- <el-popover
                         placement="right"
                         width="400"
                         trigger="click">
@@ -38,7 +38,7 @@
                             </div>
                         </div>
                         <el-button slot="reference" type="button" class="iconfont icon-add"></el-button>
-                    </el-popover>
+                    </el-popover> -->
 
                     <!-- <button @click="addtonond" type="button" class="iconfont icon-add"></button> -->
                     <!-- 删除 -->
@@ -78,14 +78,22 @@
             <el-tab-pane :label="label.label1" name="first1">
                 <div class="tow_node">
                     <div class="Root_node">
-                        <el-tree 
-                        :data="camdata" 
-                        show-checkbox
-                        ref="tree">
-                            
+                    <el-tree 
+                    :data="camdata" 
+                    show-checkbox
+                    :check-strictly="true"
+                    ref="tree">
+                       <span slot-scope="{ node, data }" style="width:100%;">
+                            <div style="width:100%;display: flex;justify-content: space-between;">
+                                <span >
+                                    <span :class="data.iconclass" style="color:rgb(142, 132, 132);"></span>
+                                    <!-- <img src="" alt=""> -->
+                                    <span :class="data.iconclass1" style="padding-left: 4px;">{{data.label}}</span>
+                                </span>
+                                <!-- <span :class="data.iconclass2" class="black" style="">{{$t("message.live.Videorecording")}}</span> -->
+                            </div>
+                        </span>
                     </el-tree>
-                        </el-tree>
-                        <!-- <el-transfer v-model="value" :data="data1"></el-transfer> -->
                     </div>
                     <div class="tow_node_root">
                         <div>
@@ -94,27 +102,45 @@
                         <div>
                             <el-button class="button_addpv" type="success" @click="deleteselectcam" round size="mini">{{$t("message.setting.DeleteAll")}}</el-button>
                         </div>
-                        <!-- <el-transfer v-model="value" :data="data1"></el-transfer> -->
                     </div>
                     <div class="Root_node">
                         <el-tree :data="data" :props="defaultProps" @node-click="handleNodeClick">
                             <span slot-scope="{ node, data }" style="width:100%;">
-                                <span :class="data.iconclass" style="color:rgb(142, 132, 132);"></span>
-                                <!-- <img src="" alt=""> -->
-                                <span :class="data.iconclass1" style="padding-left: 4px;">{{data.strName}}</span>
-                                <div v-if="data.cam.length!=0">
-                                    <el-dropdown trigger="click">
-                                        <span class="el-dropdown-link">
-                                            cam<i class="el-icon-arrow-down el-icon--right"></i>
-                                        </span>
-                                        <el-dropdown-menu slot="dropdown">
-                                            <el-dropdown-item @click.native="camname(site.strToken)" v-for="site in data.cam" :key="site.strName">{{site.strName}}</el-dropdown-item>
-                                        </el-dropdown-menu>
-                                    </el-dropdown>
-                                </div>
+                                <!-- <div style="width:100%;display: flex;justify-content: space-between;"> -->
+                                    <span>
+                                        <span class="mdi mdi-view-sequential fa-fw" style="color:rgb(142, 132, 132);"></span>
+                                        <span :class="data.iconclass1" style="padding-left: 4px;">{{data.strName}}</span>
+                                    </span>
+                                    <div v-if="data.cam.length!=0">
+                                        
+                                        <el-dropdown trigger="click">
+                                            <span class="el-dropdown-link">
+                                               <i class="mdi mdi-camcorder fa-fw" style="color:rgb(142, 132, 132);"></i> {{$t("message.live.camera")}}<i class="el-icon-arrow-down el-icon--right"></i>
+                                            </span>
+                                            <el-dropdown-menu slot="dropdown">
+                                                <!--  @click.native="camname(site.strToken)" :check-strictly="true" show-checkbox-->
+                                                <el-tree class="el_tree1" 
+                                                    ref="tree1"
+                                                    :data="data.cam"
+                                                    :props="defaultProps"
+                                                    @node-click="handleNodeClick1" 
+                                                    >
+                                                    <span slot-scope="{ node, data }" style="width:100%;">
+                                                        <div style="width:100%;display: flex;justify-content: space-between;">
+                                                            <span >
+                                                                <span :class="data.iconclass" style="color:rgb(142, 132, 132);"></span>
+                                                                <span :class="data.iconclass1" style="padding-left: 4px;">{{data.strName}}</span>
+                                                            </span>
+                                                        </div>
+                                                    </span>
+                                                </el-tree>
+                                                <!-- <el-dropdown-item v-for="site in data.cam" :key="site.strName">{{site.strName}}</el-dropdown-item> -->
+                                            </el-dropdown-menu>
+                                        </el-dropdown>
+                                    </div>
+                                <!-- </div> -->
                             </span>
                         </el-tree>
-                        <!-- <el-transfer v-model="value" :data="data1"></el-transfer> -->
                     </div>
                 </div>
                 
@@ -127,18 +153,8 @@
     import regionaldata from '@/components/views/js/regional'
     Vue.prototype.regionaldata = regionaldata
     export default {
+        inject:["reload"],
         data() {
-            const generateData = _ => {
-                const data = [];
-                for (let i = 1; i <= 15; i++) {
-                data.push({
-                    key: i,
-                    label: `备选项 ${ i }`,
-                    disabled: i % 4 === 0
-                });
-                }
-                return data;
-            };
             return {
                 label:{
                     label:this.$t("message.setting.Area"),//选1
@@ -147,7 +163,7 @@
                 },
                 activeName: 'first',
                 data: [],
-                data1: generateData(),//第二
+                data1:this.listdatag.listdatag1,//第二
                 camdata:this.regionaldata.regionaldata,
                 rootvalue:"",//节点名字
                 delcamtoken:"",//删除的token
@@ -164,9 +180,9 @@
             this.Regional();
         },
         methods:{
-            camname(camname){
-                this.delcamtoken=camname;
-                console.log(camname);
+            handleNodeClick1(data){
+                this.delcamtoken=data.strToken;
+                console.log(data);
             },
             //点击节点
             handleNodeClick(data) {
@@ -186,7 +202,7 @@
                     var oldarr=result.data.root;
                     var oldarr1=result.data.src;
                     var dataroot=this.getchild(oldarr,oldarr1);
-                    console.log(dataroot)
+                    // console.log(dataroot)
                     this.data.push(dataroot);
                 })
             },
@@ -197,7 +213,11 @@
 					if(!arr.cam[i].strName){
 						for(var j in arr1){
 							if(arr.cam[i].strToken == arr1[j].strToken){
-								arr.cam[i].strName = arr1[j].strName;
+                                arr.cam[i].strName = arr1[j].strName;
+                                arr.cam[i].iconclass="mdi mdi-camcorder fa-fw"
+                                if(!arr1[j].bOnline)
+                                    arr.cam[i].iconclass = 'mdi mdi-camcorder-off fa-fw';
+
 							}
 						}
 					}
@@ -239,7 +259,7 @@
                 }
             },
             addtonond(){
-                // console.log("1111",this.datatoken);
+                console.log("1111",this.datatoken);
                 // return false;
                 if(this.rootvalue==""&&this.datatoken==""){
                     this.$message({
@@ -284,34 +304,43 @@
             //添加摄像机
             addcam(){
                 var tokencheked=this.$refs.tree.getCheckedNodes();
-                var root = process.env.API_ROOT;
-                if (root == undefined){
-                    root = window.location.protocol + '//' + window.location.host + window.location.pathname;
-                }
-                console.log(tokencheked[0].token);
-                for(var i=0;i<tokencheked.length;i++){
-                    var url = root + "/api/v1/AddRegionCam?srctoken="+tokencheked[i].token+"&regiontoken="+this.datatoken+"&session="+ this.$store.state.token;
-                    console.log("////////////",url)
-                    this.$http.get(url).then(result=>{
-                        this.data=[];
-                        this.Regional();
-                    })
-                }
-            },
-            //删除
-            deleteselectcam(){
+                // tokencheked.splice(0, 1);
                 // return false;
                 var root = process.env.API_ROOT;
                 if (root == undefined){
                     root = window.location.protocol + '//' + window.location.host + window.location.pathname;
                 }
-                var url = root + "/api/v1/DelRegionCam?srctoken="+this.delcamtoken+"&regiontoken="+this.datatoken+"&session="+ this.$store.state.token;
-                console.log("////////////",url)
-                this.$http.get(url).then(result=>{
-                    console.log("111")
-                    this.data=[];
-                    this.Regional();
-                })
+                var a=0;
+                for(var i=0;i<tokencheked.length;i++){
+                    var url = root + "/api/v1/AddRegionCam?srctoken="+tokencheked[i].token+"&regiontoken="+this.datatoken+"&session="+ this.$store.state.token;
+                    // console.log("////////////",url)
+                    this.$http.get(url).then(result=>{
+                        if(a==tokencheked.length){
+                            this.data=[];
+                            this.Regional();
+                        }
+                        // this.reload();
+                    })
+                }
+            },
+            //删除
+            deleteselectcam(){
+                // var tokencheked=this.$refs.tree1.getCheckedNodes();
+                // console.log(tokencheked);
+                // return false;
+                var root = process.env.API_ROOT;
+                if (root == undefined){
+                    root = window.location.protocol + '//' + window.location.host + window.location.pathname;
+                }
+                // for(var i=0;i<tokencheked.length;i++){
+                    var url = root + "/api/v1/DelRegionCam?srctoken="+this.delcamtoken+"&regiontoken="+this.datatoken+"&session="+ this.$store.state.token;
+                    console.log("////////////",url)
+                    this.$http.get(url).then(result=>{
+                        console.log("111")
+                        this.data=[];
+                        this.Regional();
+                    })
+                // }
             }
         },
     }
