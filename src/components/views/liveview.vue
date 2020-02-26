@@ -94,7 +94,7 @@
                     </div>
                     <div id="device1">
                         <div class="devicetoog">
-                            <div>{{$t("message.live.Rootnode")}}</div>
+                            <div>{{$t("message.live.Region")}}</div>
                             <div @click="devicetoog1" class="iconfont icon-zhiding deviceicon"></div> 
                         </div>
                         <el-tree class="el_tree" 

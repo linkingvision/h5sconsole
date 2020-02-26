@@ -105,7 +105,7 @@ module.exports={
 		camera:"摄像机",
 		waterprint:"水印",
 		Videorecording:"正在录像",
-		Rootnode:"根节点",
+		Region:"区域",
     },
     setting:
     {
