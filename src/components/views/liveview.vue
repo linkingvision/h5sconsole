@@ -68,25 +68,41 @@
                             v-model="filterText">
                         </el-input>
                     </div>
-                    <el-tree
-                        :data="data"
-                        node-key="id"
-                        :filter-node-method="filterNode"
-                        ref="tree"
-                        highlight-current
-                        @node-click="handleNodeClick"
-                        :props="defaultProps">
-                        <span slot-scope="{ node, data }" style="width:100%;">
-                            <div style="width:100%;display: flex;justify-content: space-between;">
-                                <span >
-                                    <span :class="data.iconclass" style="color:rgb(142, 132, 132);"></span>
-                                    <span :class="data.iconclass1" style="padding-left: 4px;">{{data.label}}</span>
-                                </span>
-                                <span :class="data.iconclass2" class="black" style="">{{$t("message.live.Videorecording")}}</span>
-                            </div>
-                        </span>
-                    </el-tree>
-                    <el-tree class="el_tree" :data="camdata" :props="defaultProps1" @node-click="handleNodeClick">
+                    <div id="device">
+                        <div class="devicetoog">
+                            <div>{{$t("message.setting.device")}}</div>
+                            <div @click="devicetoog" class="iconfont icon-zhiding deviceicon"></div> 
+                        </div>
+                        <el-tree
+                            :data="data"
+                            node-key="id"
+                            :filter-node-method="filterNode"
+                            ref="tree"
+                            highlight-current
+                            @node-click="handleNodeClick"
+                            :props="defaultProps">
+                            <span slot-scope="{ node, data }" style="width:100%;">
+                                <div style="width:100%;display: flex;justify-content: space-between;">
+                                    <span >
+                                        <span :class="data.iconclass" style="color:rgb(142, 132, 132);"></span>
+                                        <span :class="data.iconclass1" style="padding-left: 4px;">{{data.label}}</span>
+                                    </span>
+                                    <span :class="data.iconclass2" class="black" style="">{{$t("message.live.Videorecording")}}</span>
+                                </div>
+                            </span>
+                        </el-tree>
+                    </div>
+                    <div id="device1">
+                        <div class="devicetoog">
+                            <div>{{$t("message.live.Rootnode")}}</div>
+                            <div @click="devicetoog1" class="iconfont icon-zhiding deviceicon"></div> 
+                        </div>
+                        <el-tree class="el_tree" 
+                            node-key="strName" 
+                            :default-expanded-keys="['root']" 
+                            :data="camdata" 
+                            :props="defaultProps1" 
+                            @node-click="handleNodeClick">
                             <span slot-scope="{ node, data }" style="width:100%;">
                                 <!-- <div style="width:100%;display: flex;justify-content: space-between;"> -->
                                     <span>
@@ -97,7 +113,7 @@
                                         
                                         <el-dropdown trigger="click">
                                             <span class="el-dropdown-link">
-                                               <i class="mdi mdi-camcorder fa-fw" style="color:rgb(142, 132, 132);"></i> {{$t("message.live.camera")}}<i class="el-icon-arrow-down el-icon--right"></i>
+                                                <i class="mdi mdi-camcorder fa-fw" style="color:rgb(142, 132, 132);"></i> {{$t("message.live.camera")}}<i class="el-icon-arrow-down el-icon--right"></i>
                                             </span>
                                             <el-dropdown-menu slot="dropdown">
                                                 <!--  @click.native="camname(site.strToken)" -->
@@ -120,6 +136,9 @@
                                 <!-- </div> -->
                             </span>
                         </el-tree>
+                    </div>
+                
+             
                 </div>
             </div>
 
@@ -214,20 +233,24 @@ export default {
         }
     },
     mounted() {
-        console.log("....................",this.listdatag.listdatag);
+        $("#device1").hide();
         this.updateUI();
-        // this.loadDevice();
-        // this.loadtest();
-        // this.NumberDevice();
-        // this.cloudDevice();
         this.addWaterMarker();
-        // this.height_zsy();
-        // 水印
         document.getElementById("watermarktoggle").style.display=this.watermarktoggle;
         this.$root.bus.$emit('liveplayproto',this.proto);
     },
     methods: {
-        
+        //设备隐藏
+        devicetoog(){
+            // $("#device").toggle(100);
+            $("#device").hide();
+            $("#device1").show();
+        },
+        devicetoog1(){
+            // $("#device1").toggle(100);
+            $("#device1").hide();
+            $("#device").show();
+        },
         //水印
         waterprintoff(){
             this.$store.commit(types.WATERMARKSTRING, this.watermarkstring);
@@ -914,6 +937,28 @@ export default {
 
 
 <style scoped>
+/* 隐藏toogle */
+.devicetoog{
+    width:100%;
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 20px;
+    background: #f5f5f5;
+    font-size: 18px;
+    color: #333333;
+    font-weight: 600;
+}
+.deviceicon:hover{
+ color: #68ABCF;
+}
+/* #device{
+    height: 90%;
+    overflow-y: auto;
+}
+#device1{
+    height: 90%;
+    overflow-y: auto;
+} */
 .el_tree{
     color: #606266;
     font-size: 14px;
