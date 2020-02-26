@@ -105,7 +105,7 @@ module.exports={
 		camera:"Camera",
 		waterprint:"Watermark",
 		Videorecording:"Video recording",
-		Rootnode:"Root node",
+		Rootnode:"Region",
     },
     setting:
     {

@@ -18,12 +18,7 @@ const i18n = new VueI18n({
 
 console.log(i18n.tc('message.live.camera')) // 你好世界
 //测试机仓
-var listdatag=[{
-    iconclass : 'mdi mdi-view-sequential fa-fw',
-    label : i18n.tc('message.dashboard.device'),
-    children:[]
-
-}];//全部
+var listdatag=[];//全部
 var listdatagload=[];//部分
 var listdatag1=[];//一个
 function loadtest(){
@@ -92,7 +87,7 @@ function loadtest(){
                 srcGroup.children.push(newItem);
                 }
             }
-            listdatag[0].children.push(srcGroup);
+            listdatag.push(srcGroup);
           } 
     })
 
@@ -200,7 +195,7 @@ function loadSrc(srclevel, srcData) {
 
                srcGroup.children.push(newItem);
             }
-            listdatag[0].children.push(srcGroup);
+            listdatag.push(srcGroup);
             listdatagload.push(srcGroup);
         }
     }).catch(error => {
@@ -298,7 +293,7 @@ function NumberSrc(srclevel, srcData) {
 
                srcGroup.children.push(newItem);
             }
-            listdatag[0].children.push(srcGroup);;
+            listdatag.push(srcGroup);;
             listdatagload.push(srcGroup);
         }
     }).catch(error => {
@@ -395,7 +390,7 @@ function cloudSrc(srclevel, srcData) {
 
                srcGroup.children.push(newItem);
             }
-            listdatag[0].children.push(srcGroup);;
+            listdatag.push(srcGroup);;
             listdatagload.push(srcGroup);
         }
     }).catch(error => {
