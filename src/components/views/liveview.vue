@@ -113,7 +113,7 @@
                                         
                                         <el-dropdown trigger="click">
                                             <span class="el-dropdown-link">
-                                                <i class="mdi mdi-camcorder fa-fw" style="color:rgb(142, 132, 132);"></i> {{$t("message.live.camera")}}<i class="el-icon-arrow-down el-icon--right"></i>
+                                                <i class="el-icon-arrow-down el-icon--right"></i><i class="mdi mdi-camcorder fa-fw" style="color:rgb(142, 132, 132);"></i> {{$t("message.live.camera")}}
                                             </span>
                                             <el-dropdown-menu slot="dropdown">
                                                 <!--  @click.native="camname(site.strToken)" -->
@@ -1104,9 +1104,7 @@ export default {
     width: 81.5%;
     height: 100%;
 }
-#videoPanel{
-    background-color: #ffffff;
-}
+
 .btn-group{
     width: 100%;
     text-align: center;
@@ -1202,7 +1200,9 @@ div[name="flex"]:hover {
     /*background-color: #3c8dbc;*/
     cursor: pointer;
 }
-
+#videoPanel{
+    background-color: #ffffff;
+}
 #videoPanel>div:nth-last-child(2) {
     border-bottom: 1px solid rgb(22, 22, 22) !important;
 }
