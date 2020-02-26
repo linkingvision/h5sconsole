@@ -794,6 +794,7 @@ import uuid from '@/store/uuid'
                 `
             })
         },
+        //  编辑  添加 的确定键
         Success(){
             this.editPopup = false;
             var root = process.env.API_ROOT;
@@ -870,7 +871,7 @@ import uuid from '@/store/uuid'
                 var url = root + "/api/v1/AddSrcFile?&name="
                 +form.Name+
                 "&token="+form.Token+
-                "&url="+form.URL+
+                "&url="+encodeURIComponent(form.URL)+
                 "&session="+ this.$store.state.token;
                 //console.log(url);
                 this.$http.get(url).then(result=>{
@@ -892,7 +893,6 @@ import uuid from '@/store/uuid'
                 })
             }
         },
-        //  编辑  添加 的确定键
         edityes(){
             console.log(this.editindex);
             //return false;
@@ -1022,7 +1022,7 @@ import uuid from '@/store/uuid'
                 var url = root + "/api/v1/AddSrcFile?&name="
                 +form.Name+
                 "&token="+form.Token+
-                "&url="+form.URL+
+                "&url="+encodeURIComponent(form.URL)+
                 "&session="+ this.$store.state.token;
                 //console.log(url);
                 this.$http.get(url).then(result=>{

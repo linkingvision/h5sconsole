@@ -1198,6 +1198,10 @@ div[name='flex'] {
 div[name='flex']+[name='flex'] {
     border-left: 0px !important;
 }
+div[name="flex"]:hover {
+    /*background-color: #3c8dbc;*/
+    cursor: pointer;
+}
 
 #videoPanel>div:nth-last-child(2) {
     border-bottom: 1px solid rgb(22, 22, 22) !important;
@@ -1235,10 +1239,7 @@ div[name='flex']+[name='flex'] {
 	box-shadow: 0px 0px 50px #000;
 }
 
-div[name="flex"]:hover {
-    /*background-color: #3c8dbc;*/
-    cursor: pointer;
-}
+
 /* .videoClickColor {
     background-color: #616263 !important;
     opacity: 0.80;
