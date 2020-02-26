@@ -22,35 +22,14 @@
                         <el-button slot="reference" type="button" class="iconfont icon-add"></el-button>
                     </el-popover>
 
-                    <!-- 节点添加按钮 -->
-                    <!-- <el-popover
-                        placement="right"
-                        width="400"
-                        trigger="click">
-                        <div class="input-pin">
-                            <div class="popover_Title">root</div>
-                            <el-input
-                                :placeholder="label.placeholder"
-                                v-model="rootvalue">
-                            </el-input>
-                            <div>
-                                <el-button class="button_addpv" type="success" @click="addtonond" round size="mini">Nond{{$t("message.setting.ADD")}}</el-button>
-                            </div>
-                        </div>
-                        <el-button slot="reference" type="button" class="iconfont icon-add"></el-button>
-                    </el-popover> -->
-
-                    <!-- <button @click="addtonond" type="button" class="iconfont icon-add"></button> -->
-                    <!-- 删除 -->
                     <button style="padding: 0 20px;" @click="deleteselect" type="button" class="iconfont icon-reduce"></button>
                 </div>
                 <div class="Root_node">
                     <el-tree :data="data" :props="defaultProps" @node-click="handleNodeClick">
                         <span slot-scope="{ node, data }" style="width:100%;">
                             <div style="width:100%;display: flex;justify-content: space-between;">
-                                <span >
-                                    <span :class="data.iconclass" style="color:rgb(142, 132, 132);"></span>
-                                    <!-- <img src="" alt=""> -->
+                                <span>
+                                    <span class="mdi mdi-view-sequential fa-fw" style="color:rgb(142, 132, 132);"></span>
                                     <span :class="data.iconclass1" style="padding-left: 4px;">{{data.strName}}</span>
                                 </span>
                                 <el-popover
