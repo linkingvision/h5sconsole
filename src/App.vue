@@ -127,7 +127,6 @@ export default {
 }
 /* 另类弹出框 */
 .el-popover{
-    width: 250px !important;
     padding: 5px !important;
 }
 </style>

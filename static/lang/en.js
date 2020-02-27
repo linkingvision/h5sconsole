@@ -106,6 +106,7 @@ module.exports={
 		waterprint:"Watermark",
 		Videorecording:"Video recording",
 		Region:"Region",
+		Scan:"Scan to view video",
     },
     setting:
     {

@@ -106,6 +106,7 @@ module.exports={
 		waterprint:"水印",
 		Videorecording:"正在录像",
 		Region:"区域",
+		Scan:"扫扫查看视频",
     },
     setting:
     {

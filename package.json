@@ -27,6 +27,7 @@
     "jquery": "^3.4.1",
     "jquery-ui": "^1.12.1",
     "patternfly-bootstrap-treeview": "^2.1.8",
+    "qrcodejs2": "^0.0.2",
     "qs": "^6.5.2",
     "vee-validate": "^2.0.8",
     "vue": "^2.5.2",

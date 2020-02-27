@@ -168,7 +168,6 @@
                 </div>
             </div>
         </div><!-- Video -->
-        
     </div>
 
 </div>
@@ -240,17 +239,6 @@ export default {
         this.$root.bus.$emit('liveplayproto',this.proto);
     },
     methods: {
-        //设备隐藏
-        devicetoog(){
-            // $("#device").toggle(100);
-            $("#device").hide();
-            $("#device1").show();
-        },
-        devicetoog1(){
-            // $("#device1").toggle(100);
-            $("#device1").hide();
-            $("#device").show();
-        },
         //水印
         waterprintoff(){
             this.$store.commit(types.WATERMARKSTRING, this.watermarkstring);
@@ -878,6 +866,17 @@ export default {
         },
         stopVideo(event){
             return;
+        },
+        //设备隐藏
+        devicetoog(){
+            // $("#device").toggle(100);
+            $("#device").hide();
+            $("#device1").show();
+        },
+        devicetoog1(){
+            // $("#device1").toggle(100);
+            $("#device1").hide();
+            $("#device").show();
         },
         //模糊查询
         filterNode(value, data, node) {

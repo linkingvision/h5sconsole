@@ -7,7 +7,7 @@
                    <!-- 加按钮 -->
                     <el-popover
                         placement="right"
-                        width="400"
+                        width="250"
                         trigger="click">
                         <div class="input-pin">
                             <div class="popover_Title">root</div>
@@ -35,7 +35,7 @@
                                 <el-popover
                                     class="button_edi1"
                                     placement="right"
-                                    width="400"
+                                    width="250"
                                     trigger="click">
                                     <div class="input-pin">
                                         <div class="popover_Title">{{data.strName}}</div>

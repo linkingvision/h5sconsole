@@ -4,7 +4,7 @@
     <div :id="videonameid" class="">{{videoname}}</div>
     <div :id="rtcid" class=""></div>
     <div class="h5controls"  style="display:none padding:0px;">
-        <button type="button" class="vidbuttion pull-right iconfont icon-roundclosefill" @click="CloseVideo($event)"></button>
+        <button type="button" class="vidbuttion pull-right iconfont icon-roundclosefill" style="margin-right: 20px;" @click="CloseVideo($event)"></button>
         <button type="button" class="vidbuttion pull-right iconfont icon-full" @click="FullScreen($event)"></button>
         <button :id="ptz"  type="button" class="btn vidbuttion pull-right" @click="PtzControlShow($event)"></button>
         <!-- <button type="button" class="btn vidbuttion pull-right rtcbutton" > <i class="mdi mdi-format-title"></i></button> -->
@@ -13,6 +13,25 @@
         <button type="button" class="vidbuttion pull-right iconfont icon-camerafill" @click="DoSnapshot($event)"></button>
         <button type="button" class="vidbuttion pull-right iconfont icon-picfill" @click="DoSnapshotWeb($event)"></button>
         <button type="button" class="vidbuttion pull-right" @click="Shoutwheat($event)"> <i :class="Shoutwheatclass"></i></button>
+        <el-popover
+            placement="bottom"
+            trigger="click">
+            
+            <div class="bottom_QR">
+                <div class="bottom_scan">{{$t("message.live.Scan")}}</div>
+                <div class="bottom_QRcode">
+                    <div>
+                        <div ref="qrcodead" id="qrcodead1" style="margin-bottom: 16px;"></div>
+                        <div>Android</div>
+                    </div>
+                    <div>
+                        <div ref="qrcodeios" id="qrcodeios1" style="margin-bottom: 16px;"></div>
+                        <div>iOS</div>
+                    </div>
+                </div>
+            </div>
+            <button slot="reference" class="vidbuttion pull-right iconfont icon-erweima" @click="qrcode"></button>
+        </el-popover>
         <!-- audio
         <button type="button" class="btn vidbuttion pull-right" > <i class="mdi  mdi-record"></i></button>
         <button type="button" class="btn vidbuttion pull-right" href="#"> <i class="mdi mdi-volume-high"></i></button>
@@ -62,38 +81,12 @@
                 </div>
             </div>
         </div>
-        <!-- <div class="row ">
-            <button type="button" class="btn ptzbuttonnone pull-right" href="#"> <i ></i></button>
-            <button type="button" class="btn ptzbutton pull-right" href="#"
-                @mousedown ="PtzActionZoomIn($event)" @mouseup="PtzActionStop($event)" @touchstart ="PtzActionZoomIn($event)" @touchend="PtzActionStop($event)"> <i class="mdi  mdi-plus-circle-outline"></i></button>
-            <button type="button" class="btn ptzbuttonnone pull-right" href="#"> <i ></i></button>
-            <button type="button" class="btn ptzbutton pull-right" href="#"
-                @mousedown ="PtzActionUp($event)" @mouseup="PtzActionStop($event)" @touchstart ="PtzActionUp($event)" @touchend="PtzActionStop($event)"> <i class="mdi  mdi-arrow-up"></i></button>
-        </div>
-        <div class="row ">
-            <button type="button" class="btn ptzbuttonnone pull-right" href="#"> <i ></i></button>
-            <button type="button" class="btn ptzbuttonnone pull-right" href="#"> <i ></i></button>
-            <button type="button" class="btn ptzbutton pull-right" href="#"
-                @mousedown ="PtzActionRight($event)" @mouseup="PtzActionStop($event)" @touchstart ="PtzActionRight($event)" @touchend="PtzActionStop($event)"> <i class="mdi  mdi-arrow-right"></i></button>
-            <button type="button" class="btn ptzbuttonnone pull-right" href="#"> <i ></i></button>
-            <button type="button" class="btn ptzbutton pull-right" href="#"
-                @mousedown ="PtzActionLeft($event)" @mouseup="PtzActionStop($event)" @touchstart ="PtzActionLeft($event)" @touchend="PtzActionStop($event)"> <i class="mdi  mdi-arrow-left"></i></button>
-        </div>
-        <div class="row ">
-            <button type="button" class="btn ptzbuttonnone pull-right" href="#"> <i ></i></button>
-            <button type="button" class="btn ptzbutton pull-right" href="#"
-                @mousedown ="PtzActionZoomOut($event)" @mouseup="PtzActionStop($event)" @touchstart ="PtzActionZoomOut($event)" @touchend="PtzActionStop($event)"> <i class="mdi  mdi-minus-circle-outline"></i></button>
-            <button type="button" class="btn ptzbuttonnone pull-right" href="#"> <i ></i></button>
-            <button type="button" class="btn ptzbutton pull-right" href="#"
-                @mousedown ="PtzActionDown($event)" @mouseup="PtzActionStop($event)" @touchstart ="PtzActionDown($event)" @touchend="PtzActionStop($event)"> <i class="mdi  mdi-arrow-down"></i></button>
-        </div> -->
-        
-        
     </div>
 </div>
 </template>
 
 <script>
+import QRCode from 'qrcodejs2';
 import '../../assets/adapter.js'
 import {H5sPlayerWS,H5sPlayerHls,H5sPlayerRTC,H5sPlayerAudBack} from '../../assets/h5splayer.js'
 import {H5siOS,H5sPlayerCreate} from '../../assets/h5splayerhelper.js'
@@ -138,7 +131,7 @@ export default {
         //console.log(this.h5id, "destroyed");
     },
     mounted() {
-        //console.log(this.h5id, "mount");
+        // this.qrcode();
         var $container = $("#"+this.h5id);
         var $video =$container.children("video");
         var videodom = $container.children("video").get(0);
@@ -174,6 +167,29 @@ export default {
         });
     },
     methods: {
+        qrcode () {
+            console.log(this.tokenshou)
+            if(this.tokenshou==""){
+                return false;
+            }else{
+                var android= window.location.protocol + window.location.host + '/ws.html?token=' + this.tokenshou;
+                var ios= window.location.protocol + window.location.host + '/rtc.html?token=' + this.tokenshou;
+            }
+            this.$refs.qrcodead.innerHTML="";
+            this.$refs.qrcodeios.innerHTML="";
+            var qrcode = new QRCode(this.$refs.qrcodead, {
+                width: 100,
+                height: 100, // 高度
+            })
+            var qrcode1 = new QRCode(this.$refs.qrcodeios, {
+                width: 100,
+                height: 100, // 高度
+            })
+            qrcode.clear();
+            qrcode1.clear();
+            qrcode.makeCode(android);
+            qrcode1.makeCode(ios);
+        },
         //预置位跳转
         preset_Jump(token){
             var root = process.env.API_ROOT;
@@ -618,6 +634,28 @@ export default {
 </script>
 
 <style scoped>
+/* 二维码 */
+.bottom_QR{
+    margin: 16px 30px;
+    font-size:16px;
+    font-weight:600;
+    color:rgba(51,51,51,1);
+    text-align: center;
+}
+.bottom_scan{
+    font-size:16px;
+    font-weight:600;
+    color:rgba(51,51,51,1);
+    margin-bottom: 20px;
+    padding: 0 20px;
+}
+.bottom_QRcode{
+    display: flex;
+}
+.bottom_QRcode div{
+    padding: 0 20px;
+}
+
 .flex_content{
     width: 100%;
     height: 100%;
@@ -837,7 +875,7 @@ video {
     color: #ffffff !important;
 }
 .vidbuttion:nth-child(1){
-    margin-right: 20px;
+    /* margin-right: 20px; */
     background: none;
 }
 .vidbuttion:nth-child(3){
@@ -894,12 +932,12 @@ video {
     position: absolute;
     top: 0px;
 }
-
+/* 视频按钮背景图片 */
 .h5container > .h5controls {
     position:absolute;
     top:0;
     background:url("../views/gallery/videoxlk@2x.png") no-repeat;
-    background-size: 300px;
+    background-size: 320px;
     background-position-x:right;
     padding:0px;
     box-sizing:content-box;
