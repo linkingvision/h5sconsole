@@ -172,8 +172,8 @@ export default {
             if(this.tokenshou==""){
                 return false;
             }else{
-                var android= window.location.protocol + window.location.host + '/ws.html?token=' + this.tokenshou;
-                var ios= window.location.protocol + window.location.host + '/rtc.html?token=' + this.tokenshou;
+                var android= window.location.protocol + '//' + window.location.host + '/ws.html?token=' + this.tokenshou ;
+                var ios= window.location.protocol + '//' + window.location.host + '/rtc.html?token=' + this.tokenshou ;
             }
             this.$refs.qrcodead.innerHTML="";
             this.$refs.qrcodeios.innerHTML="";
