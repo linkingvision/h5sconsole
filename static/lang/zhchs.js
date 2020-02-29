@@ -142,6 +142,10 @@ module.exports={
 		all:"全部",
 		Editorfailure:"编辑失败",
 	},
+	playback:{
+		H5SPlayback:"H5S回放",
+		NVRPlayback:"NVR回放",
+	},
 	GB:{
 		name: '名字',
 		GB28181:"国标",

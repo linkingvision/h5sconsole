@@ -12,16 +12,19 @@
         <el-row :gutter="20">
             <el-col :span="4" style="padding-right:0px">
                 <div class="grid-content bg-purple">
-                    <div :class="{setting_tj:index_lj==1}"  @click="setting_ys" class="setting_left">
-                        <router-link  :to="{name:'GB28181Router'}">
-                            <a href="javascript:void(0)" class="setting_left_a" :class="{setting_tj1:index_lj==1}">{{$t("message.GB.GB28181")}} </a> 
-                        </router-link>
-                    </div>
-                    <div :class="{setting_tj:index_lj==2}"  @click="setting_ys1" class="setting_left">
-                        <router-link  :to="{name:'GBplatformRouter'}">
-                            <a href="javascript:void(0)" class="setting_left_a" :class="{setting_tj1:index_lj==2}">{{$t("message.GB.GBPlatform")}} </a> 
-                        </router-link>
-                    </div>
+                    <router-link  :to="{name:'GB28181Router'}">
+                        <a href="javascript:void(0)" class="setting_left_a" :class="{setting_tj1:index_lj==1}">
+                            <div :class="{setting_tj:index_lj==1}"  @click="setting_ys" class="setting_left">
+                                {{$t("message.GB.GB28181")}}
+                            </div>
+                        </a> 
+                    </router-link><router-link  :to="{name:'GBplatformRouter'}">
+                        <a href="javascript:void(0)" class="setting_left_a" :class="{setting_tj1:index_lj==2}">
+                            <div :class="{setting_tj:index_lj==2}"  @click="setting_ys1" class="setting_left">
+                                {{$t("message.GB.GBPlatform")}}
+                            </div>
+                        </a> 
+                    </router-link>
                 </div>
             </el-col>
             <el-col :span="20"  style="padding-right:0px">
@@ -70,6 +73,9 @@ export default {
 
 
 <style scoped>
+a{
+    color: #000;
+}
 .el-button {
     width: 100%;
     padding: 10px 0;
@@ -82,7 +88,7 @@ export default {
     padding: 10px 0;
     padding-left: 29%;
     box-sizing: border-box;
-    font-size: 18px;
+    font-size: 16px;
 }
 /* 点击变换颜色 */
 .setting_tj{

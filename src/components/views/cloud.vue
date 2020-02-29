@@ -67,13 +67,13 @@ export default {
     box-sizing: border-box;
 }
 .setting_left:hover{
-    color: #409EFF;
+    color: rgba(95,191,167,1);
     /* border-right: 2px solid #409EFF; */
     box-sizing: border-box;
 }
 .setting_tj{
-    color: #409EFF;
-    border-right: 2px solid #409EFF;
+    color: rgba(95,191,167,1);
+    border-right: 2px solid rgba(95,191,167,1);
     box-sizing: border-box;
 }
 .setting_left .setting_left_a{
@@ -82,7 +82,7 @@ export default {
     padding: 10px 20px;
 }
 .setting_left .setting_left_a:hover{
-    color: #409EFF;
+    color: rgba(95,191,167,1);
 }
 
 /* 布局 */

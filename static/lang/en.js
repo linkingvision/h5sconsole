@@ -142,6 +142,10 @@ module.exports={
 		Twopassword:"Two password are not same, please check!",
 		all:"All",
 	},
+	playback:{
+		H5SPlayback:"H5S Playback",
+		NVRPlayback:"NVR Playback",
+	},
 	GB:{
 		name: 'Name',
 		GB28181:"GB28181",

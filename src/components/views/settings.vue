@@ -12,36 +12,46 @@
         <el-row :gutter="20">
             <el-col :span="4" style="padding-right:0px">
                 <div class="grid-content bg-purple">
-                    <div :class="{setting_tj:index_lj==1}"  @click="setting_ys" class="setting_left">
-                        <router-link  :to="{name:'devicesRouter'}">
-                            <a href="javascript:void(0)" class="setting_left_a" :class="{setting_tj1:index_lj==1}">{{$t("message.setting.device")}} </a> 
-                        </router-link>
-                    </div>
-                    <div :class="{setting_tj:index_lj==2}"  @click="setting_ys1" class="setting_left">
-                        <router-link  :to="{name:'devicesdksRouter'}">
-                            <a href="javascript:void(0)" class="setting_left_a" :class="{setting_tj1:index_lj==2}">{{$t("message.setting.devicesdk")}} </a> 
-                        </router-link>
-                    </div>
-                    <div :class="{setting_tj:index_lj==3}"  @click="setting_ys2" class="setting_left">
-                        <router-link  :to="{name:'devicertmppushsRouter'}">
-                            <a href="javascript:void(0)" class="setting_left_a" :class="{setting_tj1:index_lj==3}">{{$t("message.setting.devicertmppush")}} </a> 
-                        </router-link>
-                    </div>
-                    <div :class="{setting_tj:index_lj==4}"  @click="setting_ys3" class="setting_left">
-                        <router-link  :to="{name:'usersettingsRouter'}">
-                            <a href="javascript:void(0)" class="setting_left_a" :class="{setting_tj1:index_lj==4}">{{$t("message.setting.user")}} </a> 
-                        </router-link>
-                    </div>
-                    <div :class="{setting_tj:index_lj==5}"  @click="setting_ys4" class="setting_left">
-                        <router-link  :to="{name:'recordsRouter'}">
-                            <a href="javascript:void(0)" class="setting_left_a" :class="{setting_tj1:index_lj==5}">{{$t("message.setting.record")}} </a> 
-                        </router-link>
-                    </div>
-                    <div :class="{setting_tj:index_lj==6}"  @click="setting_ys5" class="setting_left">
-                        <router-link  :to="{name:'RegionalRouter'}">
-                            <a href="javascript:void(0)" class="setting_left_a" :class="{setting_tj1:index_lj==6}">{{$t("message.setting.Regional")}} </a> 
-                        </router-link>
-                    </div>
+                    <router-link  :to="{name:'devicesRouter'}">
+                        <a href="javascript:void(0)" class="setting_left_a" :class="{setting_tj1:index_lj==1}">
+                            <div :class="{setting_tj:index_lj==1}"  @click="setting_ys" class="setting_left">
+                                {{$t("message.setting.device")}} 
+                            </div>
+                        </a> 
+                    </router-link>
+                    <router-link  :to="{name:'devicesdksRouter'}">
+                        <a href="javascript:void(0)" class="setting_left_a" :class="{setting_tj1:index_lj==2}">
+                            <div :class="{setting_tj:index_lj==2}"  @click="setting_ys1" class="setting_left">
+                                {{$t("message.setting.devicesdk")}}
+                            </div>
+                        </a> 
+                    </router-link>
+                    <router-link  :to="{name:'devicertmppushsRouter'}">
+                        <a href="javascript:void(0)" class="setting_left_a" :class="{setting_tj1:index_lj==3}">
+                            <div :class="{setting_tj:index_lj==3}"  @click="setting_ys2" class="setting_left">
+                                {{$t("message.setting.devicertmppush")}}
+                            </div>
+                         </a> 
+                    </router-link>
+                    <router-link  :to="{name:'usersettingsRouter'}">
+                        <a href="javascript:void(0)" class="setting_left_a" :class="{setting_tj1:index_lj==4}">
+                            <div :class="{setting_tj:index_lj==4}"  @click="setting_ys3" class="setting_left">
+                                {{$t("message.setting.user")}}
+                            </div>
+                        </a> 
+                    </router-link>
+                    <router-link  :to="{name:'recordsRouter'}">
+                        <a href="javascript:void(0)" class="setting_left_a" :class="{setting_tj1:index_lj==5}">
+                            <div :class="{setting_tj:index_lj==5}"  @click="setting_ys4" class="setting_left">{{$t("message.setting.record")}}</div>
+                        </a> 
+                    </router-link>
+                    <router-link  :to="{name:'RegionalRouter'}">
+                        <a href="javascript:void(0)" class="setting_left_a" :class="{setting_tj1:index_lj==6}">
+                            <div :class="{setting_tj:index_lj==6}"  @click="setting_ys5" class="setting_left">
+                                {{$t("message.setting.Regional")}} 
+                            </div>
+                        </a> 
+                    </router-link>
                 </div>
             </el-col>
             <el-col style="padding:0px;" :span="20">
@@ -96,7 +106,7 @@ export default {
         },
         setting_ys5(){
              this.index_lj=6;
-             this.language="区域管理";
+             this.language=this.$t("message.setting.Regional");
         },
      
     }
@@ -105,6 +115,10 @@ export default {
 
 
 <style scoped>
+a{
+    font-size: 14px;
+    color: #000;
+}
 /* 左边的点击后显示的颜色 */
 /* .el-menu-item.is-active {
     color: #409EFF;
@@ -122,7 +136,7 @@ export default {
     padding: 10px 0;
     padding-left: 29%;
     box-sizing: border-box;
-    font-size: 18px;
+    font-size: 16px;
 }
 /* 点击变换颜色 */
 .setting_tj{
