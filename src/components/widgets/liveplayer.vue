@@ -258,7 +258,7 @@ export default {
 	            streamprofile: streamprofile, // {string} - stream profile, main/sub or other predefine transcoding profile
                 rootpath: '/', // '/'
                 token: token,
-                hlsver: 'v1', //v1 is for ts, audioback is for fmp4
+                hlsver: 'v1', //v1 is for ts, v2 is for fmp4
                 session: this.$store.state.token //session got from login
             };
             var $container = $("#"+this.h5id);
@@ -317,13 +317,6 @@ export default {
         },
         //麦克风
         Shoutwheat(event){
-            if (this.audioback != undefined)
-            {
-                // console.log("是否有值");
-                this.audioback.disconnect();
-                delete this.audioback;
-                this.audioback = undefined;
-            }
             var tokenshou=this.tokenshou
             var conf2 = {
                 protocol: window.location.protocol, //http: or https:
@@ -336,12 +329,12 @@ export default {
             
             var Shoutwheat=this.Shoutwheatclass;
             if(Shoutwheat=="mdi mdi-microphone-off"){
-                // console.log("大开");
+                console.log("大开");
                 this.audioback = new H5sPlayerAudBack(conf2);
                 this.audioback.connect();
                 this.Shoutwheatclass="mdi mdi-microphone";
             }else{
-                // console.log("关闭2");
+                console.log("关闭2");
                 this.audioback.disconnect();
                 delete this.audioback;
                 this.audioback = undefined;
