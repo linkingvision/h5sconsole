@@ -96,7 +96,7 @@
                             width=310px>
                             <template slot-scope="scope">
                                 <div class="button_edi">
-                                    <a :href="scope.row.url" :download="scope.row.urlto"><button type="button" class="iconfont icon-download"></button></a>
+                                    <a :href="scope.row.url" :download="scope.row.urlto"><button type="button" style="margin-right: 40px;" class="iconfont icon-download"></button></a>
                                     <button type="button" class="iconfont icon-play" @click="Refresh1(scope.$index, scope.row)" data-toggle="modal" data-target="#myModal"></button>
                                 </div>
                                 <!-- <el-button
@@ -182,7 +182,7 @@ export default {
             pageSize: 10,//一页数量
             search: '',
             filterText: '',
-            data: this.listdatag.listdatag,
+            data: this.regionaldata.regionaldata,
             defaultProps: {
                 children: 'children',
                 label: 'label',

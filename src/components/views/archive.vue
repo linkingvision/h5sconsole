@@ -207,7 +207,7 @@ export default {
             pageSize: 10,//一页数量
             search: '',
             filterText: '',
-            data:this.listdatag.listdatagload,
+            data:this.regionaldata.regionaldata,
             defaultProps: {
                 children: 'children',
                 label: 'label',

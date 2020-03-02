@@ -61,6 +61,8 @@ import event from '@/components/views/js/event'
 // Vue.prototype.EVENT = data
 // console.log("......",data);
 import listdatag from '@/components/views/js/dev'
+import regionaldata from '@/components/views/js/regional'
+Vue.prototype.regionaldata = regionaldata
 Vue.prototype.listdatag = listdatag
 Vue.prototype.EVENT = event
 Vue.prototype.$http = axios

@@ -105,7 +105,7 @@ export default {
             proto: 'WS',
             Shoutwheatclass:"mdi mdi-microphone-off",
             tokenshou:"",
-            v2: undefined,//视频内容
+            audioback: undefined,//视频内容
             videoname:"",//视频名称
             Presetdata:[],//预置位数组
             Preset_value:0.5,//镜头转换速度
@@ -258,7 +258,7 @@ export default {
 	            streamprofile: streamprofile, // {string} - stream profile, main/sub or other predefine transcoding profile
                 rootpath: '/', // '/'
                 token: token,
-                hlsver: 'v1', //v1 is for ts, v2 is for fmp4
+                hlsver: 'v1', //v1 is for ts, audioback is for fmp4
                 session: this.$store.state.token //session got from login
             };
             var $container = $("#"+this.h5id);
@@ -280,6 +280,15 @@ export default {
         },
         CloseVideo(event)
         {
+            // console.log("关闭",this.audioback);
+            if (this.audioback != undefined)
+            {
+                // console.log("关闭");
+                this.audioback.disconnect();
+                delete this.audioback;
+                this.audioback = undefined;
+                this.Shoutwheatclass="mdi mdi-microphone-off";
+            }
             this.videoname="";
             var $container = $("#"+this.h5id);
             var $ptzcontrols = $container.children(".ptzcontrols");
@@ -305,12 +314,39 @@ export default {
                 $("#" + this.h5videoid).get(0).poster = '';
 
             }
-
-            //var $container = $("#"+this.h5id);
-            //var $video =$container.children("video");
-            //$video.remove();
-            //var videoHTML = '<video class="h5video" id=' + this.videoid + ' autoplay webkit-playsinline playsinline></video>';
-            //$container.append(videoHTML);
+        },
+        //麦克风
+        Shoutwheat(event){
+            if (this.audioback != undefined)
+            {
+                // console.log("是否有值");
+                this.audioback.disconnect();
+                delete this.audioback;
+                this.audioback = undefined;
+            }
+            var tokenshou=this.tokenshou
+            var conf2 = {
+                protocol: window.location.protocol, //http: or https:
+                host: window.location.host, //localhost:8080
+                rootpath:'/', // '/' or window.location.pathname
+                token:tokenshou,
+                session:this.$store.state.token //session got from login
+            };
+            
+            
+            var Shoutwheat=this.Shoutwheatclass;
+            if(Shoutwheat=="mdi mdi-microphone-off"){
+                // console.log("大开");
+                this.audioback = new H5sPlayerAudBack(conf2);
+                this.audioback.connect();
+                this.Shoutwheatclass="mdi mdi-microphone";
+            }else{
+                // console.log("关闭2");
+                this.audioback.disconnect();
+                delete this.audioback;
+                this.audioback = undefined;
+                this.Shoutwheatclass="mdi mdi-microphone-off";
+            }
         },
         FullScreen(event)
         {
@@ -593,27 +629,6 @@ export default {
             document.body.appendChild(dlLink);
             dlLink.click();
             document.body.removeChild(dlLink);
-        },
-        //麦克风
-        Shoutwheat(event){
-            var tokenshou=this.tokenshou
-            var conf2 = {
-                protocol: window.location.protocol, //http: or https:
-                host: window.location.host, //localhost:8080
-                rootpath:'/', // '/' or window.location.pathname
-                token:tokenshou,
-                session:this.$store.state.token //session got from login
-            };
-            this.v2 = new H5sPlayerAudBack(conf2);
-            
-            var Shoutwheat=this.Shoutwheatclass;
-            if(Shoutwheat=="mdi mdi-microphone-off"){
-                this.v2.connect();
-                this.Shoutwheatclass="mdi mdi-microphone";
-            }else{
-                this.v2.disconnect();
-                this.Shoutwheatclass="mdi mdi-microphone-off";
-            }
         },
         redborder(){
             var cors=this.cols*this.rows;

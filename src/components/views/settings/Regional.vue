@@ -129,8 +129,7 @@
 </template>
 <script>
     import Vue from 'vue'
-    import regionaldata from '@/components/views/js/regional'
-    Vue.prototype.regionaldata = regionaldata
+
     export default {
         inject:["reload"],
         data() {
