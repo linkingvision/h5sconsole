@@ -101,16 +101,16 @@
                                     <span>{{this.$t("message.dashboard.codec_info")}}</span>
                                 </div>
                                 <div>
-                                    <router-link  :to="{name:'GPURouter'}">
+                                    <!-- <router-link  :to="{name:'GPURouter'}">
                                         <a class="A_More" href="javascript:void(0)">
                                             <div>
                                                 更多<i class="el-icon-d-arrow-right"></i>
                                             </div>
                                         </a> 
-                                    </router-link>
-                                    <!-- <div class="A_More">
+                                    </router-link> -->
+                                    <div class="A_More">
                                         更多<i class="el-icon-d-arrow-right"></i>
-                                    </div> -->
+                                    </div>
                                 </div>
                             </div>
                         </div>
