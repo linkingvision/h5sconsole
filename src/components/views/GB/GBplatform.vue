@@ -175,7 +175,7 @@
                     </el-table-column>
                     <el-table-column
                         prop="index"
-                        label="index"
+                        :label="label.Index"
                         width="100">
                     </el-table-column>
                     <el-table-column
@@ -185,7 +185,7 @@
                     </el-table-column>
                     <el-table-column
                     prop="Token"
-                    label="Token"
+                    :label="label.Token"
                     width="180">
                     </el-table-column>
                     <el-table-column
@@ -253,6 +253,9 @@ import uuid from '@/store/uuid'
             label11:this.$t("message.GB.RegisterPeriod"),
             label12:this.$t("message.GB.KeepaliveTime"),
             label13:this.$t("message.GB.Domain"),
+
+            Index:this.$t("message.table.Index"),
+            Token:this.$t("message.table.Token"),
         },
         //分页
         search:"",//搜索

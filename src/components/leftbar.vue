@@ -1,8 +1,9 @@
 <template>
 <div class="navbar-default sidebar" role="navigation">
-    <div class="sidebar-nav slimscrollsidebar">
+    <div class="sidebar-nav slimscrollsidebar" style="overflow:auto">
         <div class="sidebar-head">
-            <h3><span class="fa-fw open-close"><i class="ti-menu hidden-xs"></i><i class="ti-close visible-xs"></i></span> <span class="hide-menu">{{$t("message.left.navigation")}}</span></h3> </div>
+            <h3><span class="fa-fw open-close"><i class="ti-menu hidden-xs"></i><i class="ti-close visible-xs"></i></span> <span class="hide-menu">{{$t("message.left.navigation")}}</span></h3> 
+        </div>
         <ul class="nav" id="side-menu">
             <router-link tag="li" :to="{name:'dashboardRouter'}">
             <a href="#" class=""><i class="mdi mdi-view-dashboard fa-fw" data-icon="v"></i> <span class="hide-menu"> {{$t("message.left.dashboard")}}  </span></a>
@@ -25,7 +26,11 @@
              
             <!-- 音视频对讲 -->
             <router-link tag="li" :to="{name:'avintercomRouter'}">
-			<a href="#" class=""><i class="iconfont icon-shipinhuiyi3" style=" margin-right: 9px;" data-icon="v"></i> <span class="hide-menu"> {{$t("message.left.VideoConference")}}  </span></a>
+			<a href="#" class=""><i class="iconfont icon-shipinhuiyi3" style=" margin:0 9px 0 2px;font-size: 17px;" data-icon="v"></i> <span class="hide-menu"> {{$t("message.left.VideoConference")}}  </span></a>
+			 </router-link>
+              <!-- 巡更 apps -->
+			<router-link tag="li" :to="{name:'TourRouter'}">
+			<a href="#" class=""><i class="mdi mdi-view-grid fa-fw" data-icon="v"></i> <span class="hide-menu"> {{$t("message.left.tour")}}</span></a>
 			 </router-link>
              <!-- 高级回放 -->
 			<router-link tag="li" :to="{name:'AdvancePBRouter'}">
@@ -48,10 +53,7 @@
             <router-link tag="li" :to="{name:'cloudsRouter'}">
             <a href="#" class="waves-effect"><i class="mdi mdi-cloud fa-fw"></i> <span class="hide-menu">{{$t("message.left.cloud")}}</span></a>
             </router-link>
-             <!-- 巡更 apps -->
-			<router-link tag="li" :to="{name:'TourRouter'}">
-			<a href="#" class=""><i class="mdi mdi-view-grid fa-fw" data-icon="v"></i> <span class="hide-menu"> {{$t("message.left.tour")}}</span></a>
-			 </router-link>
+            
              <!-- 本地查看 -->
             <li >
             <a href="/mediastore" class=""><i class="mdi mdi-folder fa-fw"  data-icon="v"></i> <span class="hide-menu"> {{$t("message.left.screenshots")}} </span></a>

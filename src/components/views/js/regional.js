@@ -15,8 +15,6 @@ const i18n = new VueI18n({
       'zhcht': LangZhCHT
     }
 })
-
-console.log(i18n.tc('message.live.camera')) // 你好世界
 //测试机仓
 var regionaldata=[];
 var regionaldataload=[];
@@ -33,7 +31,6 @@ function loadtest(){
     }
     //url
     var url = root + "/api/v1//GetSrcCamera?session="+ store.state.token;
-    console.log(url);
     // return falsel;
     axios.get(url).then(result=>{
         if(result.status == 200){
@@ -63,10 +60,6 @@ function loadtest(){
                     if(item['bRec'] == true)
                         newItem['iconclass2'] = 'iconfont icon-radioboxfill none';
                         
-                    
-                    
-                // console.log("itme",newItem,item)
-
                 srcGroup.children.push(newItem);
                 }
             }
@@ -323,5 +316,4 @@ function cloudSrc(srclevel, srcData) {
         console.log('GetSrc failed', error);
     });
 }
-// console.log("....................",regionaldata);
 export default{regionaldata,regionaldataload}

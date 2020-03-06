@@ -12,7 +12,7 @@
             style="width: 100%; height: 800px;overflow-y: auto;">
             <el-table-column
                 prop="index"
-                label="Index"
+                :label="G_label.Index"
                 width="70">
                 <template slot-scope="scope">
                     {{scope.$index+1}}
@@ -20,27 +20,27 @@
             </el-table-column>
             <el-table-column
                 prop="Type"
-                label="Type"
+                :label="G_label.Type"
                 width="300">
             </el-table-column>
             <el-table-column
                 prop="Token"
-                label="Token"
+                :label="G_label.Tokenevent"
                 width="120">
             </el-table-column>
             <el-table-column
                 prop="UUID"
-                label="UUID"
+                :label="G_label.UUID"
                 width="160">
             </el-table-column>
             <el-table-column
                 prop="Time"
-                label="Time"
+                :label="G_label.Time"
                 width="160">
             </el-table-column>
             <el-table-column
                 prop="Detail"
-                label="Detail">
+                :label="G_label.Detail">
             </el-table-column>
         </el-table>
         <!-- 分页 -->
@@ -59,6 +59,14 @@
   export default {
     data() {
       return {
+        G_label:{
+            Index:this.$t("message.table.Index"),
+            Type:this.$t("message.table.Type"),
+            Tokenevent:this.$t("message.table.Tokenevent"),
+            UUID:this.$t("message.table.UUID"),
+            Time:this.$t("message.table.Time"),
+            Detaill:this.$t("message.table.Detaill"),
+        },
         //分页
         currentPage: 1, // 当前页码
         total: 0, // 总条数

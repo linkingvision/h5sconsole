@@ -62,6 +62,7 @@
                         <div class="nr_mory">
                             <div class="nr_mory1">
                                 <el-progress
+                                v-if="strRunTime"
                                 type="circle" 
                                 :width='100'
                                 :percentage="Number(Math.round((strRunTime.nTotalSpaceByte-strRunTime.nFreeSpaceByte)/strRunTime.nTotalSpaceByte*100))"></el-progress> 
@@ -72,8 +73,9 @@
                                 <el-progress
                                 type="circle"
                                 :width='100'
+                                v-if="strRunTime"
                                 color="#FF952C"
-                                :percentage="Number(strRunTime.nMemoryUsage)" ></el-progress>
+                                :percentage="Number(strRunTime.nMemoryUsage)"></el-progress>
                                 <div>{{this.$t("message.dashboard.memory")}}</div>
                                 <div>({{this.$t("message.dashboard.TotalMemory")}}: {{(strRunTime.nTotalMemoryByte/1024/1024/1024).toFixed(1)}}G)</div>
                             </div>
@@ -85,9 +87,37 @@
                             <span>{{this.$t("message.dashboard.codec_info")}}</span>
                         </div>
                         <div class="flex_nc_ag">
-                            <div class="flex_nc_cpu" v-for="a in codecInfo" :key="a.id">
+                            <div class="flex_nc_cpu" v-for="(a,index) in codecInfo" :key="index">
                                 <span class="cpu_zuo">{{a.name}}:</span>
                                 <span class="cpu_you"> {{a.id}}</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flex_nc1">
+                        <div class="beibiao_zi">
+                            <div style="display: flex; justify-content: space-between;">
+                                <div>
+                                    <img src="./gallery/daId@2x.png"/>
+                                    <span>{{this.$t("message.dashboard.codec_info")}}</span>
+                                </div>
+                                <div>
+                                    <router-link  :to="{name:'GPURouter'}">
+                                        <a class="A_More" href="javascript:void(0)">
+                                            <div>
+                                                更多<i class="el-icon-d-arrow-right"></i>
+                                            </div>
+                                        </a> 
+                                    </router-link>
+                                    <!-- <div class="A_More">
+                                        更多<i class="el-icon-d-arrow-right"></i>
+                                    </div> -->
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flex_nc_ag">
+                            <div class="flex_iv">
+                                <div>Index {{Gpulen.nIndex}}</div>
+                                <div>NVIDIA {{Gpulen.nvidia}}</div>
                             </div>
                         </div>
                     </div>
@@ -97,7 +127,7 @@
                             <span>{{this.$t("message.dashboard.capability")}}</span>
                         </div>
                         <div class="nr_function">
-                            <div class="nr_kuan" v-for="c in system" :key="c.name">
+                            <div class="nr_kuan" v-for="(c,index) in system" :key="index">
                                 <span>{{c.name}}</span>
                                 <el-switch
                                 v-model="c.id"
@@ -117,7 +147,7 @@
                         <span>{{this.$t("message.dashboard.system_info")}}</span>
                     </div>
                     <div class="flex_nc_ag">
-                        <div class="flex_nc_cpu" v-for="b in capability" :key="b.id">
+                        <div class="flex_nc_cpu" v-for="(b,index) in capability" :key="index">
                             <span class="cpu_zuo">{{b.name}}:</span>
                             <span class="cpu_you"> {{b.id}}</span>
                         </div>
@@ -271,15 +301,17 @@ export default {
         Offline:this.$t("message.dashboard.Offline"),
 
         strRunTime:"",//运行时间
+        Gpulen:{
+            nIndex:"",
+            nvidia:"",
+        }
     };
   },
     beforeDestroy() {
-        console.log("Dashboard", "beforeDestroy");
         clearInterval(this.timerRunInfo);
     },
     destroyed() {
         this.config1.data[0]=Math.round(this.dev.nONVIFOnline/this.dev.nONVIFTotal*100);
-        console.log('Dashboard', "destroyed");
     },  
     mounted: function() {
         
@@ -298,9 +330,7 @@ export default {
         this.devisc();
         this.devtd();
         this.devgb();
-        
-            
-            // console.log("*******",Math.round(this.dev.nONVIFOnline/this.dev.nONVIFTotal*100),this.config.data[0]);
+        this.Gpu();
         this.timerRunInfo = setInterval(() => {
             this.GetRunInfo();
             this.cpu();
@@ -317,6 +347,26 @@ export default {
 
     },
     methods: {
+        //GPU
+        Gpu(){
+            let _this = this;
+            var root = process.env.API_ROOT;
+            if (root == undefined) {
+                root =window.location.protocol + "//" +window.location.host +window.location.pathname;
+            }
+
+            var url =root + "/api/v1/GetGPUInfo?session=" + this.$store.state.token;
+                // console.log("------------",url)
+            this.$http.get(url).then(result => {
+                if (result.status == 200) {
+                    var data = result.data;
+                    console.log(data.intel.length,data.nvidia.length);
+                    this.Gpulen.nIndex=data.intel.length;
+                    this.Gpulen.nvidia=data.nvidia.length;
+                    console.log(this.Gpulen)
+                }
+            })
+        },
         //流量
         flow() {
             var base = +new Date();
@@ -329,10 +379,13 @@ export default {
                 )
             }
             // console.log(this.data)
-            
             // console.log(this.data,this.data1)
             // 基于准备好的dom，初始化echarts实例
-            var myChart = echarts.init(document.getElementById('container'))
+            var pieId = document.getElementById('container');
+            if (!pieId){
+                return false;
+            }
+            var myChart = echarts.init(pieId)
             // 绘制图表
             myChart.setOption({
                 tooltip: {
@@ -435,8 +488,12 @@ export default {
                     [('0' + now.getSeconds()).slice(-2) + 's']
                 )
             }
+            var pieId = document.getElementById('container1');
+            if (!pieId){
+                return false;
+            }
             // 基于准备好的dom，初始化echarts实例
-            var myChart = echarts.init(document.getElementById('container1'))
+            var myChart = echarts.init(pieId)
             // 绘制图表
             myChart.setOption({
                 tooltip: {
@@ -938,6 +995,7 @@ export default {
             }
             //url
             var url = root + "/api/v1/GetRunInfo?session="+ this.$store.state.token;
+
             // console.log("url111",url)
             this.$http.get(url).then(result=>{
                 if (result.status == 200) {
@@ -1102,6 +1160,11 @@ export default {
                 // console.log("------------",url)
             this.$http.get(url).then(result => {
                 //console.log(result);
+                // name:this.$t("message.dashboard.gpuencoder"),
+                // id:data.strHWEncoders
+                // name:this.$t("message.dashboard.gpudecoder"),
+                // id:data.strHWDecoders
+
                 if (result.status == 200) {
                     var data =  result.data;
                     var cpu=[{
@@ -1113,12 +1176,6 @@ export default {
                     },{
                         name:this.$t("message.dashboard.CPUCore"),
                         id:data.nCPUCore
-                    },{
-                        name:this.$t("message.dashboard.gpuencoder"),
-                        id:data.strHWEncoders
-                    },{
-                        name:this.$t("message.dashboard.gpudecoder"),
-                        id:data.strHWDecoders
                     },{
                         name:this.$t("message.dashboard.cpuencoder"),
                         id:data.strSWEncoders
@@ -1147,10 +1204,8 @@ export default {
             }
 
             var url = root + "/api/v1/GetSrc?session=" + this.$store.state.token;
-            console.log("****************", url);
 
             this.$http.get(url).then(result => {
-                console.log(result.data.src.length);
 
                 if (result.status == 200) {
                     var data = result.data;
@@ -1191,6 +1246,20 @@ export default {
 };
 </script>
 <style scoped>
+/* a标签 */
+.A_More{
+    font-size:14px;
+    color: #66CDB4; 
+    font-family:PingFang SC;
+}
+.flex_iv{
+    display: flex; justify-content: space-around;width:100%;
+    font-size:12px;
+    font-family:PingFang SC;
+    font-weight:400;
+    color:rgba(51,51,51,1);
+}
+
 #page-wrapper{
     margin-bottom: 20px;
 }
@@ -1310,7 +1379,7 @@ export default {
 .beibiao_zi{
     font-size:16px;
     font-weight:400;
-    margin-right: 10px;
+    margin: 0 10px;
     color:rgba(51,51,51,1);
 }
 .beibiao_zi1{
@@ -1390,9 +1459,12 @@ export default {
 }
 
 .flex_nc .flex_nc1:nth-child(2){
-    height: 40%;
+    height: 30%;
 }
 .flex_nc .flex_nc1:nth-child(3){
+    height: 10%;
+}
+.flex_nc .flex_nc1:nth-child(4){
     height: 25%;
 }
 .nr_function{

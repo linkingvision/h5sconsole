@@ -136,6 +136,7 @@ export default {
         var $video =$container.children("video");
         var videodom = $container.children("video").get(0);
         var $controls = $container.children(".h5controls");
+        // console.log($controls)
         var $rtcbutton = $controls.children(".rtcbutton");
 
         let _this = this;

@@ -38,7 +38,7 @@
                     style="width: 100%;overflow-y: auto;">
                     <el-table-column
                         prop="token"
-                        label="Token"
+                        :label="label.Token"
                         width="300">
                     </el-table-column>
                     <el-table-column
@@ -48,7 +48,7 @@
                     </el-table-column>
                     <el-table-column
                         width="250"
-                        :label="label">
+                        :label="open_Close">
                         <template slot-scope="scope">
                             <el-switch
                                 v-model="scope.row.open_close"
@@ -59,7 +59,7 @@
                         </template>
                     </el-table-column>
                     <el-table-column
-                        label="GBID">
+                        :label="label.GBID">
                         <template slot-scope="scope">
                             <el-input v-model="scope.row.gbid" placeholder="请输入内容"></el-input>
                         </template>
@@ -104,10 +104,14 @@
   export default {
     data() {
       return {
-        label:this.$t('message.camera.open_Close'),
+        open_Close:this.$t('message.camera.open_Close'),
         Name1:this.$t('message.camera.name'),
         audio:this.$t('message.camera.audio'),
         save:this.$t('message.camera.save'),
+        label:{
+            Token:this.$t('message.table.Token'),
+            GBID:this.$t('message.table.GBID'),
+        },
         //分页
         currentPage: 1, // 当前页码
         total: 0, // 总条数

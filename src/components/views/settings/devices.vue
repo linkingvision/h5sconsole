@@ -4,14 +4,14 @@
         <el-dialog :title="eltitle" :visible.sync="editPopup">
           <el-form label-position="right" label-width="140px" :model="editform">
           
-              <el-form-item label="Type">
+              <el-form-item :label="label.Type">
                 <el-select v-model="editform.Type" placeholder="请选择">
                 </el-select>
               </el-form-item>
-              <el-form-item label="Name">
+              <el-form-item :label="label.Name">
                   <input class="editinput" v-model="editform.Name"/>
               </el-form-item>
-              <el-form-item label="Token">
+              <el-form-item :label="label.Token">
                   <input class="editinput" v-model="editform.Token"/>
               </el-form-item>
               <el-form-item label="Username" v-if="editform.Type!='H5_FILE'">
@@ -20,10 +20,10 @@
               <el-form-item label="Password" v-if="editform.Type!='H5_FILE'">
                   <input class="editinput" v-model="editform.Password"/>
               </el-form-item>
-              <el-form-item label="IP" v-if="editform.Type==='H5_ONVIF'">
+              <el-form-item :label="label.IP" v-if="editform.Type==='H5_ONVIF'">
                   <input class="editinput" v-model="editform.IP"/>
               </el-form-item>
-              <el-form-item label="Port" v-if="editform.Type==='H5_ONVIF'">
+              <el-form-item :label="label.Port" v-if="editform.Type==='H5_ONVIF'">
                   <input class="editinput" v-model="editform.Port"/>
               </el-form-item>
               <el-form-item label="URL" v-if="editform.Type!='H5_ONVIF'">
@@ -47,13 +47,13 @@
         <el-dialog :title="eltitle" :visible.sync="dialogFormVisible">
                     <el-form label-position="right" label-width="140px" :model="form">
                     
-                        <el-form-item label="Type">
+                        <el-form-item :label="label.Type">
                           <input class="editinput" v-model="form.Type"/>
                         </el-form-item>
-                        <el-form-item label="Name">
+                        <el-form-item :label="label.Name">
                             <input class="editinput" v-model="form.Name"/>
                         </el-form-item>
-                        <el-form-item label="Token">
+                        <el-form-item :label="label.Token">
                             <input class="editinput" v-model="form.Token"/>
                         </el-form-item>
                         <el-form-item label="Username" v-if="form.Type!='H5_FILE'">
@@ -62,10 +62,10 @@
                         <el-form-item label="Password" v-if="form.Type!='H5_FILE'">
                             <input class="editinput" v-model="form.Password"/>
                         </el-form-item>
-                        <el-form-item label="IP" v-if="form.Type==='H5_ONVIF'">
+                        <el-form-item :label="label.IP" v-if="form.Type==='H5_ONVIF'">
                             <input class="editinput" v-model="form.IP"/>
                         </el-form-item>
-                        <el-form-item label="Port" v-if="form.Type==='H5_ONVIF'">
+                        <el-form-item :label="label.Port" v-if="form.Type==='H5_ONVIF'">
                             <input class="editinput" v-model="form.Port"/>
                         </el-form-item>
                         <el-form-item label="URL" v-if="form.Type!='H5_ONVIF'">
@@ -145,38 +145,38 @@
                     </el-table-column>
                     <el-table-column
                         prop="index"
-                        label="index"
+                        :label="label.Index"
                         width="100">
                     </el-table-column>
                     <el-table-column
                     prop="Name"
-                    label="Name">
+                    :label="label.Name">
                     </el-table-column>
                     <el-table-column
                     prop="IP"
-                    label="IP"
+                    :label="label.IP"
                     min-width="140">
                     </el-table-column>
                     <el-table-column
                     prop="Port"
-                    label="Port">
+                    :label="label.Port">
                     </el-table-column>
                     <el-table-column
                     prop="User"
-                    label="User">
+                    :label="label.User">
                     </el-table-column>
                     <el-table-column
                     prop="Online"
-                    label="Online">
+                    :label="label.Online">
                     </el-table-column>
                     <el-table-column
                     prop="Type"
-                    label="Type"
+                    :label="label.Type"
                     min-width="140">
                     </el-table-column>
                     <el-table-column
                     prop="Token"
-                    label="Token">
+                    :label="label.Token">
                     </el-table-column>
                     <el-table-column
                         fixed="right"
@@ -260,38 +260,38 @@
                     </el-table-column>
                     <el-table-column
                         prop="index"
-                        label="index"
+                        :label="label.Index"
                         width="100">
                     </el-table-column>
                     <el-table-column
                     prop="Name"
-                    label="Name">
+                    :label="label.Name">
                     </el-table-column>
                     <el-table-column
                     prop="IP"
-                    label="IP"
+                    :label="label.IP"
                     min-width="140">
                     </el-table-column>
                     <el-table-column
                     prop="Port"
-                    label="Port">
+                    :label="label.Port">
                     </el-table-column>
                     <el-table-column
                     prop="User"
-                    label="User">
+                    :label="label.User">
                     </el-table-column>
                     <el-table-column
                     prop="Online"
-                    label="Online">
+                    :label="label.Online">
                     </el-table-column>
                     <el-table-column
                     prop="Type"
-                    label="Type"
+                    :label="label.Type"
                     min-width="140">
                     </el-table-column>
                     <el-table-column
                     prop="Token"
-                    label="Token">
+                    :label="label.Token">
                     </el-table-column>
                     <el-table-column
                         fixed="right"
@@ -375,38 +375,38 @@
                     </el-table-column>
                     <el-table-column
                         prop="index"
-                        label="index"
+                        :label="label.Index"
                         width="100">
                     </el-table-column>
                     <el-table-column
                     prop="Name"
-                    label="Name">
+                    :label="label.Name">
                     </el-table-column>
                     <el-table-column
                     prop="IP"
-                    label="IP"
+                    :label="label.IP"
                     min-width="140">
                     </el-table-column>
                     <el-table-column
                     prop="Port"
-                    label="Port">
+                    :label="label.Port">
                     </el-table-column>
                     <el-table-column
                     prop="User"
-                    label="User">
+                    :label="label.User">
                     </el-table-column>
                     <el-table-column
                     prop="Online"
-                    label="Online">
+                    :label="label.Online">
                     </el-table-column>
                     <el-table-column
                     prop="Type"
-                    label="Type"
+                    :label="label.Type"
                     min-width="140">
                     </el-table-column>
                     <el-table-column
                     prop="Token"
-                    label="Token">
+                    :label="label.Token">
                     </el-table-column>
                     <el-table-column
                         fixed="right"
@@ -489,38 +489,38 @@
                     </el-table-column> -->
                     <el-table-column
                         prop="index"
-                        label="index"
+                        :label="label.Index"
                         width="100">
                     </el-table-column>
                     <el-table-column
                     prop="Name"
-                    label="Name">
+                    :label="label.Name">
                     </el-table-column>
                     <el-table-column
                     prop="IP"
-                    label="IP"
+                    :label="label.IP"
                     min-width="140">
                     </el-table-column>
                     <el-table-column
                     prop="Port"
-                    label="Port">
+                    :label="label.Port">
                     </el-table-column>
                     <el-table-column
                     prop="User"
-                    label="User">
+                    :label="label.User">
                     </el-table-column>
                     <el-table-column
                     prop="Online"
-                    label="Online">
+                    :label="label.Online">
                     </el-table-column>
                     <el-table-column
                     prop="Type"
-                    label="Type"
+                    :label="label.Type"
                     min-width="140">
                     </el-table-column>
                     <el-table-column
                     prop="Token"
-                    label="Token"
+                    :label="label.Token"
                     min-width="140">
                     </el-table-column>
                 </el-table>
@@ -555,6 +555,15 @@ import uuid from '@/store/uuid'
             label1:"H5_ONVIF",//选2
             label2:"H5_FILE",//选2
             label3:this.$t("message.setting.all"),//选3
+            
+            Index:this.$t("message.table.Index"),
+            Name:this.$t("message.table.Name"),
+            IP:this.$t("message.table.IP"),
+            Port:this.$t("message.table.Port"),
+            User:this.$t("message.table.User"),
+            Online:this.$t("message.table.Online"),
+            Type:this.$t("message.table.Type"),
+            Token:this.$t("message.table.Token"),
         },
         options: [{
                 value: 'H5_STREAM',

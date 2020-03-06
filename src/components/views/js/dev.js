@@ -16,7 +16,6 @@ const i18n = new VueI18n({
     }
 })
 
-console.log(i18n.tc('message.live.camera')) // 你好世界
 //测试机仓
 var listdatag=[];//全部
 var listdatagload=[];//部分
@@ -33,7 +32,6 @@ function loadtest(){
     }
     //url
     var url = root + "/api/v1//GetSrcCamera?session="+ store.state.token;
-    console.log(url);
     // return falsel;
     axios.get(url).then(result=>{
         if(result.status == 200){
@@ -80,10 +78,6 @@ function loadtest(){
                     if(item['bRec'] == true)
                         newItem['iconclass2'] = 'iconfont icon-radioboxfill none';
                         
-                    
-                    
-                // console.log("itme",newItem,item)
-
                 srcGroup.children.push(newItem);
                 }
             }
@@ -164,7 +158,6 @@ function loadSrc(srclevel, srcData) {
                   disabled_me:false
                 }]
                 for(var l=0; l< node.length; l++){
-                    console.log("1111111111111111111",node[l].disabled_me)
                     if(item['bDisable'] == true){
                         node[l].disabled_me =true;
                     }
@@ -404,17 +397,14 @@ function Regional(){
         root = window.location.protocol + '//' + window.location.host + window.location.pathname;
     }
     var url = root + "/api/v1/GetRegion?session="+ store.state.token;
-    // console.log("////////////",url)
     axios.get(url).then(result=>{
         var oldarr=result.data.root;
         var oldarr1=result.data.src;
         var dataroot=getchild(oldarr,oldarr1);
-        // console.log("--------",dataroot,oldarr1,oldarr)
         listdatag1.push(dataroot);
     })
 }
 function getchild(arr,arr1) {
-    // console.log(arr,arr1);
     
     for(var i in arr.cam){
         if(!arr.cam[i].strName){
@@ -464,5 +454,4 @@ function getchild(arr,arr1) {
     return arr;
 }
 Regional();
-// console.log("....................",listdatag);
 export default{listdatag,listdatagload,listdatag1}

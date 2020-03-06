@@ -57,21 +57,21 @@
                         style="width: 100%;">
                         <el-table-column
                             prop="token"
-                            :label="label.label2" >
+                            :label="label.Name" >
                             <template slot-scope="scope">
                                 <span style="margin-left: 10px">{{ scope.row.token }}</span>
                             </template>
                         </el-table-column>
                         <el-table-column
                             prop="name"
-                            label="Token">
+                            :label="label.Token">
                              <template slot-scope="scope">
                                 <span>{{ scope.row.name }}</span>
                             </template>
                         </el-table-column>
                         <el-table-column
                             prop="starf"
-                            :label="label.label3">
+                            :label="label.StartTime">
                              <template slot-scope="scope">
                                 <i class="el-icon-time"></i>
                                 <span>{{ scope.row.starf }}</span>
@@ -79,7 +79,7 @@
                         </el-table-column>
                         <el-table-column
                             prop="end"
-                            :label="label.label4">
+                            :label="label.EndTime">
                              <template slot-scope="scope">
                                 <i class="el-icon-time"></i>
                                 <span>{{ scope.row.end }}</span>
@@ -87,7 +87,7 @@
                         </el-table-column>
                         <el-table-column
                             prop="end"
-                            label="Type">
+                            :label="label.Type">
                              <template slot-scope="scope">
                                 <span>{{ scope.row.type }}</span>
                             </template>
@@ -169,9 +169,11 @@ export default {
     data() {
         return {
             label:{
-                label2:this.$t("message.archive.Name"),
-                label3:this.$t("message.archive.StartTime"),
-                label4:this.$t("message.archive.EndTime"),
+                Name:this.$t("message.table.Name"),
+                Token:this.$t("message.table.Token"),
+                StartTime:this.$t("message.table.StartTime"),
+                EndTime:this.$t("message.table.EndTime"),
+                Type:this.$t("message.table.Type"),
             },
             timelink:0,//滑块
             max:0,//滑块最大值

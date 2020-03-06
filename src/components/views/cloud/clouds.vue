@@ -21,11 +21,11 @@
                     </el-table-column>
                     <el-table-column
                     prop="Token"
-                    label="Token">
+                    :label="label.Token">
                     </el-table-column>
                     <el-table-column
                     prop="ip"
-                    label="ip">
+                    :label="label.IP">
                     </el-table-column>
                 </el-table>
                 <!-- 分页 -->
@@ -50,6 +50,8 @@ export default {
             label:{
                 label:this.$t("message.left.cloud"),//选1
                 label1:this.$t("message.GB.name"),
+                Token:this.$t('message.table.Token'),
+                IP:this.$t('message.table.IP'),
             },
             //分页
             pageSize: 10,//一页数量

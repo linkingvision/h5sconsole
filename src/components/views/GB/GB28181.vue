@@ -48,24 +48,24 @@
                     </el-table-column>
                     <el-table-column
                     prop="name"
-                    :label="label.label1"
+                    :label="label.Name"
                     width="180">
                     </el-table-column>
                     <el-table-column
                     prop="Token"
-                    label="Token"
+                    :label="label.Token"
                     width="180">
                     </el-table-column>
                     <el-table-column
                     prop="bOnline"
-                    label="bOnline">
+                    :label="label.Online">
                     </el-table-column>
                     <el-table-column
                     prop="nType"
-                    label="nType">
+                    :label="label.Type">
                     </el-table-column>
                     <el-table-column
-                        label="edit">
+                        :label="label.Edit">
                         <template slot-scope="scope">
                             <div class="button_edi">
                                 <el-button type="text" size="small" @click="handleRefresh(scope.$index,scope.row)">刷新</el-button>
@@ -98,7 +98,11 @@ import uuid from '@/store/uuid'
         activeName: 'GB28181',//优先显示选项卡
         label:{
             label:this.$t("message.GB.GB28181"),//选1
-            label1:this.$t("message.GB.name"),
+            Name:this.$t("message.table.Name"),
+            Token:this.$t("message.table.Token"),
+            Online:this.$t("message.table.Online"),
+            Type:this.$t("message.table.Type"),
+            Edit:this.$t("message.table.Edit"),
         },
         //分页
         pageSize: 10,//一页数量

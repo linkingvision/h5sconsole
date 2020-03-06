@@ -41,6 +41,7 @@
                     :label="label.label3">
                     </el-table-column>
                     <el-table-column
+                        style=""
                         fixed="right"
                         :label="label.label4"
                         min-width="140">
@@ -168,8 +169,13 @@ import '@/assets/jQuery.md5.js'
     },
   };
 </script>
+<style scoped>
+
+ .el-table >>> .cell{
+      color: #000!important;font-weight: 700!important;
+  }
+</style>
 <style>
-  
   .el-dialog {
     width: 30%;
     

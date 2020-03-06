@@ -5,7 +5,7 @@
         <el-dialog :title="eltitle" :visible.sync="editPopup">
             <el-form label-position="right" label-width="140px" :model="editform">
                     
-                <el-form-item label="Type">
+                <el-form-item :label="label.Type">
                     <el-select v-model="form.Type" placeholder="请选择">
                     <el-option
                         v-for="item in options"
@@ -15,10 +15,10 @@
                     </el-option>
                     </el-select>
                 </el-form-item>
-                <el-form-item label="Name">
+                <el-form-item :label="label.Name">
                     <input class="editinput" v-model="editform.Name"/>
                 </el-form-item>
-                <el-form-item label="Token">
+                <el-form-item :label="label.Token">
                     <input class="editinput" v-model="editform.Token"/>
                 </el-form-item>
                 <el-form-item label="Audio">
@@ -39,7 +39,7 @@
         <el-dialog :title="eltitle" :visible.sync="dialogFormVisible">
                     <el-form label-position="right" label-width="140px" :model="form">
                     
-                        <el-form-item label="Type">
+                        <el-form-item :label="label.Type">
                           <el-select v-model="form.Type" placeholder="请选择">
                             <el-option
                               v-for="item in options"
@@ -49,10 +49,10 @@
                             </el-option>
                           </el-select>
                         </el-form-item>
-                        <el-form-item label="Name">
+                        <el-form-item :label="label.Name">
                             <input class="editinput" v-model="form.Name"/>
                         </el-form-item>
-                        <el-form-item label="Token">
+                        <el-form-item :label="label.Token">
                             <input class="editinput" v-model="form.Token"/>
                         </el-form-item>
                         <el-form-item label="Audio">
@@ -121,29 +121,29 @@
                     </el-table-column>
                     <el-table-column
                         prop="index"
-                        label="index"
+                        :label="label.Index"
                         width="100">
                     </el-table-column>
                     <el-table-column
                     prop="Name"
-                    label="Name">
+                    :label="label.Name">
                     </el-table-column>
                     <el-table-column
                     prop="User"
-                    label="User">
+                    :label="label.User">
                     </el-table-column>
                     <el-table-column
                     prop="Online"
-                    label="Online">
+                    :label="label.Online">
                     </el-table-column>
                     <el-table-column
                     prop="Type"
-                    label="Type"
+                    :label="label.Type"
                     min-width="140">
                     </el-table-column>
                     <el-table-column
                     prop="Token"
-                    label="Token">
+                    :label="label.Token">
                     </el-table-column>
                     <el-table-column
                         fixed="right"
@@ -202,6 +202,15 @@ import uuid from '@/store/uuid'
             label10:this.$t("message.GB.SIPChannelBaseID"),
             label11:this.$t("message.GB.RegisterPeriod"),
             label12:this.$t("message.GB.KeepaliveTime"),
+
+            Index:this.$t("message.table.Index"),
+            Name:this.$t("message.table.Name"),
+            IP:this.$t("message.table.IP"),
+            Port:this.$t("message.table.Port"),
+            User:this.$t("message.table.User"),
+            Online:this.$t("message.table.Online"),
+            Type:this.$t("message.table.Type"),
+            Token:this.$t("message.table.Token"),
         },
         options: [{
                 value: 'H5_RTMP_PUSH',

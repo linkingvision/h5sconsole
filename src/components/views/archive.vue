@@ -56,7 +56,7 @@
                         style="width: 100%;">
                         <el-table-column
                             prop="token"
-                            :label="label.label2"
+                            :label="label.Name"
                             min-width="50" >
                             <template slot-scope="scope">
                                 <span style="margin-left: 10px">{{ scope.row.token }}</span>
@@ -64,14 +64,14 @@
                         </el-table-column>
                         <el-table-column
                             prop="name"
-                            label="Token">
+                            :label="label.Token">
                              <template slot-scope="scope">
                                 <span>{{ scope.row.name }}</span>
                             </template>
                         </el-table-column>
                         <el-table-column
                             prop="starf"
-                            :label="label.label3">
+                            :label="label.StartTime">
                              <template slot-scope="scope">
                                 <i class="el-icon-time"></i>
                                 <span>{{ scope.row.starf }}</span>
@@ -79,7 +79,7 @@
                         </el-table-column>
                         <el-table-column
                             prop="end"
-                            :label="label.label4">
+                            :label="label.EndTime">
                              <template slot-scope="scope">
                                 <i class="el-icon-time"></i>
                                 <span>{{ scope.row.end }}</span>
@@ -87,7 +87,7 @@
                         </el-table-column>
                         <el-table-column
                             prop="end"
-                            label="Type"
+                            :label="label.Type"
                             min-width="50">
                              <template slot-scope="scope">
                                 <span>{{ scope.row.type }}</span>
@@ -111,18 +111,6 @@
                                         <el-button size="mini" style="font-size: 25px;" @click="Refresh1(scope.$index, scope.row)" data-toggle="modal" data-target="#myModal" class="iconfont icon-play"></el-button>
                                     </el-tooltip>
                                 </div>
-                                <!-- <el-button
-                                size="mini"
-                                @click="handleEdit(scope.$index, scope.row)">{{$t("message.archive.archive")}}</el-button>
-                                <el-button
-                                size="mini"
-                                type="primary"
-                                @click="Refresh(scope.row)">{{$t("message.archive.Refresh")}}</el-button>
-                                <el-progress type="circle" :percentage="scope.row.percentage" :stroke-width="2" :width="35"></el-progress>
-                                <el-button
-                                size="mini"
-                                type="success"><a :href="scope.row.url" :download="scope.row.urlto">{{$t("message.archive.Download")}}</a></el-button>
-                                <el-button size="mini" style="font-size: 25px;" icon="el-icon-caret-right" circle @click="Refresh1(scope.$index, scope.row)" data-toggle="modal" data-target="#myModal"></el-button> -->
                             </template>
                          </el-table-column>
                     </el-table>
@@ -195,9 +183,11 @@ export default {
                 content4:this.$t("message.archive.Playback"),
             },
             label:{
-                label2:this.$t("message.archive.Name"),
-                label3:this.$t("message.archive.StartTime"),
-                label4:this.$t("message.archive.EndTime"),
+                Name:this.$t("message.table.Name"),
+                Token:this.$t("message.table.Token"),
+                StartTime:this.$t("message.table.StartTime"),
+                EndTime:this.$t("message.table.EndTime"),
+                Type:this.$t("message.table.Type"),
             },
             timelink:0,//滑块
             value: [new Date(new Date().getTime()- 3600 * 1000 * 1), new Date()],

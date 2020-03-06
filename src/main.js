@@ -85,7 +85,7 @@ i18n.locale = store.state.lang
 /* this.$i18n.locale='zhCHS' */
 /* eslint-disable no-new */
 new Vue({
-  el: '#app',
+  el:'#app',
   router,
   store,
   i18n,

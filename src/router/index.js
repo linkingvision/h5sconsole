@@ -1,9 +1,10 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Dashboard from '@/components/views/dashboard'
+import GPU from '@/components/views/dashboard/GPU'
 import Liveview from '@/components/views/liveview'
 import Archive from '@/components/views/archive'
-import AdvancePB from '@/components/views/Advancepb'
+import AdvancePB from '@/components/views/Advancepbss'
 import Gaogao1 from '@/components/views/gaogao1'
 import Sreenshots from '@/components/views/screenshots'
 import Playback from '@/components/views/playback'
@@ -24,6 +25,7 @@ import devicesdks from '@/components/views/settings/devicesdks'
 import devicertmppushs from '@/components/views/settings/devicertmppushs'
 import records from '@/components/views/settings/record'
 import usersettings from '@/components/views/settings/usersetting'
+import Transcoding  from '@/components/views/settings/Transcoding'
 import Regional from '@/components/views/settings/Regional'
 
 import GB from '@/components/views/GB'
@@ -52,6 +54,11 @@ const routes = [
         path: '/app/liveview',
         name: 'liveviewRouter',
         component: Liveview
+      },
+      {
+        path: '/app/GPU',
+        name: 'GPURouter',
+        component: GPU
       },
       {
         path: '/app/playback',
@@ -209,12 +216,21 @@ const routes = [
             meta: {
               requireAuth: true
             }
-          },,
+          },
           //6
           {
             path: '/app/setting/Regional',
             name: 'RegionalRouter',
             component: Regional,
+            meta: {
+              requireAuth: true
+            }
+          }, 
+          //7
+          {
+            path: '/app/setting/Transcoding',
+            name: 'TranscodingRouter',
+            component: Transcoding,
             meta: {
               requireAuth: true
             }

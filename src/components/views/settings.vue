@@ -52,6 +52,13 @@
                             </div>
                         </a> 
                     </router-link>
+                    <router-link  :to="{name:'TranscodingRouter'}">
+                        <a href="javascript:void(0)" class="setting_left_a" :class="{setting_tj1:index_lj==7}">
+                            <div :class="{setting_tj:index_lj==7}"  @click="setting_ys6" class="setting_left">
+                                {{$t("message.setting.Transcoding")}} 
+                            </div>
+                        </a> 
+                    </router-link>
                 </div>
             </el-col>
             <el-col style="padding:0px;" :span="20">
@@ -107,6 +114,10 @@ export default {
         setting_ys5(){
              this.index_lj=6;
              this.language=this.$t("message.setting.Regional");
+        },
+        setting_ys6(){
+             this.index_lj=7;
+             this.language=this.$t("message.setting.Transcoding");
         },
      
     }

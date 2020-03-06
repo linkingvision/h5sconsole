@@ -6,6 +6,20 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "4307613",
+      "name": "一宫格",
+      "font_class": "yigongge",
+      "unicode": "e62b",
+      "unicode_decimal": 58923
+    },
+    {
+      "icon_id": "4307614",
+      "name": "四宫格",
+      "font_class": "sigongge",
+      "unicode": "e62a",
+      "unicode_decimal": 58922
+    },
+    {
       "icon_id": "13014855",
       "name": "二维码",
       "font_class": "erweima",
