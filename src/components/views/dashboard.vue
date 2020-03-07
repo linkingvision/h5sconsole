@@ -98,7 +98,7 @@
                             <div style="display: flex; justify-content: space-between;">
                                 <div>
                                     <img src="./gallery/daId@2x.png"/>
-                                    <span>{{this.$t("message.dashboard.codec_info")}}</span>
+                                    <span>{{this.$t("message.dashboard.GPU_info")}}</span>
                                 </div>
                                 <div>
                                     <!-- <router-link  :to="{name:'GPURouter'}">
@@ -116,8 +116,8 @@
                         </div>
                         <div class="flex_nc_ag">
                             <div class="flex_iv">
-                                <div>Index {{Gpulen.nIndex}}</div>
-                                <div>NVIDIA {{Gpulen.nvidia}}</div>
+                                <div>Intel: {{Gpulen.nIndex}}</div>
+                                <div>NVIDIA: {{Gpulen.nvidia}}</div>
                             </div>
                         </div>
                     </div>

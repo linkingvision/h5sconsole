@@ -63,6 +63,7 @@ module.exports={
 		cameras: "Cameras",
 		total_space: "Total Space",
 		codec_info: "Codec Info",
+		GPU_info: "GPU info",
 		cpumodel: 'CPU Model',
 		gpuencoder:"GPU Encoders",
 		gpudecoder:"GPU Decoders",
@@ -162,6 +163,10 @@ module.exports={
 		Tokenevent:"Token",
 		StartTime:"Start Time",
 		EndTime:"End Time",
+		Codec:"Codec",
+		Engine:"Engine",
+		FPSType:"FPSType",
+		ScaleType:"ScaleType",
 	},
 	playback:{
 		H5SPlayback:"H5S Playback",

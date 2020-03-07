@@ -63,6 +63,7 @@ module.exports={
 		total_space: "总空间",	
 		version_: '版本',
 		codec_info: "编解码器",
+		GPU_info: "GPU编解码器",
 		cpumodel: 'CPU型号',
 		PhysicalCPU:"CPU路数",
 		CPUCore:"CPU核数",
@@ -162,6 +163,10 @@ module.exports={
 		Tokenevent:"设备编号",
 		StartTime:"开始时间",
 		EndTime:"结束时间",
+		Codec:"视频编码",
+		Engine:"引擎",
+		FPSType:"频率类型",
+		ScaleType:"分辨路类型",
 	},
 	playback:{
 		H5SPlayback:"H5S回放",

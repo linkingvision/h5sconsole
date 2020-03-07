@@ -4,18 +4,18 @@
         
         <el-dialog title="编辑" :visible.sync="editPopup">
             <el-form label-position="right" label-width="140px" :model="editform">
-                <el-form-item label="Name">
-                    <el-input v-if="editform.Type=='Profile'" v-model="editform.strName" @input="change($event)"></el-input>
-                    <el-input v-if="editform.Type=='Default'" disabled v-model="editform.strName" @input="change($event)"></el-input>
+                <el-form-item :label="label.Name">
+                    <el-input v-if="editform.Type=='Profile'||editform.Type=='自定义'" v-model="editform.strName" @input="change($event)"></el-input>
+                    <el-input v-if="editform.Type=='Default'||editform.Type=='默认'" disabled v-model="editform.strName" @input="change($event)"></el-input>
                 </el-form-item>
-                <el-form-item label="Token">
-                    <el-input v-if="editform.Type=='Profile'" v-model="editform.strToken" @input="change($event)"></el-input>
-                    <el-input v-if="editform.Type=='Default'" disabled v-model="editform.strToken" @input="change($event)"></el-input>
+                <el-form-item :label="label.Token">
+                    <el-input v-if="editform.Type=='Profile'||editform.Type=='自定义'" v-model="editform.strToken" @input="change($event)"></el-input>
+                    <el-input v-if="editform.Type=='Default'||editform.Type=='默认'" disabled v-model="editform.strToken" @input="change($event)"></el-input>
                 </el-form-item>
-                <el-form-item label="Codec">
+                <el-form-item :label="label.Codec">
                     <el-input disabled v-model="editform.nCodec"></el-input>
                 </el-form-item>
-                <el-form-item label="Engine">
+                <el-form-item :label="label.Engine">
                     <el-select v-model="editform.nEngine" placeholder="请选择" @input="change($event)">
                         <el-option
                             v-for="item in engine"
@@ -29,7 +29,7 @@
                 <el-form-item label="Bitrate">
                     <el-input type="number" v-model="editform.nBitrate" @input="change($event)"></el-input>
                 </el-form-item>
-                <el-form-item label="FPSType">
+                <el-form-item :label="label.FPSType">
                     <el-select v-model="editform.nFPSType" placeholder="请选择" @input="change($event)">
                         <el-option
                             v-for="item in fpstype"
@@ -43,7 +43,7 @@
                 <el-form-item label="FPS">
                     <el-input type="number" v-model="editform.nFPS" @input="change($event)"></el-input>
                 </el-form-item>
-                <el-form-item label="ScaleType">
+                <el-form-item :label="label.ScaleType">
                     <el-select v-model="editform.nScaleType" placeholder="请选择" @input="change($event)">
                         <el-option
                             v-for="item in scaletype"
@@ -68,23 +68,23 @@
             </el-form>
             <div slot="footer" class="dialog-footer">
                 <el-button @click="editPopup = false">{{$t("message.setting.Cancel")}}</el-button>
-                <el-button v-if="editform.Type=='Profile'" type="primary" @click="proedityes">{{$t("message.setting.OK")}}</el-button>
-                <el-button v-if="editform.Type=='Default'" type="primary" @click="defedityes">{{$t("message.setting.OK")}}</el-button>
+                <el-button v-if="editform.Type=='Profile'||editform.Type=='自定义'" type="primary" @click="proedityes">{{$t("message.setting.OK")}}</el-button>
+                <el-button v-if="editform.Type=='Default'||editform.Type=='默认'" type="primary" @click="defedityes">{{$t("message.setting.OK")}}</el-button>
             </div>
         </el-dialog>
          <!-- 添加的弹窗 -->
         <el-dialog :title="eltitle" :visible.sync="dialogFormVisible">
             <el-form label-position="right" label-width="140px" :model="form">
-                <el-form-item label="Name">
+                <el-form-item :label="label.Name">
                     <el-input v-model="form.strName"></el-input>
                 </el-form-item>
-                <el-form-item label="Token">
+                <el-form-item :label="label.Token">
                     <el-input v-model="form.strToken"></el-input>
                 </el-form-item>
-                <el-form-item label="Codec">
+                <el-form-item :label="label.Codec">
                     <el-input disabled v-model="form.nCodec"></el-input>
                 </el-form-item>
-                <el-form-item label="Engine">
+                <el-form-item :label="label.Engine">
                     <el-select v-model="form.nEngine" placeholder="请选择">
                         <el-option
                             v-for="item in engine"
@@ -98,7 +98,7 @@
                 <el-form-item label="Bitrate">
                     <el-input type="number" v-model="form.nBitrate"></el-input>
                 </el-form-item>
-                <el-form-item label="FPSType">
+                <el-form-item :label="label.FPSType">
                     <el-select v-model="form.nFPSType" placeholder="请选择">
                         <el-option
                             v-for="item in fpstype"
@@ -112,7 +112,7 @@
                 <el-form-item label="FPS">
                     <el-input type="number" v-model="form.nFPS"></el-input>
                 </el-form-item>
-                <el-form-item label="ScaleType">
+                <el-form-item :label="label.ScaleType">
                     <el-select v-model="form.nScaleType" placeholder="请选择">
                         <el-option
                             v-for="item in scaletype"
@@ -152,36 +152,36 @@
                     style="width: 100%">
                     <el-table-column
                         prop="index"
-                        label="index"
+                        :label="label.Index"
                         width="100">
                     </el-table-column>
                     <el-table-column
                     prop="strName"
-                    label="Name">
+                    :label="label.Name">
                     </el-table-column>
                     <el-table-column
                     prop="strToken"
-                    label="Token"
+                    :label="label.Token"
                     min-width="80">
                     </el-table-column>
                     <el-table-column
                     prop="nCodec"
-                    label="Codec"
+                    :label="label.Codec"
                     min-width="140">
                     </el-table-column>
                     <el-table-column
                     prop="nEngine"
-                    label="Engine"
+                    :label="label.Engine"
                     min-width="140">
                     </el-table-column>
                     <el-table-column
                     prop="nFPSType"
-                    label="FPSType"
+                    :label="label.FPSType"
                     min-width="140">
                     </el-table-column>
                     <el-table-column
                     prop="nScaleType"
-                    label="ScaleType"
+                    :label="label.ScaleType"
                     min-width="140">
                     </el-table-column>
                     <el-table-column
@@ -229,36 +229,36 @@
                     </el-table-column>
                     <el-table-column
                         prop="index"
-                        label="index"
+                        :label="label.Index"
                         width="100">
                     </el-table-column>
                     <el-table-column
                     prop="strName"
-                    label="Name">
+                    :label="label.Name">
                     </el-table-column>
                     <el-table-column
                     prop="strToken"
-                    label="Token"
+                    :label="label.Token"
                     min-width="80">
                     </el-table-column>
                     <el-table-column
                     prop="nCodec"
-                    label="Codec"
+                    :label="label.Codec"
                     min-width="140">
                     </el-table-column>
                     <el-table-column
                     prop="nEngine"
-                    label="Engine"
+                    :label="label.Engine"
                     min-width="140">
                     </el-table-column>
                     <el-table-column
                     prop="nFPSType"
-                    label="FPSType"
+                    :label="label.FPSType"
                     min-width="140">
                     </el-table-column>
                     <el-table-column
                     prop="nScaleType"
-                    label="ScaleType"
+                    :label="label.ScaleType"
                     min-width="140">
                     </el-table-column>
                     <el-table-column
@@ -305,8 +305,16 @@ import '@/assets/jQuery.md5.js'
         tabPosition: 'button',//选项卡位置
         inputedit:[],
         label:{
-             label:this.$t("message.setting.Default"),//选1
-             label1:this.$t("message.setting.Profile"),//选2
+            label:this.$t("message.setting.Default"),//选1
+            label1:this.$t("message.setting.Profile"),//选2
+            
+            Index:this.$t("message.table.Index"),
+            Name:this.$t("message.table.Name"),
+            Token:this.$t("message.table.Token"),
+            Codec:this.$t("message.table.Codec"),
+            Engine:this.$t("message.table.Engine"),
+            FPSType:this.$t("message.table.FPSType"),
+            ScaleType:this.$t("message.table.ScaleType"),
         },
         //分页
         form: {
@@ -335,13 +343,13 @@ import '@/assets/jQuery.md5.js'
         },
         engine: [{
                 value: 'H5_SW_ONLY',
-                label: 'H5_SCALE_AUTO'
+                label: 'H5_SW_ONLY'
             }, {
                 value: 'H5_GPU_INTEL',
-                label: 'H5_SCALE_FIXED'
+                label: 'H5_GPU_INTEL'
             }, {
                 value: 'H5_GPU_NVIDIA',
-                label: 'H5_SCALE_DYNAMIC'
+                label: 'H5_GPU_NVIDIA'
             }
         ],
         fpstype: [{
