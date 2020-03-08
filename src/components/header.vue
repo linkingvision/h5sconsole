@@ -81,13 +81,18 @@
           <ul class="dropdown-menu dropdown-user animated flipInY">
             <li>
               <a href="javascript:void(0);">
-                  <a href="doc/api.html" class="waves-effect"><span style="margin-right: 10px;" class="iconfont icon-prompt"></span>{{$t("message.header.API")}}</a>
+                  <a href="doc/api.html" class="waves-effect" > 
+                    <span style="margin:0 5px 0 9px" class="apiab iconfont icon-category"></span>
+                    <span class="admin_zi">
+                          {{$t("message.header.API")}}
+                      </span> 
+                  </a>
               </a>
             </li>
             <li role="separator" class="divider"></li>
             <li>
                 <span type="text" class="hide-menu" @click="centerDialogVisible = true">
-                    <span style="margin-right: 10px;" class="iconfont icon-API"></span>
+                    <span class="apiab iconfont icon-icon-test1"></span>
                     <span class="admin_zi">
                         {{$t("message.dashboard.about")}}
                     </span>
@@ -205,6 +210,10 @@ export default {
 a{
   color: #000;
   width: 100%;
+}
+.apiab{
+  font-size: 16px;
+  color: #030303;
 }
 .navbar-top-links>li>a {
     padding: 0 14px;

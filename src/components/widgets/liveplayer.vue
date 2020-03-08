@@ -173,11 +173,12 @@ export default {
             if(this.tokenshou==""){
                 return false;
             }else{
-                var android= window.location.protocol + '//' + window.location.host + '/ws.html?token=' + this.tokenshou+"&h5splayer=ws";
-                var ios= window.location.protocol + '//' + window.location.host + '/rtc.html?token=' + this.tokenshou+"&h5splayer=rtc";
+                var android= window.location.protocol + '//' + window.location.host + '/single.html?token=' + this.tokenshou+"&h5splayer=ws";
+                var ios= window.location.protocol + '//' + window.location.host + '/single.html?token=' + this.tokenshou+"&h5splayer=rtc";
             }
             this.$refs.qrcodead.innerHTML="";
             this.$refs.qrcodeios.innerHTML="";
+            console.log(android,ios)
             var qrcode = new QRCode(this.$refs.qrcodead, {
                 width: 100,
                 height: 100, // 高度

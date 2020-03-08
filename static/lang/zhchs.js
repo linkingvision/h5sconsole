@@ -12,7 +12,7 @@ module.exports={
 		user_name: '用户名',
 		setting: '帐号设置',
 		logout: '退出',
-		API:"API文档",
+		API:"API",
     },
     left:
     {
@@ -165,8 +165,8 @@ module.exports={
 		EndTime:"结束时间",
 		Codec:"视频编码",
 		Engine:"引擎",
-		FPSType:"频率类型",
-		ScaleType:"分辨路类型",
+		FPSType:"帧率类型",
+		ScaleType:"分辨率类型",
 	},
 	playback:{
 		H5SPlayback:"H5S回放",
