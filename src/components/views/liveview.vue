@@ -104,36 +104,31 @@
                             :props="defaultProps1" 
                             @node-click="handleNodeClick">
                             <span slot-scope="{ node, data }" style="width:100%;">
-                                <!-- <div style="width:100%;display: flex;justify-content: space-between;"> -->
                                     <span>
                                         <span class="mdi mdi-view-sequential fa-fw" style="color:rgb(142, 132, 132);"></span>
                                         <span :class="data.iconclass1" style="padding-left: 4px;">{{data.strName}}</span>
                                     </span>
                                     <div v-if="data.cam.length!=0">
                                         
-                                        <el-dropdown trigger="click">
+                                        <!-- <el-dropdown trigger="click">
                                             <span class="el-dropdown-link">
                                                 <i class="el-icon-arrow-down el-icon--right"></i><i class="mdi mdi-camcorder fa-fw" style="color:rgb(142, 132, 132);"></i> {{$t("message.live.camera")}}
                                             </span>
-                                            <el-dropdown-menu slot="dropdown">
-                                                <!--  @click.native="camname(site.strToken)" -->
+                                            <el-dropdown-menu slot="dropdown"> -->
                                                 <el-tree class="el_tree1" :data="data.cam" :props="defaultProps1" @node-click="handleNodeClick1">
                                                     <span slot-scope="{ node, data }" style="width:100%;">
                                                         <div style="width:100%;display: flex;justify-content: space-between;">
                                                             <span >
                                                                 <span :class="data.iconclass" style="color:rgb(142, 132, 132);"></span>
-                                                                <!-- <img src="" alt=""> -->
                                                                 <span :class="data.iconclass1" style="padding-left: 4px;">{{data.strName}}</span>
                                                             </span>
                                                             <span :class="data.iconclass2" class="black" style="">{{$t("message.live.Videorecording")}}</span>
                                                         </div>
                                                     </span>
                                                 </el-tree>
-                                                <!-- <el-dropdown-item v-for="site in data.cam" :key="site.strName">{{site.strName}}</el-dropdown-item> -->
-                                            </el-dropdown-menu>
-                                        </el-dropdown>
+                                            <!-- </el-dropdown-menu>
+                                        </el-dropdown> -->
                                     </div>
-                                <!-- </div> -->
                             </span>
                         </el-tree>
                     </div>
@@ -936,6 +931,9 @@ export default {
 
 
 <style scoped>
+.el_tree1{
+    margin-left: -6px;
+}
 /* 隐藏toogle */
 .devicetoog{
     width:100%;
