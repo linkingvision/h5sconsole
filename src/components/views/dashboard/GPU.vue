@@ -2,6 +2,10 @@
     <div id="page-wrapper">
         <div class="container">
             <div v-for="(a,index) in lent" :key="index" class="container_flex">
+                <div class="beibiao_zi">
+                    <img src="../gallery/daId@2x.png"/>
+                    <span>{{nvidiadata1[index]}}</span>
+                </div>
                 <div :id="'container'+a" style="width: 100%;height: 100%;"></div>
             </div>
         </div>
@@ -53,6 +57,10 @@ export default {
                 data1: [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]},
             ],
             Gpudata:[],
+            Gpu_in:this.$t("message.dashboard.gpudecoder"),
+            Gpu_out:this.$t("message.dashboard.gpuencoder"),
+            title_text:this.$t("message.dashboard.an_out"),
+            nvidiadata1:[],
         }
     },
     mounted(){
@@ -80,15 +88,15 @@ export default {
                         "nvidia": [
                             {
                             "nIndex": 0,
-                            "strName": "GeForce GTX 1660 Ti"
+                            "strName": "GeForce GTX 1660 Ti1111"
                             },
                             {
                             "nIndex": 1,
-                            "strName": "GeForce GTX 1660"
+                            "strName": "GeForce GTX 1660222"
                             },
                             {
                             "nIndex": 1,
-                            "strName": "GeForce GTX 1660"
+                            "strName": "GeForce GTX 166033"
                             }
                         ]
                     }**/
@@ -111,7 +119,7 @@ export default {
             this.$http.get(url).then(result => {
                 if (result.status == 200) {
                     var data = result.data;
-                    /**var data={
+                    /***var data={
                         "bSupportIntel": false,
                         "bSupportNVIDIA": true,
                         "intel": [],
@@ -143,7 +151,8 @@ export default {
                                 nEncodeUsage:data.nvidia[i].nEncodeUsage,
                                 nDecodeUsage:data.nvidia[i].nDecodeUsage,
                             }
-                            nvidiadata.push(dataroot)
+                            nvidiadata.push(dataroot);
+                            this.nvidiadata1.push(datafo.nvidia[i].strName);
                         }
                     }
                     var lengthnv=nvidiadata.length;
@@ -159,6 +168,8 @@ export default {
             })
         },
         GPUnv(lengthnv,nvidiadata,l){
+            // console.log(nvidiadata)
+            // return false;
             var base = +new Date();
             var date = [];
             var _this=this;
@@ -186,11 +197,11 @@ export default {
                 },
                 title: {
                     left: 'center',
-                    text: this.title_text,
+                    text: nvidiadata[l].strName,
                     show:false
                 },
                 legend: {
-                        data:[ this.network_in,this.network_out],
+                        data:[ this.Gpu_in,this.Gpu_out],
                         icon:'rect',
                         itemWidth: 35,
                         itemHeight: 2,
@@ -222,7 +233,7 @@ export default {
                     }
                 },
                 series: [{
-                    name: this.network_in,
+                    name: this.Gpu_in,
                     type: 'line',
                     smooth: true,
                     symbol: 'none',
@@ -243,7 +254,7 @@ export default {
                     },
                     data: this.data[l].data
                 }, {
-                    name: this.network_out,
+                    name: this.Gpu_out,
                     type: 'line',
                     smooth: true,
                     symbol: 'none',
@@ -277,6 +288,7 @@ export default {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
+    padding: 30px 30px;
 }
 .container .container_flex{
     width: 50%;
