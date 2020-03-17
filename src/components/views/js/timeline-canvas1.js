@@ -127,9 +127,12 @@ TimeSlider.prototype.drawLine = function(beginX,beginY,endX,endY,color,width){
  */
 TimeSlider.prototype.add_cells = function(cells){
     var _this = this;
-    cells.forEach(cell => {
-        _this.draw_cell(cell)
-    });
+    if(cells){
+        
+        cells.forEach(cell => {
+            _this.draw_cell(cell)
+        });
+    }
 }  
 
 /**
