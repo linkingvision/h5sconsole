@@ -57,15 +57,8 @@
                 </div>
 			</div>
 			<!-- 九宫格 -->
-			<div class="content-mythe-two" id="content-mythe-two">
-				<div style="width:100%;">
-					<!-- <div class="videohb h5container" id="videohb" @mouseenter="enter()" @mouseleave="leave()">
-						<div id="mseeen" class="h5controls"  style="display:bone; padding:0">
-							<button type="button" class="vidbuttion pull-right iconfont icon-roundclosefill" @click="CloseVideo($event)"></button>
-							<button type="button" class="vidbuttion pull-right iconfont icon-full" @click="panelFullScreen($event)"></button>
-						</div>
-						<video class="videoo1" id="gaovideohb" autoplay webkit-playsinline playsinline></video>
-                    </div> -->
+			<div class="content-mythe-two">
+				<div style="width:100%;" id="Fullscreen">
 					<div  id="videoPanel">
 						<div name='flex' style="position: relative;" class="videoColor" v-for="r in rows" :key="r">
 							<div class="palace" name="flex"
@@ -183,7 +176,6 @@
 		width: 78px;
 		height: 68px;
 		background: rgba(255,255,255,0.5);
-		/* padding: 10px 20px; */
 		text-align: center;	
 	}
 	
@@ -251,15 +243,6 @@ export default {
 		
 	},
 	methods:{
-		// if(this.selectRow=="1"&&this.selectCol=="1"){
-				
-		// }else if(this.selectRow=="1"&&this.selectCol=="2"){
-			
-		// }else if(this.selectRow=="2"&&this.selectCol=="1"){
-
-		// }else if(this.selectRow=="2"&&this.selectCol=="2"){
-			
-		// }
 		//显示第一个数轴
 		functlist(){
 			$('.tab').each(function (e) {
@@ -284,19 +267,19 @@ export default {
 			if(data==undefined){
 				return false;
 			}
-			// if(this.selectRow=="1"&&this.selectCol=="1"){
-			// 	this.SGtoken.splice(0, 1,data);
-			// 	this.Gtoken=this.SGtoken[0];
-			// }else if(this.selectRow=="1"&&this.selectCol=="2"){
-			// 	this.SGtoken.splice(1, 1,data);
-			// 	this.Gtoken=this.SGtoken[1];
-			// }else if(this.selectRow=="2"&&this.selectCol=="1"){
-			// 	this.SGtoken.splice(2, 1,data);
-			// 	this.Gtoken=this.SGtoken[2];
-			// }else if(this.selectRow=="2"&&this.selectCol=="2"){
-			// 	this.SGtoken.splice(3, 1,data);
-			// 	this.Gtoken=this.SGtoken[3];
-			// }
+			if(this.selectRow=="1"&&this.selectCol=="1"){
+				this.SGtoken.splice(0, 1,data);
+				this.Gtoken=this.SGtoken[0];
+			}else if(this.selectRow=="1"&&this.selectCol=="2"){
+				this.SGtoken.splice(1, 1,data);
+				this.Gtoken=this.SGtoken[1];
+			}else if(this.selectRow=="2"&&this.selectCol=="1"){
+				this.SGtoken.splice(2, 1,data);
+				this.Gtoken=this.SGtoken[2];
+			}else if(this.selectRow=="2"&&this.selectCol=="2"){
+				this.SGtoken.splice(3, 1,data);
+				this.Gtoken=this.SGtoken[3];
+			}
 			console.log("play",this.SGtoken,"token",this.Gtoken);
 			// return false;
 			this.Play(data);
@@ -318,19 +301,14 @@ export default {
 			}
 				setTimeout(function(){
 					var a = $("#timeline"+_this.selectRow+_this.selectCol).TimeSlider('returnMouseupTime',null,null,function(time){
-						
-						console.log(_this.Gtoken);
+						console.log("time",time)
 						// return false;
 						// 放入视频
 						if(_this.Gtoken==undefined||_this.Gtoken==""){
-							console.log(_this.Gtoken)
 							return false;
 						}
-						
-						console.log("timevalue11111",_this.Gtoken);
 						// return false;
 						var timevalue=new Date(time);
-						console.log("timevalue11111",timevalue);
 						var year = timevalue.getFullYear();
 						var month = timevalue.getMonth() + 1;
 						var strDate = timevalue.getDate();
@@ -690,6 +668,7 @@ export default {
 				this.contentHeight = $(document.body).height()*0.5;
 			}
 			$('div[name="flex"]').height(this.contentHeight / this.rows);
+			$('.content-mythe-one').height(this.contentHeight / this.rows*2.4);
 			//this.contentHeight = $(document.body).height()*0.8;
 			let _this = this;
 			if (H5siOS() === true)
@@ -717,9 +696,7 @@ export default {
 			});
 		},
 		panelFullScreen(event) {
-			var elem = document.getElementById('content-mythe-two');
-			//var elem = $("#videoPanel");
-			console.log('panelFullScreen', event);
+			var elem = document.getElementById('Fullscreen');
 			// document.getElementById("fixed_input").style.display="none";
 			if (
 			document.fullscreenEnabled ||
@@ -742,12 +719,12 @@ export default {
 					} else if (document.msExitFullscreen) {
 						document.msExitFullscreen();
 					}
-					// document.getElementById("fixed_input").style.display="block";
+					$(".layout").css("display",  "block");
 					console.log("========  updateUIExitFullScreen");
 					this.updateUIExitFullScreen();
 				} else {
 					console.log('panelFullScreen3');
-
+					$(".layout").css("display",  "none");
 					if (elem.requestFullscreen) {
 						elem.requestFullscreen();
 					} else if (elem.webkitRequestFullscreen) {
@@ -772,7 +749,7 @@ export default {
 		},
 		updateUIEnterFullScreen(){
 
-			$('div[name="flex"]').height(screen.height / this.rows);
+			$('div[name="flex"]').height(screen.height / this.rows-100);
 		},
 		updateUIExitFullScreen(){
 			if (!document.fullscreenElement && !document.webkitIsFullScreen && !document.mozFullScreen && !document.msFullscreenElement)
@@ -795,19 +772,19 @@ export default {
                 $('#videoPanel>div').eq(r - 1).children('div').eq(c - 1).addClass('videoClickColor');
                 //$('#videoPanel>div').eq(r - 1).children('div').eq(c - 1).children(".h5videowrapper").children(".h5video").style.opacity = "0.25";
 			}
-			// if(this.selectRow=="1"&&this.selectCol=="1"){
-			// 	console.log(this.SGtoken[0]);
-			// 	this.Gtoken=this.SGtoken[0];
-			// }else if(this.selectRow=="1"&&this.selectCol=="2"){
-			// 	console.log(this.SGtoken[1]);
-			// 	this.Gtoken=this.SGtoken[1];
-			// }else if(this.selectRow=="2"&&this.selectCol=="1"){
-			// 	console.log(this.SGtoken[2]);
-			// 	this.Gtoken=this.SGtoken[2];
-			// }else if(this.selectRow=="2"&&this.selectCol=="2"){
-			// 	console.log(this.SGtoken[3]);
-			// 	this.Gtoken=this.SGtoken[3];
-			// }
+			if(this.selectRow=="1"&&this.selectCol=="1"){
+				console.log(this.SGtoken[0]);
+				this.Gtoken=this.SGtoken[0];
+			}else if(this.selectRow=="1"&&this.selectCol=="2"){
+				console.log(this.SGtoken[1]);
+				this.Gtoken=this.SGtoken[1];
+			}else if(this.selectRow=="2"&&this.selectCol=="1"){
+				console.log(this.SGtoken[2]);
+				this.Gtoken=this.SGtoken[2];
+			}else if(this.selectRow=="2"&&this.selectCol=="2"){
+				console.log(this.SGtoken[3]);
+				this.Gtoken=this.SGtoken[3];
+			}
 		},
 		//点击宫格
 		changePanel(event) {
@@ -1284,7 +1261,7 @@ div[name="flex"]:hover {
 .layout{
 	border: 0;
 	background: none;
-	font-size: 24px;color:#B2B1B1;margin-right:10px;
+	font-size: 20px;color:#B2B1B1;margin-right:10px;
 }
 
 	.button_resume{

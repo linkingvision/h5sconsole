@@ -6,7 +6,7 @@
                     <img src="../gallery/daId@2x.png"/>
                     <span>{{nvidiadata1[index]}}</span>
                 </div>
-                <div :id="'container'+a" style="width: 100%;height: 100%;"></div>
+                <div :id="'container'+a+a" style="width: 100%;height: 100%;"></div>
             </div>
         </div>
     </div>
@@ -63,12 +63,14 @@ export default {
             nvidiadata1:[],
         }
     },
+    beforeDestroy() {
+        clearInterval(this.timerRunInfo);
+    },
     mounted(){
         this.Gpufo();
         this.timerRunInfo = setInterval(() => {
             this.Gpufo();
         }, 5000);
-        
     },
     methods:{
         Gpufo(){
@@ -83,6 +85,7 @@ export default {
             this.$http.get(url).then(result => {
                 if (result.status == 200) {
                     var data = result.data;
+                    // console.log("name",data);
                     /**var data={
                         "intel": [],
                         "nvidia": [
@@ -99,7 +102,7 @@ export default {
                             "strName": "GeForce GTX 166033"
                             }
                         ]
-                    }**/
+                    }*/
                     this.Gpudata=data;
                     // var lengthin=data.intel.length;
                     // var lengthnv=data.nvidia.length;
@@ -119,7 +122,8 @@ export default {
             this.$http.get(url).then(result => {
                 if (result.status == 200) {
                     var data = result.data;
-                    /***var data={
+                    // console.log("end",data);
+                    /**var data={
                         "bSupportIntel": false,
                         "bSupportNVIDIA": true,
                         "intel": [],
@@ -140,7 +144,8 @@ export default {
                             "nDecodeUsage": 60
                             }
                         ]
-                    }**/
+                    }*/
+                    
                     var nvidiadata=[];
                     // return false;
                     for(var i=0;i<data.nvidia.length;i++){
@@ -157,18 +162,18 @@ export default {
                     }
                     var lengthnv=nvidiadata.length;
                     for(var i=0;i<nvidiadata.length;i++){
-                        this.data[i].data.push(nvidiadata[i].nEncodeUsage);
+                        this.data[i].data.push(nvidiadata[i].nDecodeUsage);
                         this.data[i].data.splice(0, 1);
-                        this.data[i].data1.push(nvidiadata[i].nDecodeUsage);
+                        this.data[i].data1.push(nvidiadata[i].nEncodeUsage);
                         this.data[i].data1.splice(0, 1);
-                        console.log("******",i)
+                        // console.log("******",i)
                         this.GPUnv(lengthnv,nvidiadata,i);
                     }
                 }
             })
         },
         GPUnv(lengthnv,nvidiadata,l){
-            // console.log(nvidiadata)
+            // console.log(lengthnv,nvidiadata,l)
             // return false;
             var base = +new Date();
             var date = [];
@@ -180,14 +185,15 @@ export default {
                     [('0' + now.getSeconds()).slice(-2) + 's']
                 )
             }
-            var pieId = document.getElementById('container'+(l+1));
+            var pieId = document.getElementById('container'+(l+1)+(l+1));
             if (!pieId){
                 return false;
             }
+            
             var myChart = echarts.init(pieId)
             // return false;
             // 绘制图表
-            myChart.setOption({
+            var Option={
                 tooltip: {
                     trigger: 'axis',
                     position: function(pt) {
@@ -273,9 +279,11 @@ export default {
                             }
                         ])
                     },
-                    data: this.data[l].data
+                    data: this.data[l].data1
                 }, ]
-            })
+            }
+            // myChart.clear();
+            myChart.setOption(Option)
         },
     },
 }

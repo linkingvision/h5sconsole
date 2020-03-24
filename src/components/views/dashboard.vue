@@ -225,94 +225,95 @@ import echarts from 'echarts'
 var Highcharts = require("highcharts");
 export default {
   name: "dashboard",
-  data() {
-    return {
-        value:true,
-        config:{
-            data: [0],
-            shape: 'roundRect',
-            waveHeight:10,
-            waveNum:2
-        },
-        config1:{
-            data: [0],
-            shape: 'roundRect',
-            waveHeight:10,
-            waveNum:2
-        },
-        config2:{
-            data: [0],
-            shape: 'roundRect',
-            waveHeight:10,
-            waveNum:2
-        },
-        config3:{
-            data: [0],
-            shape: 'roundRect',
-            waveHeight:10,
-            waveNum:2
-        },
-        data: [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-        data1: [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-        data2: [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-        codecInfo:"",
-        capability:"",
-        system:"",
-        dev:{
-            nCameraTotal: "",
-            nCameraOnline: "",
-            nHikDevTotal: "",
-            nHikDevOnline: "",
-            nDhDevTotal: "",
-            nDhDevOnline: "",
-            nHikIscDevTotal: "",
-            nHikIscDevOnline: "",
-            nTdDevTotal: "",
+    data() {
+        return {
+            value:true,
+            config:{
+                data: [0],
+                shape: 'roundRect',
+                waveHeight:10,
+                waveNum:2
+            },
+            config1:{
+                data: [0],
+                shape: 'roundRect',
+                waveHeight:10,
+                waveNum:2
+            },
+            config2:{
+                data: [0],
+                shape: 'roundRect',
+                waveHeight:10,
+                waveNum:2
+            },
+            config3:{
+                data: [0],
+                shape: 'roundRect',
+                waveHeight:10,
+                waveNum:2
+            },
+            data: [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+            data1: [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+            data2: [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+            codecInfo:"",
+            capability:"",
+            system:"",
+            dev:{
+                nCameraTotal: "",
+                nCameraOnline: "",
+                nHikDevTotal: "",
+                nHikDevOnline: "",
+                nDhDevTotal: "",
+                nDhDevOnline: "",
+                nHikIscDevTotal: "",
+                nHikIscDevOnline: "",
+                nTdDevTotal: "",
 
-            nTdDevOnline: "",
-            nGbDevTotal: "",
-            nGbDevOnline: "",
+                nTdDevOnline: "",
+                nGbDevTotal: "",
+                nGbDevOnline: "",
 
-            nCloudTotal: "",
-            nCloudOnline: "",
+                nCloudTotal: "",
+                nCloudOnline: "",
 
-            nRTSPRTMPTotal: "",
-            nRTSPRTMPOnline: "",
+                nRTSPRTMPTotal: "",
+                nRTSPRTMPOnline: "",
 
-            nONVIFTotal: "",
-            nONVIFOnline: "",
+                nONVIFTotal: "",
+                nONVIFOnline: "",
 
-            nRTMPPushTotal: "",
-            nRTMPPushOnline: "",
-        },
-        timerRunInfo: undefined,
-        title_text:this.$t("message.dashboard.an_out"),
-        network_in:this.$t("message.dashboard.network_in"),
-        network_out:this.$t("message.dashboard.network_out"),
+                nRTMPPushTotal: "",
+                nRTMPPushOnline: "",
+            },
+            timerRunInfo: undefined,
+            title_text:this.$t("message.dashboard.an_out"),
+            network_in:this.$t("message.dashboard.network_in"),
+            network_out:this.$t("message.dashboard.network_out"),
 
-        Hikvision:this.$t("message.dashboard.Hikvision"),
-        Dahua:this.$t("message.dashboard.Dahua"),
-        Tiandy:this.$t("message.dashboard.Tiandy"),
+            Hikvision:this.$t("message.dashboard.Hikvision"),
+            Dahua:this.$t("message.dashboard.Dahua"),
+            Tiandy:this.$t("message.dashboard.Tiandy"),
 
-        total:this.$t("message.dashboard.total"),
-        ge:this.$t("message.dashboard.ge"),
+            total:this.$t("message.dashboard.total"),
+            ge:this.$t("message.dashboard.ge"),
 
-        Online:this.$t("message.dashboard.Online"),
-        Offline:this.$t("message.dashboard.Offline"),
+            Online:this.$t("message.dashboard.Online"),
+            Offline:this.$t("message.dashboard.Offline"),
 
-        strRunTime:"",//运行时间
-        Gpulen:{
-            nIndex:"",
-            nvidia:"",
-        }
-    };
-  },
-    beforeDestroy() {
-        clearInterval(this.timerRunInfo);
+            strRunTime:"",//运行时间
+            Gpulen:{
+                nIndex:"",
+                nvidia:"",
+            }
+        };
     },
     destroyed() {
         this.config1.data[0]=Math.round(this.dev.nONVIFOnline/this.dev.nONVIFTotal*100);
-    },  
+    },
+    beforeDestroy() {
+        clearInterval(this.timerRunInfo);
+        clearInterval(this.timerRunInfo1);
+    },
     mounted: function() {
         
         // let _this = this;
@@ -336,7 +337,7 @@ export default {
             this.cpu();
             this.flow();
         }, 5000);
-        this.timerRunInfo = setInterval(() => {
+        this.timerRunInfo1 = setInterval(() => {
             this.GetDeviceSummary();
             this.devhk();
             this.devdh();
