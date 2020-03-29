@@ -216,7 +216,7 @@ export default {
             $controls.css("display", e.type === "mouseout" ? "none" : "block");
             //$controls.css("display", e.type === "touchend" ? "none" : "block");
         });
-        // $("#"+this.elqualityid).css("display","none")
+        
          $("#"+this.spanqualityid).addClass("spanquality")
          $("#"+this.inputid).addClass("spanpicturequality")
         // 转码
@@ -371,7 +371,7 @@ export default {
             }
 
             this.h5handler.connect();
-             $("#"+this.elqualityid).style.display=' '
+            //  $("#"+this.elqualityid).style.display=' '
         },
 
         CloseVideo(event)
@@ -401,7 +401,7 @@ export default {
             $("#"+this.rtcid).removeClass("rtc_new");
             $("#"+this.spanqualityid).addClass("spanquality")
             $("#"+this.inputid).addClass("spanpicturequality")
-            // $("#"+this.elqualityid).addClass("el-dropdown-link")
+            
            
             var $container = $("#"+this.h5id);
             var $controls = $container.children(".h5controls");
