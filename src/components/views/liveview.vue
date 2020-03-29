@@ -15,9 +15,7 @@
                 </div>
             </div>
         </div>
-
-
-
+        
         <el-drawer
         :title="title"
             size="16%"
@@ -68,6 +66,7 @@
                             v-model="filterText">
                         </el-input>
                     </div>
+                    <!-- 设备隐藏 -->
                     <div id="device">
                         <div class="devicetoog">
                             <div>{{$t("message.setting.device")}}</div>
@@ -87,12 +86,12 @@
                                         <span :class="data.iconclass" style="color:rgb(142, 132, 132);"></span>
                                         <span :class="data.iconclass1" style="padding-left: 4px;">{{data.label}}</span>
                                     </span>
-                                    <span :class="data.iconclass2" class="black" style="">{{$t("message.live.Videorecording")}}</span>
+                                    <span :class="data.iconclass2" class="black" style="">$t{{("message.live.Videorecording")}}</span>
                                 </div>
                             </span>
                         </el-tree>
                     </div>
-                    <div id="device1">
+                    <div id="device1">\
                         <div class="devicetoog">
                             <div>{{$t("message.live.Region")}}</div>
                             <div @click="devicetoog1" class="iconfont icon-zhiding deviceicon"></div> 
@@ -132,39 +131,32 @@
                             </span>
                         </el-tree>
                     </div>
-                
-             
-                </div>
+               </div>
             </div>
 
             <!-- Video 1 4 9 16 -->
             <div class="flexvideo" id="videoPanel">
                 <div name='flex' style="position: relative;" class="videoColor" v-for="r in rows" :key="r">
                     <div class="palace" name="flex" v-for="c in cols" @contextmenu.prevent="stopVideo($event)" @click="videoClick(r,c,$event)" :key="c">
-                    <v-liveplayer v-bind:id="'h'+r+c" :h5id="'h'+r+c" :rows="rows" :cols="cols" :h5videoid="'hvideo'+r+c"></v-liveplayer>
-                    </div>
+                      <v-liveplayer v-bind:id="'h'+r+c" :h5id="'h'+r+c" :rows="rows" :cols="cols" :h5videoid="'hvideo'+r+c">
+                      </v-liveplayer>
+                     </div>
                 </div>
                 <div class="btn-group blocks">
-                        <el-button type="button" class="layout1x1" data-row="1|1" @click="changePanel($event)"></el-button>
-                        <el-button type="button" class="layout1x3" data-row="1|3" @click="changePanel($event)"></el-button>
-                        <el-button type="button" class="layout2x2" data-row="2|2" @click="changePanel($event)"></el-button>
-
-                        <el-button type="button" class="layout2x3" data-row="1|6" @click="changePanel($event)"></el-button>
-                        <el-button type="button" class="layout1x7" data-row="1|7" @click="changePanel($event)"></el-button>
-
-                        <el-button type="button" class="layout3x3" data-row="3|3" @click="changePanel($event)"></el-button>
-
-                        
-                        <el-button type="button" class="layout1x13" data-row="1|13" @click="changePanel($event)"></el-button>
-
-                        <el-button type="button" class="layout4x4" data-row="4|4" @click="changePanel($event)"></el-button>
-                        <el-button type="button" class="layout5x5" data-row="5|5" @click="changePanel($event)"></el-button>
-                        <el-button type="button" class="layoutfull" @click="panelFullScreen($event)"> </el-button>
+                    <el-button type="button" class="layout1x1" data-row="1|1" @click="changePanel($event)"></el-button>
+                    <el-button type="button" class="layout1x3" data-row="1|3" @click="changePanel($event)"></el-button>
+                    <el-button type="button" class="layout2x2" data-row="2|2" @click="changePanel($event)"></el-button>
+                    <el-button type="button" class="layout2x3" data-row="1|6" @click="changePanel($event)"></el-button>
+                    <el-button type="button" class="layout1x7" data-row="1|7" @click="changePanel($event)"></el-button>
+                    <el-button type="button" class="layout3x3" data-row="3|3" @click="changePanel($event)"></el-button>
+                    <el-button type="button" class="layout1x13" data-row="1|13" @click="changePanel($event)"></el-button>
+                    <el-button type="button" class="layout4x4" data-row="4|4" @click="changePanel($event)"></el-button>
+                    <el-button type="button" class="layout5x5" data-row="5|5" @click="changePanel($event)"></el-button>
+                    <el-button type="button" class="layoutfull" @click="panelFullScreen($event)"> </el-button>
                 </div>
             </div>
         </div><!-- Video -->
     </div>
-
 </div>
 </template>
 
@@ -281,9 +273,9 @@ export default {
         },
         //树形节点点击
         handleNodeClick(data, checked, indeterminate){
-            // console.log(data.disabled_me)
-            // console.log(data.label);
-            // console.log(data.streamprofile);
+            console.log(data.disabled_me)
+            console.log(data.label);
+            console.log("1",data);
             let _this =this;
             // return false;
             if(data.disabled_me==false){
@@ -291,24 +283,21 @@ export default {
                 if (data.token) {
                     let vid = 'h' + _this.$data.selectRow + _this.$data.selectCol;
                     // console.log("----------------------",data.label);
-                    _this.$root.bus.$emit('liveplay', data.token, data.streamprofile, data.name, vid);
+                    _this.$root.bus.$emit('liveplay', data.token, data.streamprofile, data.name,data.label,vid);
                 }
             }else{
-
-                console.log("不可用");
+               console.log("不可用");
             }
-            
-            
         },
         handleNodeClick1(data, checked, indeterminate){
             let _this =this;
             console.log(data)
-            // return false;
+            return false;
             var main="main"
             if (data.strToken) {
                 let vid = 'h' + _this.$data.selectRow + _this.$data.selectCol;
                 // console.log("----------------------",data.label);
-                _this.$root.bus.$emit('liveplay', data.strToken,data.streamprofile, data.name, vid);
+                _this.$root.bus.$emit('liveplay', data.strToken,data.streamprofile, data.name,data.label, vid);
             }
             
             

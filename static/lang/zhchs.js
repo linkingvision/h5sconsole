@@ -108,6 +108,9 @@ module.exports={
 		Videorecording:"正在录像",
 		Region:"区域",
 		Scan:"扫扫查看视频",
+		Quality:"画质",
+		Switched:'已切换'
+		
     },
     setting:
     {

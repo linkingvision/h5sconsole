@@ -108,6 +108,8 @@ module.exports={
 		Videorecording:"Video recording",
 		Region:"Region",
 		Scan:"Scan to view video",
+		Quality:"Quality",
+		Switched:"Switched"
     },
     setting:
     {
