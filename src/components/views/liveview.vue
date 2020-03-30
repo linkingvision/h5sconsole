@@ -86,7 +86,7 @@
                                         <span :class="data.iconclass" style="color:rgb(142, 132, 132);"></span>
                                         <span :class="data.iconclass1" style="padding-left: 4px;">{{data.label}}</span>
                                     </span>
-                                    <span :class="data.iconclass2" class="black" style="">$t{{("message.live.Videorecording")}}</span>
+                                    <span :class="data.iconclass2" class="black" style="">{{$t("message.live.Videorecording")}}</span>
                                 </div>
                             </span>
                         </el-tree>
