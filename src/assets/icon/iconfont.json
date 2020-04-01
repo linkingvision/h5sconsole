@@ -6,6 +6,27 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "12549574",
+      "name": "控制中心",
+      "font_class": "kongzhizhongxin",
+      "unicode": "e608",
+      "unicode_decimal": 58888
+    },
+    {
+      "icon_id": "9858336",
+      "name": "复制",
+      "font_class": "fuzhi",
+      "unicode": "e6e9",
+      "unicode_decimal": 59113
+    },
+    {
+      "icon_id": "13219007",
+      "name": "ic_画质_normal",
+      "font_class": "ic_huazhi_normal",
+      "unicode": "e636",
+      "unicode_decimal": 58934
+    },
+    {
       "icon_id": "4307613",
       "name": "一宫格",
       "font_class": "yigongge",
@@ -179,13 +200,6 @@
       "font_class": "rili",
       "unicode": "e600",
       "unicode_decimal": 58880
-    },
-    {
-      "icon_id": "3466820",
-      "name": "左右",
-      "font_class": "zuoyou",
-      "unicode": "e615",
-      "unicode_decimal": 58901
     },
     {
       "icon_id": "9659178",

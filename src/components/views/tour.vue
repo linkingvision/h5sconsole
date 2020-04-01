@@ -11,8 +11,6 @@
             </div>
         </div>
 
-
-
         <el-drawer
         :title="title"
             size="16%"
@@ -37,9 +35,8 @@
         </el-drawer>
         
         <!-- Video -->
-        <div class="row">
-            <!-- Device tree -->
-            <div class="col-sm-3">
+        <el-row :gutter="20">
+            <el-col :span="5">
                 <div class="zdg">
                     <!-- 模糊查询搜查 -->
                     <el-input
@@ -60,45 +57,45 @@
                         </span>
                     </el-tree>
                 </div>
-            </div>
+            </el-col>
 
             <!-- Video 1 4 9 16 -->
-            <div class="col-sm-9" id="videoPanel">
-                <div name='flex' class="videoColor" v-for="r in rows" :key="r">
-                    <div calss="videoflexitem" style="flex:1; border:1px solid black;" name="flex" v-for="c in cols" @contextmenu.prevent="stopVideo($event)" @click="videoClick(r,c,$event)" :key="c">
-                    <v-liveplayer v-bind:id="'h'+r+c" :h5id="'tour'+r+c" :h5videoid="'hvid'+r+c"></v-liveplayer>
+            <el-col :span="19">
+                <div id="videoPanel">
+                    <div name='flex' class="videoColor" v-for="r in rows" :key="r">
+                        <div calss="videoflexitem" style="flex:1; border:1px solid black;" name="flex" v-for="c in cols" @contextmenu.prevent="stopVideo($event)" @click="videoClick(r,c,$event)" :key="c">
+                        <v-liveplayer v-bind:id="'h'+r+c" :h5id="'tour'+r+c" :h5videoid="'hvid'+r+c"></v-liveplayer>
+                        </div>
+                    </div>
+                    <div>
+                        <el-button size="mini" @click="Playall">{{$t("message.tour.Start")}}</el-button>
+                        <el-button size="mini" @click="Allpause">{{$t("message.tour.stop")}}</el-button>
+                        <el-select v-model="region" size="mini" style="width:70px" @change="Speed()">
+                            <el-option label="20" value="20"></el-option>
+                            <el-option label="30" value="30"></el-option>
+                            <el-option label="60" value="60"></el-option>
+                        </el-select>
+                        <el-select v-model="streamprofile" size="mini" style="width:120px">
+                            <el-option :label="label.label2" value="main"></el-option>
+                            <el-option :label="label.label3" value="sub"></el-option>
+                        </el-select>
+                        <el-select v-model="proto" size="mini" style="width:120px" @change="changeWS">
+                            <el-option label="WS" value="WS"></el-option>
+                            <el-option label="RTC" value="RTC"></el-option>
+                        </el-select>
+                    </div>
+                    <div class="btn-group blocks">
+                        <el-button type="button" class="hidden-xs layout3x3" data-row="3|3" @click="changePanel($event)">
+                        </el-button>
+                        <el-button type="button" class="layoutfull" @click="panelFullScreen($event)"> </el-button>
                     </div>
                 </div>
-                <div>
-                    <el-button size="mini" @click="Playall">{{$t("message.tour.Start")}}</el-button>
-                    <el-button size="mini" @click="Allpause">{{$t("message.tour.stop")}}</el-button>
-                    <el-select v-model="region" size="mini" style="width:70px" @change="Speed()">
-                        <el-option label="20" value="20"></el-option>
-                        <el-option label="30" value="30"></el-option>
-                        <el-option label="60" value="60"></el-option>
-                    </el-select>
-                    <el-select v-model="streamprofile" size="mini" style="width:120px">
-                        <el-option :label="label.label2" value="main"></el-option>
-                        <el-option :label="label.label3" value="sub"></el-option>
-                    </el-select>
-                    <el-select v-model="proto" size="mini" style="width:120px" @change="changeWS">
-                        <el-option label="WS" value="WS"></el-option>
-                        <el-option label="RTC" value="RTC"></el-option>
-                    </el-select>
-                </div>
-                <div class="btn-group blocks">
-                    <el-button type="button" class="hidden-xs layout3x3" data-row="3|3" @click="changePanel($event)">
-                    </el-button>
-                    <el-button type="button" class="layoutfull" @click="panelFullScreen($event)"> </el-button>
-                </div>
-            </div>
-            
+            </el-col>
+        </el-row>
             
 
         </div><!-- Video -->
 
-    </div>
-    
 
 </div>
 </template>

@@ -122,53 +122,6 @@
                     @select-all='select_Call'
                     style="width: 100%">
                     <!-- 隐藏内容 -->
-                    <el-table-column type="expand">
-                        <template slot-scope="props">
-                            <el-form label-position="left" inline class="demo-table-expand">
-                               
-                                <el-form-item :label="label.label2">
-                                    <span>{{ props.row.name }}</span>
-                                </el-form-item>
-                                <el-form-item label="Token :">
-                                    <span>{{ props.row.Token }}</span>
-                                </el-form-item>
-                                <el-form-item :label="label.label3">
-                                    <span>{{ props.row.strGbServerIpAddr }}</span>
-                                </el-form-item>
-                                <el-form-item :label="label.label4">
-                                    <span>{{ props.row.nGbServerPort }}</span>
-                                </el-form-item>
-                                <el-form-item :label="label.label5">
-                                    <span>{{ props.row.nGbLocalPort }}</span>
-                                </el-form-item>
-                                <el-form-item :label="label.label6">
-                                    <span>{{ props.row.strGbID }}</span>
-                                </el-form-item>
-                                <el-form-item :label="label.label7">
-                                    <span>{{ props.row.strGbServerID }}</span>
-                                </el-form-item>
-                                <el-form-item :label="label.label8">
-                                    <span>{{ props.row.strGbServerPassword }}</span>
-                                </el-form-item>
-                                <el-form-item :label="label.label13">
-                                    <span>{{ props.row.strGbDomain }}</span>
-                                </el-form-item>
-                                <el-form-item :label="label.label9">
-                                    <span>{{ props.row.strGbProto }}</span>
-                                </el-form-item>
-                                <el-form-item :label="label.label10">
-                                    <span>{{ props.row.strGbIDChBase }}</span>
-                                </el-form-item>
-                                <el-form-item :label="label.label11">
-                                    <span>{{ props.row.nGbRegisterPeriod }}</span>
-                                </el-form-item>
-                                <el-form-item :label="label.label12">
-                                    <span>{{ props.row.nGbKeepaliveTime }}</span>
-                                </el-form-item>
-                                
-                            </el-form>
-                        </template>
-                    </el-table-column>
                     <el-table-column
                         type="selection"
                         width="55">

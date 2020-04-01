@@ -85,36 +85,6 @@
                     @select='selectCall'
                     @select-all='select_Call'
                     style="width: 100%">
-                    <el-table-column type="expand">
-                        <template slot-scope="props">
-                            <el-form label-position="left" inline class="demo-table-expand">
-                                <el-form-item label="nType :">
-                                    <span>{{ props.row.Type }}</span>
-                                </el-form-item>
-                                <el-form-item label="strName :">
-                                    <span>{{ props.row.Name }}</span>
-                                </el-form-item>
-                                <el-form-item label="strToken :">
-                                    <span>{{ props.row.Token }}</span>
-                                </el-form-item>
-                                <el-form-item label="strUser :">
-                                    <span>{{ props.row.User }}</span>
-                                </el-form-item>
-                                <el-form-item label="strPasswd :">
-                                    <span>{{ props.row.Password }}</span>
-                                </el-form-item>
-                                <el-form-item label="bPasswdEncrypt :">
-                                    <span>{{ props.row.bPasswdEncrypt }}</span>
-                                </el-form-item>
-                                <el-form-item label="bEnableAudio :">
-                                    <span>{{ props.row.Audio }}</span>
-                                </el-form-item>
-                                <el-form-item label="bOnline :">
-                                    <span>{{ props.row.Online }}</span>
-                                </el-form-item>
-                            </el-form>
-                        </template>
-                    </el-table-column>
                     <el-table-column
                         type="selection"
                         width="55">

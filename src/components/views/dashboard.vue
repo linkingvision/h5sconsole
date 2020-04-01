@@ -574,7 +574,6 @@ export default {
                 myChart.setOption({
                     tooltip: {
                         show:true,
-                        
                     },
                     title: {
                         x: 'center',

@@ -10,42 +10,6 @@
                 <el-table
                     :data="tableData1.slice((currentPage1-1)*pageSize,currentPage1*pageSize)"
                     style="width: 100%">
-                    <el-table-column type="expand">
-                        <template slot-scope="props">
-                            <el-form label-position="left" inline class="demo-table-expand">
-                                <el-form-item label="nType :">
-                                    <span>{{ props.row.nType }}</span>
-                                </el-form-item>
-                                <el-form-item label="strName :">
-                                    <span>{{ props.row.strName }}</span>
-                                </el-form-item>
-                                <el-form-item label="strToken :">
-                                    <span>{{ props.row.strToken }}</span>
-                                </el-form-item>
-                                <el-form-item label="strUser :">
-                                    <span>{{ props.row.strUser }}</span>
-                                </el-form-item>
-                                <el-form-item label="strPasswd :">
-                                    <span>{{ props.row.strPasswd }}</span>
-                                </el-form-item>
-                                <el-form-item label="bPasswdEncrypt :">
-                                    <span>{{ props.row.bPasswdEncrypt }}</span>
-                                </el-form-item>
-                                <el-form-item label="strDevIpAddress :">
-                                    <span>{{ props.row.strDevIpAddress }}</span>
-                                </el-form-item>
-                                <el-form-item label="strDevPort :">
-                                    <span>{{ props.row.strDevPort }}</span>
-                                </el-form-item>
-                                <el-form-item label="bEnableAudio :">
-                                    <span>{{ props.row.bEnableAudio }}</span>
-                                </el-form-item>
-                                <el-form-item label="bOnline :">
-                                    <span>{{ props.row.bOnline }}</span>
-                                </el-form-item>
-                            </el-form>
-                        </template>
-                    </el-table-column>
                     <el-table-column
                     prop="name"
                     :label="label.Name"

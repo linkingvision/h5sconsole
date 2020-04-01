@@ -35,6 +35,7 @@ import GBplatform from '@/components/views/GB/GBplatform'
 import H5S from '@/components/h5s'
 import Login from '@/components/login'
 import Logout from '@/components/logout'
+import Control from '@/components/Control'
 import store from '@/store/store'
 import * as types from '@/store/types'
 
@@ -251,6 +252,12 @@ const routes = [
         component: Logout
       }
     ]
+  },
+  
+  {
+    path: '/Control',
+    name: 'ControlRouter',
+    component: Control
   },
   {
     path: '/login',

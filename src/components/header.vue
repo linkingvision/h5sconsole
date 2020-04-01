@@ -10,7 +10,26 @@
             </span>
         </div>
       </ul>
+      
       <ul class="nav navbar-top-links navbar-right pull-right" style="line-height: 40px; height: 40px;">
+        <li class="dropdown control_center">
+          <i class="iconfont icon-kongzhizhongxin"></i>
+          <!-- <span></span> -->
+          <a href="#/Control" >
+            <router-link :to="{name:'ControlRouter'}">
+              <span class="icon_col">控制中心</span>
+            </router-link> 
+          </a>
+        </li>
+        <!-- 搜索 -->
+        <li class="dropdown icon_col">
+          <el-badge>
+            <i class="fa fa-search" type="primary"></i>
+          </el-badge>
+        </li>
+        <li class="dropdown icon_col icon_mao">
+          :
+        </li>
         <!-- 铃铛 -->
         <li class="dropdown" style="margin: 0px 20px 0 0;color: #fff;">
           <router-link :to="{name:'eventRouter'}">
@@ -18,37 +37,9 @@
               <i class="mdi mdi-bell" type="primary"></i>
             </el-badge>
           </router-link>
-          <!-- <ul class="dropdown-menu mailbox animated bounceInDown">
-                            <li>
-                                <div class="drop-title">{{$t("message.header.alarm")}}</div>
-                            </li>
-                            <li>
-                                <div class="message-center">
-
-                                </div>
-                            </li>
-                            <li>
-                                <a class="text-center" href="javascript:void(0);"> <strong>{{$t("message.header.see_alarm")}}</strong> <i class="fa fa-angle-right"></i> </a>
-                            </li>
-          </ul>-->
         </li>
-        <!-- 搜索 -->
-        <li class="dropdown" style="color: #fff;border-right: 1px solid #4D4D4D; padding: 0px 20px; height: 40px;">
-          <el-badge>
-            <i class="fa fa-search" type="primary"></i>
-          </el-badge>
-        </li>
-
-        <!-- <li>
-          <form role="search" class="app-search hidden-sm hidden-xs m-r-10">
-            <input type="text" class="form-control" />
-            <a href>
-              <i class="fa fa-search"></i>
-            </a>
-          </form>
-        </li> -->
-
-        <li class="dropdown">
+        
+        <li class="dropdown" style="border-left: 1px solid #4D4D4D;height:39px">
           <a class="dropdown-toggle" data-toggle="dropdown" href="#">
             <span class="iconfont icon-yonghu1"></span>
             <b class="hidden-xs">admin</b>
@@ -121,30 +112,6 @@
           </ul>
           <!-- /.dropdown-user -->
         </li>
-        <!-- <li class="a">
-            
-            <el-button type="text" class="about" @click="centerDialogVisible = true">{{$t("message.dashboard.about")}}</el-button>
-            <el-dialog
-                :visible.sync="centerDialogVisible"
-                width="30%"
-                append-to-body
-                center>
-                <div class="about_flex">
-                    <div>
-                        <img class="adout_img" src="./gallery/logo@2x.png"/>
-                    </div>
-                    <div style="margin: 20px 0 10px 20px; text-align: center;">
-                        <img src="./gallery/H5SCONSOLE@2x.png" style="margin: 0px 0 16px 0px;"/>
-                        <div>{{$t("message.dashboard.version")}}: {{information.strVersion}}</div>
-                    </div>
-                </div>
-                <div class="about_but">
-                  <a href="https://linkingvision.cn/" target="_blank">
-                    <div class="about_but1">{{$t("message.dashboard.about")}}</div>
-                  </a>
-                </div>
-            </el-dialog>
-        </li> -->
         <!-- /.dropdown -->
       </ul>
     </div>
@@ -207,6 +174,25 @@ export default {
 };
 </script>
 <style scoped>
+/* 控制中心 */
+.control_center{
+  margin-right: 14px;
+  font-size:14px;
+  font-family:PingFang SC;
+  font-weight:600;
+  color:rgba(255,255,255,1);
+  display: flex;
+}
+
+
+.icon_col{
+  color: #fff;;
+}
+.icon_mao{
+  padding-left: 14px;
+  font-size: 16px;
+  font-weight: 700;
+}
 a{
   color: #000;
   width: 100%;

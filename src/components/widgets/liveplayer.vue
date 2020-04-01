@@ -106,8 +106,8 @@
                             <el-card>
                                 <div class="preset_bgc">
                                     <input type="text" class="preset_input" :value="Pre.strName"/>
-                                    <!-- <button type="button" class="iconfont icon-RectangleCopy1" @click="preset_Jump(Pre.strToken)"></button>
-                                    <button type="button" class="iconfont icon-shezhi" @click="preset_set(Pre.strToken,$event)"></button> -->
+                                    <button type="button" class="iconfont icon-RectangleCopy1" @click="preset_Jump(Pre.strToken)"></button>
+                                    <button type="button" class="iconfont icon-shezhi" @click="preset_set(Pre.strToken,$event)"></button>
                                 </div>
                             </el-card>
                         </el-timeline-item>
@@ -297,12 +297,12 @@ export default {
            var streamprofile= command.strToken
            this.PlayVideo(token,streamprofile,label,name)
            
-      },
-      changePanel(event){
-          console.log(event)
-      },
+        },
+        changePanel(event){
+            console.log(event)
+        },
      
-    PlayVideo(token,streamprofile,label,name)
+        PlayVideo(token,streamprofile,label,name)
         {  
            this.inputtoken=token
            this.inputlabel=label
@@ -897,7 +897,7 @@ export default {
 .quality{
     position: absolute;
     bottom: 5px;
-    right: 0px;
+    right: 10px;
     padding:0 10px;
     /* display:none; */
 }

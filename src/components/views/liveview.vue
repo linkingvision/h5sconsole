@@ -91,7 +91,7 @@
                             </span>
                         </el-tree>
                     </div>
-                    <div id="device1">\
+                    <div id="device1">
                         <div class="devicetoog">
                             <div>{{$t("message.live.Region")}}</div>
                             <div @click="devicetoog1" class="iconfont icon-zhiding deviceicon"></div> 
