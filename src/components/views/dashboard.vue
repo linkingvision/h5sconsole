@@ -361,10 +361,8 @@ export default {
             this.$http.get(url).then(result => {
                 if (result.status == 200) {
                     var data = result.data;
-                    console.log(data.intel.length,data.nvidia.length);
                     this.Gpulen.nIndex=data.intel.length;
                     this.Gpulen.nvidia=data.nvidia.length;
-                    console.log(this.Gpulen)
                 }
             })
         },

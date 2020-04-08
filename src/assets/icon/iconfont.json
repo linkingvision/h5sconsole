@@ -6,6 +6,97 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "8940068",
+      "name": "定位",
+      "font_class": "personLocation",
+      "unicode": "e60c",
+      "unicode_decimal": 58892
+    },
+    {
+      "icon_id": "10834261",
+      "name": "聚焦",
+      "font_class": "jujiao1",
+      "unicode": "e611",
+      "unicode_decimal": 58897
+    },
+    {
+      "icon_id": "11107656",
+      "name": "聚焦 ",
+      "font_class": "jujiao2",
+      "unicode": "e613",
+      "unicode_decimal": 58899
+    },
+    {
+      "icon_id": "11529760",
+      "name": "光圈减",
+      "font_class": "guangquanjian",
+      "unicode": "e6e8",
+      "unicode_decimal": 59112
+    },
+    {
+      "icon_id": "11529762",
+      "name": "光圈加",
+      "font_class": "guangquanjia",
+      "unicode": "e6ea",
+      "unicode_decimal": 59114
+    },
+    {
+      "icon_id": "12936293",
+      "name": "密码 (1)",
+      "font_class": "mima",
+      "unicode": "e60e",
+      "unicode_decimal": 58894
+    },
+    {
+      "icon_id": "13051759",
+      "name": "密码",
+      "font_class": "mima1",
+      "unicode": "e647",
+      "unicode_decimal": 58951
+    },
+    {
+      "icon_id": "13592045",
+      "name": "提示",
+      "font_class": "ts-caveat",
+      "unicode": "e60d",
+      "unicode_decimal": 58893
+    },
+    {
+      "icon_id": "13090358",
+      "name": "调焦+-描边8px",
+      "font_class": "add-focus",
+      "unicode": "e76f",
+      "unicode_decimal": 59247
+    },
+    {
+      "icon_id": "13090653",
+      "name": "调焦--描边8px",
+      "font_class": "reduce-focus",
+      "unicode": "e770",
+      "unicode_decimal": 59248
+    },
+    {
+      "icon_id": "2279255",
+      "name": "箭头",
+      "font_class": "jiantou-copy-copy-copy",
+      "unicode": "e630",
+      "unicode_decimal": 58928
+    },
+    {
+      "icon_id": "3192769",
+      "name": "禁用",
+      "font_class": "jinyong",
+      "unicode": "e60a",
+      "unicode_decimal": 58890
+    },
+    {
+      "icon_id": "13178843",
+      "name": "启用",
+      "font_class": "qiyong",
+      "unicode": "e649",
+      "unicode_decimal": 58953
+    },
+    {
       "icon_id": "12549574",
       "name": "控制中心",
       "font_class": "kongzhizhongxin",

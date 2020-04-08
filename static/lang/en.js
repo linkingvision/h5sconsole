@@ -16,6 +16,8 @@ module.exports={
     },
     left:
     {
+		VIDEO:'VIDEO PLATFORM CONTROL CENTER',
+		Control:"Control Center",
 		navigation: 'Navigation',
 		dashboard: 'Dashboard',
 		live: 'Live',
@@ -97,6 +99,9 @@ module.exports={
     },
 	live:
     {
+		focusing:"Focusing",
+		Focus:"Focus",
+		aperture:"Aperture",
 		liveview: 'Liveview',
 		device: 'DEVICE',
 		setting: 'SETTING',

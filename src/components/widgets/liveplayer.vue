@@ -76,23 +76,41 @@
     <div class="ptzcontrols"  style="display:none padding:0px">
         
         <div class="flex_content">
-            <div class="key_zoom">
-                
-                <div class="zoom">
-                    <div class="zoom_add" @mousedown ="PtzActionZoomIn($event)" @mouseup="PtzActionStop($event)" @touchstart ="PtzActionZoomIn($event)" @touchend="PtzActionStop($event)"></div>
-                    <div class="zoom_add" @mousedown ="PtzActionZoomOut($event)" @mouseup="PtzActionStop($event)" @touchstart ="PtzActionZoomOut($event)" @touchend="PtzActionStop($event)"></div>
+            <div class="content_zoom">
+                <div class="key_zoom">
+                    <div class="key_flex">
+                        <div class="key_but" @mousedown ="PtzActionUpleft($event)" @mouseup="PtzActionStop($event)" @touchstart ="PtzActionUpleft($event)" @touchend="PtzActionStop($event)"></div>
+                        <div class="key_but" @mousedown ="PtzActionUp($event)" @mouseup="PtzActionStop($event)" @touchstart ="PtzActionUp($event)" @touchend="PtzActionStop($event)"></div>
+                        <div class="key_but" @mousedown ="PtzActionUpright($event)" @mouseup="PtzActionStop($event)" @touchstart ="PtzActionUpright($event)" @touchend="PtzActionStop($event)"></div>
+                        <div class="key_but" @mousedown ="PtzActionLeft($event)" @mouseup="PtzActionStop($event)" @touchstart ="PtzActionLeft($event)" @touchend="PtzActionStop($event)"></div>
+                        <div class="key_but" ></div>
+                        <div class="key_but" @mousedown ="PtzActionRight($event)" @mouseup="PtzActionStop($event)" @touchstart ="PtzActionRight($event)" @touchend="PtzActionStop($event)"></div>
+                        <div class="key_but" @mousedown ="PtzActionDownleft($event)" @mouseup="PtzActionStop($event)" @touchstart ="PtzActionDownleft($event)" @touchend="PtzActionStop($event)"></div>
+                        <div class="key_but" @mousedown ="PtzActionDown($event)" @mouseup="PtzActionStop($event)" @touchstart ="PtzActionDown($event)" @touchend="PtzActionStop($event)"></div>
+                        <div class="key_but" @mousedown ="PtzActionDownright($event)" @mouseup="PtzActionStop($event)" @touchstart ="PtzActionDownright($event)" @touchend="PtzActionStop($event)"></div>
+                    </div>
                 </div>
-            
-                <div class="key_flex">
-                    <div class="key_but"></div>
-                    <div class="key_but"  @mousedown ="PtzActionUp($event)" @mouseup="PtzActionStop($event)" @touchstart ="PtzActionUp($event)" @touchend="PtzActionStop($event)"></div>
-                    <div class="key_but"></div>
-                    <div class="key_but" @mousedown ="PtzActionLeft($event)" @mouseup="PtzActionStop($event)" @touchstart ="PtzActionLeft($event)" @touchend="PtzActionStop($event)"></div>
-                    <div class="key_but"></div>
-                    <div class="key_but" @mousedown ="PtzActionRight($event)" @mouseup="PtzActionStop($event)" @touchstart ="PtzActionRight($event)" @touchend="PtzActionStop($event)"></div>
-                    <div class="key_but"></div>
-                    <div class="key_but" @mousedown ="PtzActionDown($event)" @mouseup="PtzActionStop($event)" @touchstart ="PtzActionDown($event)" @touchend="PtzActionStop($event)"></div>
-                    <div class="key_but"></div>
+                <div class="zoom">
+                    <el-tooltip :enterable="false" :content="content.focusing" placement="top" effect="light">
+                        <button class="iconfont icon-add-focus zoom_add" @mousedown ="PtzActionZoomIn($event)" @mouseup="PtzActionStop($event)" @touchstart ="PtzActionZoomIn($event)" @touchend="PtzActionStop($event)"></button>
+                    </el-tooltip>
+                    <el-tooltip :enterable="false" :content="content.focusing" placement="top" effect="light">
+                        <button class="iconfont icon-reduce-focus zoom_add" @mousedown ="PtzActionZoomOut($event)" @mouseup="PtzActionStop($event)" @touchstart ="PtzActionZoomOut($event)" @touchend="PtzActionStop($event)"></button>
+                    </el-tooltip>
+
+                    <el-tooltip :enterable="false" :content="content.Focus" placement="top" effect="light">
+                        <button class="iconfont icon-jujiao2 zoom_add" @mousedown ="PtzActionfocusing($event)" @mouseup="PtzActionStop($event)" @touchstart ="PtzActionfocusing($event)" @touchend="PtzActionStop($event)"></button>
+                    </el-tooltip>
+                    <el-tooltip :enterable="false" :content="content.Focus" placement="top" effect="light">
+                        <button class="iconfont icon-jujiao1 zoom_add" @mousedown ="PtzActionfocusings($event)" @mouseup="PtzActionStop($event)" @touchstart ="PtzActionfocusings($event)" @touchend="PtzActionStop($event)"></button>
+                    </el-tooltip>
+
+                    <el-tooltip :enterable="false" :content="content.aperture" placement="top" effect="light">
+                        <button class="iconfont icon-guangquanjia zoom_add" @mousedown ="PtzActionaperture($event)" @mouseup="PtzActionStop($event)" @touchstart ="PtzActionaperture($event)" @touchend="PtzActionStop($event)"></button>
+                    </el-tooltip>
+                    <el-tooltip :enterable="false" :content="content.aperture" placement="top" effect="light">
+                        <button class="iconfont icon-guangquanjian zoom_add"  @mousedown ="PtzActionaperturej" @mouseup="PtzActionStop" @touchstart ="PtzActionaperturej" @touchend="PtzActionStop"></button>
+                    </el-tooltip>
                 </div>
             </div>
             <div class="Preset">
@@ -107,7 +125,7 @@
                                 <div class="preset_bgc">
                                     <input type="text" class="preset_input" :value="Pre.strName"/>
                                     <button type="button" class="iconfont icon-RectangleCopy1" @click="preset_Jump(Pre.strToken)"></button>
-                                    <button type="button" class="iconfont icon-shezhi" @click="preset_set(Pre.strToken,$event)"></button>
+                                    <button type="button" class="iconfont icon-icon-test" @click="preset_set(Pre.strToken,$event)"></button>
                                 </div>
                             </el-card>
                         </el-timeline-item>
@@ -130,6 +148,11 @@ export default {
     props:['h5id', 'h5videoid',"cols","rows"],
     data () {
         return {
+            content:{
+                focusing:this.$t('message.live.focusing'),
+                Focus:this.$t('message.live.Focus'),
+                aperture:this.$t('message.live.aperture'),
+            },
             videoid: this.h5videoid,
             ptz:"ptz"+ this.h5videoid,
             videonameid:"name"+this.h5videoid,
@@ -221,11 +244,10 @@ export default {
          $("#"+this.inputid).addClass("spanpicturequality")
         // 转码
        this. Gettranscod()
-
     },
    
     methods: {
-      
+        
         // 二维码
         qrcode () {
             console.log(this.tokenshou)
@@ -452,7 +474,6 @@ export default {
             }
             var url = root + "/api/v1/GetTransProfile?session="+ this.$store.state.token;
             this.$http.get(url).then(result=>{
-                console.log(result)
             //   return false;
               if(result.status == 200){
                 this.qualitylist=result.data.profile
@@ -473,7 +494,6 @@ export default {
                 //       this.qualityform.push(qualitydata);
                 //   }
 
-                console.log(this.qualitylist)
              }
             }).catch()
         },
@@ -557,25 +577,20 @@ export default {
         PtzControlShow(event)
         {
             this.Presetdata=[];
-            console.log("+++++++++",this.Presetdata);
             var root = process.env.API_ROOT;
 		    if (root == undefined){
 		        root = window.location.protocol + '//' + window.location.host + window.location.pathname;
 		    }
 		   //url
            var url = root + "/api/v1/GetPresets?token="+this.tokenshou+"&session="+ this.$store.state.token;
-           console.log(url);
             //重组
             this.$http.get(url).then(result=>{
                 if(result.status == 200){
-                    console.log(result);
                     if(result.bStatus==false){
-                        console.log("data.preset[i].strName")
                         return false;
                     }else{
                         var data=result.data;
                         for(var i = 0; i < data.preset.length; i++){
-                            console.log(data.preset[i].strName)
                             var newItem ={
                                 strName : data.preset[i].strName,
                                 strToken : data.preset[i].strToken,};
@@ -585,7 +600,6 @@ export default {
                             }
                         }
                     }
-                    console.log("---------",this.Presetdata);
                 }
             })
 
@@ -603,6 +617,19 @@ export default {
                 this.ptzshow = false;
             }
         },
+        
+        PtzActionfocusing(event){
+            this.PtzAction('focusin');
+        },
+        PtzActionfocusings(event){
+            this.PtzAction('focusout');
+        },
+        PtzActionaperture(event){
+            this.PtzAction('irisin');
+        },
+        PtzActionaperturej(event){
+            this.PtzAction('irisout');
+        },
 
         PtzActionZoomIn(event)
         {
@@ -612,6 +639,18 @@ export default {
         PtzActionZoomOut(event)
         {
             this.PtzAction('zoomout');
+        },
+        PtzActionUpleft(event){
+            this.PtzAction('upleft');
+        },
+        PtzActionUpright(event){
+            this.PtzAction('upright');
+        },
+        PtzActionDownleft(event){
+            this.PtzAction('downleft');
+        },
+        PtzActionDownright(event){
+            this.PtzAction('downright');
         },
         PtzActionLeft(event)
         {
@@ -827,27 +866,8 @@ export default {
     padding: 0 20px;
 }
 
-.flex_content{
-    width: 100%;
-    height: 100%;
-    display: flex;
-    justify-content: space-between;
-    background: rgba(0,0,0,0.3);
-    padding: 8% 0 0 0;
-    position: relative;
-}
-.key_zoom{
-    width: 25%;
-    margin: 0 4% 0 8%;
-    position: absolute;
-    bottom: 4%;
-}
-.Preset{
-    width: 30%;
-    position: absolute;
-    bottom: 4%;
-    right: 4%;
-}
+
+
 .block{
     width: 100%;
     height: 175px;
@@ -1005,29 +1025,59 @@ export default {
     color: #ffffff;
 }
 
+/*  */
+.Preset{
+    width: 30%;
+    position: absolute;
+    bottom: 10%;
+    right: 4%;
+}
+.flex_content{
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.3);
+    padding: 8% 0 8% 0;
+    position: relative;
+    /* margin-bottom: 6%; */
+}
+.content_zoom{
+    width: 50%;
+    height: 100%;
+    display: flex;
+    /* justify-content: space-between; */
+    align-items: flex-end;
+}
+.key_zoom{
+    width: 25%;
+    margin: 0 4% 0 2%;
+    /* position: absolute;
+    bottom: 4%; */
+
+}
 /* 加减 */
 
 .zoom{
-    width: 26px;
-    height: 80px;
-    line-height: 40px;
+    width: 50px;
+    height: 100px;
     /* background-color: #808181; */
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    align-content: space-around;
+    margin-left: 16%;
 }
 .zoom_add{
-    width: 100%;
-    height: 40px;
+    width: 20px;
+    height: 20px;
+    text-align: center;
+    background: none;
+    border: 0;
+    padding: 0;
+    color: #FFFFFF;
 }
-.zoom .zoom_add:nth-child(1){
-    background:url("../views/gallery/jia@2x.png") no-repeat;
-    background-size: 100%;
-    background-position:center center;
+.el-button{
+    margin: 0;
 }
-.zoom .zoom_add:nth-child(2){
-    background:url("../views/gallery/jian@2x.png") no-repeat;
-    background-size: 100%;
-    background-position:center center;
-}
-
 /* 上下左右 */
 .key_flex{
     width: 100px;
@@ -1035,7 +1085,8 @@ export default {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
-    margin-left: 20%;
+    margin-left: 5%;
+    background:url("../views/gallery/Dibutton.png") no-repeat center;
     /* margin-bottom: 20px; */
 }
 .key_but{
@@ -1043,26 +1094,6 @@ export default {
     height: 33.33%;
     text-align: center;
     /* background-color: #FF0000; */
-}
-.key_flex .key_but:nth-child(2){
-    background:url("../views/gallery/shang@2x.png") no-repeat;
-    background-size: contain;
-    background-position:center center
-}
-.key_flex .key_but:nth-child(4){
-    background:url("../views/gallery/you@2x.png") no-repeat;
-    background-size: contain;
-    background-position:center center
-}
-.key_flex .key_but:nth-child(6){
-    background:url("../views/gallery/zuo@2x.png") no-repeat;
-    background-size: contain;
-    background-position:center center
-}
-.key_flex .key_but:nth-child(8){
-    background:url("../views/gallery/xia@2x.png") no-repeat;
-    background-size: contain;
-    background-position:center center
 }
 
 
@@ -1100,7 +1131,6 @@ video {
     font-size: 18px;
     background: none;
     border: 0;
-
 }
 .vidbuttion:hover{
     color: #ffffff !important;
@@ -1176,6 +1206,7 @@ video {
     width: 100%;
     height: 32px;
     display:none;
+    object-fit: 0.3;
 }
 .h5container > .ptzcontrols {
     position:absolute;

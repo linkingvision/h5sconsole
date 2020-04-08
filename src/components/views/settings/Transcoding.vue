@@ -396,9 +396,6 @@ import '@/assets/jQuery.md5.js'
         pageSize: 10,//一页数量
         dialogFormVisible: false,//添加弹窗
         editPopup:false,//编辑弹窗
-        editform: {
-            label3:"anmin,"
-        },
         edittoken:"",//编辑时要删除的token
         editindex:"",//编辑时所在索引
         tableData: [],//1
@@ -521,44 +518,27 @@ import '@/assets/jQuery.md5.js'
             this.editform["nFPSType"]=row.nFPSType;
             this.editform["nFPS"]=row.nFPS;
             this.editform["nScaleType"]=row.nScaleType;
-            this.editform["nWidth"]=row.nWidth;
-            this.editform["nHeight"]=row.nHeight;
             this.editform["wihe"]=row.nWidth+"*"+row.nHeight;
-            console.log(this.editform)
+            console.log(this.editform);
             // console.log(this.tableData[index])
         },
         //  编辑 添加 的确定键
         proedityes(){
-            console.log("自定义",this.editindex,this.editform);
+            // console.log("自定义",this.editindex,this.editform);
             var form=this.editform;
             var root = process.env.API_ROOT;
             if (root == undefined){
                 root = window.location.protocol + '//' + window.location.host + window.location.pathname;
             }
-            var list = {
-                index:form.index,
-                Type:form.Type,
-                strName:form.strName,
-                strToken:form.strToken,
-                nCodec:form.nCodec,
-                nEngine:form.nEngine,
-                nBitrate:form.nBitrate,
-                PonFPSTypert:form.nFPSType,
-                nFPS :form.nFPS,
-                nScaleType:form.nScaleType,
-                nWidth:form.nWidth,
-                nHeight:form.nHeight,
-                wihe:form.wihe,
-            }
-            console.log("form",form);
-           
-            var url1 = root + "/api/v1/DelTransProfile?token="+this.edittoken+"&session="+ this.$store.state.token;
+            
+            var nWidhei= form.wihe.split("*");
+            // return false;
+            var url1 = root + "/api/v1/DelTransProfile?token="+form.strToken+"&session="+ this.$store.state.token;
             this.$http.get(url1).then(result=>{
                 //console.log("1",result);
                 if(result.status==200){
                     if(result.data.bStatus==true){
-                        this.tableData2.splice(this.editindex, 1,list)
-                        this.Success();
+                        this.Success(nWidhei);
                     }else{
                         this.$message({
                             message: this.$t("message.setting.Editorfailure"),
@@ -569,10 +549,26 @@ import '@/assets/jQuery.md5.js'
                 }
             })
         },
-        Success(){
+        Success(nWidhei){
+            var form=this.editform;
+            if(form.nBitrate<64||form.nBitrate>10240){
+                console.log(form.nBitrate)
+                this.$message({
+                    message: 'Bitrate值必须在64-10240之间',
+                    type: 'warning'
+                });
+                return false;
+            }else if(form.nFPS<1||form.nFPS>30){
+                console.log(form.nBitrate)
+                this.$message({
+                    message: 'FPS值必须在1-30之间',
+                    type: 'warning'
+                });
+                return false;
+            }
+            console.log("form1",nWidhei[0],nWidhei[1]);
             this.editPopup = false;
             var root = process.env.API_ROOT;
-            var form=this.editform;
             if (root == undefined){
                 root = window.location.protocol + '//' + window.location.host + window.location.pathname;
             }
@@ -581,8 +577,8 @@ import '@/assets/jQuery.md5.js'
             "&fpstype="+form.nFPSType+
             "&fps="+form.nFPS+
             "&scaletype="+form.nScaleType+
-            "&width="+form.nWidth+
-            "&height="+form.nHeight+
+            "&width="+nWidhei[0]+
+            "&height="+nWidhei[1]+
             "&bitrate="+form.nBitrate+
             "&engine="+form.nEngine+
             "&session="+ this.$store.state.token;
@@ -591,11 +587,11 @@ import '@/assets/jQuery.md5.js'
                 if(result.status==200){
                   if(result.data.bStatus==true){
                         //this.reload();
-                        // this.tableData2=[];
-                        // this.loadstpro();
+                        this.tableData2=[];
+                        this.loadstpro();
                     }else{
                         this.$message({
-                            message: '添加失败',
+                            message: '编辑失败',
                             type: 'warning'
                         });
                         return false;
@@ -607,6 +603,22 @@ import '@/assets/jQuery.md5.js'
         defedityes(){
             console.log("默认",this.editindex,this.editform);
             var form=this.editform;
+            var nWidhei= form.wihe.split("*");
+            if(form.nBitrate<64||form.nBitrate>10240){
+                console.log(form.nBitrate)
+                this.$message({
+                    message: 'Bitrate值必须在64-10240之间',
+                    type: 'warning'
+                });
+                return false;
+            }else if(form.nFPS<1||form.nFPS>30){
+                console.log(form.nBitrate)
+                this.$message({
+                    message: 'FPS值必须在1-30之间',
+                    type: 'warning'
+                });
+                return false;
+            }
             var root = process.env.API_ROOT;
             if (root == undefined){
                 root = window.location.protocol + '//' + window.location.host + window.location.pathname;
@@ -615,8 +627,8 @@ import '@/assets/jQuery.md5.js'
             var url = root + "/api/v1/SetTransProfileDefault?fpstype="+form.nFPSType+
             "&fps="+form.nFPS+
             "&scaletype="+form.nScaleType+
-            "&width="+form.nWidth+
-            "&height="+form.nHeight+
+            "&width="+nWidhei[0]+
+            "&height="+nWidhei[1]+
             "&bitrate="+form.nBitrate+
             "&engine="+form.nEngine+
             "&session="+ this.$store.state.token;

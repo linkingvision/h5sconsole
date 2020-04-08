@@ -17,7 +17,7 @@
           <!-- <span></span> -->
           <a href="#/Control" >
             <router-link :to="{name:'ControlRouter'}">
-              <span class="icon_col">控制中心</span>
+              <span class="icon_col">{{$t("message.left.Control")}}</span>
             </router-link> 
           </a>
         </li>

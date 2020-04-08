@@ -1,5 +1,8 @@
-import {H5sEvent} from '../../../assets/h5sevent.js'
 
+   
+import {H5sEvent} from '../../../assets/h5sevent.js'
+import store from '@/store/store'
+console.log(store.state.token)
 let gEvent=[];
 var e1=undefined;
 function EventCB(event, userdata)
@@ -16,6 +19,9 @@ function EventCB(event, userdata)
     //console.log(gEvent.length)
 }
 function events(){
+    if(store.state.token==null){
+        return false;
+    }
     var root = process.env.API_ROOT;
     var wsroot = process.env.WS_HOST_ROOT;
     if (root == undefined){
@@ -31,7 +37,7 @@ function events(){
         rootpath:'/', // '/'
         callback: EventCB, 
         userdata: null, // user data
-        session: "c1782caf-b670-42d8-ba90-2244d0b0ee83" //session got from login
+        session: store.state.token //session got from login
     };
     e1 = new H5sEvent(conf1);
     e1.connect();

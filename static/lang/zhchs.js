@@ -3,6 +3,7 @@ module.exports={
     common:
     {
 		update_successfully: '更新成功'
+
     },
     header:
     {
@@ -16,6 +17,8 @@ module.exports={
     },
     left:
     {
+		VIDEO:"视频平台控制中心",
+		Control:"控制中心",
 		navigation: '导航',
 		dashboard: '仪表盘',
 		live: '实时视频',
@@ -97,6 +100,9 @@ module.exports={
     },
 	live:
     {
+		focusing:"调焦",
+		Focus:"聚焦",
+		aperture:"光圈",
 		liveview: '实时视频',
 		device: '视频源',
 		setting: '设置',
