@@ -2,9 +2,12 @@
     <div id="wrapper" class="login_con">
         <div class="control_header">
             <div class="control_header1">
-                <div class="control_size"></div>
+                <div class="control_size">
+                    {{$t("message.left.VIDEO")}}
+                </div>
                 <router-link :to="{name:'dashboardRouter'}">
                     <div class="control_fanhui">
+                        {{$t("message.left.dashboard")}}
                     </div>
                 </router-link>
             </div>
@@ -17,7 +20,7 @@
                         <img src="./control-img/cpu@2x.png" alt="">
                     </div>
                     <div class="device">{{this.$t("message.dashboard.an_out")}}</div>
-                    <div id="container" style="width:100%;height: 80%; padding-left: 4%;"></div>
+                    <div id="containernet" style="width:100%;height: 80%; padding-left: 4%;"></div>
                 </div>
                 <div class="cpu_cpu">
                     
@@ -25,7 +28,7 @@
                         <img src="./control-img/cpu@2x.png" alt="">
                     </div>
                     <div class="device">CPU</div>
-                    <div id="container1" style="width:100%;height: 80%; padding-left: 4%;"></div>
+                    <div id="containercpu" style="width:100%;height: 80%; padding-left: 4%;"></div>
                 </div>
                 <div class="cpu_dev">
                     <div class="play_live_back">
@@ -92,36 +95,31 @@
                             <div class="play_live_back">
                                 <img src="./control-img/info@2x.png" alt="">
                             </div>
-                            <div class="info_system">
-                                <div>{{this.$t("message.dashboard.system_info")}}</div>
-                                <div class="flex_nc_ag">
-                                    <div class="flex_nc_zong" v-if="capability">
-                                        <div class="flex_nc_cpu">
-                                            <span class="cpu_zuo" >{{capability[0].name}}:</span>
-                                            <span class="cpu_you"> {{capability[0].id}}</span>
-                                        </div>
-                                        <div class="flex_nc_cpu">
-                                            <span class="cpu_zuo">{{capability[1].name}}:</span>
-                                            <span class="cpu_you"> {{capability[1].id}}</span>
-                                        </div>
-                                        <div class="flex_nc_cpu">
-                                            <span class="cpu_zuo">{{capability[2].name}}:</span>
-                                            <span class="cpu_you"> {{capability[2].id}}</span>
-                                        </div>
-                                    </div>
-                                    <div class="flex_nc_zong" v-if="capability">
-                                        <div class="flex_nc_cpu">
-                                            <span class="cpu_zuo">{{capability[3].name}}:</span>
-                                            <span class="cpu_you"> {{capability[3].id}}</span>
-                                        </div>
-                                        <div class="flex_nc_cpu">
-                                            <span class="cpu_zuo">{{capability[4].name}}:</span>
-                                            <span class="cpu_you"> {{capability[4].id}}</span>
-                                        </div>
-                                        <div class="flex_nc_cpu">
+                            <div class="info_abs">
+                                
+                                <div class="info_system">
+                                    <div>{{this.$t("message.dashboard.system_info")}}</div>
+                                    <div class="flex_nc_ag">
+                                        <div class="flex_nc_zong" v-if="capability">
+                                            <div class="flex_nc_cpu" v-for="(a,index) in capability" :key="index">
+                                                <span class="cpu_zuo" >{{a.name}}:</span>
+                                                <span class="cpu_you"> {{a.id}}</span>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
+                                <div class="info_system">
+                                    <div>{{this.$t("message.dashboard.codec_info")}}</div>
+                                    <div class="flex_nc_ag">
+                                        <div class="flex_nc_zong" v-if="capability">
+                                            <div class="flex_nc_cpu" v-for="(a,index) in codecInfo" :key="index">
+                                                <span class="cpu_zuo" >{{a.name}}:</span>
+                                                <span class="cpu_you"> {{a.id}}</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            
                             </div>
                         </div>
                     </div>
@@ -131,7 +129,11 @@
             <div class="control_sdk">
                 <div class="sdk_Memory">
                     <div class="sdk_Memory1">
+                        <div class="play_live_back">
+                            <img src="./control-img/memory@2x.png" alt="">
+                        </div>
                         <el-progress
+                        class="el_progress"
                         v-if="strRunTime"
                         type="circle"
                         color="#E66A44"
@@ -140,7 +142,11 @@
                         <div>{{this.$t("message.dashboard.free_space")}}</div>
                     </div>
                     <div class="sdk_Memory1">
+                        <div class="play_live_back">
+                            <img src="./control-img/memory@2x.png" alt="">
+                        </div>
                         <el-progress
+                            class="el_progress"
                             type="circle"
                             :width='100'
                             v-if="strRunTime"
@@ -148,22 +154,35 @@
                             :percentage="Number(strRunTime.nMemoryUsage)"></el-progress>
                         <div>{{this.$t("message.dashboard.memory")}}</div>
                     </div>
-                </div>
-                <div class="sdk_Running">
-                    <div class="play_live_back">
-                        <img src="./control-img/running@2x.png" alt="">
+                    <div class="sdk_Memory1">
+                        <div class="play_live_back">
+                            <img src="./control-img/memory@2x.png" alt="">
+                        </div>
+                        <el-progress
+                            class="el_progress"
+                            type="circle"
+                            :width='100'
+                            v-if="strRunTime"
+                            color="#0571DC"
+                            :percentage="Number(Math.round((strRunTime.nRecordTotalSpaceByte-strRunTime.nRecordFreeSpaceByte)/strRunTime.nRecordTotalSpaceByte*100))"></el-progress>
+                        <div>{{this.$t("message.dashboard.free_space")}}</div>
                     </div>
-                    <div class="zong_mve">
-                        <div>{{this.$t("message.dashboard.running")}}</div>
-                        <div style="color:#04D189;">{{strRunTime.strRunTime}}</div>
-                    </div>
-                    <div class="zong_mve">
-                        <div>{{this.$t("message.dashboard.cameras")}}</div>
-                        <div style="color:#275FD0;">{{dev.nCameraTotal}}</div>
-                    </div>
-                    <div class="zong_mve">
-                        <div>{{this.$t("message.dashboard.online_cam")}}</div>
-                        <div style="color:#DDB401;">{{dev.nCameraOnline}}</div>
+                    <div class="sdk_Memory1">
+                        <div class="play_live_back">
+                            <img src="./control-img/memory@2x.png" alt="">
+                        </div>
+                        <div class="zong_mve">
+                            <div>{{this.$t("message.dashboard.running")}}</div>
+                            <div style="color:#04D189;">{{strRunTime.strRunTime}}</div>
+                        </div>
+                        <div class="zong_mve">
+                            <div>{{this.$t("message.dashboard.cameras")}}</div>
+                            <div style="color:#275FD0;">{{dev.nCameraTotal}}</div>
+                        </div>
+                        <div class="zong_mve">
+                            <div>{{this.$t("message.dashboard.online_cam")}}</div>
+                            <div style="color:#DDB401;">{{dev.nCameraOnline}}</div>
+                        </div>
                     </div>
                 </div>
                 <div class="sdk_sdk">
@@ -240,6 +259,7 @@ export default {
             dev:{},
             dateany:"",
             capability:"",
+            codecInfo:"",
             timersetInterval:"",//定时器
             streamprofile:"main",
             token_index:"",
@@ -305,6 +325,7 @@ export default {
         this.GetRunInfo();
         this.GetDeviceSummary();
         this.timedate();
+        this.GetCodecInfo();
         this.Playall();
         this.timerRunInfo1 = setInterval(() => {
             this.timedate();
@@ -323,6 +344,7 @@ export default {
         clearInterval(this.timersetInterval);
     },
     methods:{
+        
         //全部开始
         Playall(){
             // this.Allpause();
@@ -401,15 +423,19 @@ export default {
         }, 
         // 时间
         timedate(){
-            var mydate = new Date();
-            var year=mydate.getFullYear(); //获取完整的年份(4位,1970-????)
-            var month=mydate.getMonth()+1; //获取当前月份(0-11,0代表1月)
-            var day=mydate.getDate(); //获取当前日(1-31)
-            var hour=mydate.getHours(); //获取当前小时数(0-23)
-            var minute= mydate.getMinutes(); //获取当前分钟数(0-59)
-            var second=mydate.getSeconds(); //获取当前秒数(0-59)
-            //获取日期与时间
-            this.dateany=year+"."+month+"."+day+" "+" "+hour+":"+minute+":"+second;
+           var dt=new Date()
+            var year=dt.getFullYear();
+            var month=this.addZero(dt.getMonth()+1);
+            var day=this.addZero(dt.getDay());
+            var honrs=this.addZero(dt.getHours());
+            var minutes=this.addZero(dt.getMinutes());
+            var seconds=this.addZero(dt.getSeconds());
+            var data=year+"."+month+"."+day+" "+honrs+":"+minutes+":"+seconds;
+            this.dateany=data;
+        },
+        //判断月、日、时、分、秒低于10前加0
+        addZero(n){
+            return n<10?"0"+n:n;
         },
         GetSystemInfo() {
             let _this = this;
@@ -585,19 +611,14 @@ export default {
             this.$http.get(url).then(result=>{
                 if (result.status == 200) {
                     this.strRunTime=result.data
-                    
-                    // console.log(this.strRunTime);
-                    // console.log(result.data.nNetworkInK)
-                    // console.log(result.data.nNetworkOutK)
-                    // console.log(result.data.strNetworkIn)
                     this.data.push(result.data.nNetworkInK)
                     this.data1.push(result.data.nNetworkOutK);
                     this.data2.push(result.data.nCPUUsage);
                     this.data.splice(0, 1);
                     this.data1.splice(0, 1);
                     this.data2.splice(0, 1);
-                    var pieId = document.getElementById('container');
-                    var pieId1 = document.getElementById('container1');
+                    var pieId = document.getElementById('containernet');
+                    var pieId1 = document.getElementById('containercpu');
                     if (!pieId||!pieId1){
                         return false;
                     }
@@ -612,6 +633,53 @@ export default {
                     this.cpu(myChart1);
                 }
             })
+        },
+        GetCodecInfo() {
+            let _this = this;
+            var root = process.env.API_ROOT;
+            if (root == undefined) {
+                root =
+                window.location.protocol +
+                "//" +
+                window.location.host +
+                window.location.pathname;
+            }
+
+            var url =
+                root + "/api/v1/GetCodecInfo?session=" + this.$store.state.token;
+                // console.log("------------",url)
+            this.$http.get(url).then(result => {
+                //console.log(result);
+                // name:this.$t("message.dashboard.gpuencoder"),
+                // id:data.strHWEncoders
+                // name:this.$t("message.dashboard.gpudecoder"),
+                // id:data.strHWDecoders
+
+                if (result.status == 200) {
+                    var data =  result.data;
+                    var cpu=[{
+                        name:this.$t("message.dashboard.cpumodel"),
+                        id:data.strCPUModel
+                    },{
+                        name:this.$t("message.dashboard.PhysicalCPU"),
+                        id:data.nCPU
+                    },{
+                        name:this.$t("message.dashboard.CPUCore"),
+                        id:data.nCPUCore
+                    },{
+                        name:this.$t("message.dashboard.cpuencoder"),
+                        id:data.strSWEncoders
+                    },{
+                        name:this.$t("message.dashboard.cpudecoder"),
+                        id:data.strSWDecoders
+                    }]
+                    this.codecInfo = cpu;
+                    // console.log("--------------",cpu,this.codecInfo);
+                }
+            })
+            .catch(error => {
+            console.log("GetSystemInfo", error);
+            });
         },
         //流量
         flow(myChart) {
@@ -842,8 +910,14 @@ export default {
 /* 返回 */
 .control_fanhui{
     width: 5%;
-    height: 100%;
-    background: url("./control-img/fanhui.png") no-repeat;
+    height: 32px;
+    text-align: center;
+    line-height: 30px;
+    /* background: url("./control-img/fanhui.png") no-repeat; */
+    border: 3px solid #4795C8;
+    background-color: #0B2F6C;
+    color: #FFFFFF;
+    box-sizing: border-box;
     position: absolute;
     right: 0;
     top: 0;
@@ -909,21 +983,20 @@ export default {
 }
 /* 在线时间 */
 .zong_mve{
+    text-align: left;
     display: flex;
     width: 100%;
-    height: 30%;
-    line-height: 60px;
-    padding-left: 17%;
-}
-.zong_mve div{
-    width: 50%;
+    padding-left: 10%;
+    padding-top: 16%;
 }
 .zong_mve div:nth-child(1){
-    font-size:18px;
+    font-size:12px;
     color: #28BAFD;
+    width: 60%;
 }
 .zong_mve div:nth-child(2){
-    font-size:28px;
+    font-size:12px;
+    width: 40%;
 }
 /* 进度条 */
 .data-pictrue>>> svg path:first-child{
@@ -947,7 +1020,7 @@ export default {
     flex-wrap: wrap;
 }
 .palace{
-    width: 48%;
+    width: 49%;
     height: 100%;
     /* border:1px solid black; */
 }
@@ -971,8 +1044,15 @@ export default {
 .control_size{
     width: 100%;
     height: 50px;
-    background: url("./control-img/H5s.png") no-repeat center;
     background-size: 18%;
+    text-align: center;
+    line-height: 50px;
+    background-image: linear-gradient(#016ec9,#96d2ff);
+    -webkit-background-clip: text; 
+    letter-spacing:30px;
+    -webkit-text-fill-color: transparent;
+    font-size: 30px;
+    font-weight: 900;
 }
 /* 内容 */
 .control_content{
@@ -985,7 +1065,7 @@ export default {
 }
 /* 1 */
 .control_cpu{
-    width: 25%;
+    width: 22%;
     height: 100%;
     display: flex;
     flex-wrap: wrap;
@@ -1011,7 +1091,7 @@ export default {
 }
 /* 2 */
 .control_play{
-    width: 48%;
+    width: 54%;
     height: 100%;
     padding-top: 15px;
 }
@@ -1054,7 +1134,7 @@ export default {
     width: 100%;
     height: 21%;
     position: relative;
-    font-size:22px;
+    font-size:16px;
     font-family:PingFang SC;
     font-weight:500;
     color:#28BAFD;
@@ -1068,15 +1148,20 @@ export default {
     width: 100%;
     height: 100%;
 }
-.info_system{width: 100%;
-    height: 100%;
-    padding: 20px 30px 0;
+.info_abs{
     position: absolute;
+    width: 100%;
+    height: 96%;
+}
+.info_system{
+    width: 100%;
+    height: 40%;
+    padding: 20px 30px 0 30px;
 }
 .flex_nc_ag{
     width: 100%;
-    height: 90%;
-    font-size:16px;
+    height: 100%;
+    font-size:12px;
     font-family:PingFang SC;
     font-weight:500;
     color:rgba(40,186,253,1);
@@ -1084,20 +1169,22 @@ export default {
     justify-content: space-around;
 }
 .flex_nc_ag .flex_nc_zong{
-    width: 45%;
+    width: 96%;
     height: 100%;
     display: flex;
     flex-wrap: wrap;
-    align-content: space-between;
+    /* align-content: space-between; */
+    /* justify-content: space-between; */
 }
 .flex_nc_cpu{
-    word-wrap: break-word;word-break: break-all;overflow: hidden;
-    width: 100%;
-    height: 30%;
+    word-wrap: break-word;
+    word-break: break-all;
+    overflow: hidden;
+    width: 33.3%;
 }
 /* 3 */
 .control_sdk{
-    width: 25%;
+    width: 22%;
     height: 100%;
     display: flex;
     flex-wrap: wrap;
@@ -1105,23 +1192,26 @@ export default {
 }
 .sdk_Memory{
     width: 100%;
-    height: 21%;
+    height: 46%;
     display: flex;
+    flex-wrap: wrap;
+    align-content: space-between;
     justify-content: space-between;
 }
 .sdk_Memory1{
     width: 49%;
-    height: 100%;
-    background: url("./control-img/memory@2x.png") no-repeat;
+    height: 49%;
+    /* background: url("./control-img/memory@2x.png") no-repeat; */
     background-size: 100%;
     text-align: center;
-    padding-top: 5%;
-}
-.sdk_Memory1{
     font-size:18px;
     font-family:PingFang SC;
     font-weight:500;
     color:rgba(40,186,253,1);
+    position: relative;
+}
+.el_progress{
+    margin-top: 22%;
 }
 .sdk_Running{
     width: 100%;

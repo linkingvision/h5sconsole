@@ -57,22 +57,22 @@
             <el-tab-pane :label="label.label1" name="first1">
                 <div class="tow_node">
                     <div class="Root_node">
-                    <el-tree 
-                    :data="camdata" 
-                    show-checkbox
-                    :check-strictly="true"
-                    ref="tree">
-                       <span slot-scope="{ node, data }" style="width:100%;">
-                            <div style="width:100%;display: flex;justify-content: space-between;">
-                                <span >
-                                    <span :class="data.iconclass" style="color:rgb(142, 132, 132);"></span>
-                                    <!-- <img src="" alt=""> -->
-                                    <span :class="data.iconclass1" style="padding-left: 4px;">{{data.label}}</span>
-                                </span>
-                                <!-- <span :class="data.iconclass2" class="black" style="">{{$t("message.live.Videorecording")}}</span> -->
-                            </div>
-                        </span>
-                    </el-tree>
+                        <el-tree 
+                        :data="camdata" 
+                        show-checkbox
+                        :check-strictly="true"
+                        ref="tree">
+                        <span slot-scope="{ node, data }" style="width:100%;">
+                                <div style="width:100%;display: flex;justify-content: space-between;">
+                                    <span >
+                                        <span :class="data.iconclass" style="color:rgb(142, 132, 132);"></span>
+                                        <!-- <img src="" alt=""> -->
+                                        <span :class="data.iconclass1" style="padding-left: 4px;">{{data.label}}</span>
+                                    </span>
+                                    <!-- <span :class="data.iconclass2" class="black" style="">{{$t("message.live.Videorecording")}}</span> -->
+                                </div>
+                            </span>
+                        </el-tree>
                     </div>
                     <div class="tow_node_root">
                         <div>

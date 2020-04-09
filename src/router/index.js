@@ -292,23 +292,44 @@ if (window.localStorage.getItem('h5conference')) {
   store.commit(types.CONFERENCE, window.localStorage.getItem('h5conference'))
 }
 
+//用户名
+if (window.localStorage.getItem('h5suser')) {
+  store.commit(types.USER, window.localStorage.getItem('h5suser'))
+}
+if (window.localStorage.getItem('h5sroot')) {
+  store.commit(types.ROOT, window.localStorage.getItem('h5sroot'))
+}
+
 const Router = new VueRouter({
   routes
 });
 
 Router.beforeEach((to, from, next) => {
-  if (to.matched.some(r => r.meta.requireAuth)) {
-    if (store.state.token) {
-      next()
-    } else {
-      next({
-        path: '/login',
-        query: {redirect: to.fullPath}
-      })
-    }
+  if (store.state.token||to.path=="/login") {
+    // console.log('hao',store.state.token)
+    next()
   } else {
-    next();
+    // console.log("huan",store.state.token);
+    next({
+      path: '/login',
+      query: {redirect: to.fullPath}
+    })
   }
 })
+
+// Router.beforeEach((to, from, next) => {
+//   if (to.matched.some(r => r.meta.requireAuth)) {
+//     if (store.state.token) {
+//       next()
+//     } else {
+//       next({
+//         path: '/login',
+//         query: {redirect: to.fullPath}
+//       })
+//     }
+//   } else {
+//     next();
+//   }
+// })
 
 export default Router;

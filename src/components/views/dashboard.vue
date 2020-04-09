@@ -79,6 +79,17 @@
                                 <div>{{this.$t("message.dashboard.memory")}}</div>
                                 <div>({{this.$t("message.dashboard.TotalMemory")}}: {{(strRunTime.nTotalMemoryByte/1024/1024/1024).toFixed(1)}}G)</div>
                             </div>
+                            <div class="nr_mory1">
+                                <el-progress
+                                    type="circle"
+                                    :width='100'
+                                    v-if="strRunTime"
+                                    color="#792ACB"
+                                    :percentage="Number(Math.round((strRunTime.nRecordTotalSpaceByte-strRunTime.nRecordFreeSpaceByte)/strRunTime.nRecordTotalSpaceByte*100))"></el-progress>
+                                <div>{{this.$t("message.dashboard.free_space")}}</div>
+                                <div>({{this.$t("message.dashboard.TotalMemory")}}: {{(strRunTime.nRecordTotalSpaceByte/1024/1024/1024).toFixed(1)}}G)</div>
+                            </div>
+                            
                         </div>
                     </div>
                     <div class="flex_nc1">
@@ -149,7 +160,10 @@
                     <div class="flex_nc_ag">
                         <div class="flex_nc_cpu" v-for="(b,index) in capability" :key="index">
                             <span class="cpu_zuo">{{b.name}}:</span>
-                            <span class="cpu_you"> {{b.id}}</span>
+                            <span v-if="b.name!='主机号'&&b.name!='hostid'" class="cpu_you" > {{b.id}}</span>
+                            
+                            <input v-if="b.name=='主机号'||b.name=='hostid'" id="foo" type="text" :value="b.id"/>
+                            <i data-clipboard-target="#foo" @click="copylink(b.id)" style="margin-left: 10px;" v-if="b.name=='主机号'||b.name=='hostid'" class="copy iconfont icon-fuzhi"></i>
                         </div>
                     </div>
                 </div>
@@ -348,6 +362,23 @@ export default {
 
     },
     methods: {
+        // 复制
+        copylink(id){
+            
+            var clipboard = new this.clipboard('.copy');
+            //成功回调
+            clipboard.on('success', function(e) {
+                console.info('Action:', e.action);
+                console.info('Text:', e.text);
+                console.info('Trigger:', e.trigger);  
+                e.clearSelection();
+            });
+            //失败回调
+            clipboard.on('error', function(e) {
+                console.error('Action:', e.action);
+                console.error('Trigger:', e.trigger);
+            });
+        },
         //GPU
         Gpu(){
             let _this = this;
@@ -1244,6 +1275,11 @@ export default {
 };
 </script>
 <style scoped>
+/* copy */
+#foo{
+    border: 0;
+    width: 60%;
+}
 /* a标签 */
 .A_More{
     font-size:14px;

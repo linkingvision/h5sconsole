@@ -20,9 +20,14 @@ export default {
             tokenshou:"",
         }
     },
+    beforeDestroy() {
+        this.h5handler.disconnect();
+        delete this.h5handler;
+        this.h5handler = undefined;
+        console.log("000")
+    },
     mounted(){
         var _this=this;
-        
         this.$root.bus.$on('controltour', function(token,streamprofile, id)
         {
             if (_this.h5id != id)

@@ -42,20 +42,20 @@
 			<a href="#" class="waves-effect"><i class="mdi mdi-play-circle fa-fw" data-icon="v"></i> <span class="hide-menu"> {{$t("message.left.AdvancePB")}}  </span></a>
 			 </router-link> -->
              <!-- 国标 -->
-			<router-link tag="li" :to="{name:'GB28181Router'}">
+			<router-link class="root" tag="li" :to="{name:'GB28181Router'}">
 			<a href="#" class=""><i class="mdi mdi-equal-box fa-fw" data-icon="v"></i> <span class="hide-menu"> GB</span></a>
 			 </router-link>
              <!-- 监控点 -->
-             <router-link tag="li" :to="{name:'cameraRouter'}">
+             <router-link class="root" tag="li" :to="{name:'cameraRouter'}">
 			<a href="#" class="" style="display: flex"><div class="camera" data-icon="v"></div> <span class="hide-menu"> {{$t("message.left.camera")}}</span></a>
 			 </router-link>
              <!-- 级联 -->
-            <router-link tag="li" :to="{name:'cloudsRouter'}">
+            <router-link class="root" tag="li" :to="{name:'cloudsRouter'}">
             <a href="#" class="waves-effect"><i class="mdi mdi-cloud fa-fw"></i> <span class="hide-menu">{{$t("message.left.cloud")}}</span></a>
             </router-link>
             
              <!-- 本地查看 -->
-            <li >
+            <li class="root" >
             <a href="/mediastore" class=""><i class="mdi mdi-folder fa-fw"  data-icon="v"></i> <span class="hide-menu"> {{$t("message.left.screenshots")}} </span></a>
             </li>
             
@@ -64,14 +64,13 @@
 			<a href="#" class=""><i class="mdi mdi-bell fa-fw" data-icon="v"></i> <span class="hide-menu"> {{$t("message.left.event")}}  </span></a>
 			 </router-link> -->
             <!-- 样式设置 -->
-            <router-link tag="li" :to="{name:'devicesRouter'}">
+            <router-link class="root" tag="li" :to="{name:'devicesRouter'}">
             <a href="#" class=""><i class="mdi mdi-settings fa-fw"  data-icon="v"></i> <span class="hide-menu"> {{$t("message.left.setting")}}  </span></a>
             </router-link>
             <!-- 关闭 -->
             <!-- <router-link tag="li" :to="{name:'logoutRouter'}">
             <a  class="waves-effect" ><i class="mdi mdi-arrow-right-bold-circle fa-fw" ></i> <span class="hide-menu">{{$t("message.left.logout")}}</span></a>
             </router-link> -->
-
             <!-- <li class="devider"></li> -->
  
         </ul>
@@ -79,6 +78,9 @@
 </div>
 </template>
 <style scoped>
+.root{
+    display: block;
+}
 #side-menu > li > a.active {
     /* background: #f44336; */
     color: #ffffff;
@@ -97,6 +99,26 @@
 <script>
 import * as types from '@/store/types'
 export default {
-    name: 'vaside'
+    name: 'vaside',
+    data (){
+        return {
+            root:this.$store.state.root
+        }
+    },
+    mounted(){
+        console.log(this.$store.state.users,this.$store.state.root,this.$store.state.token,this.$store.state.lang)
+        this.roltroot();
+    },
+    methods:{
+        roltroot(){
+            if(this.$store.state.root=="Administrator"){
+                console.log("管理员",this.$store.state.root)
+            }else {
+                console.log("操作员",this.$store.state.root)
+                $(".root").css("display","none")
+                // document.getElementsByClassName("root").style.display="none";
+            }
+        }
+    },
 }
 </script>

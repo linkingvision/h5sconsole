@@ -16,6 +16,8 @@ export default new Vuex.Store({
     watermarkstring:"linkingvision",
     watermarktoggle:"",
     conference:"",
+    root:null,
+    users:null,
   },
   mutations: {
     [types.WATERMARKTOGGLE]: (state, data) => {
@@ -46,9 +48,23 @@ export default new Vuex.Store({
       localStorage.h5stoken = data
       state.token = data
     },
+    //用户名
+    [types.USER]: (state, data) => {
+      localStorage.h5suser = data
+      state.users = data
+    },
+    [types.ROOT]: (state, data) => {
+      localStorage.h5sroot = data
+      state.root = data
+    },
+    
     [types.LOGOUT]: (state) => {
       localStorage.removeItem('h5stoken')
       state.token = null
+      localStorage.removeItem('h5suser')
+      state.users = null
+      localStorage.removeItem('h5sroot')
+      state.root = null
     },
     [types.TITLE]: (state, data) => {
       state.title = data
@@ -56,6 +72,6 @@ export default new Vuex.Store({
     [types.LANG]: (state, data) => {
       localStorage.h5slang = data
       state.lang = data
-    }
+    },
   }
 })

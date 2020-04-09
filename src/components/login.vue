@@ -19,7 +19,7 @@
                     <div class="form-group  m-t-20">
                         <div class="col-xs-12">
                             <Label >{{ $t("message.login.username") }}</Label>
-                            <input class="form-control" type="text" v-model="user" required="" placeholder="Username">
+                            <input @change="loginroot" class="form-control" type="text" v-model="user" required="" placeholder="Username">
                         </div>
                     </div>
                     <div class="form-group">
@@ -30,7 +30,7 @@
                     </div>
                     <div class="form-group">
                         <div class="col-xs-12">
-                            <button @click="login" class="btn btn-info btn-lg btn-block btn-rounded text-uppercase waves-effect waves-light" type="submit">{{ $t("message.login.login") }}</button>
+                            <button @on-click="login" class="btn btn-info btn-lg btn-block btn-rounded text-uppercase waves-effect waves-light" type="submit">{{ $t("message.login.login") }}</button>
                         </div>
                     </div>
                     <div class="form-group">
@@ -75,6 +75,7 @@ export default {
     },
     mounted(){
         this.$store.commit(types.TITLE, 'Login');
+        
     },
     methods:{
         changeLanguage(value){
@@ -91,7 +92,7 @@ export default {
         },
 
         login(){
-            console.log("login");
+            // console.log("login");
             let _this =this;
             var root = process.env.API_ROOT;
             if (root == undefined){
@@ -102,12 +103,12 @@ export default {
                 url: root + "/api/v1/Login?user=" + _this.user + "&password=" + $.md5(_this.passwd),
                 dataType: "json",
                 success: function(data){
-                    console.log(data);
                     if (data.bStatus == true)
                     {
                         _this.$store.commit(types.LOGIN, data['strSession']);
+                        // console.log(data['strSession']);  
                         let redirect = decodeURIComponent(_this.$route.query.redirect || '/');
-                        console.log('redirect', redirect);
+                        // return false;
                         if (redirect == '/login')
                         {
                             redirect = '/';
@@ -115,7 +116,7 @@ export default {
                         _this.$router.push({
                             path: redirect
                         });
-                        location.reload();
+                        // location.reload();
                     }else 
                     {
                          _this.$message(_this.$t("message.login.login_status_failed"));
@@ -123,12 +124,23 @@ export default {
                 },
                 error:function(e){
                     console.log('Login failed!',e);
-
                 }
             });
 
 
-      }
+        },
+        //权限
+        loginroot(){
+            var root = process.env.API_ROOT;
+            if (root == undefined){
+                root = window.location.protocol + '//' + window.location.host + window.location.pathname;
+            }
+            var url1 = root + "/api/v1/GetUserInfo?strUser="+this.user+"&session="+ this.$store.state.token;
+            this.$http.get(url1).then(result=>{
+                this.$store.commit(types.ROOT, result.data.strUserType);
+                this.$store.commit(types.USER, result.data.strUser);
+            })
+        },
   }
 }
 </script>

@@ -62,6 +62,10 @@ import event from '@/components/views/js/event'
 // console.log("......",data);
 import listdatag from '@/components/views/js/dev'
 import regionaldata from '@/components/views/js/regional'
+import clipboard from 'clipboard';
+//注册到vue原型上
+Vue.prototype.clipboard = clipboard;
+
 Vue.prototype.regionaldata = regionaldata
 Vue.prototype.listdatag = listdatag
 Vue.prototype.EVENT = event
@@ -81,6 +85,8 @@ const i18n = new VueI18n({
 })
 
 i18n.locale = store.state.lang
+
+
 
 /* this.$i18n.locale='zhCHS' */
 /* eslint-disable no-new */

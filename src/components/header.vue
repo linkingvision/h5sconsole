@@ -42,15 +42,47 @@
         <li class="dropdown" style="border-left: 1px solid #4D4D4D;height:39px">
           <a class="dropdown-toggle" data-toggle="dropdown" href="#">
             <span class="iconfont icon-yonghu1"></span>
-            <b class="hidden-xs">admin</b>
+            <b class="hidden-xs">{{user}}</b>
             <span class="caret"></span>
           </a>
           <ul class="dropdown-menu dropdown-user animated flipInY">
             <li>
               <a href="javascript:void(0);">
-                <router-link tag="li" :to="{name:'usersettingsRouter'}">
+                <!-- 操作员设置 -->
+                <span type="text" class="hide-menu" @click=" Operator= true">
+                    <span class="apiab iconfont icon-icon-test1"></span>
+                    <span class="admin_zi">
+                        {{$t("message.dashboard.about")}}
+                    </span>
+                </span>
+                <el-dialog
+                    class="dialog"
+                    :visible.sync="Operator"
+                    width="30%"
+                    append-to-body
+                    center>
+                    <el-form label-position="right" label-width="140px" :model="form">
+                      <el-form-item :label="label.user">
+                          <input disabled class="editinput" v-model="form.strUser"/>
+                      </el-form-item>
+                      <el-form-item :label="label.Password">
+                          <input class="editinput" v-model="form.Newpassword"/>
+                      </el-form-item>
+                      <el-form-item :label="label.role">
+                          <el-select v-model="form.strUserType" placeholder="请选择">
+                              <el-option
+                                  v-for="item in options"
+                                  :key="item.value"
+                                  :label="item.label"
+                                  :value="item.value">
+                              </el-option>
+                          </el-select>
+                      </el-form-item>
+                  </el-form>
+                </el-dialog>
+                <!-- <router-link tag="li" :to="{name:'usersettingsRouter'}">
                   <a href="#" class="waves-effect"><div class="rou_img"></div><span class="hide-menu"> {{$t("message.left.setting")}}  </span></a>
-                </router-link>
+                </router-link> -->
               </a>
             </li>
             <li role="separator" class="divider"></li>
@@ -62,7 +94,6 @@
               </a>
             </li>
           </ul>
-          <!-- /.dropdown-user -->
         </li>
         <!-- 关于 -->
         <li class="dropdown">
@@ -112,12 +143,8 @@
           </ul>
           <!-- /.dropdown-user -->
         </li>
-        <!-- /.dropdown -->
       </ul>
     </div>
-    <!-- /.navbar-header -->
-    <!-- /.navbar-top-links -->
-    <!-- /.navbar-static-side -->
 
   </nav>
 </template>
@@ -128,12 +155,46 @@ export default {
   methods: {},
   data() {
     return {
+        user:this.$store.state.users,
         gEvvalue: 0,
         centerDialogVisible:false,
+        Operator:false,
         information:{
             strVersion: "",
         },
-    };
+        form: {
+          switch:"first",
+          strUser:"Operator",
+          strPasswd: "12345",
+          strUserType: "Administrator",
+          
+          strRole:"Operator",
+          strRoleToken:"Operator",
+
+      },
+      label:{
+                label:"User",//选1
+                label_role:"角色管理",//选1
+                label_system:"系统管理",//选1
+                user:"用户名",
+                Password:"账户密码",
+                role:"角色",
+                type:"权限",
+
+                roleuser:"角色名称",
+                Confroot:"配置权限",
+                operroot:"操作权限",
+                Videoroot:"摄像机权限",
+            },
+            options: [{
+                    value: 'Administrator',
+                    label: 'Administrator'
+                }, {
+                    value: 'Operator',
+                    label: 'Operator'
+                }
+            ],
+};
   },
   mounted() {
     this.gEventval();
@@ -193,6 +254,9 @@ export default {
   font-size: 16px;
   font-weight: 700;
 }
+.dropdown-menu>li>a{
+  background: none;
+}
 a{
   color: #000;
   width: 100%;
@@ -239,7 +303,9 @@ a{
 .el-dialog__wrapper >>> .el-dialog{
     background: #292929;
 }
-
+.dialog >>>.el-dialog{
+  background: #ffffff;
+}
 .el-dialog__wrapper >>>  .el-dialog--center .el-dialog__body {
     padding: 1px 30px;
 }
