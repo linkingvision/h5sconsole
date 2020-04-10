@@ -5,7 +5,6 @@ import VueI18n from 'vue-i18n'
 import LangEn from '../../../../static/lang/en'
 import LangZhCHS from '../../../../static/lang/zhchs'
 import LangZhCHT from '../../../../static/lang/zhcht'
-
 Vue.use(VueI18n)
 const i18n = new VueI18n({
     locale: store.state.lang,
@@ -21,14 +20,12 @@ var listdatag=[];//全部
 var listdatagload=[];//部分
 var listdatag1=[];//一个
 function loadtest(){
+    if(store.state.root=="Operator"){
+        return false
+    }
     var root = process.env.API_ROOT;
-    var wsroot = process.env.WS_HOST_ROOT;
     if (root == undefined){
         root = window.location.protocol + '//' + window.location.host + window.location.pathname;
-    }
-    if (wsroot == undefined)
-    {
-        wsroot = window.location.host;
     }
     //url
     var url = root + "/api/v1//GetSrcCamera?session="+ store.state.token;
@@ -89,15 +86,12 @@ function loadtest(){
 loadtest();
 //写作业
 function loadDevice() {
-    let _this =this;
+    if(store.state.root=="Operator"){
+        return false
+    }
     var root = process.env.API_ROOT;
-    var wsroot = process.env.WS_HOST_ROOT;
     if (root == undefined){
         root = window.location.protocol + '//' + window.location.host + window.location.pathname;
-    }
-    if (wsroot == undefined)
-    {
-        wsroot = window.location.host;
     }
    //url
    var url = root + "/api/v1/GetDevice?session="+ store.state.token;
@@ -198,15 +192,12 @@ function loadSrc(srclevel, srcData) {
 loadDevice();
 //数字仓机
 function NumberDevice() {
-    let _this =this;
+    if(store.state.root=="Operator"){
+        return false
+    }
     var root = process.env.API_ROOT;
-    var wsroot = process.env.WS_HOST_ROOT;
     if (root == undefined){
         root = window.location.protocol + '//' + window.location.host + window.location.pathname;
-    }
-    if (wsroot == undefined)
-    {
-        wsroot = window.location.host;
     }
    //url
    var url = root + "/api/v1/GetGbDevice?session="+ store.state.token;
@@ -295,15 +286,12 @@ function NumberSrc(srclevel, srcData) {
 }
 //级联
 function cloudDevice() {
-    let _this =this;
+    if(store.state.root=="Operator"){
+        return false
+    }
     var root = process.env.API_ROOT;
-    var wsroot = process.env.WS_HOST_ROOT;
     if (root == undefined){
         root = window.location.protocol + '//' + window.location.host + window.location.pathname;
-    }
-    if (wsroot == undefined)
-    {
-        wsroot = window.location.host;
     }
    //url
    var url = root + "/api/v1/GetCloudDevice?session="+ store.state.token;

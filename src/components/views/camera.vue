@@ -134,9 +134,13 @@
     },
     mounted(){
         // this.GetSrc();
-        this.loadtest();
-        this.loadDevice();
-        this.NumberDevice();
+        if(this.$store.state.root=="Operator"){
+            console.log("nihencai")
+        }else{
+            this.loadtest();
+            this.loadDevice();
+            this.NumberDevice();
+        }
         // this.height_zsy();
     },
     methods:{

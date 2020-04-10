@@ -136,6 +136,18 @@ module.exports={
 		action: 'Action',
 		edit: 'Edit',
 		name: 'Name',
+
+		Authority:"Authority",
+		username:"user name",
+		Rolemanagement:"Role",
+		SystemManagement:"System",
+		password:"password",
+		RoleName:"Role Name",
+		Configure:"Configure permissions",
+		Operation:"Operation authority",
+		Camera:"Camera permissions",
+		Watchvideo:"Watch video anonymously",
+
 		currentpass: 'Current Password',
 		newpass: 'New Password',
 		confirmpass: 'Confirm Password',

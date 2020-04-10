@@ -599,7 +599,11 @@ export default {
             window.setTimeout(function() {
                 // console.log("11111111111111111",this.dev)
                 // return false;
-                var myChart = echarts.init(document.getElementById('mian'));
+                var pieId=document.getElementById('mian')
+                if (!pieId){
+                    return false;
+                }
+                var myChart = echarts.init(pieId);
                 myChart.setOption({
                     tooltip: {
                         show:true,
@@ -684,7 +688,11 @@ export default {
         devdh(){
             // console.log("this.dev)
             window.setTimeout(function() {
-                var myChart = echarts.init(document.getElementById('mian1'));
+                var pieId=document.getElementById('mian1')
+                if (!pieId){
+                    return false;
+                }
+                var myChart = echarts.init(pieId);
                 myChart.setOption({
                     tooltip: {
                         show:true,
@@ -767,7 +775,11 @@ export default {
         //isc
         devisc(){
             window.setTimeout(function() {
-                var myChart = echarts.init(document.getElementById('mian2'));
+                var pieId=document.getElementById('mian2')
+                if (!pieId){
+                    return false;
+                }
+                var myChart = echarts.init(pieId);
                 myChart.setOption({
                     tooltip: {
                         show:true,
@@ -851,7 +863,11 @@ export default {
         //天地
         devtd(){
             window.setTimeout(function() {
-                var myChart = echarts.init(document.getElementById('mian3'));
+                var pieId=document.getElementById('mian3')
+                if (!pieId){
+                    return false;
+                }
+                var myChart = echarts.init(pieId);
                 myChart.setOption({
                     tooltip: {
                         show:true,
@@ -935,7 +951,11 @@ export default {
         //国标
         devgb(){
             window.setTimeout(function() {
-                var myChart = echarts.init(document.getElementById('mian4'));
+                var pieId=document.getElementById('mian4')
+                if (!pieId){
+                    return false;
+                }
+                var myChart = echarts.init(pieId);
                 myChart.setOption({
                     tooltip: {
                         show:true,

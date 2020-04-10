@@ -19,7 +19,7 @@
                     <div class="form-group  m-t-20">
                         <div class="col-xs-12">
                             <Label >{{ $t("message.login.username") }}</Label>
-                            <input @change="loginroot" class="form-control" type="text" v-model="user" required="" placeholder="Username">
+                            <input class="form-control" type="text" v-model="user" required="" placeholder="Username">
                         </div>
                     </div>
                     <div class="form-group">
@@ -30,7 +30,7 @@
                     </div>
                     <div class="form-group">
                         <div class="col-xs-12">
-                            <button @on-click="login" class="btn btn-info btn-lg btn-block btn-rounded text-uppercase waves-effect waves-light" type="submit">{{ $t("message.login.login") }}</button>
+                            <button @click="login" class="btn btn-info btn-lg btn-block btn-rounded text-uppercase waves-effect waves-light" type="submit">{{ $t("message.login.login") }}</button>
                         </div>
                     </div>
                     <div class="form-group">
@@ -55,6 +55,8 @@ import * as types from '@/store/types'
 import '@/assets/jQuery.md5.js'
 export default {
   name: 'Login',
+  inject: ['reload'],
+
     data () {
         return {
             user: '',
@@ -107,16 +109,8 @@ export default {
                     {
                         _this.$store.commit(types.LOGIN, data['strSession']);
                         // console.log(data['strSession']);  
-                        let redirect = decodeURIComponent(_this.$route.query.redirect || '/');
-                        // return false;
-                        if (redirect == '/login')
-                        {
-                            redirect = '/';
-                        }
-                        _this.$router.push({
-                            path: redirect
-                        });
-                        // location.reload();
+                        _this.loginroot(data['strSession']);
+                        
                     }else 
                     {
                          _this.$message(_this.$t("message.login.login_status_failed"));
@@ -130,16 +124,32 @@ export default {
 
         },
         //权限
-        loginroot(){
+        loginroot(token){
             var root = process.env.API_ROOT;
             if (root == undefined){
                 root = window.location.protocol + '//' + window.location.host + window.location.pathname;
             }
-            var url1 = root + "/api/v1/GetUserInfo?strUser="+this.user+"&session="+ this.$store.state.token;
+            if(this.user==""||this.passwd==""){
+                console.log("输入密码",this.user)
+                return false
+            }
+            var url1 = root + "/api/v1/GetUserInfo?user="+this.user+"&session="+token;
             this.$http.get(url1).then(result=>{
+                console.log(result)
                 this.$store.commit(types.ROOT, result.data.strUserType);
                 this.$store.commit(types.USER, result.data.strUser);
+                let redirect = decodeURIComponent(this.$route.query.redirect || '/');
+                if (redirect == '/login')
+                {
+                    redirect = '/';
+                }
+                this.$router.push({
+                    path: redirect
+                });
+                
+                location.reload();
             })
+            
         },
   }
 }
@@ -147,7 +157,6 @@ export default {
 
 
 <style scoped>
-
 .login_con{
     height: 100%;
     width: 100%;

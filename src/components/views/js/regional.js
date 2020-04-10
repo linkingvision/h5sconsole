@@ -19,15 +19,12 @@ const i18n = new VueI18n({
 var regionaldata=[];
 var regionaldataload=[];
 function loadtest(){
-    let _this =this;
+    if(store.state.root=="Operator"){
+        return false
+    }
     var root = process.env.API_ROOT;
-    var wsroot = process.env.WS_HOST_ROOT;
     if (root == undefined){
         root = window.location.protocol + '//' + window.location.host + window.location.pathname;
-    }
-    if (wsroot == undefined)
-    {
-        wsroot = window.location.host;
     }
     //url
     var url = root + "/api/v1//GetSrcCamera?session="+ store.state.token;
@@ -71,15 +68,12 @@ function loadtest(){
 loadtest();
 //写作业
 function loadDevice() {
-    let _this =this;
+    if(store.state.root=="Operator"){
+        return false
+    }
     var root = process.env.API_ROOT;
-    var wsroot = process.env.WS_HOST_ROOT;
     if (root == undefined){
         root = window.location.protocol + '//' + window.location.host + window.location.pathname;
-    }
-    if (wsroot == undefined)
-    {
-        wsroot = window.location.host;
     }
    //url
    var url = root + "/api/v1/GetDevice?session="+ store.state.token;
@@ -101,7 +95,6 @@ function loadDevice() {
 }
 function loadSrc(srclevel, srcData) {
 
-    let _this =this;
     var root = process.env.API_ROOT;
     var wsroot = process.env.WS_HOST_ROOT;
     if (root == undefined){
@@ -157,15 +150,12 @@ function loadSrc(srclevel, srcData) {
 loadDevice();
 //数字仓机
 function NumberDevice() {
-    let _this =this;
+    if(store.state.root=="Operator"){
+        return false
+    }
     var root = process.env.API_ROOT;
-    var wsroot = process.env.WS_HOST_ROOT;
     if (root == undefined){
         root = window.location.protocol + '//' + window.location.host + window.location.pathname;
-    }
-    if (wsroot == undefined)
-    {
-        wsroot = window.location.host;
     }
    //url
    var url = root + "/api/v1/GetGbDevice?session="+ store.state.token;
@@ -187,16 +177,13 @@ function NumberDevice() {
 }
 NumberDevice();
 function NumberSrc(srclevel, srcData) {
-
-    let _this =this;
+    if(store.state.root=="Operator"){
+        return false
+    }
     var root = process.env.API_ROOT;
     var wsroot = process.env.WS_HOST_ROOT;
     if (root == undefined){
         root = window.location.protocol + '//' + window.location.host + window.location.pathname;
-    }
-    if (wsroot == undefined)
-    {
-        wsroot = window.location.host;
     }
 
     var url = root + "/api/v1/GetGbDeviceSrc?token="+ srclevel.strToken + "&session=" + store.state.token;
@@ -237,15 +224,12 @@ function NumberSrc(srclevel, srcData) {
 }
 //级联
 function cloudDevice() {
-    let _this =this;
+    if(store.state.root=="Operator"){
+        return false
+    }
     var root = process.env.API_ROOT;
-    var wsroot = process.env.WS_HOST_ROOT;
     if (root == undefined){
         root = window.location.protocol + '//' + window.location.host + window.location.pathname;
-    }
-    if (wsroot == undefined)
-    {
-        wsroot = window.location.host;
     }
    //url
    var url = root + "/api/v1/GetCloudDevice?session="+ store.state.token;

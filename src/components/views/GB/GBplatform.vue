@@ -247,6 +247,9 @@ import uuid from '@/store/uuid'
         handlechange(){},
         //第一个表格的数据
         loadplatform(){
+            if(this.$store.state.root=="Operator"){
+                return false
+            }
 		    var root = process.env.API_ROOT;
 		    var wsroot = process.env.WS_HOST_ROOT;
 		    if (root == undefined){

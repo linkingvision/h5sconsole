@@ -174,6 +174,7 @@ import Vue from 'vue'
 import 'patternfly-bootstrap-treeview/dist/bootstrap-treeview.min.css'
 import 'patternfly-bootstrap-treeview/dist/bootstrap-treeview.min.js'
 import Liveplayer from '../../components/widgets/liveplayer'
+import { format } from 'highcharts'
 
 export default {
     name: "liveview",
@@ -219,7 +220,12 @@ export default {
         }
     },
     mounted() {
-        $("#device1").hide();
+        // console.log(listdatag)
+        if( this.$store.state.root=="Operator"){
+            $("#device").hide();
+        }else{
+            $("#device1").hide();
+        }
         this.updateUI();
         this.addWaterMarker();
         document.getElementById("watermarktoggle").style.display=this.watermarktoggle;
@@ -348,376 +354,6 @@ export default {
             {
                 $('div[name="flex"]').height(this.contentHeight / this.rows);
             }
-        },
-        //测试机仓
-        loadtest(){
-            let _this =this;
-		    var root = process.env.API_ROOT;
-		    var wsroot = process.env.WS_HOST_ROOT;
-		    if (root == undefined){
-		        root = window.location.protocol + '//' + window.location.host + window.location.pathname;
-		    }
-		    if (wsroot == undefined)
-		    {
-		        wsroot = window.location.host;
-		    }
-		    //url
-            var url = root + "/api/v1//GetSrcCamera?session="+ this.$store.state.token;
-            // console.log(url);
-            this.$http.get(url).then(result=>{
-                if(result.status == 200){
-					var data =  result.data;
-                    var srcGroup = {children: []};
-                    srcGroup.label=this.$t('message.live.camera');
-                    srcGroup.iconclass="mdi mdi-view-sequential fa-fw";
-                    for(var i=0; i< data.src.length; i++){
-                         var item = data.src[i];
-                        if(item['nOriginalType'] == 'H5_CH_GB'){
-                            continue;
-                        }else{
-                            // 主副流
-                            var node=[{
-                            token : item['strToken'],
-                            streamprofile : "main",
-                            label :this.$t('message.live.mainstream'),
-                            name:item['strName']+"--"+this.$t('message.live.mainstream'),
-                            iconclass : 'mdi mdi-playlist-play fa-fw',
-                            disabled_me:false
-                            },{
-                            token : item['strToken'],
-                            streamprofile : "sub",
-                            label :this.$t('message.live.substream'),
-                            name:item['strName']+"--"+this.$t('message.live.substream'),
-                            iconclass : 'mdi mdi-playlist-play fa-fw',
-                            disabled_me:false
-                            }]
-                            var newItem ={
-                                    token : item['strToken'],
-                                    label : item['strName'],
-                                    iconclass : 'mdi mdi-camcorder fa-fw',
-                                    iconclass2 : 'mdi mdi-camcorder fa-fw',
-                                    name:item['strName']+"--"+this.$t('message.live.mainstream'),
-                                    children:node,
-                                    disabled_me:false};
-                            
-                            if(!item['bOnline'])
-                                newItem['iconclass'] = 'mdi mdi-camcorder-off fa-fw';
-
-                            if(item['nType'] == 'H5_CLOUD')
-                                newItem['iconclass'] = 'mdi mdi-cloud-upload fa-fw';
-                            
-                            if(item['bRec'] == true)
-                                newItem['iconclass2'] = 'iconfont icon-radioboxfill none';
-                                
-                            
-                            
-                        // console.log("itme",newItem,item)
-
-                        srcGroup.children.push(newItem);
-                        }
-                    }
-                    this.data.push(srcGroup);
-				  } 
-            })
-
-        },
-        //写作业
-        loadDevice() {
-		    let _this =this;
-		    var root = process.env.API_ROOT;
-		    var wsroot = process.env.WS_HOST_ROOT;
-		    if (root == undefined){
-		        root = window.location.protocol + '//' + window.location.host + window.location.pathname;
-		    }
-		    if (wsroot == undefined)
-		    {
-		        wsroot = window.location.host;
-		    }
-		   //url
-		   var url = root + "/api/v1/GetDevice?session="+ this.$store.state.token;
-
-			  //重组
-			  this.$http.get(url).then(result=>{
-				  if(result.status == 200){
-					  var srcData = [];
-					  var data=result.data;
-					  for(var i = 0; i < data.dev.length; i++){
-						  var item=data.dev[i];
-						  var srclevel=[];
-						  srclevel["strToken"]=item.strToken;
-						  srclevel["strName"]=item.strName;
-						  this.loadSrc(srclevel,srcData);
-					  }
-				  }
-			  })
-		},
-        loadSrc(srclevel, srcData) {
-
-            let _this =this;
-            var root = process.env.API_ROOT;
-            var wsroot = process.env.WS_HOST_ROOT;
-            if (root == undefined){
-                root = window.location.protocol + '//' + window.location.host + window.location.pathname;
-            }
-            if (wsroot == undefined)
-            {
-                wsroot = window.location.host;
-            }
-
-            var url = root + "/api/v1/GetDeviceSrc?token="+ srclevel.strToken + "&session=" + this.$store.state.token;
-
-            this.$http.get(url).then(result => {
-                if (result.status == 200)
-                {
-                    var data =  result.data;
-                    var srcGroup = {children: []};
-                    srcGroup.label=srclevel.strName;
-                    srcGroup.iconclass="mdi mdi-view-sequential fa-fw";
-                    for(var i=0; i< data.src.length; i++){
-                        var item = data.src[i];
-                        // 主副流
-                        var node=[{
-                          token : item['strToken'],
-                          streamprofile : "main",
-                          label :this.$t('message.live.mainstream'),
-                          name:item['strName']+"--"+this.$t('message.live.mainstream'),
-                          iconclass : 'mdi mdi-playlist-play fa-fw',
-                          disabled_me:false
-                        },{
-                          token : item['strToken'],
-                          streamprofile : "sub",
-                          label :this.$t('message.live.substream'),
-                          name:item['strName']+"--"+this.$t('message.live.substream'),
-                          iconclass : 'mdi mdi-playlist-play fa-fw',
-                          disabled_me:false
-                        }]
-                        for(var l=0; l< node.length; l++){
-                            console.log("1111111111111111111",node[l].disabled_me)
-                            if(item['bDisable'] == true){
-                                node[l].disabled_me =true;
-                            }
-                        }
-                        
-                        var newItem ={
-                                token : item['strToken'],
-                                label : item['strName'],
-                                iconclass : 'mdi mdi-camcorder fa-fw',
-                                iconclass1 : '',
-                                name:item['strName']+"--"+this.$t('message.live.mainstream'),
-                                children:node,
-                                disabled_me:false};
-
-                        if(!item['bOnline'])
-                            newItem['iconclass'] = 'mdi mdi-camcorder-off fa-fw';
-
-                        if(item['nType'] == 'H5_CLOUD')
-                            newItem['iconclass'] = 'mdi mdi-cloud-upload fa-fw';
-
-                        if(item['bRec'] == true)
-                                newItem['iconclass2'] = 'iconfont icon-radioboxfill none';
-
-                        if(item['bDisable'] == true){
-                            newItem['disabled_me'] =true;
-                            newItem['iconclass1'] = 'camera';
-                        }
-
-                       srcGroup.children.push(newItem);
-                    }
-                    this.data.push(srcGroup);
-                }
-            }).catch(error => {
-                console.log('GetSrc failed', error);
-            });
-        },
-        //数字仓机
-        NumberDevice() {
-		    let _this =this;
-		    var root = process.env.API_ROOT;
-		    var wsroot = process.env.WS_HOST_ROOT;
-		    if (root == undefined){
-		        root = window.location.protocol + '//' + window.location.host + window.location.pathname;
-		    }
-		    if (wsroot == undefined)
-		    {
-		        wsroot = window.location.host;
-		    }
-		   //url
-		   var url = root + "/api/v1/GetGbDevice?session="+ this.$store.state.token;
-
-			  //重组
-			  this.$http.get(url).then(result=>{
-				  if(result.status == 200){
-					  var srcData = [];
-					  var data=result.data;
-					  for(var i = 0; i < data.dev.length; i++){
-						  var item=data.dev[i];
-						  var srclevel=[];
-						  srclevel["strToken"]=item.strToken;
-						  srclevel["strName"]=item.strName;
-						  this.NumberSrc(srclevel,srcData);
-					  }
-				  }
-			  })
-		},
-        NumberSrc(srclevel, srcData) {
-
-            let _this =this;
-            var root = process.env.API_ROOT;
-            var wsroot = process.env.WS_HOST_ROOT;
-            if (root == undefined){
-                root = window.location.protocol + '//' + window.location.host + window.location.pathname;
-            }
-            if (wsroot == undefined)
-            {
-                wsroot = window.location.host;
-            }
-
-            var url = root + "/api/v1/GetGbDeviceSrc?token="+ srclevel.strToken + "&session=" + this.$store.state.token;
-
-            this.$http.get(url).then(result => {
-                if (result.status == 200)
-                {
-                    var data =  result.data;
-                    var srcGroup = {children: []};
-                    srcGroup.label=srclevel.strName;
-                    srcGroup.iconclass="mdi mdi-view-sequential fa-fw";
-                    for(var i=0; i< data.src.length; i++){
-                        var item = data.src[i];
-                        // 主副流
-                        var node=[{
-                          token : item['strToken'],
-                          streamprofile : "main",
-                          label :this.$t('message.live.mainstream'),
-                          name:item['strName']+"--"+this.$t('message.live.mainstream'),
-                          iconclass : 'mdi mdi-playlist-play fa-fw',
-                          disabled_me:false
-                        },{
-                          token : item['strToken'],
-                          streamprofile : "sub",
-                          label :this.$t('message.live.substream'),
-                          name:item['strName']+"--"+this.$t('message.live.substream'),
-                          iconclass : 'mdi mdi-playlist-play fa-fw',
-                          disabled_me:false
-                        }]
-                        var newItem ={
-                                token : item['strToken'],
-                                label : item['strName'],
-                                iconclass : 'mdi mdi-camcorder fa-fw',
-                                name:item['strName']+"--"+this.$t('message.live.mainstream'),
-                                children:node,
-                                disabled_me:false};
-
-                        if(!item['bOnline'])
-                            newItem['iconclass'] = 'mdi mdi-camcorder-off fa-fw';
-
-                        if(item['nType'] == 'H5_CLOUD')
-                            newItem['iconclass'] = 'mdi mdi-cloud-upload fa-fw';
-
-                        if(item['bRec'] == true)
-                                newItem['iconclass2'] = 'iconfont icon-radioboxfill none';
-
-                       srcGroup.children.push(newItem);
-                    }
-                    this.data.push(srcGroup);
-                }
-            }).catch(error => {
-                console.log('GetSrc failed', error);
-            });
-        },
-        //级联
-        cloudDevice() {
-		    let _this =this;
-		    var root = process.env.API_ROOT;
-		    var wsroot = process.env.WS_HOST_ROOT;
-		    if (root == undefined){
-		        root = window.location.protocol + '//' + window.location.host + window.location.pathname;
-		    }
-		    if (wsroot == undefined)
-		    {
-		        wsroot = window.location.host;
-		    }
-		   //url
-		   var url = root + "/api/v1/GetCloudDevice?session="+ this.$store.state.token;
-
-			  //重组
-			  this.$http.get(url).then(result=>{
-				  if(result.status == 200){
-					  var srcData = [];
-					  var data=result.data;
-					  for(var i = 0; i < data.dev.length; i++){
-						  var item=data.dev[i];
-						  var srclevel=[];
-						  srclevel["strToken"]=item.strToken;
-						  srclevel["strName"]=item.strName;
-						  this.cloudSrc(srclevel,srcData);
-					  }
-				  }
-			  })
-		},
-        cloudSrc(srclevel, srcData) {
-
-            let _this =this;
-            var root = process.env.API_ROOT;
-            var wsroot = process.env.WS_HOST_ROOT;
-            if (root == undefined){
-                root = window.location.protocol + '//' + window.location.host + window.location.pathname;
-            }
-            if (wsroot == undefined)
-            {
-                wsroot = window.location.host;
-            }
-
-            var url = root + "/api/v1/GetCloudDeviceSrc?token="+ srclevel.strToken + "&session=" + this.$store.state.token;
-
-            this.$http.get(url).then(result => {
-                if (result.status == 200)
-                {
-                    var data =  result.data;
-                    var srcGroup = {children: []};
-                    srcGroup.label=srclevel.strName;
-                    srcGroup.iconclass="mdi mdi-view-sequential fa-fw";
-                    for(var i=0; i< data.src.length; i++){
-                        var item = data.src[i];
-                        // 主副流
-                        var node=[{
-                          token : item['strToken'],
-                          streamprofile : "main",
-                          label :this.$t('message.live.mainstream'),
-                          name:item['strName']+"--"+this.$t('message.live.mainstream'),
-                          iconclass : 'mdi mdi-playlist-play fa-fw',
-                          disabled_me:false
-                        },{
-                          token : item['strToken'],
-                          streamprofile : "sub",
-                          label :this.$t('message.live.substream'),
-                          name:item['strName']+"--"+this.$t('message.live.substream'),
-                          iconclass : 'mdi mdi-playlist-play fa-fw',
-                          disabled_me:false
-                        }]
-                        var newItem ={
-                                token : item['strToken'],
-                                label : item['strName'],
-                                iconclass : 'cascade',
-                                name:item['strName']+"--"+this.$t('message.live.mainstream'),
-                                children:node,
-                                disabled_me:false};
-
-                        if(!item['bOnline'])
-                            newItem['iconclass'] = 'mdi mdi-camcorder-off fa-fw';
-
-                        if(item['nType'] == 'H5_CLOUD')
-                            newItem['iconclass'] = 'cascade';
-
-                        if(item['bRec'] == true)
-                                newItem['iconclass2'] = 'iconfont icon-radioboxfill none';
-
-                       srcGroup.children.push(newItem);
-                    }
-                    this.data.push(srcGroup);
-                }
-            }).catch(error => {
-                console.log('GetSrc failed', error);
-            });
         },
         //点击宫格
         changePanel(event) {
@@ -853,12 +489,17 @@ export default {
         },
         //设备隐藏
         devicetoog(){
-            // $("#device").toggle(100);
+            if( this.$store.state.root=="Operator"){
+                return
+            }
             $("#device").hide();
             $("#device1").show();
+
         },
         devicetoog1(){
-            // $("#device1").toggle(100);
+            if( this.$store.state.root=="Operator"){
+                return
+            }
             $("#device1").hide();
             $("#device").show();
         },

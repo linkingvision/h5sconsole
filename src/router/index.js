@@ -5,7 +5,6 @@ import GPU from '@/components/views/dashboard/GPU'
 import Liveview from '@/components/views/liveview'
 import Archive from '@/components/views/archive'
 import AdvancePB from '@/components/views/Advancepbss'
-import Gaogao1 from '@/components/views/gaogao1'
 import Sreenshots from '@/components/views/screenshots'
 import Playback from '@/components/views/playback'
 import camera from '@/components/views/camera'
@@ -67,11 +66,6 @@ const routes = [
         component: Playback
       },
       {
-        path: '/app/camera',
-        name: 'cameraRouter',
-        component: camera
-      },
-      {
         path: '/app/avintercom',
         name: 'avintercomRouter',
         component: avintercom
@@ -81,48 +75,16 @@ const routes = [
         name: 'AdvancePBRouter',
         component: AdvancePB
       },
+     
       {
-        path: '/app/GB',
-        name: 'GBRouter',
-        meta: {
-          requireAuth: true
-        },
-        component: GB,
-        children: [
-          //1
-          {
-            path: '/app/GB/GB28181',
-            name: 'GB28181Router',
-            component: GB28181,
-            meta: {
-              requireAuth: true
-            }
-          },
-          //2
-          {
-            path: '/app/GB/GBplatform',
-            name: 'GBplatformRouter',
-            component: GBplatform,
-            meta: {
-              requireAuth: true
-            }
-          },
-        ]
-      },
-      {
-        path: '/app/Gaogao1',
-        name: 'Gaogao1Router',
-        component: Gaogao1
+        path: '/app/event',
+        name: 'eventRouter',
+        component: Event
       },
       {
         path: '/app/archive',
         name: 'archiveRouter',
         component: Archive
-      },
-      {
-        path: '/app/event',
-        name: 'eventRouter',
-        component: Event
       },
       {
         path: '/app/Tour',
@@ -145,11 +107,54 @@ const routes = [
         name: 'dashboardRouter',
         component: Dashboard
       },
+
+
+      //用户
+      {
+        path: '/app/camera',
+        name: 'cameraRouter',
+        meta: {
+          roles: 'admin',
+        },
+        component: camera
+      },
+      {
+        path: '/app/GB',
+        name: 'GBRouter',
+        meta: {
+          roles: 'admin',
+          requireAuth: true
+        },
+        component: GB,
+        children: [
+          //1
+          {
+            path: '/app/GB/GB28181',
+            name: 'GB28181Router',
+            component: GB28181,
+            meta: {
+              roles: 'admin',
+              requireAuth: true
+            }
+          },
+          //2
+          {
+            path: '/app/GB/GBplatform',
+            name: 'GBplatformRouter',
+            component: GBplatform,
+            meta: {
+              roles: 'admin',
+              requireAuth: true
+            }
+          },
+        ]
+      },
       {
         path: '/app/cloud',
         name: 'cloudRouter',
         component: cloud,
         meta: {
+          roles: 'admin',
           requireAuth: true
         },
         children: [
@@ -159,6 +164,7 @@ const routes = [
             name: 'cloudsRouter',
             component: clouds,
             meta: {
+              roles: 'admin',
               requireAuth: true
             }
           }
@@ -169,6 +175,7 @@ const routes = [
         path: '/app/settings',
         name: 'settingsRouter',
         meta: {
+          roles: 'admin',
           requireAuth: true
         },
         component: Settings,
@@ -179,6 +186,7 @@ const routes = [
             name: 'devicesRouter',
             component: devices,
             meta: {
+              roles: 'admin',
               requireAuth: true
             }
           },
@@ -188,6 +196,7 @@ const routes = [
             name: 'devicesdksRouter',
             component: devicesdks,
             meta: {
+              roles: 'admin',
               requireAuth: true
             }
           },
@@ -197,6 +206,7 @@ const routes = [
             name: 'devicertmppushsRouter',
             component: devicertmppushs,
             meta: {
+              roles: 'admin',
               requireAuth: true
             }
           },
@@ -206,6 +216,7 @@ const routes = [
             name: 'recordsRouter',
             component: records,
             meta: {
+              roles: 'admin',
               requireAuth: true
             }
           },
@@ -215,6 +226,7 @@ const routes = [
             name: 'usersettingsRouter',
             component: usersettings,
             meta: {
+              roles: 'admin',
               requireAuth: true
             }
           },
@@ -224,6 +236,7 @@ const routes = [
             name: 'RegionalRouter',
             component: Regional,
             meta: {
+              roles: 'admin',
               requireAuth: true
             }
           }, 
@@ -233,6 +246,7 @@ const routes = [
             name: 'TranscodingRouter',
             component: Transcoding,
             meta: {
+              roles: 'admin',
               requireAuth: true
             }
           },
@@ -305,16 +319,26 @@ const Router = new VueRouter({
 });
 
 Router.beforeEach((to, from, next) => {
-  if (store.state.token||to.path=="/login") {
-    // console.log('hao',store.state.token)
-    next()
-  } else {
-    // console.log("huan",store.state.token);
+  // console.log('hao',store.state.token,to.meta.roles)
+  if(store.state.root=="Operator"&&to.meta.roles){
+    console.log("store.state.root",store.state.root,to.meta.roles)
     next({
       path: '/login',
       query: {redirect: to.fullPath}
     })
   }
+  if (to.matched.some(r => r.meta.requireAuth)) {
+        if (store.state.token) {
+          next()
+        } else {
+          next({
+            path: '/login',
+            query: {redirect: to.fullPath}
+          })
+        }
+      } else {
+        next();
+      }
 })
 
 // Router.beforeEach((to, from, next) => {

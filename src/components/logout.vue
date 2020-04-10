@@ -13,6 +13,8 @@ export default {
         this.$router.push({
             path: '/login'
         });
+        
+        // location.reload();
     }
 }
 </script>

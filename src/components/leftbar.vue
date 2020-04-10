@@ -106,8 +106,9 @@ export default {
         }
     },
     mounted(){
-        console.log(this.$store.state.users,this.$store.state.root,this.$store.state.token,this.$store.state.lang)
+        // console.log(this.$store.state.users,this.$store.state.root,this.$store.state.token)
         this.roltroot();
+        
     },
     methods:{
         roltroot(){
@@ -115,7 +116,7 @@ export default {
                 console.log("管理员",this.$store.state.root)
             }else {
                 console.log("操作员",this.$store.state.root)
-                $(".root").css("display","none")
+                $(".root").hide()
                 // document.getElementsByClassName("root").style.display="none";
             }
         }

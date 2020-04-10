@@ -47,49 +47,39 @@
           </a>
           <ul class="dropdown-menu dropdown-user animated flipInY">
             <li>
-              <a href="javascript:void(0);">
                 <!-- 操作员设置 -->
-                <span type="text" class="hide-menu" @click=" Operator= true">
+                <span type="text" class="hide-menu1" @click=" editPopup= true">
                     <span class="apiab iconfont icon-icon-test1"></span>
                     <span class="admin_zi">
-                        {{$t("message.dashboard.about")}}
+                        {{$t("message.left.setting")}}
                     </span>
                 </span>
-                <el-dialog
-                    class="dialog"
-                    :visible.sync="Operator"
-                    width="30%"
-                    append-to-body
-                    center>
+                <el-dialog :title="label.Edit" class="dialog" :visible.sync="editPopup" width="30%" append-to-body>
                     <el-form label-position="right" label-width="140px" :model="form">
                       <el-form-item :label="label.user">
                           <input disabled class="editinput" v-model="form.strUser"/>
                       </el-form-item>
-                      <el-form-item :label="label.Password">
-                          <input class="editinput" v-model="form.Newpassword"/>
+                      <el-form-item :label="label.olPassword">
+                          <input class="editinput" v-model="form.olPassword"/>
                       </el-form-item>
-                      <el-form-item :label="label.role">
-                          <el-select v-model="form.strUserType" placeholder="请选择">
-                              <el-option
-                                  v-for="item in options"
-                                  :key="item.value"
-                                  :label="item.label"
-                                  :value="item.value">
-                              </el-option>
-                          </el-select>
+                      <el-form-item :label="label.nePassword">
+                          <input class="editinput" v-model="form.nePassword"/>
+                      </el-form-item>
+                      <el-form-item :label="label.nePassword">
+                          <input class="editinput" v-model="form.nePassword1"/>
                       </el-form-item>
                   </el-form>
+                  <div slot="footer" class="dialog-footer">
+                      <el-button @click="editPopup = false">{{$t("message.setting.Cancel")}}</el-button>
+                      <el-button type="primary" @click="edityes">{{$t("message.setting.OK")}}</el-button>
+                  </div>
                 </el-dialog>
-                <!-- <router-link tag="li" :to="{name:'usersettingsRouter'}">
-                  <a href="#" class="waves-effect"><div class="rou_img"></div><span class="hide-menu"> {{$t("message.left.setting")}}  </span></a>
-                </router-link> -->
-              </a>
             </li>
             <li role="separator" class="divider"></li>
             <li>
               <a href="#/app/logout">
                 <router-link tag="li" :to="{name:'logoutRouter'}">
-                  <a  class="waves-effect" ><div class="rou_img1"></div><span class="hide-menu"> {{$t("message.left.logout")}}</span></a>
+                  <a  class="waves-effect" ><div class="iconfont icon-shijian-"></div><span class="hide-menu"> {{$t("message.left.logout")}}</span></a>
                 </router-link> 
               </a>
             </li>
@@ -150,6 +140,7 @@
 </template>
 <script>
 import * as types from "@/store/types";
+import '@/assets/jQuery.md5.js'
 export default {
   name: "vheader",
   methods: {},
@@ -162,38 +153,30 @@ export default {
         information:{
             strVersion: "",
         },
+        editPopup:false,//编辑弹窗
         form: {
-          switch:"first",
-          strUser:"Operator",
-          strPasswd: "12345",
-          strUserType: "Administrator",
-          
-          strRole:"Operator",
-          strRoleToken:"Operator",
-
+          strUser:this.$store.state.users,
+          olPassword: "",
+          nePassword:"",
+          nePassword1:"",
       },
       label:{
-                label:"User",//选1
-                label_role:"角色管理",//选1
-                label_system:"系统管理",//选1
-                user:"用户名",
-                Password:"账户密码",
-                role:"角色",
-                type:"权限",
-
-                roleuser:"角色名称",
-                Confroot:"配置权限",
-                operroot:"操作权限",
-                Videoroot:"摄像机权限",
-            },
-            options: [{
-                    value: 'Administrator',
-                    label: 'Administrator'
-                }, {
-                    value: 'Operator',
-                    label: 'Operator'
-                }
-            ],
+          Edit:this.$t("message.table.Edit"),
+          user:this.$t("message.setting.username"),
+          Password:this.$t("message.setting.password"),
+          role:this.$t("message.setting.role"),
+          type:this.$t("message.setting.Authority"),
+          olPassword:this.$t("message.setting.currentpass"),
+          nePassword:this.$t("message.setting.newpass"),
+      },
+      options: [{
+              value: 'Administrator',
+              label: 'Administrator'
+          }, {
+              value: 'Operator',
+              label: 'Operator'
+          }
+      ],
 };
   },
   mounted() {
@@ -201,6 +184,34 @@ export default {
     this.GetSystemInfo();
   },
   methods: {
+    edityes(){
+      var root = process.env.API_ROOT;
+      if (root == undefined){
+          root = window.location.protocol + '//' + window.location.host + window.location.pathname;
+      }
+      //url
+      var form=this.form;
+      if( form.nePassword!==form.nePassword1){
+          this.$message(this.$t("message.setting.Twopassword"));
+          return false;
+      }
+      
+      this.editPopup = false;
+      var url = root + "/api/v1/UpdateUser?user="+form.strUser+"&oldpassword="+$.md5(form.olPassword)+"&newpassword="+$.md5(form.nePassword)+"&session="+ this.$store.state.token;
+      // return false;
+      this.$http.get(url).then(result=>{
+          if(result.status==200){
+              if(result.data.bStatus==true){
+                  this.$router.push({ path:'../../login'})
+                  this.$store.commit(types.LOGOUT);
+                  this.$message(this.$t("message.setting.Changecg"));
+              }else{
+                  this.$message(this.$t("message.setting.Changesb"));
+              }
+              
+          }
+      })
+    },
       GetSystemInfo()
         {
             let _this =this;
@@ -235,6 +246,25 @@ export default {
 };
 </script>
 <style scoped>
+.editinput{
+    -webkit-appearance: none;
+    background-color: #FFF;
+    background-image: none;
+    border-radius: 4px;
+    border: 1px solid #DCDFE6;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    color: #606266;
+    display: inline-block;
+    font-size: inherit;
+    height: 40px;
+    line-height: 40px;
+    outline: 0;
+    padding: 0 15px;
+    -webkit-transition: border-color .2s cubic-bezier(.645,.045,.355,1);
+    transition: border-color .2s cubic-bezier(.645,.045,.355,1);
+    width: 100%;
+  }
 /* 控制中心 */
 .control_center{
   margin-right: 14px;
@@ -264,6 +294,7 @@ a{
 .apiab{
   font-size: 16px;
   color: #030303;
+  margin-right: 10px;
 }
 .navbar-top-links>li>a {
     padding: 0 14px;
@@ -305,6 +336,16 @@ a{
 }
 .dialog >>>.el-dialog{
   background: #ffffff;
+  padding: 20px 0;
+}
+.dialog >>>.el-dialog__header{
+  text-align: left;
+}
+.dialog >>>.el-dialog__title{
+  color: #229DDD;
+}
+.dialog >>>.el-dialog__footer{
+  text-align: right;
 }
 .el-dialog__wrapper >>>  .el-dialog--center .el-dialog__body {
     padding: 1px 30px;
@@ -326,7 +367,13 @@ a{
 .hide-menu{
   width: 100%;
   /* display: block; */
-  margin-left: 8px;
+  /* margin-left: 8px; */
+  
+}
+.hide-menu1{
+  width: 100%;
+  /* display: block; */
+  /* margin-left: 8px; */
   
 }
 .waves-effect{
@@ -383,6 +430,11 @@ a{
 .admin_zi{
     color: #000;
     font-size: 14px;
+}
+
+.apiab {
+    padding: 0;
+    margin: 0;
 }
 </style>
 

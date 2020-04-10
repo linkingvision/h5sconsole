@@ -2,7 +2,7 @@
    
 import {H5sEvent} from '../../../assets/h5sevent.js'
 import store from '@/store/store'
-console.log(store.state.token)
+console.log(store.state.token,store.state.root)
 let gEvent=[];
 var e1=undefined;
 function EventCB(event, userdata)

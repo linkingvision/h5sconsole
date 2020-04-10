@@ -65,6 +65,10 @@ export default {
     },
     methods:{
         loadDevice(){
+            if(this.$store.state.root=="Operator"){
+                console.log("a");
+                return false
+            }
 		    var root = process.env.API_ROOT;
 		    var wsroot = process.env.WS_HOST_ROOT;
 		    if (root == undefined){
