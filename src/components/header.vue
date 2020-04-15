@@ -49,8 +49,8 @@
             <li v-if="user!=''&&user!=null">
                 <!-- 操作员设置 -->
                 <span type="text" class="hide-menu1" @click=" editPopup= true">
-                    <span class="apiab iconfont icon-icon-test1"></span>
-                    <span class="admin_zi">
+                    <span class="apiab iconfont icon-icon-test"></span>
+                    <span class="admin_zi hide-menu">
                         {{$t("message.left.setting")}}
                     </span>
                 </span>

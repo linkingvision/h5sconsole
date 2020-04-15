@@ -388,10 +388,12 @@ export default {
                                 urlto:urlto[urlto.length-1],
                                 strFileName:"",
                               };
-                              if(item['nType']=="H5_REC_MANUAL"){
+                              
+                            //   console.log(data)
+                              if(item['nType']==="H5_REC_MANUAL"){
                                     timeitem["type"] = this.$t("message.archive.ManualRecord");
                               }
-                              if(item['nType']=="H5_REC_ALARM "){
+                              if(item['nType']==="H5_REC_ALARM "){
                                     timeitem["type"] = this.$t("message.archive.AlarmRecord");
                               }
                               if(item['nType']=="H5_REC_SCHEDULE "){
