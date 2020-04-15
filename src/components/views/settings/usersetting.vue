@@ -4,7 +4,7 @@
         
         <el-dialog close="dialog" :title="label.Edit" :visible.sync="editPopup">
             <!-- 1 -->
-            <el-form label-position="right" label-width="140px" :model="editform" v-if="form.switch=='first'">
+            <el-form label-position="right" label-width="160px" :model="editform" v-if="form.switch=='first'">
                 <el-form-item :label="label.user">
                     <input disabled class="editinput" v-model="editform.strUser"/>
                 </el-form-item>
@@ -14,19 +14,9 @@
                 <el-form-item :label="label.nePassword">
                     <input class="editinput" v-model="editform.Newpassword"/>
                 </el-form-item>
-                <el-form-item :label="label.nePassword">
+                <el-form-item :label="label.confirmpass1">
                     <input class="editinput" v-model="editform.Newpassword1"/>
                 </el-form-item>
-                <!-- <el-form-item :label="label.role">
-                    <el-select v-model="editform.strUserType" placeholder="请选择">
-                        <el-option
-                            v-for="item in options"
-                            :key="item.value"
-                            :label="item.label"
-                            :value="item.value">
-                        </el-option>
-                    </el-select>
-                </el-form-item> -->
             </el-form>
             <!-- 2 -->
             <el-form label-position="right" label-width="140px" :model="editform" v-if="form.switch!='first'">
@@ -77,37 +67,36 @@
                 </div>
             </el-form>
             <div slot="footer" class="dialog-footer">
-                <el-button @click="editPopup = false">取 消</el-button>
+                <el-button @click="editPopup = false">{{$t("message.setting.Cancel")}}</el-button>
                 <el-button type="primary" @click="edityes" v-if="form.switch=='first'">{{$t("message.setting.OK")}}</el-button>
             </div>
         </el-dialog>
         
         <el-dialog :title="eltitle" :visible.sync="dialogFormVisible">
             <!-- 1 -->
-            <el-form label-position="right" label-width="140px" :model="form"  v-if="form.switch=='first'">
+            <el-form label-position="right" label-width="160px" :model="form"  v-if="form.switch=='first'">
                 <el-form-item :label="label.user">
                     <input class="editinput" v-model="form.strUser"/>
                 </el-form-item>
                 <el-form-item :label="label.Password">
                     <input class="editinput" v-model="form.strPasswd"/>
                 </el-form-item>
-                <el-form-item :label="label.Password">
+                <el-form-item :label="label.confirmpass">
                     <input class="editinput" v-model="form.strPasswd1"/>
                 </el-form-item>
-                <el-form-item :label="label.role">
+                <!-- <el-form-item :label="label.role">
                     <input class="editinput" v-model="form.strRoleToken"/>
-                </el-form-item>
-
-                <!-- <el-form-item :label="label.type">
-                    <el-select v-model="form.strUserType" placeholder="请选择">
+                </el-form-item> -->
+                <el-form-item :label="label.role">
+                    <el-select v-model="form.strRoleToken" placeholder="请选择">
                         <el-option
-                            v-for="item in options"
+                            v-for="item in Role"
                             :key="item.value"
                             :label="item.label"
                             :value="item.value">
                         </el-option>
                     </el-select>
-                </el-form-item> -->
+                </el-form-item>
             </el-form>
             <!-- 2 -->
             <el-form label-position="right" label-width="140px" :model="form"  v-if="form.switch!='first'">
@@ -249,8 +238,8 @@
                     </el-table-column>
                     <el-table-column
                         min-width="50"
-                        fixed="right"
-                        :label="label.label4">
+                        class="size"
+                        fixed="right">
                         <template slot-scope="scope">
                             <el-button @click="handleEdit(scope.$index,scope.row)" type="text" size="small">{{$t("message.setting.edit")}}</el-button>
                         </template>
@@ -312,6 +301,8 @@ import '@/assets/jQuery.md5.js'
                 type:this.$t("message.setting.Authority"),
                 olPassword:this.$t("message.setting.currentpass"),
                 nePassword:this.$t("message.setting.newpass"),
+                confirmpass:this.$t("message.setting.confirmpassword"),
+                confirmpass1:this.$t("message.setting.confirmpass"),
 
                 roleuser:this.$t("message.setting.RoleName"),
                 Confroot:this.$t("message.setting.Configure"),
@@ -335,6 +326,7 @@ import '@/assets/jQuery.md5.js'
                     label: 'Operator'
                 }
             ],
+            Role:[],
             defaultrole:{
                 children: 'cam',
                 label: 'strRoleToken',
@@ -353,10 +345,10 @@ import '@/assets/jQuery.md5.js'
                 strUser:"Operator",
                 strPasswd: "12345",
                 strPasswd1:"12345",
-                strUserType: "Administrator",
+                strUserType: "Operator",
                 
-                strRole:"Operator",
-                strRoleToken:"Operator",
+                strRole:"Administrator",
+                strRoleToken:"Administrator",
 
             },
             editform: {
@@ -409,6 +401,7 @@ import '@/assets/jQuery.md5.js'
                 // console.log("***",result);
                 if(result.status==200){
                     // this.tableData2=result.data.users;
+                    this.tableData1=[];
                     var data=result.data.roles;
                     for(var i=0;i<data.length;i++){
                         var datasrc={
@@ -417,7 +410,11 @@ import '@/assets/jQuery.md5.js'
                             bOperate:data[i].permission.bOperate+"",
                         }
                         // console.log("**--*",datasrc);
-                        
+                        var Role={
+                            value: data[i].strRoleToken,
+                            label: data[i].strRoleToken
+                        }
+                        this.Role.push(Role);
                         this.tableData1.push(datasrc);
                     }
                 }
@@ -455,7 +452,6 @@ import '@/assets/jQuery.md5.js'
                     })
                 }
             }else{
-                console.log("2")
                 for(var i=0;i<selectop.length;i++){
                     var url = root + "/api/v1/DeleteRole?roletoken="+selectop[i].strRoleToken+"&session="+ this.$store.state.token;
                     this.$http.get(url).then(result=>{
@@ -482,7 +478,7 @@ import '@/assets/jQuery.md5.js'
                 title: '详情',
                 content: 
                 `${this.label.user}: ${row.strUser}<br>
-                ${this.label.role}: ${row.strUserType}<br>`
+                ${this.label.role}: ${row.strRole}<br>`
             })
         },
         //  编辑  添加 的确定键
@@ -517,7 +513,7 @@ import '@/assets/jQuery.md5.js'
         },
         platformyes1(){
             var tokencheked=this.$refs.tree.getCheckedNodes();
-            console.log(tokencheked)
+            // console.log(tokencheked)
             // return false;
             this.dialogFormVisible=false;
             var form=this.form;
@@ -527,7 +523,7 @@ import '@/assets/jQuery.md5.js'
             }
             var url = root + "/api/v1/CreateRole?roletoken="+form.strRoleToken+"&role="+form.strRole+"&session="+ this.$store.state.token;
             this.$http.get(url).then(result=>{
-                console.log("***",result,form,url);
+                // console.log("***",result,form,url);
                 if(result.status==200){
                     if(result.data.bStatus==true){
                         this.tableData1=[];
@@ -561,11 +557,21 @@ import '@/assets/jQuery.md5.js'
             if (root == undefined){
                 root = window.location.protocol + '//' + window.location.host + window.location.pathname;
             }
+            console.log(token,roletoken,name);
+            // return false;
             var url = root + "/api/v1/AddCamToRole?roletoken="+roletoken+"&camtoken="+token+"&cam="+name+"&session="+ this.$store.state.token;
             this.$http.get(url).then(result=>{
                 if(result.status==200){
                     if(result.data.bStatus==true){
-                        this.editPopup=false
+                        // this.editPopup=false
+                        var cam={
+                            strRoleToken:name,
+                            strCamName:token,
+                        }
+                        if(this.camroledata.length!=0){
+                            this.camroledata[0].cam.push(cam)
+                        }
+                        
                     }else{
                         this.$message({
                             message: "摄像机"+name+"添加失败",
@@ -589,7 +595,10 @@ import '@/assets/jQuery.md5.js'
                 this.$message(this.$t("message.setting.Twopassword"));
                 return false;
             }
-            
+            if( form.strPasswd==""&&form.strPasswd1==""){
+                this.$message(this.$t("message.setting.Creationfailed"));
+                return false;
+            }
             this.dialogFormVisible=false;
             // console.log(form.strPasswd,$.md5(form.strPasswd))
             var url = root + "/api/v1/CreateUser?user="+form.strUser+"&password="+$.md5(form.strPasswd)+"&roletoken="+form.strRoleToken+"&session="+ this.$store.state.token;
@@ -600,7 +609,7 @@ import '@/assets/jQuery.md5.js'
                         this.usesre();
                     }else{
                         this.$message({
-                            message: "添加失败",
+                            message: this.$t("message.setting.Creationfailed"),
                             type: 'warning'
                         });
                         return false;
@@ -651,24 +660,28 @@ import '@/assets/jQuery.md5.js'
             if (root == undefined){
                 root = window.location.protocol + '//' + window.location.host + window.location.pathname;
             }
+            
+            var camdata=this.camroledata[0].cam;
             for(var i=1;i<tokencheked.length;i++){
-                
-            console.log(tokencheked.length,tokencheked,tokencheked[0].strRoleToken,tokencheked[i].strRoleToken,tokencheked[i].strCamName);
-            // return false;
-                var url = root + "/api/v1/DelCamInRole?roletoken="+tokencheked[0].strRoleToken+"&camtoken="+tokencheked[i].strCamName+"&session="+ this.$store.state.token;
-                this.$http.get(url).then(result=>{
-                    if(result.status==200){
-                        if(result.data.bStatus==true){
-                            this.editPopup=false
-                        }else{
-                            this.$message({
-                                message: tokencheked[i].strRoleToken,
-                                type: 'warning'
-                            });
-                            // return false;
-                        }
+                for(var l=0 ; l<camdata.length;l++){
+                    if(tokencheked[i].strCamName==camdata[l].strCamName){
+                        camdata.splice(l,1);
+                        var url = root + "/api/v1/DelCamInRole?roletoken="+tokencheked[0].strRoleToken+"&camtoken="+tokencheked[i].strCamName+"&session="+ this.$store.state.token;
+                        this.$http.get(url).then(result=>{
+                            if(result.status==200){
+                                if(result.data.bStatus==true){
+                                    // this.editPopup=false
+                                }else{
+                                    this.$message({
+                                        message: tokencheked[i].strRoleToken,
+                                        type: 'warning'
+                                    });
+                                    // return false;
+                                }
+                            }
+                        })
                     }
-                })
+                }
             }
 
         },
@@ -703,7 +716,7 @@ import '@/assets/jQuery.md5.js'
             // console.log(row);
             this.selectop=[];
             for(var i=0;i<row.length;i++){
-                console.log(row[i].Token)
+                // console.log(row[i].Token)
                 var selectop={
                     strUser:row[i].strUser,
                     strPasswd:row[i].strPasswd,
@@ -751,6 +764,12 @@ import '@/assets/jQuery.md5.js'
         removeTab(targetName) {
             console.log(targetName.name);
             this.form.switch=targetName.name
+            if(targetName.name=="first"){
+                console.log(targetName.name,"1514515151");
+                this.Role=[];
+                this.tableData1=[];
+                this.rolesre();
+            }
             if(targetName.name=="system"){
                 this.anonymou();
             }
@@ -760,6 +779,9 @@ import '@/assets/jQuery.md5.js'
   };
 </script>
 <style scoped>
+.el-table>>> .size{
+    font-weight: 700;
+}
 /* 编辑   的 两个按钮 */
 .ed_tree{
     width: 40%;

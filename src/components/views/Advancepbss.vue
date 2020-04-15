@@ -91,8 +91,8 @@
 										<div>
 											<div class="back_Choice"  @mouseenter="enter1()" @mouseleave="leave1()">
 												<div id="back_Choice" class="back_Choice1">
-													<div :class="{co_Baise:Adswitch==true}" class="co_black" >{{$t("message.playback.H5SPlayback")}}</div>
-													<div :class="{co_Baise:Adswitch==false}" class="co_black">{{$t("message.playback.NVRPlayback")}}</div>
+													<div :class="{co_Baise:Adswitch=='true'}" @click="Adswitchs" class="co_black" >{{$t("message.playback.H5SPlayback")}}</div>
+													<div :class="{co_Baise:Adswitch=='false'}" @click="Adswitchs1" class="co_black">{{$t("message.playback.NVRPlayback")}}</div>
 												</div>
 												<span class="back_zi iconfont icon-filter"></span>
 											</div>
@@ -186,7 +186,7 @@ import Vue from 'vue'
 import '../../assets/adapter.js'
 import {H5sPlayerWS,H5sPlayerHls,H5sPlayerRTC} from '../../assets/h5splayer.js'
 import {H5siOS,H5sPlayerCreate} from '../../assets/h5splayerhelper.js'
-
+import * as types from '../../store/types'
 import './js/timeline-canvas1.js'
 export default {
 	name: "gaogao",
@@ -210,7 +210,7 @@ export default {
 			icon1:"iconfont icon-bofang",//暂停图片
 			icon2:"iconfont icon-bofang",//暂停图片
 			icon3:"iconfont icon-bofang",//暂停图片
-			Adswitch:false,//开关
+			Adswitch:this.$store.state.Adswitch,//开关
 			filterText:"",
 			proto: 'WS',
 			data:this.regionaldata.regionaldata,
@@ -235,14 +235,28 @@ export default {
 		}
 	},
 	mounted() {
+		console.log(this.Adswitch);
 		this.updateUI();
 		// this.goolsh();
 		this.functlist();
 		this.funtimeine();
 		this.$root.bus.$emit('liveplayproto', "RTC");
-		
 	},
 	methods:{
+		Adswitchs(){
+			var open="true";
+			this.Adswitch=open;
+			console.log(open,"111")
+			this.$store.commit(types.ADSWITCH,open);
+			this.$store.state.Adswitch=open;
+		},
+		Adswitchs1(){
+			var open="false";
+			this.Adswitch=open;
+			console.log(open,"222")
+			this.$store.commit(types.ADSWITCH,open);
+			this.$store.state.Adswitch=open;
+		},
 		//显示第一个数轴
 		functlist(){
 			$('.tab').each(function (e) {
@@ -256,7 +270,7 @@ export default {
 		//点击确定键
 		input_ch(){
 			var data=this.Gtoken;
-			console.log("日历",data,this.Gtoken);
+			// console.log("日历",data,this.Gtoken,this.Adswitch);
 			// return false;
 			this.Play(data);
 		},
@@ -328,8 +342,13 @@ export default {
 						
 						// console.log("======",strDate1);
 						// console.log("timevaluee222222",timevalues,timevaluee,"------",localOffset,"**",timevalue);
-
-						var url = root + "api/v1/SearchDeviceRecordByTime?token="+_this.Gtoken+"&start="+encodeURIComponent(timevalues1)+"&end="+encodeURIComponent(timevaluee1)+"&session="+ _this.$store.state.token;
+						var url=""
+						if(_this.Adswitch=="false"){
+							url = url = root + "api/v1/SearchDeviceRecordByTime?token="+_this.Gtoken+"&start="+encodeURIComponent(timevalues1)+"&end="+encodeURIComponent(timevaluee1)+"&session="+ _this.$store.state.token;
+						}else{
+							url = root + "api/v1/Search?type=record&token="+_this.Gtoken
+							+"&start="+encodeURIComponent(timevalues1)+"&end="+encodeURIComponent(timevaluee)+"&session="+ _this.$store.state.token;
+						}
 						// console.log(url);
 						//  return false;
 						_this.$http.get(url).then(result=>{
@@ -382,7 +401,7 @@ export default {
 								autoplay: 'true',
 								showposter:"true", //'true' or 'false' show poster
 								callback: _this.PlaybackCB,
-								serverpb: false, 
+								serverpb: _this.Adswitch, 
 								userdata:  _this // user data
 							};
 							let conf = {
@@ -414,7 +433,7 @@ export default {
 								autoplay: 'true',
 								showposter:"true", //'true' or 'false' show poster
 								callback: _this.PlaybackCB1,
-								serverpb: false, 
+								serverpb: _this.Adswitch, 
 								userdata:  _this // user data
 							};
 							let conf2 = {
@@ -447,7 +466,7 @@ export default {
 								autoplay: 'true',
 								showposter:"true", //'true' or 'false' show poster
 								callback: _this.PlaybackCB2,
-								serverpb: false, 
+								serverpb: _this.Adswitch, 
 								userdata:  _this // user data
 							};
 							let conf3 = {
@@ -479,7 +498,7 @@ export default {
 								autoplay: 'true',
 								showposter:"true", //'true' or 'false' show poster
 								callback: _this.PlaybackCB3,
-								serverpb: false, 
+								serverpb: _this.Adswitch, 
 								userdata:  _this // user data
 							};
 							let conf4 = {
@@ -890,11 +909,19 @@ export default {
 			{
 				wsroot = window.location.host;
 			}
-			var url = root + "api/v1/SearchDeviceRecordByTime?token="+token
-			+"&start="+encodeURIComponent(timevalues1)+"&end="+encodeURIComponent(timevaluee)+"&session="+ this.$store.state.token;
-			console.log(url);
+			var url=""
+			if(this.Adswitch=="false"){
+				
+				url = root + "api/v1/SearchDeviceRecordByTime?token="+token
+				+"&start="+encodeURIComponent(timevalues1)+"&end="+encodeURIComponent(timevaluee)+"&session="+ this.$store.state.token;
+			}else{
+				url = root + "api/v1/Search?type=record&token="+token
+				+"&start="+encodeURIComponent(timevalues1)+"&end="+encodeURIComponent(timevaluee)+"&session="+ this.$store.state.token;
+			}
+			
 			//return false;
 			this.$http.get(url).then(result=>{
+				console.log(url,result);
 				if(result.status == 200){
 					var data=result.data;
 					var timedata1=[];
@@ -920,6 +947,7 @@ export default {
 							//console.log("录像段时间段颜色2",timeitem["style"].background);
 						}
 						timedata1.push(timeitem);
+						// console.log("4545454",timeitem)
 						$("#timeline"+this.selectRow+this.selectCol).TimeSlider('init',timevalue,timedata1);
 					}
 				}
@@ -941,7 +969,7 @@ export default {
 					autoplay: 'true',
 					showposter:"true", //'true' or 'false' show poster
 					callback: this.PlaybackCB,
-					serverpb: false, 
+					serverpb: this.Adswitch, 
 					userdata:  this // user data
 				};
 				let conf = {
@@ -973,7 +1001,7 @@ export default {
 					autoplay: 'true',
 					showposter:"true", //'true' or 'false' show poster
 					callback: this.PlaybackCB1,
-					serverpb: false, 
+					serverpb: this.Adswitch, 
 					userdata:  this // user data
 				};
 				let conf2 = {
@@ -1006,7 +1034,7 @@ export default {
 					autoplay: 'true',
 					showposter:"true", //'true' or 'false' show poster
 					callback: this.PlaybackCB2,
-					serverpb: false, 
+					serverpb: this.Adswitch, 
 					userdata:  this // user data
 				};
 				let conf3 = {
@@ -1038,7 +1066,7 @@ export default {
 					autoplay: 'true',
 					showposter:"true", //'true' or 'false' show poster
 					callback: this.PlaybackCB3,
-					serverpb: false, 
+					serverpb: this.Adswitch, 
 					userdata:  this // user data
 				};
 				let conf4 = {
@@ -1116,10 +1144,12 @@ export default {
 			document.getElementsByClassName("h5controls").style.display="none";
 		},
 		enter1(){
-			document.getElementById("back_Choice").style.display="block";
+			$(".back_Choice1").css("display","block");
+			// document.getElementById("back_Choice").style.display="block";
 		},
 		leave1(){
-			document.getElementById("back_Choice").style.display="none";
+			$(".back_Choice1").css("display","none");
+			// document.getElementById("back_Choice").style.display="none";
 		},
 		//隐藏按钮
 		hideover(r,c){
@@ -1140,8 +1170,36 @@ export default {
 			if (!value) return true;
 			return data.label.indexOf(value) !== -1;
 		},
+		
 
 	},//模糊查询
+	beforeDestroy() {
+        //console.log(this.h5id, "beforeDestroy");
+		if (this.v1 != undefined)
+		{
+			this.v1.disconnect();
+			delete this.v1;
+			this.v1 = undefined;
+		}
+		if (this.v2 != undefined)
+		{
+			this.v2.disconnect();
+			delete this.v2;
+			this.v2 = undefined;
+		}
+		if (this.v3 != undefined)
+		{
+			this.v3.disconnect();
+			delete this.v3;
+			this.v3 = undefined;
+		}
+		if (this.v4 != undefined)
+		{
+			this.v4.disconnect();
+			delete this.v4;
+			this.v4 = undefined;
+		}
+    },
 	watch: {
 		filterText(val) {
 			this.$refs.tree.filter(val);

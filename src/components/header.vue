@@ -46,7 +46,7 @@
             <span class="caret"></span>
           </a>
           <ul class="dropdown-menu dropdown-user animated flipInY">
-            <li>
+            <li v-if="user!=''&&user!=null">
                 <!-- 操作员设置 -->
                 <span type="text" class="hide-menu1" @click=" editPopup= true">
                     <span class="apiab iconfont icon-icon-test1"></span>
@@ -55,7 +55,7 @@
                     </span>
                 </span>
                 <el-dialog :title="label.Edit" class="dialog" :visible.sync="editPopup" width="30%" append-to-body>
-                    <el-form label-position="right" label-width="140px" :model="form">
+                    <el-form label-position="right" label-width="160px" :model="form">
                       <el-form-item :label="label.user">
                           <input disabled class="editinput" v-model="form.strUser"/>
                       </el-form-item>
@@ -65,7 +65,7 @@
                       <el-form-item :label="label.nePassword">
                           <input class="editinput" v-model="form.nePassword"/>
                       </el-form-item>
-                      <el-form-item :label="label.nePassword">
+                      <el-form-item :label="label.nePassword1">
                           <input class="editinput" v-model="form.nePassword1"/>
                       </el-form-item>
                   </el-form>
@@ -75,11 +75,15 @@
                   </div>
                 </el-dialog>
             </li>
-            <li role="separator" class="divider"></li>
+            <li  v-if="user!=''&&user!=null" role="separator" class="divider"></li>
             <li>
               <a href="#/app/logout">
                 <router-link tag="li" :to="{name:'logoutRouter'}">
-                  <a  class="waves-effect" ><div class="iconfont icon-shijian-"></div><span class="hide-menu"> {{$t("message.left.logout")}}</span></a>
+                  <a  class="waves-effect" >
+                    <div class="iconfont icon-shijian-"></div>
+                    <span v-if="user!=''&&user!=null" class="hide-menu"> {{$t("message.header.logout")}}</span>
+                    <span v-if="user==''||user==null" class="hide-menu"> {{$t("message.header.login")}}</span>
+                  </a>
                 </router-link> 
               </a>
             </li>
@@ -163,11 +167,11 @@ export default {
       label:{
           Edit:this.$t("message.table.Edit"),
           user:this.$t("message.setting.username"),
-          Password:this.$t("message.setting.password"),
           role:this.$t("message.setting.role"),
           type:this.$t("message.setting.Authority"),
           olPassword:this.$t("message.setting.currentpass"),
           nePassword:this.$t("message.setting.newpass"),
+          nePassword1:this.$t("message.setting.confirmpass"),
       },
       options: [{
               value: 'Administrator',
@@ -180,6 +184,7 @@ export default {
 };
   },
   mounted() {
+    // console.log(this.user)
     this.gEventval();
     this.GetSystemInfo();
   },
@@ -212,28 +217,28 @@ export default {
           }
       })
     },
-      GetSystemInfo()
-        {
-            let _this =this;
-            var root = process.env.API_ROOT;
-            if (root == undefined){
-                root = window.location.protocol + '//' + window.location.host + window.location.pathname;
+    GetSystemInfo()
+    {
+        let _this =this;
+        var root = process.env.API_ROOT;
+        if (root == undefined){
+            root = window.location.protocol + '//' + window.location.host + window.location.pathname;
+        }
+
+        var url = root + "/api/v1/GetSystemInfo?session="+ this.$store.state.token;
+
+        this.$http.get(url).then(result => {
+            //console.log(result);
+            if (result.status == 200) 
+            {
+                _this.information = result.data;
+                // console.log(_this.information);
             }
+        }).catch(error => {
+            console.log('GetSystemInfo', error);
+        });
 
-            var url = root + "/api/v1/GetSystemInfo?session="+ this.$store.state.token;
-
-            this.$http.get(url).then(result => {
-                //console.log(result);
-                if (result.status == 200) 
-                {
-                    _this.information = result.data;
-                    // console.log(_this.information);
-                }
-            }).catch(error => {
-                console.log('GetSystemInfo', error);
-            });
-
-        },
+    },
     gEventval() {
       setInterval(
         function() {
@@ -263,7 +268,10 @@ export default {
     padding: 0 15px;
     -webkit-transition: border-color .2s cubic-bezier(.645,.045,.355,1);
     transition: border-color .2s cubic-bezier(.645,.045,.355,1);
-    width: 100%;
+    width: 80%;
+  }
+  .el-dialog__wrapper >>>.el-form-item__content{
+        margin-left: 160px !important;
   }
 /* 控制中心 */
 .control_center{

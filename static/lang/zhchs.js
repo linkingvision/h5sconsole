@@ -13,6 +13,7 @@ module.exports={
 		user_name: '用户名',
 		setting: '帐号设置',
 		logout: '退出',
+		login: '登录',
 		API:"API",
     },
     left:
@@ -47,6 +48,8 @@ module.exports={
     },
 	dashboard:
     {
+		Storage:"存储",
+		Copysuccessful:"复制成功",
 		about:"关于",
 		dashboard: '仪表盘',
 		system_info: '系统',
@@ -120,6 +123,7 @@ module.exports={
     },
     setting:
     {
+
 		Default:"默认",
 		Transcoding:"转码管理",
 		Profile:"自定义",
@@ -151,7 +155,8 @@ module.exports={
 
 		currentpass: '当前密码',
 		newpass: '新密码',
-		confirmpass: '新密码确认',
+		confirmpass: '重复新密码',
+		confirmpassword: '重复密码',
 		manualstart:"开启所有通道录像",
 		manualstop:"关闭所有通道录像",
 		DeleteAll:"删除",
@@ -166,6 +171,7 @@ module.exports={
 		Twopassword:"两次密码不一致，请重新输入!",
 		all:"全部",
 		Editorfailure:"编辑失败",
+		Creationfailed:"创建失败",
 	},
 	table:{
 		Token:"编号",

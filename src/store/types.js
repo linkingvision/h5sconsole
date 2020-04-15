@@ -11,3 +11,5 @@ export const CONFERENCE="conference"
 
 export const USER="users"
 export const ROOT="root"
+
+export const ADSWITCH="adswitch"

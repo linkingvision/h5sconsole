@@ -12,6 +12,7 @@ module.exports={
 		user_name: 'User name',
 		setting: 'Account setting',
 		logout: 'Logout',
+		login: 'Login',
 		API:"API",
     },
     left:
@@ -47,6 +48,8 @@ module.exports={
     },
 	dashboard:
     {
+		Storage:"Storage",
+		Copysuccessful:"Copy successful",
 		about:"	About",
 		dashboard: 'Dashboard',
 		system_info: 'System Info',
@@ -138,19 +141,20 @@ module.exports={
 		name: 'Name',
 
 		Authority:"Authority",
-		username:"user name",
+		username:"User Name",
 		Rolemanagement:"Role",
 		SystemManagement:"System",
-		password:"password",
-		RoleName:"Role Name",
-		Configure:"Configure permissions",
-		Operation:"Operation authority",
-		Camera:"Camera permissions",
-		Watchvideo:"Watch video anonymously",
+		password:"Password",
+		RoleName:"Name",
+		Configure:"Configure",
+		Operation:" Operate ",
+		Camera:"Camera Permissions",
+		Watchvideo:"View Anonymously",
 
 		currentpass: 'Current Password',
 		newpass: 'New Password',
-		confirmpass: 'Confirm Password',
+		confirmpass: 'Repeat New Password',
+		confirmpassword: 'Repeat The Password',
 		manualstart:"Manual Start Record All Channel ",
 		manualstop:"Manual Stop Record All Channel",
 		DeleteAll:"Delete",
@@ -164,6 +168,7 @@ module.exports={
 		Changesb:"Change failed",
 		Twopassword:"Two password are not same, please check!",
 		all:"All",
+		Creationfailed:"Creation failed",
 	},
 	table:{
 		Token:"Token",

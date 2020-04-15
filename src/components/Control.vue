@@ -1,6 +1,10 @@
 <template>
     <div id="wrapper" class="login_con">
+        <div class="play_live_back">
+            <img src="./control-img/control_background.png" alt="">
+        </div>
         <div class="control_header">
+            <img style="width:100%; height: 34px;" src="./control-img/top@2x.png" alt="">
             <div class="control_header1">
                 <div class="control_size">
                     {{$t("message.left.VIDEO")}}
@@ -81,7 +85,7 @@
                         <div class="play_live_play">
                             <div name='flex' class="videoColor" v-for="r in rows" :key="r">
                                 <div class="palace" name="flex" v-for="c in cols" :key="c">
-                                    <v-Controlplay v-bind:id="'h'+r+c" :h5id="'tour'+r+c" :rows="rows" :cols="cols" :h5videoid="'hvideo'+r+c">
+                                    <v-Controlplay v-bind:id="'h'+r+c" :h5id="'tour'+r+c" :h5videoid="'hvideo'+r+c">
                                     </v-Controlplay>
                                 </div>
                             </div>
@@ -165,7 +169,7 @@
                             v-if="strRunTime"
                             color="#0571DC"
                             :percentage="Number(Math.round((strRunTime.nRecordTotalSpaceByte-strRunTime.nRecordFreeSpaceByte)/strRunTime.nRecordTotalSpaceByte*100))"></el-progress>
-                        <div>{{this.$t("message.dashboard.free_space")}}</div>
+                        <div>{{this.$t("message.dashboard.Storage")}}</div>
                     </div>
                     <div class="sdk_Memory1">
                         <div class="play_live_back">
@@ -321,12 +325,17 @@ export default {
         }
     },
     mounted(){
+        if(this.$store.state.lang=="zhchs"){
+            $(".control_size").css("letter-spacing","10px"); 
+        }else if(this.$store.state.lang=="en"){
+            $(".control_size").css({"letter-spacing":"0px","font-size":"25px"});
+        }
         this.GetSystemInfo();
         this.GetRunInfo();
         this.GetDeviceSummary();
         this.timedate();
         this.GetCodecInfo();
-        this.Playall();
+        // this.Playall();
         this.timerRunInfo1 = setInterval(() => {
             this.timedate();
         },1000)
@@ -514,10 +523,33 @@ export default {
                         var ONVIF="";
                         var RTMP="";
 
-                        var Hik=result.data.nHikDevTotal-result.data.nHikDevOnline;
-                        var dh=result.data.nDhDevTotal-result.data.nDhDevOnline;
-                        var td=result.data.nTdDevTotal-result.data.nTdDevOnline;
-                        var gb=result.data.nGbDevTotal-result.data.nGbDevOnline;
+                        var Hik="";
+                        var dh="";
+                        var td="";
+                        var gb="";
+                        if(this.dev.nHikDevTotal==0){
+                            Hik=0;
+                        }else{
+                            Hik=Math.round(this.dev.nHikDevOnline/this.dev.nHikDevTotal*100);
+                        }
+
+                        if(this.dev.nDhDevTotal==0){
+                            dh=0;
+                        }else{
+                            dh=Math.round(this.dev.nDhDevOnline/this.dev.nDhDevTotal*100);
+                        }
+
+                        if(this.dev.nTdDevTotal==0){
+                            td=0;
+                        }else{
+                            td=Math.round(this.dev.nTdDevOnline/this.dev.nTdDevTotal*100)
+                        }
+
+                        if(this.dev.nGbDevTotal==0){
+                            gb=0;
+                        }else{
+                            gb=Math.round(this.dev.nGbDevOnline/this.dev.nGbDevTotal*100)
+                        }
                         if(this.dev.nCloudTotal==0){
                             Cloud=0;
                         }else{
@@ -907,6 +939,9 @@ export default {
 
 
 <style scoped>
+.dv-water-pond-level>>> canvas{
+    margin-left: 0;
+}
 /* 返回 */
 .control_fanhui{
     width: 5%;
@@ -1028,15 +1063,18 @@ export default {
     width: 100%;
     height: 100%;
     position: fixed;
-    background: url("./control-img/control_background.png") no-repeat center;
+    background: url("./control-img/control_background.png") no-repeat center 100%;
 }
 /* 顶部 */
 .control_header{
     width: 100%;
     height: 60px;
+    position: fixed;
     background: url("./control-img/top@2x.png") no-repeat;
 }
 .control_header1{
+    top: 0;
+    position: absolute;
     width: 100%;
     height: 90px;
     background: url("./control-img/topcen@2x.png") no-repeat center;
@@ -1053,6 +1091,7 @@ export default {
     -webkit-text-fill-color: transparent;
     font-size: 30px;
     font-weight: 900;
+    letter-spacing: -2px;
 }
 /* 内容 */
 .control_content{
@@ -1061,7 +1100,7 @@ export default {
     display: flex;
     justify-content: space-between;
     padding: 0 15px;
-    margin-top: -10px;
+    margin-top: 50px;
 }
 /* 1 */
 .control_cpu{
@@ -1118,8 +1157,10 @@ export default {
 .play_info{
     width: 100%;
     height: 100%;
+    position: relative;
 }
 .info_date{
+    position: absolute;
     width: 100%;
     height: 50px;
     text-align: center;
@@ -1133,7 +1174,8 @@ export default {
 .info_info{
     width: 100%;
     height: 21%;
-    position: relative;
+    position: absolute;
+    top: 45px;
     font-size:16px;
     font-family:PingFang SC;
     font-weight:500;

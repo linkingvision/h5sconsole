@@ -18,6 +18,7 @@ export default new Vuex.Store({
     conference:"",
     root:null,
     users:null,
+    Adswitch:"false",
   },
   mutations: {
     [types.WATERMARKTOGGLE]: (state, data) => {
@@ -27,6 +28,11 @@ export default new Vuex.Store({
     [types.WATERMARKSTRING]: (state, data) => {
       localStorage.watermarkstring= data
       state.watermarkstring=data
+    },
+    //回放
+    [types.ADSWITCH]: (state, data) => {
+      localStorage.h5adswitch= data
+      state.Adswitch=data
     },
     // 视频会议
     [types.CONFERENCE]: (state, data) => {

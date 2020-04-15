@@ -136,13 +136,15 @@
 
             <!-- Video 1 4 9 16 -->
             <div class="flexvideo" id="videoPanel">
-                <div name='flex' style="position: relative;" class="videoColor" v-for="r in rows" :key="r">
-                    <div class="palace" name="flex" v-for="c in cols" @contextmenu.prevent="stopVideo($event)" @click="videoClick(r,c,$event)" :key="c">
-                      <v-liveplayer v-bind:id="'h'+r+c" :h5id="'h'+r+c" :rows="rows" :cols="cols" :h5videoid="'hvideo'+r+c">
-                      </v-liveplayer>
-                     </div>
+                <div class="video_hed" id="video_hed">
+                    <div name='flex' style="position: relative;" class="videoColor" v-for="r in rows" :key="r">
+                        <div class="palace" name="flex" v-for="c in cols" @contextmenu.prevent="stopVideo($event)" @click="videoClick(r,c,$event)" :key="c">
+                        <v-liveplayer v-bind:id="'h'+r+c" :h5id="'h'+r+c" :rows="rows" :cols="cols" :h5videoid="'hvideo'+r+c">
+                        </v-liveplayer>
+                        </div>
+                    </div>
                 </div>
-                <div class="btn-group blocks">
+                <div class="group_btn blocks">
                     <el-button type="button" class="layout1x1" data-row="1|1" @click="changePanel($event)"></el-button>
                     <el-button type="button" class="layout1x3" data-row="1|3" @click="changePanel($event)"></el-button>
                     <el-button type="button" class="layout2x2" data-row="2|2" @click="changePanel($event)"></el-button>
@@ -298,7 +300,7 @@ export default {
         handleNodeClick1(data, checked, indeterminate){
             let _this =this;
             console.log(data)
-            return false;
+            // return false;
             var main="main"
             if (data.strToken) {
                 let vid = 'h' + _this.$data.selectRow + _this.$data.selectCol;
@@ -420,7 +422,7 @@ export default {
         },
 
         panelFullScreen(event) {
-            var elem = document.getElementById('videoPanel');
+            var elem = document.getElementById('video_hed');
             //var elem = $("#videoPanel");
             console.log('panelFullScreen', event);
             if (
@@ -611,7 +613,7 @@ export default {
 }
 
 .palace{
-    flex: 1 1 25%;
+    flex: 1 1 20%;
     border:1px solid black;
 }
 .Seven_Palace{
@@ -664,6 +666,7 @@ export default {
 
 /* 十三宫格 */
 .videoflexitem{
+    flex: 1 1 25%;
     width: 25% !important;
     height: 25% !important;
 }
@@ -731,16 +734,20 @@ export default {
     width: 81.5%;
     height: 100%;
 }
+/* .video_hed{
+    height: 100%;
+} */
 
-.btn-group{
+.group_btn{
     width: 100%;
     text-align: center;
     padding: 20px;
+    height: 80px;
 }
-.btn-group .el-button{
+.group_btn .el-button{
     margin-right: 30px;
 }
-.btn-group .el-button:last-child{
+.group_btn .el-button:last-child{
     margin-right: 0;
 }
 /* 左边数据栏 */

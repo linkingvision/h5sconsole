@@ -386,6 +386,7 @@ function Regional(){
     }
     var url = root + "/api/v1/GetRegion?session="+ store.state.token;
     axios.get(url).then(result=>{
+        // console.log(result);
         var oldarr=result.data.root;
         var oldarr1=result.data.src;
         var dataroot=getchild(oldarr,oldarr1);

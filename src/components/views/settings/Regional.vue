@@ -85,31 +85,25 @@
                     <div class="Root_node">
                         <el-tree :data="data" :props="defaultProps" @node-click="handleNodeClick">
                             <span slot-scope="{ node, data }" style="width:100%;">
-                                <!-- <div style="width:100%;display: flex;justify-content: space-between;"> -->
                                     <span>
                                         <span class="mdi mdi-view-sequential fa-fw" style="color:rgb(142, 132, 132);"></span>
                                         <span :class="data.iconclass1" style="padding-left: 4px;">{{data.strName}}</span>
                                     </span>
                                     <div v-if="data.cam.length!=0">
-                                        <!-- <el-dropdown trigger="click">
-                                            <span class="el-dropdown-link">
-                                               <i class="el-icon-arrow-down el-icon--right"></i><i class="mdi mdi-camcorder fa-fw" style="color:rgb(142, 132, 132);"></i> {{$t("message.live.camera")}}
+                                        <!-- 
+                                            show-checkbox
+                                            :check-strictly="true" -->
+                                        <el-tree class="el_tree1" 
+                                            ref="tree1"
+                                            :data="data.cam"
+                                            :props="defaultProps"
+                                            @node-click="handleNodeClick1" 
+                                            >
+                                            <span slot-scope="{ node, data }" style="width:100%;">
+                                                <span :class="data.iconclass" style="color:rgb(142, 132, 132);"></span>
+                                                <span :class="data.iconclass1" style="padding-left: 4px;">{{data.strName}}</span>
                                             </span>
-                                            <el-dropdown-menu slot="dropdown"> -->
-                                                <el-tree class="el_tree1" 
-                                                    ref="tree1"
-                                                    :data="data.cam"
-                                                    :props="defaultProps"
-                                                    @node-click="handleNodeClick1" 
-                                                    >
-                                                    <span slot-scope="{ node, data }" style="width:100%;">
-                                                        
-                                                                <span :class="data.iconclass" style="color:rgb(142, 132, 132);"></span>
-                                                                <span :class="data.iconclass1" style="padding-left: 4px;">{{data.strName}}</span>
-                                                    </span>
-                                                </el-tree>
-                                            <!-- </el-dropdown-menu>
-                                        </el-dropdown> -->
+                                        </el-tree>
                                     </div>
                             </span>
                         </el-tree>
@@ -149,6 +143,7 @@
         },
         mounted(){
             this.Regional();
+            // this.addcam();
         },
         methods:{
             handleNodeClick1(data){
@@ -173,7 +168,7 @@
                     var oldarr=result.data.root;
                     var oldarr1=result.data.src;
                     var dataroot=this.getchild(oldarr,oldarr1);
-                    // console.log(dataroot)
+                    // console.log(oldarr)
                     this.data.push(dataroot);
                 })
             },
@@ -193,12 +188,6 @@
 						}
 					}
                 }
-                // var nodecam=[{
-                //     strName:"cam",
-                //     node:arr.cam,
-                // },{
-                    
-                // }]
                 if(arr.node && arr.node.length>0){
 					for (var i = 0; i < arr.node.length; i++) {
                         arr.node[i] = this.getchild(arr.node[i],arr1);
@@ -216,17 +205,17 @@
                     });
                     return false;
                 }else{
-                var root = process.env.API_ROOT;
-                if (root == undefined){
-                    root = window.location.protocol + '//' + window.location.host + window.location.pathname;
-                }
-                var url = root + "/api/v1/AddRegion?name="+this.rootvalue+"&session="+ this.$store.state.token;
-                // console.log("////////////",url)
-                this.$http.get(url).then(result=>{
-                    console.log(result);
-                    this.data=[];
-                    this.Regional();
-                })
+                    var root = process.env.API_ROOT;
+                    if (root == undefined){
+                        root = window.location.protocol + '//' + window.location.host + window.location.pathname;
+                    }
+                    var url = root + "/api/v1/AddRegion?name="+this.rootvalue+"&session="+ this.$store.state.token;
+                    // console.log("////////////",url)
+                    this.$http.get(url).then(result=>{
+                        console.log(result);
+                        this.data=[];
+                        this.Regional();
+                    })
                 }
             },
             addtonond(){
@@ -266,31 +255,76 @@
                     root = window.location.protocol + '//' + window.location.host + window.location.pathname;
                 }
                 var url = root + "/api/v1/DelRegion?token="+this.datatoken+"&session="+ this.$store.state.token;
-                console.log("////////////",url)
                 this.$http.get(url).then(result=>{
-                    this.data=[];
-                    this.Regional();
+                    if(result.status==200){
+                        this.data=[];
+                        this.Regional();
+                    }
                 })
+            },
+            delet(arr,arr1){
+                if(arr.node && arr.node.length>0){
+					for (var i = 0; i < arr.node.length; i++) {
+                        arr.node[i] = this.delcamdata(arr.node[i],arr1);
+					}
+				}
+                return arr;
             },
             //添加摄像机
             addcam(){
                 var tokencheked=this.$refs.tree.getCheckedNodes();
-                // tokencheked.splice(0, 1);
+                // console.log(tokencheked[0].token);
                 // return false;
                 var root = process.env.API_ROOT;
                 if (root == undefined){
                     root = window.location.protocol + '//' + window.location.host + window.location.pathname;
                 }
-                var a=0;
+                var oldarr=this.data[0];
                 for(var i=0;i<tokencheked.length;i++){
+                    var oldarr1=tokencheked[i];
+                    // console.log(oldarr1)
+                    if(tokencheked[0].token==undefined){
+                        return false;
+                    }
+                    // return false;
                     var url = root + "/api/v1/AddRegionCam?srctoken="+tokencheked[i].token+"&regiontoken="+this.datatoken+"&session="+ this.$store.state.token;
-                    console.log("////////////",url)
                     this.$http.get(url).then(result=>{
-                        this.data=[];
-                        this.Regional();
-                        // this.reload();
+                        if(result.status==200){
+                            if(result.data.bStatus==true){
+                                var dataroot=this.addcamdata(oldarr,oldarr1);
+                            }else{
+                                this.$message({
+                                    message: "摄像机"+name+"添加失败",
+                                    type: 'warning'
+                                });
+                                // return false;
+                            }
+                        }
                     })
                 }
+            },
+            addcamdata(arr,arr1){
+                if(arr.strToken==this.datatoken){
+                    console.log("******");
+                    var camdata={
+                        strToken: arr1.token,
+                        strName: arr1.label,
+                        iconclass: arr1.iconclass,
+                        iconclass1: "",
+                        name: arr1.name,
+                        disabled_me: false,
+                    }
+                    arr.cam.push(camdata);
+                }
+                // if(arr.strToken==this.datatoken||arr.cam[i].strToken==arr1.token){
+                //     arr.cam.splice(i,1);
+                // }
+                if(arr.node && arr.node.length>0){
+					for (var i = 0; i < arr.node.length; i++) {
+                        arr.node[i] = this.addcamdata(arr.node[i],arr1);
+					}
+				}
+                return arr;
             },
             //删除
             deleteselectcam(){
@@ -302,14 +336,43 @@
                     root = window.location.protocol + '//' + window.location.host + window.location.pathname;
                 }
                 // for(var i=0;i<tokencheked.length;i++){
+                    var oldarr=this.data[0];
+                    var oldarr1=this.delcamtoken;
+                    console.log(this.delcamtoken,this.datatoken);
+                    // return false;
                     var url = root + "/api/v1/DelRegionCam?srctoken="+this.delcamtoken+"&regiontoken="+this.datatoken+"&session="+ this.$store.state.token;
                     console.log("////////////",url)
                     this.$http.get(url).then(result=>{
-                        console.log("111")
-                        this.data=[];
-                        this.Regional();
+                        if(result.status==200){
+                            if(result.data.bStatus==true){
+                                var dataroot=this.delcamdata(oldarr,oldarr1);
+                            }else{
+                                this.$message({
+                                    message: "摄像机"+name+"添加失败",
+                                    type: 'warning'
+                                });
+                                // return false;
+                            }
+                        }
                     })
                 // }
+            },
+            delcamdata(arr,arr1){
+                for(var i in arr.node){
+                    if(arr.strToken==this.datatoken){
+                        console.log("********");
+                        arr.cam.splice(i,1)
+                    }else if(arr.node[i].strToken==this.datatoken){
+                        console.log("----");
+                        arr.node[i].cam.splice(i,1)
+                    }
+                }
+                if(arr.node && arr.node.length>0){
+					for (var i = 0; i < arr.node.length; i++) {
+                        arr.node[i] = this.delcamdata(arr.node[i],arr1);
+					}
+				}
+                return arr;
             }
         },
     }

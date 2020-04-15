@@ -7,7 +7,7 @@
     <section id="wrapper" class="login_con">
         <div class="lg-info-panel">
             <div class="inner-panel">
-                <a href="javascript:void(0)" class="p-20 di"><img src="./gallery/WechatIMG@2x.png"></a>
+                <a href="javascript:void(0)" class="p-20 di"><img src="./gallery/WechatIMG@2x.png"/></a>
                 
             </div>
         </div>
@@ -15,7 +15,6 @@
             <div class="white-box">
                 <h3 class="box-title m-b-0">{{ $t("message.login.signin") }}</h3>
                 <form class="form-horizontal new-lg-form" id="loginform" novalidate @submit.stop.prevent="login">
-                    
                     <div class="form-group  m-t-20">
                         <div class="col-xs-12">
                             <Label >{{ $t("message.login.username") }}</Label>
@@ -164,7 +163,7 @@ export default {
 }
 .lg-info-panel{
     width: 60% !important;
-    background: url(../assets/img/layout/login.png) no-repeat -5px !important;
+    background: url("./gallery/cover.png") no-repeat -5px !important;
     background-size: 100%;
     height: 100%;
     position: fixed;

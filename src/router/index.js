@@ -306,6 +306,10 @@ if (window.localStorage.getItem('h5conference')) {
   store.commit(types.CONFERENCE, window.localStorage.getItem('h5conference'))
 }
 
+if (window.localStorage.getItem('h5adswitch')) {
+  store.commit(types.ADSWITCH, window.localStorage.getItem('h5adswitch'))
+}
+
 //用户名
 if (window.localStorage.getItem('h5suser')) {
   store.commit(types.USER, window.localStorage.getItem('h5suser'))
