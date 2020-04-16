@@ -5,94 +5,121 @@
             <h3><span class="fa-fw open-close"><i class="ti-menu hidden-xs"></i><i class="ti-close visible-xs"></i></span> <span class="hide-menu">{{$t("message.left.navigation")}}</span></h3> 
         </div>
         <ul class="nav" id="side-menu">
-            <router-link tag="li" :to="{name:'dashboardRouter'}">
-            <a href="#" class=""><i class="mdi mdi-view-dashboard fa-fw" data-icon="v"></i> <span class="hide-menu"> {{$t("message.left.dashboard")}}  </span></a>
-            </router-link>
-            <router-link tag="li" :to="{name:'liveviewRouter'}">
-            <a href="#" class=""><i class="mdi mdi-camcorder fa-fw" data-icon="v"></i> <span class="hide-menu"> {{$t("message.left.live")}}  </span></a>
-            </router-link>
-            
-			<router-link tag="li" :to="{name:'playbackRouter'}">
-			<a href="#" class=""><i class="mdi mdi-play-circle fa-fw" data-icon="v"></i> <span class="hide-menu"> {{$t("message.left.playback")}}  </span></a>
-			 </router-link>
+            <li :class="{co_Baise:Adswitch===1}" @click="Adswitch=1">
+                <router-link :to="{name:'dashboardRouter'}" :class="{color_size:Adswitch===1}">
+                    <i class="mdi mdi-view-dashboard fa-fw" data-icon="v"></i> <span class="hide-menu"> {{$t("message.left.dashboard")}}  </span>
+                </router-link>
+            </li>
+            <li :class="{co_Baise:Adswitch===2}" @click="Adswitch=2">
+                <router-link :to="{name:'liveviewRouter'}" :class="{color_size:Adswitch===2}">
+                    <i class="mdi mdi-camcorder fa-fw" data-icon="v"></i> <span class="hide-menu"> {{$t("message.left.live")}}  </span>
+                </router-link>
+            </li>
+            <li  :class="{co_Baise:Adswitch===3}" @click="Adswitch=3">
+                <router-link :to="{name:'playbackRouter'}" :class="{color_size:Adswitch===3}">
+                    <i class="mdi mdi-play-circle fa-fw" data-icon="v"></i> <span class="hide-menu"> {{$t("message.left.playback")}}  </span>
+                </router-link>
+             </li>
             <!-- 抓图 -->
-			<router-link tag="li" :to="{name:'screenshotsRouter'}">
-			<a href="#" class=""><i class="mdi mdi-camera-iris fa-fw" data-icon="v"></i> <span class="hide-menu"> {{$t("message.left.snapshot")}}  </span></a>
-			 </router-link>
+            <li :class="{co_Baise:Adswitch===4}" @click="Adswitch=4">
+                <router-link :to="{name:'screenshotsRouter'}" :class="{color_size:Adswitch===4}">
+                    <i class="mdi mdi-camera-iris fa-fw" data-icon="v"></i> <span class="hide-menu"> {{$t("message.left.snapshot")}}  </span>
+                </router-link>
+             </li>
              <!-- 归档 -->
-			<router-link tag="li" :to="{name:'archiveRouter'}">
-			<a href="#" class=""><i class="mdi mdi-folder-move fa-fw" data-icon="v"></i> <span class="hide-menu"> {{$t("message.left.archive")}}  </span></a>
-			 </router-link>
+             <li :class="{co_Baise:Adswitch===5}" @click="Adswitch=5">
+                <router-link :to="{name:'archiveRouter'}" :class="{color_size:Adswitch===5}">
+                    <i class="mdi mdi-folder-move fa-fw" data-icon="v"></i> <span class="hide-menu"> {{$t("message.left.archive")}}  </span>
+                </router-link>
+            </li>
              
             <!-- 音视频对讲 -->
-            <router-link tag="li" :to="{name:'avintercomRouter'}">
-			<a href="#" class=""><i class="iconfont icon-shipinhuiyi3" style=" margin:0 9px 0 2px;font-size: 17px;" data-icon="v"></i> <span class="hide-menu"> {{$t("message.left.VideoConference")}}  </span></a>
-			 </router-link>
-              <!-- 巡更 apps -->
-			<router-link tag="li" :to="{name:'TourRouter'}">
-			<a href="#" class=""><i class="mdi mdi-view-grid fa-fw" data-icon="v"></i> <span class="hide-menu"> {{$t("message.left.tour")}}</span></a>
-			 </router-link>
-             <!-- 高级回放 -->
-			<router-link tag="li" :to="{name:'AdvancePBRouter'}">
-			<a href="#" class=""><i class="mdi mdi-youtube-play fa-fw" data-icon="v"></i> <span class="hide-menu"> {{$t("message.left.AdvancePB")}}  </span></a>
-			 </router-link>
-             <!-- 高级回放 -->
-             <!-- <li class="devider"></li>
-			<router-link tag="li" :to="{name:'Gaogao1Router'}">
-			<a href="#" class="waves-effect"><i class="mdi mdi-play-circle fa-fw" data-icon="v"></i> <span class="hide-menu"> {{$t("message.left.AdvancePB")}}  </span></a>
-			 </router-link> -->
-             <!-- 国标 -->
-			<router-link class="root" tag="li" :to="{name:'GB28181Router'}">
-			<a href="#" class=""><i class="mdi mdi-equal-box fa-fw" data-icon="v"></i> <span class="hide-menu"> GB</span></a>
-			 </router-link>
-             <!-- 监控点 -->
-             <router-link class="root" tag="li" :to="{name:'cameraRouter'}">
-			<a href="#" class="" style="display: flex"><div class="camera" data-icon="v"></div> <span class="hide-menu"> {{$t("message.left.camera")}}</span></a>
-			 </router-link>
-             <!-- 级联 -->
-            <router-link class="root" tag="li" :to="{name:'cloudsRouter'}">
-            <a href="#" class="waves-effect"><i class="mdi mdi-cloud fa-fw"></i> <span class="hide-menu">{{$t("message.left.cloud")}}</span></a>
-            </router-link>
-            
-             <!-- 本地查看 -->
-            <li class="root" >
-            <a href="/mediastore" class=""><i class="mdi mdi-folder fa-fw"  data-icon="v"></i> <span class="hide-menu"> {{$t("message.left.screenshots")}} </span></a>
+            <li :class="{co_Baise:Adswitch===6}" @click="Adswitch=6">
+                <router-link :to="{name:'avintercomRouter'}" :class="{color_size:Adswitch===6}">
+                    <i class="iconfont icon-shipinhuiyi3" style=" margin:0 24px 0 2px;font-size: 17px;" data-icon="v"></i>
+                    <span class="hide-menu" style="line-height: 25px;"> {{$t("message.left.VideoConference")}}  </span>
+                </router-link>
             </li>
-            
-            <!-- 事件 -->
-			<!-- <router-link tag="li" :to="{name:'eventRouter'}">
-			<a href="#" class=""><i class="mdi mdi-bell fa-fw" data-icon="v"></i> <span class="hide-menu"> {{$t("message.left.event")}}  </span></a>
-			 </router-link> -->
+              <!-- 巡更 apps -->
+            <li :class="{co_Baise:Adswitch===7}" @click="Adswitch=7">
+                <router-link :to="{name:'TourRouter'}" :class="{color_size:Adswitch===7}">
+                    <i class="mdi mdi-view-grid fa-fw" data-icon="v"></i> <span class="hide-menu"> {{$t("message.left.tour")}}</span>
+                </router-link>
+             </li>
+             <!-- 高级回放 -->
+             <li :class="{co_Baise:Adswitch===8}" @click="Adswitch=8">
+                <router-link :to="{name:'AdvancePBRouter'}" :class="{color_size:Adswitch===8}">
+                    <i class="mdi mdi-youtube-play fa-fw" data-icon="v"></i> <span class="hide-menu"> {{$t("message.left.AdvancePB")}}  </span>
+                </router-link>
+             </li>
+             <!-- 国标 -->
+             <li :class="{co_Baise:Adswitch===9}" @click="Adswitch=9">
+                <router-link class="root" :to="{name:'GB28181Router'}" :class="{color_size:Adswitch===9}">
+                    <i class="mdi mdi-equal-box fa-fw" data-icon="v"></i> <span class="hide-menu"> GB</span>
+                </router-link>
+            </li>
+             <!-- 监控点 -->
+             <li :class="{co_Baise:Adswitch===10}" @click="Adswitch=10">
+                <router-link class="root flex_cam" :to="{name:'cameraRouter'}" :class="{color_size:Adswitch===10}">
+                    <i class="iconfont icon-shishishipin-" data-icon="v" style=" margin:0 24px 0 2px;font-size: 17px;"></i>
+                    <span class="hide-menu" style="line-height: 25px;"> {{$t("message.left.camera")}}</span>
+                </router-link>
+            </li>
+             <!-- 级联 -->
+            <li :class="{co_Baise:Adswitch===11}" @click="Adswitch=11">
+                <router-link class="root" :to="{name:'cloudsRouter'}" :class="{color_size:Adswitch===11}">
+                    <i class="mdi mdi-cloud fa-fw"></i> <span class="hide-menu">{{$t("message.left.cloud")}}</span>
+                </router-link>
+            </li>
+             <!-- 本地查看 -->
+            <li class="root"  :class="{co_Baise:Adswitch===12}" @click="Adswitch=12">
+                <a href="/mediastore" class="" :class="{color_size:Adswitch===3}"><i class="mdi mdi-folder fa-fw"  data-icon="v"></i> <span class="hide-menu"> {{$t("message.left.screenshots")}} </span></a>
+            </li>
             <!-- 样式设置 -->
-            <router-link class="root" tag="li" :to="{name:'devicesRouter'}">
-            <a href="#" class=""><i class="mdi mdi-settings fa-fw"  data-icon="v"></i> <span class="hide-menu"> {{$t("message.left.setting")}}  </span></a>
-            </router-link>
-            <!-- 关闭 -->
-            <!-- <router-link tag="li" :to="{name:'logoutRouter'}">
-            <a  class="waves-effect" ><i class="mdi mdi-arrow-right-bold-circle fa-fw" ></i> <span class="hide-menu">{{$t("message.left.logout")}}</span></a>
-            </router-link> -->
-            <!-- <li class="devider"></li> -->
- 
+            <li :class="{co_Baise:Adswitch===13}" @click="Adswitch=13">
+                <router-link class="root" :to="{name:'devicesRouter'}" :class="{color_size:Adswitch===13}">
+                    <i class="mdi mdi-settings fa-fw"  data-icon="v"></i> <span class="hide-menu"> {{$t("message.left.setting")}}  </span>
+                </router-link>
+            </li>
         </ul>
     </div>
 </div>
 </template>
 <style scoped>
+.flex_cam{
+    display: flex !important;
+}
+.sidebar{
+  background: #2d333b;
+  padding-top: 40px;
+}
+.sidebar .sidebar-head{
+  top:50px;
+  background: #2d333b;
+}
+.sidebar .sidebar-head h3{
+  color: #FFFFFF;
+}
+.co_Baise{
+    background: #5fbfa7;
+}
+.color_size{
+    color: #FFFFFF !important;
+}
 .root{
     display: block;
 }
 #side-menu > li > a.active {
-    /* background: #f44336; */
-    color: #ffffff;
+    background: none;
     font-weight: 500;
 }
-.camera{
-    width: 20px;
-    height: 20px;
-    background: url("./gallery/camera.svg") no-repeat;
-    background-size: 100%;
-    margin-right: 9px;
-    
+#side-menu > li > a >i{
+    margin-right: 20px;
+}
+#side-menu > li > a {
+    background: none;
+    color: #c0c2c5;
+    font-weight: 500;
 }
 </style>
 
@@ -102,7 +129,8 @@ export default {
     name: 'vaside',
     data (){
         return {
-            root:this.$store.state.root
+            Adswitch:1,
+            root:this.$store.state.root,
         }
     },
     mounted(){

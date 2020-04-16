@@ -12,6 +12,11 @@
       </ul>
       
       <ul class="nav navbar-top-links navbar-right pull-right" style="line-height: 40px; height: 40px;">
+        <li>
+          <a href="javascript:void(0)" class="open-close waves-effect waves-light visible-xs">
+            <i class="ti-close ti-menu"></i>
+          </a>
+        </li>
         <li class="dropdown control_center">
           <i class="iconfont icon-kongzhizhongxin"></i>
           <!-- <span></span> -->
@@ -406,7 +411,7 @@ a{
 .navbar-header {
   width: 100%;
   height: 70px;
-  background:rgba(41,41,41,1);
+  background:#0b0d10;
   border: 0;
 }
 .about{

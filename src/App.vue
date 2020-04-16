@@ -32,6 +32,7 @@ export default {
 }
 </script>
 <style>
+
 #page-wrapper{
   height: 100%;
   background-color: #f7f7f7!important;
@@ -53,9 +54,18 @@ export default {
 .fix-header #page-wrapper {
     margin-top: 40px;
 }
+
+/* 框架 */
 .navbar {
-    min-height: 40px !important;
+    min-height: 0px !important;
+    z-index: 1004;
 }
+.navbar-static-top{
+  padding: 0;
+}
+/* 左 */
+
+
 .container-fluid{
   padding-bottom: 4px!important;
 }

@@ -6,6 +6,13 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "7415165",
+      "name": "监控点",
+      "font_class": "s_ic_jiankongdian",
+      "unicode": "e85b",
+      "unicode_decimal": 59483
+    },
+    {
       "icon_id": "8940068",
       "name": "定位",
       "font_class": "personLocation",
