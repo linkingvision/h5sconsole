@@ -59,8 +59,8 @@
                 </router-link>
             </li>
              <!-- 监控点 -->
-             <li :class="{co_Baise:Adswitch===10}" @click="Adswitch=10">
-                <router-link class="root flex_cam" :to="{name:'cameraRouter'}" :class="{color_size:Adswitch===10}">
+             <li class="root" :class="{co_Baise:Adswitch===10}" @click="Adswitch=10">
+                <router-link class="flex_cam" :to="{name:'cameraRouter'}" :class="{color_size:Adswitch===10}">
                     <i class="iconfont icon-shishishipin-" data-icon="v" style=" margin:0 24px 0 2px;font-size: 17px;"></i>
                     <span class="hide-menu" style="line-height: 25px;"> {{$t("message.left.camera")}}</span>
                 </router-link>
