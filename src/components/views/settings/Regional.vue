@@ -169,6 +169,7 @@
                     var oldarr1=result.data.src;
                     var dataroot=this.getchild(oldarr,oldarr1);
                     // console.log(oldarr)
+                    this.data=[];
                     this.data.push(dataroot);
                 })
             },
@@ -273,7 +274,7 @@
             //添加摄像机
             addcam(){
                 var tokencheked=this.$refs.tree.getCheckedNodes();
-                // console.log(tokencheked[0].token);
+                console.log(tokencheked);
                 // return false;
                 var root = process.env.API_ROOT;
                 if (root == undefined){
@@ -282,16 +283,18 @@
                 var oldarr=this.data[0];
                 for(var i=0;i<tokencheked.length;i++){
                     var oldarr1=tokencheked[i];
-                    // console.log(oldarr1)
                     if(tokencheked[0].token==undefined){
                         return false;
                     }
-                    // return false;
+                    
                     var url = root + "/api/v1/AddRegionCam?srctoken="+tokencheked[i].token+"&regiontoken="+this.datatoken+"&session="+ this.$store.state.token;
                     this.$http.get(url).then(result=>{
                         if(result.status==200){
                             if(result.data.bStatus==true){
-                                var dataroot=this.addcamdata(oldarr,oldarr1);
+                                this.data=[];
+                                this.Regional();
+                                // console.log(oldarr1.label)
+                                // var dataroot=this.addcamdata(oldarr,oldarr1);
                             }else{
                                 this.$message({
                                     message: "摄像机"+name+"添加失败",
@@ -305,7 +308,7 @@
             },
             addcamdata(arr,arr1){
                 if(arr.strToken==this.datatoken){
-                    console.log("******");
+                    console.log("******",arr1.label);
                     var camdata={
                         strToken: arr1.token,
                         strName: arr1.label,
@@ -345,7 +348,9 @@
                     this.$http.get(url).then(result=>{
                         if(result.status==200){
                             if(result.data.bStatus==true){
-                                var dataroot=this.delcamdata(oldarr,oldarr1);
+                                // var dataroot=this.delcamdata(oldarr,oldarr1);
+                                this.data=[];
+                                this.Regional();
                             }else{
                                 this.$message({
                                     message: "摄像机"+name+"添加失败",

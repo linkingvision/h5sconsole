@@ -1,6 +1,6 @@
 <template>
 <div class="navbar-default sidebar" role="navigation">
-    <div class="sidebar-nav slimscrollsidebar" style="overflow:auto">
+    <div class="sidebar-nav slimscrollsidebar nav_sid">
         <div class="sidebar-head">
             <h3><span class="fa-fw open-close"><i class="ti-menu hidden-xs"></i><i class="ti-close visible-xs"></i></span> <span class="hide-menu">{{$t("message.left.navigation")}}</span></h3> 
         </div>
@@ -86,6 +86,13 @@
 </div>
 </template>
 <style scoped>
+.nav{
+    overflow-y: hidden !important;
+}
+.nav:hover {
+    /*相关样式*/
+    overflow-y: auto !important;
+}
 .flex_cam{
     display: flex !important;
 }
@@ -94,8 +101,11 @@
   padding-top: 40px;
 }
 .sidebar .sidebar-head{
-  top:50px;
-  background: #2d333b;
+    /* margin: 0; */
+    position: none;
+    /* top:50px; */
+    background: #2d333b;
+    padding-top: 50px;
 }
 .sidebar .sidebar-head h3{
   color: #FFFFFF;

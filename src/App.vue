@@ -58,11 +58,11 @@ export default {
 /* 框架 */
 .navbar {
     min-height: 0px !important;
-    z-index: 10000 !important;
+    z-index: 1003 !important;
 }
 .navbar-static-top{
   padding: 0 !important;
-  z-index: 10000 !important;
+  z-index: 1003 !important;
 }
 /* 左 */
 
