@@ -198,6 +198,8 @@
 			},
             //添加
             addto(){
+                console.log(this.rootvalue)
+                // return false
                 if(this.rootvalue==""){
                     // console.log("1111",this.rootvalue);
                     this.$message({
@@ -210,7 +212,7 @@
                     if (root == undefined){
                         root = window.location.protocol + '//' + window.location.host + window.location.pathname;
                     }
-                    var url = root + "/api/v1/AddRegion?name="+this.rootvalue+"&session="+ this.$store.state.token;
+                    var url = root + "/api/v1/AddRegion?name="+encodeURIComponent(this.rootvalue)+"&session="+ this.$store.state.token;
                     // console.log("////////////",url)
                     this.$http.get(url).then(result=>{
                         console.log(result);
@@ -233,7 +235,7 @@
                     if (root == undefined){
                         root = window.location.protocol + '//' + window.location.host + window.location.pathname;
                     }
-                    var url = root + "/api/v1/AddRegion?name="+this.rootvalue+"&parent="+this.datatoken+"&session="+ this.$store.state.token;
+                    var url = root + "/api/v1/AddRegion?name="+encodeURIComponent(this.rootvalue)+"&parent="+this.datatoken+"&session="+ this.$store.state.token;
                     // console.log("////////////",url)
                     this.$http.get(url).then(result=>{
                         // console.log("////////////",result)

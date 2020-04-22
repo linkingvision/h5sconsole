@@ -32,16 +32,31 @@
                         </div>
                     </div>
                     <div class="flex_bei">
-                        <div class="flex_beibiao">
-                            <div class="beibiao_zi">
-                                <img src="./gallery/daId@2x.png"/>
-                                <span>{{this.$t("message.dashboard.device")}}</span>
+                        
+                        <div style="display: flex; justify-content: space-between;">
+                            <div class="flex_beibiao" style="width:90%">
+                                <div class="beibiao_zi">
+                                    <img src="./gallery/daId@2x.png"/>
+                                    <span>{{this.$t("message.dashboard.device")}}</span>
+                                </div>
+                                <div style="display: flex;">
+                                    <div class="beibiao_zi1">{{this.$t("message.dashboard.Online")}}</div>
+                                    <div class="beibiao_bg"></div>
+                                    <div class="beibiao_zi1">{{this.$t("message.dashboard.Offline")}}</div>
+                                    <div class="beibiao_bg1"></div>
+                                </div>
                             </div>
-                            <div style="display: flex;">
-                                <div class="beibiao_zi1">{{this.$t("message.dashboard.Online")}}</div>
-                                <div class="beibiao_bg"></div>
-                                <div class="beibiao_zi1">{{this.$t("message.dashboard.Offline")}}</div>
-                                <div class="beibiao_bg1"></div>
+                            <div class="more" style="padding: 6px 20px 0 0;">
+                                <router-link  :to="{name:'DeviceRouter'}">
+                                    <a class="A_More" href="javascript:void(0)">
+                                        <div>
+                                            更多<i class="el-icon-d-arrow-right"></i>
+                                        </div>
+                                    </a> 
+                                </router-link>
+                                <!-- <div class="A_More">
+                                    更多<i class="el-icon-d-arrow-right"></i>
+                                </div> -->
                             </div>
                         </div>
                         <div class="flex_beisdk">

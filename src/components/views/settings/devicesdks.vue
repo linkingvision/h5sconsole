@@ -330,12 +330,12 @@ import uuid from '@/store/uuid'
             //url
             var form=this.editform;
             if(form.Type=="H5_DEV_HIK"){
-                var url = root + "/api/v1/AddDeviceHik?&name="+form.Name+
-                "&token="+form.Token+
-                "&user="+form.User+
-                "&password="+form.Password+
-                "&ip="+form.IP+
-                "&port="+form.Port+
+                var url = root + "/api/v1/AddDeviceHik?&name="+encodeURIComponent(form.Name)+
+                "&token="+encodeURIComponent(form.Token)+
+                "&user="+encodeURIComponent(form.User)+
+                "&password="+encodeURIComponent(form.Password)+
+                "&ip="+encodeURIComponent(form.IP)+
+                "&port="+encodeURIComponent(form.Port)+
                 "&audio="+form.Audio+
                 "&session="+ this.$store.state.token;
                 console.log(url);
@@ -346,12 +346,12 @@ import uuid from '@/store/uuid'
                 })
             }else if(form.Type=="H5_DEV_DH"){
                 console.log(form.Type)
-                var url = root + "/api/v1/AddDeviceDh?&name="+form.Name+
-                "&token="+form.Token+
-                "&user="+form.User+
-                "&password="+form.Password+
-                "&ip="+form.IP+
-                "&port="+form.Port+
+                var url = root + "/api/v1/AddDeviceDh?&name="+encodeURIComponent(form.Name)+
+                "&token="+encodeURIComponent(form.Token)+
+                "&user="+encodeURIComponent(form.User)+
+                "&password="+encodeURIComponent(form.Password)+
+                "&ip="+encodeURIComponent(form.IP)+
+                "&port="+encodeURIComponent(form.Port)+
                 "&audio="+form.Audio+
                 "&session="+ this.$store.state.token;
                 console.log(url);
@@ -362,12 +362,12 @@ import uuid from '@/store/uuid'
                 })
             }else if(form.Type=="H5_DEV_HIKISC"){
                 console.log(form.Type)
-                var url = root + "/api/v1/AddDeviceHikISC?&name="+form.Name+
-                "&token="+form.Token+
-                "&user="+form.User+
-                "&password="+form.Password+
-                "&ip="+form.IP+
-                "&port="+form.Port+
+                var url = root + "/api/v1/AddDeviceHikISC?&name="+encodeURIComponent(form.Name)+
+                "&token="+encodeURIComponent(form.Token)+
+                "&user="+encodeURIComponent(form.User)+
+                "&password="+encodeURIComponent(form.Password)+
+                "&ip="+encodeURIComponent(form.IP)+
+                "&port="+encodeURIComponent(form.Port)+
                 "&audio="+form.Audio+
                 "&session="+ this.$store.state.token;
                 console.log("isc****************************",url);
@@ -378,12 +378,12 @@ import uuid from '@/store/uuid'
                 })
             }else if(form.Type=="H5_DEV_TD"){
                 console.log(form.Type)
-                var url = root + "/api/v1/AddDeviceTd?&name="+form.Name+
-                "&token="+form.Token+
-                "&user="+form.User+
-                "&password="+form.Password+
-                "&ip="+form.IP+
-                "&port="+form.Port+
+                var url = root + "/api/v1/AddDeviceTd?&name="+encodeURIComponent(form.Name)+
+                "&token="+encodeURIComponent(form.Token)+
+                "&user="+encodeURIComponent(form.User)+
+                "&password="+encodeURIComponent(form.Password)+
+                "&ip="+encodeURIComponent(form.IP)+
+                "&port="+encodeURIComponent(form.Port)+
                 "&audio="+form.Audio+
                 "&session="+ this.$store.state.token;
                 console.log("td****************************",url);
@@ -466,12 +466,12 @@ import uuid from '@/store/uuid'
             }
             console.log(form.Type)
             if(form.Type=="H5_DEV_HIK"){
-              var url = root + "/api/v1/AddDeviceHik?&name="+form.Name+
-              "&token="+form.Token+
-              "&user="+form.Username+
+              var url = root + "/api/v1/AddDeviceHik?&name="+encodeURIComponent(form.Name)+
+              "&token="+encodeURIComponent(form.Token)+
+              "&user="+encodeURIComponent(form.Username)+
               "&password="+encodeURIComponent(form.Password)+
-              "&ip="+form.IP+
-              "&port="+form.Port+
+              "&ip="+encodeURIComponent(form.IP)+
+              "&port="+encodeURIComponent(form.Port)+
               "&audio="+form.Audio+
               "&session="+ this.$store.state.token;
               console.log(url);
@@ -493,12 +493,12 @@ import uuid from '@/store/uuid'
               })
             }else if(form.Type=="H5_DEV_DH"){
                 console.log(form.Type)
-                var url = root + "/api/v1/AddDeviceDh?&name="+form.Name+
-                "&token="+form.Token+
-                "&user="+form.Username+
+                var url = root + "/api/v1/AddDeviceDh?&name="+encodeURIComponent(form.Name)+
+                "&token="+encodeURIComponent(form.Token)+
+                "&user="+encodeURIComponent(form.Username)+
                 "&password="+encodeURIComponent(form.Password)+
-                "&ip="+form.IP+
-                "&port="+form.Port_dh+
+                "&ip="+encodeURIComponent(form.IP)+
+                "&port="+encodeURIComponent(form.Port_dh)+
                 "&audio="+form.Audio+
                 "&session="+ this.$store.state.token;
                 console.log(url);
@@ -519,12 +519,12 @@ import uuid from '@/store/uuid'
                 })
             }else if(form.Type=="H5_DEV_HIKISC"){
                 console.log(form.Type)
-                var url = root + "/api/v1/AddDeviceHikISC?&name="+form.Name+
-                "&token="+form.Token+
-                "&user="+form.Username_isc+
-                "&password="+form.Password_isc+
-                "&ip="+form.IP+
-                "&port="+form.Port_isc+
+                var url = root + "/api/v1/AddDeviceHikISC?&name="+encodeURIComponent(form.Name)+
+                "&token="+encodeURIComponent(form.Token)+
+                "&user="+encodeURIComponent(form.Username_isc)+
+                "&password="+encodeURIComponent(form.Password_isc)+
+                "&ip="+encodeURIComponent(form.IP)+
+                "&port="+encodeURIComponent(form.Port_isc)+
                 "&audio="+form.Audio+
                 "&session="+ this.$store.state.token;
                 console.log(url);
@@ -545,12 +545,12 @@ import uuid from '@/store/uuid'
                 })
             }else if(form.Type=="H5_DEV_TD"){
                 console.log(form.Type)
-                var url = root + "/api/v1/AddDeviceTd?&name="+form.Name+
-                "&token="+form.Token+
-                "&user="+form.Username+
-                "&password="+form.Password+
-                "&ip="+form.IP+
-                "&port="+form.Port_td+
+                var url = root + "/api/v1/AddDeviceTd?&name="+encodeURIComponent(form.Name)+
+                "&token="+encodeURIComponent(form.Token)+
+                "&user="+encodeURIComponent(form.Username)+
+                "&password="+encodeURIComponent(form.Password)+
+                "&ip="+encodeURIComponent(form.IP)+
+                "&port="+encodeURIComponent(form.Port_td)+
                 "&audio="+form.Audio+
                 "&session="+ this.$store.state.token;
                 console.log(url);

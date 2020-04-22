@@ -2,6 +2,8 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Dashboard from '@/components/views/dashboard'
 import GPU from '@/components/views/dashboard/GPU'
+import Device from '@/components/views/dashboard/device'
+
 import Liveview from '@/components/views/liveview'
 import Archive from '@/components/views/archive'
 import AdvancePB from '@/components/views/Advancepbss'
@@ -59,6 +61,11 @@ const routes = [
         path: '/app/GPU',
         name: 'GPURouter',
         component: GPU
+      },
+      {
+        path: '/app/Device',
+        name: 'DeviceRouter',
+        component: Device
       },
       {
         path: '/app/playback',

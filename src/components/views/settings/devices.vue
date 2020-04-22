@@ -668,9 +668,9 @@ import uuid from '@/store/uuid'
             var form=this.editform;
             if(form.Type=="H5_STREAM"){
                             
-                var url = root + "/api/v1/AddSrcRTSP?&name="+form.Name+
-                "&token="+form.Token+
-                "&user="+form.Username+
+                var url = root + "/api/v1/AddSrcRTSP?&name="+encodeURIComponent(form.Name)+
+                "&token="+encodeURIComponent(form.Token)+
+                "&user="+encodeURIComponent(form.Username)+
                 "&password="+encodeURIComponent(form.Password)+
                 "&audio="+form.Audio+
                 "&url="+encodeURIComponent(form.URL)+
@@ -696,13 +696,13 @@ import uuid from '@/store/uuid'
             }else if(form.Type=="H5_ONVIF"){
                 
                 var url = root + "/api/v1/AddSrcONVIF?&name="
-                +form.Name+
-                "&token="+form.Token+
-                "&user="+form.Username+
+                +encodeURIComponent(form.Name)+
+                "&token="+encodeURIComponent(form.Token)+
+                "&user="+encodeURIComponent(form.Username)+
                 "&password="+encodeURIComponent(form.Password)+
                 "&audio="+form.Audio+
-                "&ip="+form.IP+
-                "&port="+form.Port+
+                "&ip="+encodeURIComponent(form.IP)+
+                "&port="+encodeURIComponent(form.Port)+
                 "&session="+ this.$store.state.token;
                 console.log("onvif++++++++++++1",url);
                 this.$http.get(url).then(result=>{
@@ -727,8 +727,8 @@ import uuid from '@/store/uuid'
                 
                 console.log("H5_FILE",form.Audio);
                 var url = root + "/api/v1/AddSrcFile?&name="
-                +form.Name+
-                "&token="+form.Token+
+                +encodeURIComponent(form.Name)+
+                "&token="+encodeURIComponent(form.Token)+
                 "&url="+encodeURIComponent(form.URL)+
                 "&session="+ this.$store.state.token;
                 //console.log(url);
@@ -784,16 +784,16 @@ import uuid from '@/store/uuid'
             //return false;
             var url1 = root + "/api/v1/DelSrc?token="+this.edittoken+"&session="+ this.$store.state.token;
             this.$http.get(url1).then(result=>{
-                //console.log("1",result);
+                console.log("1",result,url1);
                 if(result.status==200){
                     if(result.data.bStatus==true){
-                        console.log("*************************",result.data.bStatus)
+                        // console.log("*************************",result.data.bStatus)
                         this.tableData.splice(this.editindex, 1,list)
                         this.Success();
                         
                     }else{
                         this.$message({
-                            message: this.$t("message.setting.Editorfailure"),
+                            message: "编辑失败",
                             type: 'warning'
                         });
                         return false;
@@ -821,9 +821,9 @@ import uuid from '@/store/uuid'
             //console.log(form.Type)
             if(form.Type=="H5_STREAM"){
               console.log("stream",form.Audio);
-              var url = root + "/api/v1/AddSrcRTSP?&name="+form.Name+
-              "&token="+form.Token+
-              "&user="+form.Username+
+              var url = root + "/api/v1/AddSrcRTSP?&name="+encodeURIComponent(form.Name)+
+              "&token="+encodeURIComponent(form.Token)+
+              "&user="+encodeURIComponent(form.Username)+
               "&password="+encodeURIComponent(form.Password)+
               "&audio="+form.Audio+
               "&url="+encodeURIComponent(form.URL)+
@@ -849,13 +849,13 @@ import uuid from '@/store/uuid'
             }else if(form.Type=="H5_ONVIF"){
                 console.log("H5_ONVIF",form.Audio);
                 var url = root + "/api/v1/AddSrcONVIF?&name="
-                +form.Name+
-                "&token="+form.Token+
-                "&user="+form.Username+
+                +encodeURIComponent(form.Name)+
+                "&token="+encodeURIComponent(form.Token)+
+                "&user="+encodeURIComponent(form.Username)+
                 "&password="+encodeURIComponent(form.Password)+
                 "&audio="+form.Audio+
-                "&ip="+form.IP+
-                "&port="+form.Port+
+                "&ip="+encodeURIComponent(form.IP)+
+                "&port="+encodeURIComponent(form.Port)+
                 "&session="+ this.$store.state.token;
                 //console.log(url);
                 this.$http.get(url).then(result=>{
@@ -878,8 +878,8 @@ import uuid from '@/store/uuid'
             }else if(form.Type=="H5_FILE"){
                 console.log("H5_FILE",form.Audio);
                 var url = root + "/api/v1/AddSrcFile?&name="
-                +form.Name+
-                "&token="+form.Token+
+                +encodeURIComponent(form.Name)+
+                "&token="+encodeURIComponent(form.Token)+
                 "&url="+encodeURIComponent(form.URL)+
                 "&session="+ this.$store.state.token;
                 //console.log(url);
@@ -993,7 +993,7 @@ import uuid from '@/store/uuid'
                 wsroot = window.location.host;
             }
             //url
-            var url = root + "/api/v1/DelSrc?token="+row.Token+"&session="+ this.$store.state.token;
+            var url = root + "/api/v1/DelSrc?token="+encodeURIComponent(row.Token)+"&session="+ this.$store.state.token;
             this.$http.get(url).then(result=>{
                 console.log(result);
                 console.log(this.tableData);
@@ -1039,7 +1039,7 @@ import uuid from '@/store/uuid'
                 console.log(selectop[i].index,row);
                 var index=selectop[i].index;
                 //return false;
-                var url = root + "/api/v1/DelSrc?token="+selectop[i].token+"&session="+ this.$store.state.token;
+                var url = root + "/api/v1/DelSrc?token="+encodeURIComponent(selectop[i].token)+"&session="+ this.$store.state.token;
                 this.$http.get(url).then(result=>{
                     console.log(result);
                     console.log(this.tableData);

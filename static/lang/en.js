@@ -89,6 +89,7 @@ module.exports={
 		Platform:"Platform",
 		Hikvision:"Hikvision",
 		Dahua:"Dahua",
+		Uniview:"Uniview",
 		Tiandy:"Tiandy",
 		DiskMemory:"Disk/Memory",
 		TotalMemory:"Total Memory",

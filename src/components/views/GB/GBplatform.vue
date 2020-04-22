@@ -335,19 +335,19 @@ import uuid from '@/store/uuid'
                         }
                         this.tableData.splice(this.editindex, 1,list)
                         var url = root + "/api/v1/AddGbPlatform?name="
-                        +editform.name+
-                        "&token="+editform.Token+
-                        "&localport="+editform.nGbLocalPort+
-                        "&gbid="+editform.strGbID+
-                        "&gbserverid="+editform.strGbServerID+
-                        "&gbdomain="+editform.strGbDomain+
-                        "&gbserverpw="+editform.strGbServerPassword+
-                        "&gbproto="+editform.strGbProto+
-                        "&gbserverip="+editform.strGbServerIpAddr+
-                        "&gbserverport="+editform.nGbServerPort+
-                        "&gbidchbase="+editform.strGbIDChBase+
-                        "&registerperiod="+editform.nGbRegisterPeriod+
-                        "&keepalivetime="+editform.nGbKeepaliveTime+
+                        +encodeURIComponent(editform.name)+
+                        "&token="+encodeURIComponent(editform.Token)+
+                        "&localport="+encodeURIComponent(editform.nGbLocalPort)+
+                        "&gbid="+encodeURIComponent(editform.strGbID)+
+                        "&gbserverid="+encodeURIComponent(editform.strGbServerID)+
+                        "&gbdomain="+encodeURIComponent(editform.strGbDomain)+
+                        "&gbserverpw="+encodeURIComponent(editform.strGbServerPassword)+
+                        "&gbproto="+encodeURIComponent(editform.strGbProto)+
+                        "&gbserverip="+encodeURIComponent(editform.strGbServerIpAddr)+
+                        "&gbserverport="+encodeURIComponent(editform.nGbServerPort)+
+                        "&gbidchbase="+encodeURIComponent(editform.strGbIDChBase)+
+                        "&registerperiod="+encodeURIComponent(editform.nGbRegisterPeriod)+
+                        "&keepalivetime="+encodeURIComponent(editform.nGbKeepaliveTime)+
                         "&session="+ this.$store.state.token;
                         //console.log(url);
                         this.$http.get(url).then(result=>{
@@ -387,19 +387,19 @@ import uuid from '@/store/uuid'
             }
             console.log(form);
             var url = root + "/api/v1/AddGbPlatform?name="
-            +form.name+
-            "&token="+form.Token+
-            "&localport="+form.nGbLocalPort+
-            "&gbid="+form.strGbID+
-            "&gbserverid="+form.strGbServerID+
-            "&gbdomain="+form.strGbDomain+
-            "&gbserverpw="+form.strGbServerPassword+
-            "&gbproto="+form.strGbProto+
-            "&gbserverip="+form.strGbServerIpAddr+
-            "&gbserverport="+form.nGbServerPort+
-            "&gbidchbase="+form.strGbIDChBase+
-            "&registerperiod="+form.nGbRegisterPeriod+
-            "&keepalivetime="+form.nGbKeepaliveTime+
+            +encodeURIComponent(form.name)+
+            "&token="+encodeURIComponent(form.Token)+
+            "&localport="+encodeURIComponent(form.nGbLocalPort)+
+            "&gbid="+encodeURIComponent(form.strGbID)+
+            "&gbserverid="+encodeURIComponent(form.strGbServerID)+
+            "&gbdomain="+encodeURIComponent(form.strGbDomain)+
+            "&gbserverpw="+encodeURIComponent(form.strGbServerPassword)+
+            "&gbproto="+encodeURIComponent(form.strGbProto)+
+            "&gbserverip="+encodeURIComponent(form.strGbServerIpAddr)+
+            "&gbserverport="+encodeURIComponent(form.nGbServerPort)+
+            "&gbidchbase="+encodeURIComponent(form.strGbIDChBase)+
+            "&registerperiod="+encodeURIComponent(form.nGbRegisterPeriod)+
+            "&keepalivetime="+encodeURIComponent(form.nGbKeepaliveTime)+
             "&session="+ this.$store.state.token;
             console.log(url);
             this.$http.get(url).then(result=>{
@@ -487,7 +487,7 @@ import uuid from '@/store/uuid'
                 wsroot = window.location.host;
             }
             //url
-            var url = root + "/api/v1/DelGbPlatform?token="+row.Token+"&session="+ this.$store.state.token;
+            var url = root + "/api/v1/DelGbPlatform?token="+encodeURIComponent(row.Token)+"&session="+ this.$store.state.token;
             this.$http.get(url).then(result=>{
                 console.log(result);
                 console.log(this.tableData);
@@ -520,7 +520,7 @@ import uuid from '@/store/uuid'
             }
             //url
             for(var i=0;i<token.length;i++){
-                var url = root + "/api/v1/DelGbPlatform?token="+token[i].token+"&session="+ this.$store.state.token;
+                var url = root + "/api/v1/DelGbPlatform?token="+encodeURIComponent(token[i].token)+"&session="+ this.$store.state.token;
                 this.$http.get(url).then(result=>{
                     console.log(result);
                     console.log(this.tableData);

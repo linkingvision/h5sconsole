@@ -435,7 +435,7 @@ import '@/assets/jQuery.md5.js'
             if(this.form.switch=="first"){
                 console.log("1")
                 for(var i=0;i<selectop.length;i++){
-                    var url = root + "/api/v1/DeleteUser?user="+selectop[i].strUser+"&session="+ this.$store.state.token;
+                    var url = root + "/api/v1/DeleteUser?user="+encodeURIComponent(selectop[i].strUser)+"&session="+ this.$store.state.token;
                     this.$http.get(url).then(result=>{
                         if(result.status==200){
                             if(result.data.bStatus==true){
@@ -453,7 +453,7 @@ import '@/assets/jQuery.md5.js'
                 }
             }else{
                 for(var i=0;i<selectop.length;i++){
-                    var url = root + "/api/v1/DeleteRole?roletoken="+selectop[i].strRoleToken+"&session="+ this.$store.state.token;
+                    var url = root + "/api/v1/DeleteRole?roletoken="+encodeURIComponent(selectop[i].strRoleToken)+"&session="+ this.$store.state.token;
                     this.$http.get(url).then(result=>{
                         if(result.status==200){
                             if(result.data.bStatus==true){
@@ -496,7 +496,7 @@ import '@/assets/jQuery.md5.js'
             // console.log(form)
             // return false;
             this.editPopup = false;
-            var url1 = root + "/api/v1/UpdateUser?user="+form.strUser+"&oldpassword="+$.md5(form.strPasswd)+"&newpassword="+$.md5(form.Newpassword)+"&session="+ this.$store.state.token;
+            var url1 = root + "/api/v1/UpdateUser?user="+encodeURIComponent(form.strUser)+"&oldpassword="+encodeURIComponent($.md5(form.strPasswd))+"&newpassword="+encodeURIComponent($.md5(form.Newpassword))+"&session="+ this.$store.state.token;
             this.$http.get(url1).then(result=>{
                 console.log("1",result,url1);
                 if(result.status==200){
@@ -521,7 +521,7 @@ import '@/assets/jQuery.md5.js'
             if (root == undefined){
                 root = window.location.protocol + '//' + window.location.host + window.location.pathname;
             }
-            var url = root + "/api/v1/CreateRole?roletoken="+form.strRoleToken+"&role="+form.strRole+"&session="+ this.$store.state.token;
+            var url = root + "/api/v1/CreateRole?roletoken="+encodeURIComponent(form.strRoleToken)+"&role="+encodeURIComponent(form.strRole)+"&session="+ this.$store.state.token;
             this.$http.get(url).then(result=>{
                 // console.log("***",result,form,url);
                 if(result.status==200){
@@ -559,7 +559,7 @@ import '@/assets/jQuery.md5.js'
             }
             console.log(token,roletoken,name);
             // return false;
-            var url = root + "/api/v1/AddCamToRole?roletoken="+roletoken+"&camtoken="+token+"&cam="+name+"&session="+ this.$store.state.token;
+            var url = root + "/api/v1/AddCamToRole?roletoken="+encodeURIComponent(roletoken)+"&camtoken="+encodeURIComponent(token)+"&cam="+encodeURIComponent(name)+"&session="+ this.$store.state.token;
             this.$http.get(url).then(result=>{
                 if(result.status==200){
                     if(result.data.bStatus==true){
@@ -601,7 +601,7 @@ import '@/assets/jQuery.md5.js'
             }
             this.dialogFormVisible=false;
             // console.log(form.strPasswd,$.md5(form.strPasswd))
-            var url = root + "/api/v1/CreateUser?user="+form.strUser+"&password="+$.md5(form.strPasswd)+"&roletoken="+form.strRoleToken+"&session="+ this.$store.state.token;
+            var url = root + "/api/v1/CreateUser?user="+encodeURIComponent(form.strUser)+"&password="+encodeURIComponent($.md5(form.strPasswd))+"&roletoken="+encodeURIComponent(form.strRoleToken)+"&session="+ this.$store.state.token;
             this.$http.get(url).then(result=>{
                 // console.log("***",result,form,url);
                 if(result.status==200){
@@ -630,7 +630,7 @@ import '@/assets/jQuery.md5.js'
             }
             this.camroledata=[];
             if(this.form.switch!='first'){
-                var url = root + "/api/v1/GetRoleInfo?roletoken="+row.strRoleToken+"&session="+ this.$store.state.token;
+                var url = root + "/api/v1/GetRoleInfo?roletoken="+encodeURIComponent(row.strRoleToken)+"&session="+ this.$store.state.token;
                 this.$http.get(url).then(result=>{
                     if(result.status==200){
                         var data=result.data;
@@ -666,7 +666,7 @@ import '@/assets/jQuery.md5.js'
                 for(var l=0 ; l<camdata.length;l++){
                     if(tokencheked[i].strCamName==camdata[l].strCamName){
                         camdata.splice(l,1);
-                        var url = root + "/api/v1/DelCamInRole?roletoken="+tokencheked[0].strRoleToken+"&camtoken="+tokencheked[i].strCamName+"&session="+ this.$store.state.token;
+                        var url = root + "/api/v1/DelCamInRole?roletoken="+encodeURIComponent(tokencheked[0].strRoleToken)+"&camtoken="+encodeURIComponent(tokencheked[i].strCamName)+"&session="+ this.$store.state.token;
                         this.$http.get(url).then(result=>{
                             if(result.status==200){
                                 if(result.data.bStatus==true){

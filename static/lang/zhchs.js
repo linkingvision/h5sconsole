@@ -91,6 +91,7 @@ module.exports={
 		Hikvision:"海康SDK",
 		Dahua:"大华SDK",
 		Tiandy:"天地SDK",
+		Uniview:"宇视SDK",
 		DiskMemory:"硬盘/内存",
 		TotalMemory:"总内存",
 		total:"共",

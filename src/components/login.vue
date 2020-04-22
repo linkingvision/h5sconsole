@@ -101,7 +101,7 @@ export default {
             }
             $.ajax({
                 type: "GET",
-                url: root + "/api/v1/Login?user=" + _this.user + "&password=" + $.md5(_this.passwd),
+                url: root + "/api/v1/Login?user=" +encodeURIComponent( _this.user) + "&password=" +encodeURIComponent( $.md5(_this.passwd)),
                 dataType: "json",
                 success: function(data){
                     if (data.bStatus == true)
@@ -132,7 +132,7 @@ export default {
                 console.log("输入密码",this.user)
                 return false
             }
-            var url1 = root + "/api/v1/GetUserInfo?user="+this.user+"&session="+token;
+            var url1 = root + "/api/v1/GetUserInfo?user="+encodeURIComponent(this.user)+"&session="+token;
             this.$http.get(url1).then(result=>{
                 console.log(result)
                 this.$store.commit(types.ROOT, result.data.strUserType);

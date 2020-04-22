@@ -572,15 +572,15 @@ import '@/assets/jQuery.md5.js'
             if (root == undefined){
                 root = window.location.protocol + '//' + window.location.host + window.location.pathname;
             }
-            var url = root + "/api/v1/AddTransProfile?name="+form.strName+
-            "&token="+form.strToken+
-            "&fpstype="+form.nFPSType+
-            "&fps="+form.nFPS+
-            "&scaletype="+form.nScaleType+
-            "&width="+nWidhei[0]+
-            "&height="+nWidhei[1]+
-            "&bitrate="+form.nBitrate+
-            "&engine="+form.nEngine+
+            var url = root + "/api/v1/AddTransProfile?name="+encodeURIComponent(form.strName)+
+            "&token="+encodeURIComponent(form.strToken)+
+            "&fpstype="+encodeURIComponent(form.nFPSType)+
+            "&fps="+encodeURIComponent(form.nFPS)+
+            "&scaletype="+encodeURIComponent(form.nScaleType)+
+            "&width="+encodeURIComponent(nWidhei[0])+
+            "&height="+encodeURIComponent(nWidhei[1])+
+            "&bitrate="+encodeURIComponent(form.nBitrate)+
+            "&engine="+encodeURIComponent(form.nEngine)+
             "&session="+ this.$store.state.token;
             console.log(url)
             this.$http.get(url).then(result=>{
@@ -624,13 +624,13 @@ import '@/assets/jQuery.md5.js'
                 root = window.location.protocol + '//' + window.location.host + window.location.pathname;
             }
             //url
-            var url = root + "/api/v1/SetTransProfileDefault?fpstype="+form.nFPSType+
-            "&fps="+form.nFPS+
-            "&scaletype="+form.nScaleType+
-            "&width="+nWidhei[0]+
-            "&height="+nWidhei[1]+
-            "&bitrate="+form.nBitrate+
-            "&engine="+form.nEngine+
+            var url = root + "/api/v1/SetTransProfileDefault?fpstype="+encodeURIComponent(form.nFPSType)+
+            "&fps="+encodeURIComponent(form.nFPS)+
+            "&scaletype="+encodeURIComponent(form.nScaleType)+
+            "&width="+encodeURIComponent(nWidhei[0])+
+            "&height="+encodeURIComponent(nWidhei[1])+
+            "&bitrate="+encodeURIComponent(form.nBitrate)+
+            "&engine="+encodeURIComponent(form.nEngine)+
             "&session="+ this.$store.state.token;
             console.log(url);
             this.$http.get(url).then(result=>{
@@ -674,15 +674,15 @@ import '@/assets/jQuery.md5.js'
             if (root == undefined){
                 root = window.location.protocol + '//' + window.location.host + window.location.pathname;
             }
-            var url = root + "/api/v1/AddTransProfile?name="+form.strName+
-            "&token="+form.strToken+
-            "&fpstype="+form.nFPSType+
-            "&fps="+form.nFPS+
-            "&scaletype="+form.nScaleType+
-            "&width="+strs[0]+
-            "&height="+strs[1]+
-            "&bitrate="+form.nBitrate+
-            "&engine="+form.nEngine+
+            var url = root + "/api/v1/AddTransProfile?name="+encodeURIComponent(form.strName)+
+            "&token="+encodeURIComponent(form.strToken)+
+            "&fpstype="+encodeURIComponent(form.nFPSType)+
+            "&fps="+encodeURIComponent(form.nFPS)+
+            "&scaletype="+encodeURIComponent(form.nScaleType)+
+            "&width="+encodeURIComponent(strs[0])+
+            "&height="+encodeURIComponent(strs[1])+
+            "&bitrate="+encodeURIComponent(form.nBitrate)+
+            "&engine="+encodeURIComponent(form.nEngine)+
             "&session="+ this.$store.state.token;
             console.log(url)
             this.$http.get(url).then(result=>{
@@ -717,7 +717,7 @@ import '@/assets/jQuery.md5.js'
                 root = window.location.protocol + '//' + window.location.host + window.location.pathname;
             }
             //url
-            var url = root + "/api/v1/DelTransProfile?token="+row.strToken+"&session="+ this.$store.state.token;
+            var url = root + "/api/v1/DelTransProfile?token="+encodeURIComponent(row.strToken)+"&session="+ this.$store.state.token;
             this.$http.get(url).then(result=>{
                 console.log(result);
                 if(result.status==200){
@@ -751,7 +751,7 @@ import '@/assets/jQuery.md5.js'
             for(var i=0;i<selectop.length;i++){
                 var index=selectop[i].index;
                 //return false;
-                var url = root + "/api/v1/DelTransProfile?token="+selectop[i].token+"&session="+ this.$store.state.token;
+                var url = root + "/api/v1/DelTransProfile?token="+encodeURIComponent(selectop[i].token)+"&session="+ this.$store.state.token;
                 this.$http.get(url).then(result=>{
                     console.log(result);
                     console.log(this.tableData);
