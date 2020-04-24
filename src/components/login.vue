@@ -14,6 +14,12 @@
         <div class="login_box">
             <div class="white-box">
                 <h3 class="box-title m-b-0">{{ $t("message.login.signin") }}</h3>
+                <div class="prompt" id="prompt">
+                    <i class="iconfont icon-ts-caveat"></i> <span>用户名或密码错误，请您重新输入，剩余次数{{frequency}}次。</span>
+                </div>
+                <div class="prompt" id="prompt1">
+                    <i class="iconfont icon-ts-caveat"></i> <span>错误次数过多，账户已锁定 ,请{{lockingdate}}分钟后再试!</span>
+                </div>
                 <form class="form-horizontal new-lg-form" id="loginform" novalidate @submit.stop.prevent="login">
                     <div class="form-group  m-t-20">
                         <div class="col-xs-12">
@@ -29,7 +35,7 @@
                     </div>
                     <div class="form-group">
                         <div class="col-xs-12">
-                            <button @click="login" class="btn btn-info btn-lg btn-block btn-rounded text-uppercase waves-effect waves-light" type="submit">{{ $t("message.login.login") }}</button>
+                            <button class="btn btn-info btn-lg btn-block btn-rounded text-uppercase waves-effect waves-light" type="submit">{{ $t("message.login.login") }}</button>
                         </div>
                     </div>
                     <div class="form-group">
@@ -45,7 +51,6 @@
         </div>
     
     </section>
-
     </div>
 </template>
 
@@ -71,10 +76,14 @@ export default {
                         label: '简体中文'
                     }
                 ],
-            model1: this.$store.state.lang
+            model1: this.$store.state.lang,
+            frequency:0,
+            lockingdate:0,
         }
     },
     mounted(){
+        $("#prompt").hide();
+        $("#prompt1").hide();
         this.$store.commit(types.TITLE, 'Login');
         
     },
@@ -106,13 +115,27 @@ export default {
                 success: function(data){
                     if (data.bStatus == true)
                     {
+                        $("#prompt").hide();
+                        $("#prompt1").hide();
                         _this.$store.commit(types.LOGIN, data['strSession']);
                         // console.log(data['strSession']);  
                         _this.loginroot(data['strSession']);
                         
                     }else 
                     {
-                         _this.$message(_this.$t("message.login.login_status_failed"));
+                        console.log(data)
+                        if(data.nFaultTimes<=3){
+                            _this.frequency=3-data.nFaultTimes;
+                            // console.log("data还能错次拉",3-data.nFaultTimes,_this.frequency);
+                            $("#prompt").show();
+                            $("#prompt1").hide();
+                        }else{
+                            _this.lockingdate = Math.floor(data.tLockTimeResidue/60);
+                            $("#prompt1").show();
+                            $("#prompt").hide();
+                            console.log("data请等待",_this.lockingdate,data.tLockTimeResidue)
+                        }
+                        _this.$message(_this.$t("message.login.login_status_failed"));
                     }
                 },
                 error:function(e){
@@ -156,6 +179,14 @@ export default {
 
 
 <style scoped>
+/*错误提示 */
+.prompt{
+    font-size:7px;
+    font-family:PingFang SC;
+    font-weight:500;
+    color:rgba(208,19,19,1);
+}
+
 .login_con{
     height: 100%;
     width: 100%;

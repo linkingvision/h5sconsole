@@ -344,12 +344,6 @@ import '@/assets/jQuery.md5.js'
         engine: [{
                 value: 'H5_SW_ONLY',
                 label: 'H5_SW_ONLY'
-            }, {
-                value: 'H5_GPU_INTEL',
-                label: 'H5_GPU_INTEL'
-            }, {
-                value: 'H5_GPU_NVIDIA',
-                label: 'H5_GPU_NVIDIA'
             }
         ],
         fpstype: [{
@@ -410,8 +404,40 @@ import '@/assets/jQuery.md5.js'
     mounted(){
         this.loadstream();
         this.loadstpro();
+        this.Gpu();
     },
     methods:{
+        Gpu(){
+            let _this = this;
+            var root = process.env.API_ROOT;
+            if (root == undefined) {
+                root =window.location.protocol + "//" +window.location.host +window.location.pathname;
+            }
+
+            var url =root + "/api/v1/GetGPUInfo?session=" + this.$store.state.token;
+                // console.log("------------",url)
+            this.$http.get(url).then(result => {
+                if (result.status == 200) {
+                    var data = result.data;
+                    if(data.intel.length){
+                        var eng={
+                            value: 'H5_GPU_INTEL',
+                            label: 'H5_GPU_INTEL'
+                        }
+                        this.engine.push(eng);
+                        console.log(!data.intel.length,"145",this.engine)
+                    }else if(data.nvidia.length){
+                        var eng={
+                            value: 'H5_GPU_NVIDIA',
+                            label: 'H5_GPU_NVIDIA'
+                        }
+                        this.engine.push(eng);
+                        console.log(!data.nvidia.length,"1454",this.engine)
+                    }
+                }
+            })
+        },
+
         loadstream(){
             this.editPopup = false;
             var root = process.env.API_ROOT;

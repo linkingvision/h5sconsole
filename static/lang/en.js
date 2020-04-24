@@ -146,7 +146,7 @@ module.exports={
 		Rolemanagement:"Role",
 		SystemManagement:"System",
 		password:"Password",
-		RoleName:"Name",
+		RoleName:"Role Name",
 		Configure:"Configure",
 		Operation:" Operate ",
 		Camera:"Camera Permissions",

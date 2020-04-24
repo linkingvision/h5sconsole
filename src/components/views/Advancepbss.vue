@@ -1456,7 +1456,7 @@ div[name="flex"]:hover {
 
 	.zdg{
 		background-color: #ffffff;
-        /* height: 850px; */
+        height: 850px;
         overflow-y:auto;
 	}
 	.content-mythe{

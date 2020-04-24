@@ -100,7 +100,7 @@
             </el-form>
             <!-- 2 -->
             <el-form label-position="right" label-width="140px" :model="form"  v-if="form.switch!='first'">
-                <el-form-item :label="label.user" class="role">
+                <el-form-item :label="label.roleuser" class="role">
                     <input class="editinput" v-model="form.strRoleToken"/>
                 </el-form-item>
                 <el-form-item label-width="160px" :label="label.Videoroot" class="role">
