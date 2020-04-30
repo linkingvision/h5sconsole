@@ -28,6 +28,7 @@ import records from '@/components/views/settings/record'
 import usersettings from '@/components/views/settings/usersetting'
 import Transcoding  from '@/components/views/settings/Transcoding'
 import Regional from '@/components/views/settings/Regional'
+import Cloudconnect from '@/components/views/settings/cloudconnect'
 
 import GB from '@/components/views/GB'
 import GB28181 from '@/components/views/GB/GB28181'
@@ -252,6 +253,16 @@ const routes = [
             path: '/app/setting/Transcoding',
             name: 'TranscodingRouter',
             component: Transcoding,
+            meta: {
+              roles: 'admin',
+              requireAuth: true
+            }
+          },, 
+          //8
+          {
+            path: '/app/setting/Cloudconnect',
+            name: 'CloudconnectRouter',
+            component: Cloudconnect,
             meta: {
               roles: 'admin',
               requireAuth: true

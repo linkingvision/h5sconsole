@@ -6,6 +6,20 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "3758777",
+      "name": "正在播放",
+      "font_class": "zhengzaibofang",
+      "unicode": "e64e",
+      "unicode_decimal": 58958
+    },
+    {
+      "icon_id": "9261736",
+      "name": "放大",
+      "font_class": "fangda",
+      "unicode": "e660",
+      "unicode_decimal": 58976
+    },
+    {
       "icon_id": "7415165",
       "name": "监控点",
       "font_class": "s_ic_jiankongdian",

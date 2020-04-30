@@ -2,7 +2,7 @@
     <div>
         <!-- 编辑弹窗 -->
         
-        <el-dialog title="编辑" :visible.sync="editPopup">
+        <el-dialog :title="label.Edit" :visible.sync="editPopup">
             <el-form label-position="right" label-width="140px" :model="editform">
                 <el-form-item :label="label.Name">
                     <el-input v-if="editform.Type=='Profile'||editform.Type=='自定义'" v-model="editform.strName" @input="change($event)"></el-input>
@@ -307,7 +307,7 @@ import '@/assets/jQuery.md5.js'
         label:{
             label:this.$t("message.setting.Default"),//选1
             label1:this.$t("message.setting.Profile"),//选2
-            
+            Edit:this.$t("message.table.Edit"),
             Index:this.$t("message.table.Index"),
             Name:this.$t("message.table.Name"),
             Token:this.$t("message.table.Token"),

@@ -389,6 +389,7 @@ function Regional(){
         // console.log(result);
         var oldarr=result.data.root;
         var oldarr1=result.data.src;
+        // console.log(oldarr,oldarr1)
         var dataroot=getchild(oldarr,oldarr1);
         listdatag1.push(dataroot);
     })
@@ -405,18 +406,21 @@ function getchild(arr,arr1) {
                         strName :i18n.tc('message.live.mainstream'),
                         name:arr1[j].strName+"--"+i18n.tc('message.live.mainstream'),
                         iconclass : 'mdi mdi-playlist-play fa-fw',
+                        disabled_me:false,
                       },{
                         strToken : arr1[j].strToken,
                         streamprofile : "sub",
                         strName :i18n.tc('message.live.substream'),
                         name:arr1[j].strName+"--"+i18n.tc('message.live.substream'),
                         iconclass : 'mdi mdi-playlist-play fa-fw',
+                        disabled_me:false,
                       }]
                     arr.cam[i].node=node1;
                     arr.cam[i].strName = arr1[j].strName;
-                    arr.cam[i].name=arr1[j].strName+"--"+i18n.tc('message.live.mainstream'),
+                    arr.cam[i].name=arr1[j].strName+"--"+i18n.tc('message.live.mainstream')
                     arr.cam[i].bOnline = arr1[j].bOnline;
                     arr.cam[i].iconclass="mdi mdi-camcorder fa-fw"
+                    arr.cam[i].disabled_me=false
                     if(!arr1[j].bOnline)
                         arr.cam[i].iconclass = 'mdi mdi-camcorder-off fa-fw';
 
@@ -425,6 +429,14 @@ function getchild(arr,arr1) {
 
                     if(arr1[j].bRec == true)
                         arr.cam[i].iconclass2  = 'iconfont icon-radioboxfill none';
+
+                    if(arr1[j].bDisable== true){
+                        
+                        arr.cam[i].node[0].disabled_me=true;
+                        arr.cam[i].node[1].disabled_me=true;
+                        arr.cam[i].disabled_me=true;
+                        arr.cam[i].iconclass1= 'camera';
+                    }
                 }
             }
         }

@@ -266,6 +266,15 @@
                     active-color="#13ce66"
                     inactive-color="#ff4949">
                 </el-switch>
+                <div>
+                    {{$t("message.setting.Illegal")}}
+                </div>
+                <el-switch
+                    @change="Illegalfun"
+                    v-model="Illegal"
+                    active-color="#13ce66"
+                    inactive-color="#ff4949">
+                </el-switch>
             </el-tab-pane>
             
         </el-tabs>
@@ -280,6 +289,7 @@ import '@/assets/jQuery.md5.js'
     inject:["reload"],
     data() {
         return {
+            Illegal:false,//非法锁定
             camdata:this.regionaldata.regionaldata,
             camroledata:[],
             eltitle:this.$t("message.setting.Configuration"),
@@ -293,7 +303,8 @@ import '@/assets/jQuery.md5.js'
 
                 label:this.$t("message.setting.user"),//选1
                 label_role:this.$t("message.setting.Rolemanagement"),//选1
-                label_system:this.$t("message.setting.SystemManagement"),//选1
+                // label_system:this.$t("message.setting.SystemManagement")
+                label_system:this.$t("message.setting.CyberSecurity"),
 
                 user:this.$t("message.setting.username"),
                 Password:this.$t("message.setting.password"),
@@ -711,6 +722,33 @@ import '@/assets/jQuery.md5.js'
                 }
             })
         },
+        // 是否匿名浏览
+        Illegallook(){
+            var root = process.env.API_ROOT;
+            if (root == undefined){
+                root = window.location.protocol + '//' + window.location.host + window.location.pathname;
+            }
+            var url1 = root + "/api/v1/GetLoginLockStatus?session="+ this.$store.state.token;
+            this.$http.get(url1).then(result=>{
+                if(result.status==200){
+                    // console.log(result);
+                    this.Illegal=result.data.bLoginLockStatus
+                }
+            })
+        },
+        Illegalfun(){
+            var root = process.env.API_ROOT;
+            if (root == undefined){
+                root = window.location.protocol + '//' + window.location.host + window.location.pathname;
+            }
+            // return false
+            var url1 = root + "/api/v1/SetLoginLockStatus?enable="+this.Illegal+"&session="+ this.$store.state.token;
+            this.$http.get(url1).then(result=>{
+                if(result.status==200){
+                    this.Illegallook();
+                }
+            })
+        },
         // 选中函数
         selectCall(row){
             // console.log(row);
@@ -772,6 +810,7 @@ import '@/assets/jQuery.md5.js'
             }
             if(targetName.name=="system"){
                 this.anonymou();
+                this.Illegallook();
             }
         },
         handlechange(){},

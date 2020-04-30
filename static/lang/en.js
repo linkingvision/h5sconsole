@@ -145,12 +145,21 @@ module.exports={
 		username:"User Name",
 		Rolemanagement:"Role",
 		SystemManagement:"System",
+		CyberSecurity:"CyberSecurity",
 		password:"Password",
 		RoleName:"Role Name",
 		Configure:"Configure",
 		Operation:" Operate ",
 		Camera:"Camera Permissions",
 		Watchvideo:"View Anonymously",
+
+
+		CloudConnect:"Cloud Connect",
+		SSL:"SSL",
+		KeepaliveTime:"KeepaliveTime",
+		Enable:"Enable",
+		EdgeTranscoding:"EdgeTranscoding",
+
 
 		currentpass: 'Current Password',
 		newpass: 'New Password',
@@ -170,6 +179,7 @@ module.exports={
 		Twopassword:"Two password are not same, please check!",
 		all:"All",
 		Creationfailed:"Creation failed",
+		Illegal:"Illegal login lock",
 	},
 	table:{
 		Token:"Token",

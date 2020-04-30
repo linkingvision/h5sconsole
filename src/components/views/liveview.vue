@@ -82,8 +82,12 @@
                             :props="defaultProps">
                             <span slot-scope="{ node, data }" style="width:100%;">
                                 <div style="width:100%;display: flex;justify-content: space-between;">
-                                    <span >
-                                        <span :class="data.iconclass" style="color:rgb(142, 132, 132);"></span>
+                                    <span
+                                        style=""
+                                        class="size_color"
+                                        draggable="true" 
+                                        @dragstart="dragStart($event,data.token,data.label,data.streamprofile, data.name,data.disabled_me)" >
+                                        <span :class="data.iconclass" :id="'icon'+data.token"></span>
                                         <span :class="data.iconclass1" style="padding-left: 4px;">{{data.label}}</span>
                                     </span>
                                     <span :class="data.iconclass2" class="black" style="">{{$t("message.live.Videorecording")}}</span>
@@ -103,31 +107,26 @@
                             :props="defaultProps1" 
                             @node-click="handleNodeClick">
                             <span slot-scope="{ node, data }" style="width:100%;">
-                                    <span>
-                                        <span class="mdi mdi-view-sequential fa-fw" style="color:rgb(142, 132, 132);"></span>
-                                        <span :class="data.iconclass1" style="padding-left: 4px;">{{data.strName}}</span>
-                                    </span>
-                                    <div v-if="data.cam.length!=0">
-                                        
-                                        <!-- <el-dropdown trigger="click">
-                                            <span class="el-dropdown-link">
-                                                <i class="el-icon-arrow-down el-icon--right"></i><i class="mdi mdi-camcorder fa-fw" style="color:rgb(142, 132, 132);"></i> {{$t("message.live.camera")}}
-                                            </span>
-                                            <el-dropdown-menu slot="dropdown"> -->
-                                                <el-tree class="el_tree1" :data="data.cam" :props="defaultProps1" @node-click="handleNodeClick1">
-                                                    <span slot-scope="{ node, data }" style="width:100%;">
-                                                        <div style="width:100%;display: flex;justify-content: space-between;">
-                                                            <span >
-                                                                <span :class="data.iconclass" style="color:rgb(142, 132, 132);"></span>
-                                                                <span :class="data.iconclass1" style="padding-left: 4px;">{{data.strName}}</span>
-                                                            </span>
-                                                            <span :class="data.iconclass2" class="black" style="">{{$t("message.live.Videorecording")}}</span>
-                                                        </div>
-                                                    </span>
-                                                </el-tree>
-                                            <!-- </el-dropdown-menu>
-                                        </el-dropdown> -->
-                                    </div>
+                                <span>
+                                    <span class="mdi mdi-view-sequential fa-fw" style="color:rgb(142, 132, 132);"></span>
+                                    <span :class="data.iconclass1" style="padding-left: 4px;">{{data.strName}}</span>
+                                </span>
+                                <div v-if="data.cam.length!=0">
+                                    <el-tree class="el_tree1" :data="data.cam" :props="defaultProps1" @node-click="handleNodeClick1">
+                                        <span slot-scope="{ node, data }" style="width:100%;">
+                                            <div style="width:100%;display: flex;justify-content: space-between;">
+                                                <span  
+                                                    class="size_color"
+                                                    draggable="true" 
+                                                    @dragstart="dragStart($event,data.strToken,data.strName,data.streamprofile, data.name,data.disabled_me)">
+                                                    <span :class="data.iconclass" :id="'icon'+data.strToken"></span>
+                                                    <span :class="data.iconclass1" style="padding-left: 4px;">{{data.strName}}</span>
+                                                </span>
+                                                <span :class="data.iconclass2" class="black" style="">{{$t("message.live.Videorecording")}}</span>
+                                            </div>
+                                        </span>
+                                    </el-tree>
+                                </div>
                             </span>
                         </el-tree>
                     </div>
@@ -138,9 +137,22 @@
             <div class="flexvideo" id="videoPanel">
                 <div class="video_hed" id="video_hed">
                     <div name='flex' style="position: relative;" class="videoColor" v-for="r in rows" :key="r">
-                        <div class="palace" name="flex" v-for="c in cols" @contextmenu.prevent="stopVideo($event)" @click="videoClick(r,c,$event)" :key="c">
-                        <v-liveplayer v-bind:id="'h'+r+c" :h5id="'h'+r+c" :rows="rows" :cols="cols" :h5videoid="'hvideo'+r+c">
-                        </v-liveplayer>
+                        <div
+                            @drop="dropTarget($event,r,c)" 
+                            @dragover.prevent="dragover($event)" 
+                            class="palace" 
+                            name="flex" 
+                            v-for="c in cols" 
+                            @contextmenu.prevent="stopVideo($event)" 
+                            @click="videoClick(r,c,$event)" :key="c">
+                            <v-liveplayer 
+                                v-bind:id="'h'+r+c" 
+                                :h5id="'h'+r+c" 
+                                :rows="rows" 
+                                :cols="cols" 
+                                :h5videoid="'hvideo'+r+c"
+                                :canvasid="'canvas'+r+c">
+                            </v-liveplayer>
                         </div>
                     </div>
                 </div>
@@ -184,37 +196,37 @@ export default {
         'v-liveplayer': Liveplayer
     },
     data() {
-            return {
-                //过滤文字
-                filterText:"",
-                rc:13,
-                rows: 3,
-                cols: 3,
-                selectCol: 1,
-                selectRow: 1,
-                proto: this.$store.state.rtc,
-                contentHeight: '',
-                contentWidth: '',
-                data:this.listdatag.listdatag,
-                camdata:this.listdatag.listdatag1,
-                defaultProps: {
-                    children: 'children',
-                    label: 'label',
-                    token:"token",
-                    iconclass:"iconclass"
-                },
-                defaultProps1: {
-                    children: 'node',
-                    label: 'strName',
-                    cam:"cam",
-                },
-                watermarkstring:this.$store.state.watermarkstring,//水印、
-                drawer: false,//右侧栏
-                direction: 'rtl',//右侧栏
-                watermarktoggle:this.$store.state.watermarktoggle,
-                title:this.$t("message.live.setting"),
-            };
-
+        return {
+            //过滤文字
+            filterText:"",
+            rc:13,
+            rows: 3,
+            cols: 3,
+            selectCol: 1,
+            selectRow: 1,
+            proto: this.$store.state.rtc,
+            contentHeight: '',
+            contentWidth: '',
+            data:this.listdatag.listdatag,
+            camdata:this.listdatag.listdatag1,
+            defaultProps: {
+                children: 'children',
+                label: 'label',
+                token:"token",
+                iconclass:"iconclass"
+            },
+            defaultProps1: {
+                children: 'node',
+                label: 'strName',
+                cam:"cam",
+            },
+            drag:"",//拖动播放
+            watermarkstring:this.$store.state.watermarkstring,//水印、
+            drawer: false,//右侧栏
+            direction: 'rtl',//右侧栏
+            watermarktoggle:this.$store.state.watermarktoggle,
+            title:this.$t("message.live.setting"),
+        };
     },
     computed:{
         count(){
@@ -234,6 +246,61 @@ export default {
         this.$root.bus.$emit('liveplayproto',this.proto);
     },
     methods: {
+        //拖动播放
+        dragStart(ev,token,label,streamprofile,name,disabled_me){
+            console.log(ev,token,label,streamprofile,name,disabled_me,"124");
+            var drag={
+                token:token,
+                label:label,
+                streamprofile:streamprofile,
+                name:name,
+                disabled_me:disabled_me,
+            }
+            this.drag=drag;
+            ev.dataTransfer.setData("Text",ev.target.id);
+        },
+        dragover (ev) {
+            // console.log(ev,"123",ev.target.id)
+            // ev.preventDefalut()
+        },
+        dropTarget (ev,r,c) {
+            console.log(ev,"12",ev.target.id,r,c,this.drag);
+            let _this =this;
+            var data=this.drag;
+            // return false;
+            if(data.disabled_me==false){
+                $("#icon"+data.token).css("color","#5fbfa7");
+                // $("#icon"+data.token).removeClass('mdi mdi-camcorder fa-fw');
+                // $("#icon"+data.token).addClass('iconfont icon-zhengzaibofang');
+                // console.log("----------------------");
+                if (data.token) {
+                    let vid = 'h' + r + c;
+                    // console.log("----------------------",data.label);
+                    _this.$root.bus.$emit('liveplay', data.token, data.streamprofile, data.name,data.label,vid);
+                }
+                setTimeout(function(){
+                    for(var i=1;i<=this.rows;i++){
+                        for(var c=1;c<=this.cols;c++){
+                            var video= document.getElementById("hvideo"+i+c)
+                            console.log('video.paused',video);
+                            if(video.paused){
+                                this.selectCol = c;
+                                this.selectRow =i;
+                                $(".h5container").removeClass('h5videoh');
+                                $("#h"+this.selectRow+this.selectCol).addClass('h5videoh');
+                                console.log('video.paused1',video.paused,i,c);
+                                return false
+                            }else{
+                                console.log('video.paused1',video.paused);
+                            }
+                        }
+                    }
+                    
+                }.bind(this),500)
+            }else{
+               console.log("不可用");
+            }
+        },
         //水印
         waterprintoff(){
             this.$store.commit(types.WATERMARKSTRING, this.watermarkstring);
@@ -262,7 +329,7 @@ export default {
             var D = date.getDate() + ' ';
             var dates=Y+M+D;
             var watermarkstring= this.watermarkstring;
-            console.log(watermarkstring);
+            // console.log(watermarkstring);
 
             var can = document.createElement('canvas');
             var body = document.body;
@@ -281,33 +348,81 @@ export default {
         },
         //树形节点点击
         handleNodeClick(data, checked, indeterminate){
-            console.log(data.disabled_me)
-            console.log(data.label);
-            console.log("1",data);
+            // console.log(data)
+            // console.log(data.label);
+            // console.log("1",data);
             let _this =this;
-            // return false;
             if(data.disabled_me==false){
-                console.log("----------------------");
+                // mdi-camcorder
+                $("#icon"+data.token).css("color","#5fbfa7");
+                // $("#icon"+data.token).removeClass('mdi mdi-camcorder fa-fw');
+                // $("#icon"+data.token).addClass('iconfont icon-zhengzaibofang');
+                
+                // return false;
                 if (data.token) {
                     let vid = 'h' + _this.$data.selectRow + _this.$data.selectCol;
                     // console.log("----------------------",data.label);
                     _this.$root.bus.$emit('liveplay', data.token, data.streamprofile, data.name,data.label,vid);
                 }
+                setTimeout(function(){
+                    for(var i=1;i<=this.rows;i++){
+                        for(var c=1;c<=this.cols;c++){
+                            var video= document.getElementById("hvideo"+i+c)
+                            console.log('video.paused',video);
+                            if(video.paused){
+                                this.selectCol = c;
+                                this.selectRow =i;
+                                $(".h5container").removeClass('h5videoh');
+                                $("#h"+this.selectRow+this.selectCol).addClass('h5videoh');
+                                console.log('video.paused1',video.paused,i,c);
+                                return false
+                            }else{
+                                console.log('video.paused1',video.paused);
+                            }
+                        }
+                    }
+                    
+                }.bind(this),500)
             }else{
                console.log("不可用");
             }
         },
         handleNodeClick1(data, checked, indeterminate){
             let _this =this;
-            console.log(data)
+            // console.log(data)
             // return false;
-            var main="main"
-            if (data.strToken) {
-                let vid = 'h' + _this.$data.selectRow + _this.$data.selectCol;
-                // console.log("----------------------",data.label);
-                _this.$root.bus.$emit('liveplay', data.strToken,data.streamprofile, data.name,data.label, vid);
+            if(data.disabled_me==false){
+                $("#icon"+data.token).css("color","#5fbfa7");
+                // $("#icon"+data.token).removeClass('mdi mdi-camcorder fa-fw');
+                // $("#icon"+data.token).addClass('iconfont icon-zhengzaibofang');
+                var main="main"
+                if (data.strToken) {
+                    let vid = 'h' + _this.$data.selectRow + _this.$data.selectCol;
+                    // console.log("----------------------",data.label);
+                    _this.$root.bus.$emit('liveplay', data.strToken,data.streamprofile, data.name,data.label, vid);
+                }
+                setTimeout(function(){
+                    for(var i=1;i<=this.rows;i++){
+                        for(var c=1;c<=this.cols;c++){
+                            var video= document.getElementById("hvideo"+i+c)
+                            console.log('video.paused',video);
+                            if(video.paused){
+                                this.selectCol = c;
+                                this.selectRow =i;
+                                $(".h5container").removeClass('h5videoh');
+                                $("#h"+this.selectRow+this.selectCol).addClass('h5videoh');
+                                console.log('video.paused1',video.paused,i,c);
+                                return false
+                            }else{
+                                console.log('video.paused1',video.paused);
+                            }
+                        }
+                    }
+                    
+                }.bind(this),500)
+            }else{
+                console.log("不可用");
             }
-            
             
         },
 
@@ -478,13 +593,8 @@ export default {
             this.selectCol = c;
             this.selectRow = r;
             console.log(r, c);
-            if ($($event.target).parent().hasClass('videoClickColor')) {
-                $($event.target).parent().removeClass('videoClickColor');
-            } else {
-                $('#videoPanel div[class*="videoClickColor"]').removeClass('videoClickColor');
-                $('#videoPanel>div').eq(r - 1).children('div').eq(c - 1).addClass('videoClickColor');
-                //$('#videoPanel>div').eq(r - 1).children('div').eq(c - 1).children(".h5videowrapper").children(".h5video").style.opacity = "0.25";
-            }
+            $(".h5container").removeClass('h5videoh');
+            $("#h"+r+c).addClass('h5videoh');
         },
         stopVideo(event){
             return;
@@ -566,6 +676,10 @@ export default {
 .el_tree1{
     margin-left: -6px;
 }
+/* 点击视频播放 */
+.size_color{
+    color:rgb(142, 132, 132);
+}
 /* 隐藏toogle */
 .devicetoog{
     width:100%;
@@ -615,6 +729,13 @@ export default {
 .palace{
     flex: 1 1 20%;
     border:1px solid black;
+    box-sizing: border-box;
+    -moz-box-sizing:border-box;
+    -webkit-box-sizing:border-box;
+}
+.h5videoh{
+    border: 2px solid #f44336 !important;
+    z-index: 10;
 }
 .Seven_Palace{
     flex: 1 1 33.33%;
@@ -823,16 +944,11 @@ export default {
 div[name='flex'] {
     display: flex;
     flex-wrap: wrap;
-    border-bottom: 0px !important;
 
 }
 
 div[name='flex']+[name='flex'] {
     border-left: 0px !important;
-}
-div[name="flex"]:hover {
-    /*background-color: #3c8dbc;*/
-    cursor: pointer;
 }
 #videoPanel{
     background-color: #ffffff;
@@ -873,11 +989,6 @@ div[name="flex"]:hover {
 	box-shadow: 0px 0px 50px #000;
 }
 
-
-/* .videoClickColor {
-    background-color: #616263 !important;
-    opacity: 0.80;
-} */
 
 .videoColor {
     /* width: 1500px; */

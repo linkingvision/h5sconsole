@@ -1,25 +1,39 @@
 <template>
     <div id="page-wrapper">
-        <div class="container">
-            <div class="flex_beibiao">
-                <div class="beibiao_zi">
-                    <img src="../gallery/daId@2x.png"/>
-                    <span>{{this.$t("message.dashboard.device")}}</span>
+            <div class="felx_title">
+                <div class="">
+                    <h4 class="page-title">{{$t("message.dashboard.device")}}</h4>
                 </div>
-                <div style="display: flex;">
-                    <div class="beibiao_zi1">{{this.$t("message.dashboard.Online")}}</div>
-                    <div class="beibiao_bg"></div>
-                    <div class="beibiao_zi1">{{this.$t("message.dashboard.Offline")}}</div>
-                    <div class="beibiao_bg1"></div>
+                <div class="">
+                    <router-link  :to="{name:'dashboardRouter'}">
+                        <a class="A_More" href="javascript:void(0)">
+                            <div>
+                                返回
+                            </div>
+                        </a> 
+                    </router-link>
                 </div>
-            </div>
-            <div class="flex_beisdk">
-                    <div id="devsdk0" class="beisdk"></div>
-                    <div id="devsdk1" class="beisdk"></div>
-                    <div id="devsdk2" class="beisdk"></div>
-                    <div id="devsdk3" class="beisdk"></div>
-                    <div id="devsdk4" class="beisdk"></div>
-                    <div id="devsdk5" class="beisdk"></div>
+        </div>
+        <div class="container_co">
+            <div class="container" v-for="(a,index) in 6" :key="index">
+                <div class="flex_beibiao">
+                    <div class="beibiao_zi">
+                    </div>
+                    <div style="display: flex;">
+                        <div class="beibiao_zi1">{{Online}}</div>
+                        <div class="beibiao_bg"></div>
+                        <div class="beibiao_zi1">{{Offline}}</div>
+                        <div class="beibiao_bg1"></div>
+                    </div>
+                </div>
+                <div class="flex_beisdk">
+                    <div :id="'devsdk'+index" class="beisdk"></div>
+                    <div class="tit_sdk" v-if="devdata">
+                        <div>{{devdata[index].name}}</div>
+                        <div>{{total}}{{devdata[index].Total}}{{ge}}</div>
+                        
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -31,8 +45,8 @@ export default {
     name: "device",
     data() {
         return {
-            length:"",
             dev:{},
+            devdata:"",
             Hikvision:this.$t("message.dashboard.Hikvision"),
             Dahua:this.$t("message.dashboard.Dahua"),
             Tiandy:this.$t("message.dashboard.Tiandy"),
@@ -98,7 +112,7 @@ export default {
                             Online:data.nUnvDevOnline,
                     }];
                     
-                    this.length=devdata.length;
+                    this.devdata=devdata
                     for(var i=0;i<devdata.length;i++){
                         this.devimage(devdata[i],i);
                     }
@@ -132,7 +146,7 @@ export default {
                 series: [{
                     name: devdata.name,
                     type: 'pie',
-                    radius: ['60%', '70%'],
+                    radius: ['54%', '70%'],
                     avoidLabelOverlap: false,
                     label: {
                         normal: {
@@ -199,18 +213,46 @@ export default {
 }
 </script>
 <style scoped>
-.container{
-    width: 100%;
-    background-color: #FFFFFF;
+#page-wrapper{
     min-height: 860px;
+}
+.A_More{
+    font-size:14px;
+    color: #66CDB4; 
+    font-family:PingFang SC;
+}
+.felx_title{
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 20px;
+    background: #FFFFFF;
+    margin-bottom: 10px;
+}
+.container_co{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    padding: 0 10px;
+    box-sizing: border-box;
+}
+.container{
+    width: 32.7%;
     padding: 30px 30px;
+    background-color: #FFFFFF;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    margin-bottom: 10px;
+    border-radius: 10px;
 }
 .flex_beibiao{
     width: 100%;
     height: 10%;
     display: flex;
     justify-content: space-between;
-    padding: 10px 20px;
+    flex-wrap: wrap;
+    padding: 10px 10px;
 }
 .beibiao_zi{
     font-size:16px;
@@ -240,15 +282,31 @@ export default {
     width: 100%;
     height: 80%;
     display: flex;
-    flex-flow: wrap;
-    /* justify-content: space-around; */
+    flex-wrap: wrap;
+    justify-content: space-between;
 }
 .flex_beisdk .beisdk{
-    width: 20%;
+    width: 50%;
     height: 200px;
 }
-.flex_beisdk .beisdk div{
-    width: 100%;
-    height: 100%;
+.tit_sdk{
+    width: 50%;
+    padding-top: 70px;
+    padding-left: 6%;
+    /* text-align: left; */
 }
+.tit_sdk div:nth-child(1){
+    margin-bottom: 10px;
+    font-size:16px;
+    font-family:PingFang SC;
+    font-weight:500;
+    color:rgba(51,51,51,1);
+}
+.tit_sdk div:nth-child(){
+    font-size:14px;
+    font-family:PingFang SC;
+    font-weight:400;
+    color:rgba(51,51,51,1);
+}
+
 </style>

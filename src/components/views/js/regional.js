@@ -134,7 +134,7 @@ function loadSrc(srclevel, srcData) {
                         newItem['iconclass2'] = 'iconfont icon-radioboxfill none';
 
                 if(item['bDisable'] == true){
-                    newItem['disabled_me'] =true;
+                    // newItem['disabled_me'] =true;
                     newItem['iconclass1'] = 'camera';
                 }
 

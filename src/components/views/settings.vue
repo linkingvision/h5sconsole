@@ -59,6 +59,13 @@
                             </div>
                         </a> 
                     </router-link>
+                    <router-link  :to="{name:'CloudconnectRouter'}">
+                        <a href="javascript:void(0)" class="setting_left_a" :class="{setting_tj1:index_lj==8}">
+                            <div :class="{setting_tj:index_lj==8}"  @click="setting_ys7" class="setting_left">
+                                {{$t("message.setting.CloudConnect")}} 
+                            </div>
+                        </a> 
+                    </router-link>
                 </div>
             </el-col>
             <el-col style="padding:0px;" :span="20">
@@ -118,6 +125,10 @@ export default {
         setting_ys6(){
              this.index_lj=7;
              this.language=this.$t("message.setting.Transcoding");
+        },
+        setting_ys7(){
+             this.index_lj=8;
+             this.language=this.$t("message.setting.CloudConnect");
         },
      
     }

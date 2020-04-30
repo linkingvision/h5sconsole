@@ -167,6 +167,8 @@
                 this.$http.get(url).then(result=>{
                     var oldarr=result.data.root;
                     var oldarr1=result.data.src;
+                    // console.log(oldarr,oldarr1)
+                    // return false
                     var dataroot=this.getchild(oldarr,oldarr1);
                     // console.log(oldarr)
                     this.data=[];
@@ -182,8 +184,14 @@
 							if(arr.cam[i].strToken == arr1[j].strToken){
                                 arr.cam[i].strName = arr1[j].strName;
                                 arr.cam[i].iconclass="mdi mdi-camcorder fa-fw"
+                                arr.cam[i].disabled_me=arr1[j].bDisable
                                 if(!arr1[j].bOnline)
                                     arr.cam[i].iconclass = 'mdi mdi-camcorder-off fa-fw';
+
+                                if(arr1[j].bDisable== true){
+                                    // newItem['disabled_me'] =true;
+                                    arr.cam[i].iconclass1= 'camera';
+                                }
 
 							}
 						}

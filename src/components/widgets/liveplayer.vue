@@ -3,25 +3,7 @@
     <video class="h5video" @click="redborder" :id="videoid" autoplay webkit-playsinline playsinline></video>
     <div :id="videonameid" class="" >
         {{videoname}} {{picturequality}}
-        <!-- <span class="spanpicturequality" :id="picturequalityid">{{picturequality}}</span> -->
-        <!-- <div class="" :id="divid"> -->
-            <!-- <el-button type="success" round size="mini">洋码流</el-button> -->
        <input type="button" :value="valuebutton"  @click="Bitstream($event.target.value)" :id="inputid" class=""/>
-            <!-- <button type="button" @click="Bitstream($event)">主码流</button> -->
-        <!-- </div> -->
-        <!-- 画质 -->
-        <!-- <span class='' :id="qualityid">
-            <el-dropdown placement='top-end' trigger="click"  @command="handleCommand">
-                <span class="el-dropdown-link">
-                    <i class="el-icon-video-camera el-icon--left"></i>{{$t('message.live.Quality')}}
-                </span>
-                <el-dropdown-menu slot="dropdown">
-                <template >
-                    <el-dropdown-item v-for="(it,index) in qualitylist"   :key="index" :command="it">{{it.strName}}</el-dropdown-item>
-                </template>
-            </el-dropdown-menu>
-            </el-dropdown>
-        </span> -->
     </div>
    <!-- 画质 -->
     <span class=" "  :id="spanqualityid">
@@ -47,6 +29,7 @@
         <button type="button" class="vidbuttion pull-right iconfont icon-camerafill" @click="DoSnapshot($event)"></button>
         <button type="button" class="vidbuttion pull-right iconfont icon-picfill" @click="DoSnapshotWeb($event)"></button>
         <button type="button" class="vidbuttion pull-right" @click="Shoutwheat($event)"> <i :class="Shoutwheatclass"></i></button>
+        <!-- <button type="button" class="vidbuttion pull-right iconfont icon-fangda" @click="Electronic($event)"></button> -->
         <el-popover
             placement="bottom"
             trigger="click">
@@ -66,13 +49,11 @@
             </div>
             <button slot="reference" class="vidbuttion pull-right iconfont icon-erweima" @click="qrcode"></button>
         </el-popover>
-        <!-- audio
-        <button type="button" class="btn vidbuttion pull-right" > <i class="mdi  mdi-record"></i></button>
-        <button type="button" class="btn vidbuttion pull-right" href="#"> <i class="mdi mdi-volume-high"></i></button>
-        <button type="button" class="btn vidbuttion pull-right" href="#"> <i class="mdi mdi-volume-off"></i></button>
-        -->
     </div>
- 
+    <!-- <div class="myCanvas">
+        <canvas :id="canvaid" width="170" height="105"></canvas>
+    </div> -->
+
     <div class="ptzcontrols"  style="display:none padding:0px">
         
         <div class="flex_content">
@@ -145,7 +126,7 @@ import {H5siOS,H5sPlayerCreate} from '../../assets/h5splayerhelper.js'
 import "../../../static/lang/en"
 export default {
     name: 'liveplayer',
-    props:['h5id', 'h5videoid',"cols","rows"],
+    props:['h5id', 'h5videoid',"cols","rows","canvasid"],
     data () {
         return {
             content:{
@@ -153,6 +134,7 @@ export default {
                 Focus:this.$t('message.live.Focus'),
                 aperture:this.$t('message.live.aperture'),
             },
+            canvaid: this.canvasid,
             videoid: this.h5videoid,
             ptz:"ptz"+ this.h5videoid,
             videonameid:"name"+this.h5videoid,
@@ -168,7 +150,7 @@ export default {
             Presetdata:[],//预置位数组
             Preset_value:0.5,//镜头转换速度
             streamprofile:'',
-            valuebutton:'',
+            valuebutton:this.$t("message.live.substream"),
             inputtoken:'',
             inputlabel:'',
             name:'',
@@ -180,6 +162,7 @@ export default {
             qualitylist:[],
             picturequality:'',//画质名称
             qualityform:[],
+            canvasdate:""
            
         }
     },
@@ -190,6 +173,7 @@ export default {
         //console.log(this.h5id, "deactivated");
     },
     beforeDestroy() {
+        clearInterval(this.canvasdate);
         //console.log(this.h5id, "beforeDestroy");
         if (this.h5handler != undefined)
         {
@@ -204,6 +188,7 @@ export default {
     },
    
     mounted() {
+        
         // this.qrcode();
         var $container = $("#"+this.h5id);
         var $video =$container.children("video");
@@ -221,6 +206,7 @@ export default {
             {
                 return;
             }
+            
             _this.PlayVideo(token,streamprofile,label,name);
             _this.tokenshou=token;
             console.log("-----------------",_this.tokenshou)
@@ -247,7 +233,23 @@ export default {
     },
    
     methods: {
-        
+        //电子放大
+        // Electronic(){
+        //     console.log("电子放大")
+        //     var v = document.getElementById(this.videoid);
+		// 	var c = document.getElementById(this.canvaid);
+		// 	var ctx = c.getContext('2d');
+		// 	//每20毫秒画一次图
+		// 	this.canvasdate = window.setInterval(function() {
+		// 			ctx.drawImage(v, 0, 0, 170, 105);
+		// 			//打印当前视频的播放时间
+		// 			// console.log(v.currentTime);
+		// 			//当视频结束的时候去掉循环
+		// 			// if (v.ended) {
+		// 			// 	clearInterval(i)
+		// 			// }
+		// 		}, 20);
+        // },
         // 二维码
         qrcode () {
             console.log(this.tokenshou)
@@ -341,6 +343,9 @@ export default {
             $("#"+this.inputid).removeClass("spanpicturequality") 
             if (this.h5handler != undefined)
             {
+                $("#icon"+this.tokenshou).css("color","rgb(142, 132, 132)");
+                // $("#icon"+this.tokenshou).addClass('mdi mdi-camcorder fa-fw');
+                // $("#icon"+this.tokenshou).removeClass('iconfont icon-zhengzaibofang');
                 // $("#"+this.videonameid).removeClass("videoname");
                 // $("#"+this.rtcid).removeClass("rtc_new");
                 this.h5handler.disconnect();
@@ -372,7 +377,6 @@ export default {
             var $container = $("#"+this.h5id);
             var $controls = $container.children(".h5controls");
             var $rtcbutton = $controls.children(".rtcbutton");
-            this.valuebutton=this.$t("message.live.substream")
             //码流按钮
             if(streamprofile==="sub"){
                this.valuebutton=this.$t("message.live.mainstream ")
@@ -393,12 +397,11 @@ export default {
             }
 
             this.h5handler.connect();
-            //  $("#"+this.elqualityid).style.display=' '
         },
 
         CloseVideo(event)
         {   
-            
+            clearInterval(this.canvasdate);
             console.log("关闭",this.audioback);
             if (this.audioback != undefined)
             { 
@@ -423,7 +426,10 @@ export default {
             $("#"+this.rtcid).removeClass("rtc_new");
             $("#"+this.spanqualityid).addClass("spanquality")
             $("#"+this.inputid).addClass("spanpicturequality")
-            
+            // $("#icon"+this.tokenshou).css("color","rgb(142, 132, 132)");
+            $("#icon"+this.tokenshou).css("color","rgb(142, 132, 132)");
+            // $("#icon"+this.tokenshou).addClass('mdi mdi-camcorder fa-fw');
+            // $("#icon"+this.tokenshou).removeClass('iconfont icon-zhengzaibofang');
            
             var $container = $("#"+this.h5id);
             var $controls = $container.children(".h5controls");
@@ -835,8 +841,7 @@ export default {
                 document.getElementById(this.ptz).style.display="block";
             }
             //console.log("122514541561",this.videoid);
-            $("video").removeClass('h5videoh');
-            $("#"+this.videoid).addClass('h5videoh');
+            
         }
     }
 }
@@ -844,6 +849,13 @@ export default {
 </script>
 
 <style scoped>
+/* 电子放大 */
+.myCanvas {
+    position:absolute;
+    bottom:0;
+    right: 0;
+    padding:0px;
+}
 /* 二维码 */
 .bottom_QR{
     margin: 16px 30px;
@@ -1101,12 +1113,7 @@ export default {
 .h5video{
    object-fit: fill;
 }
-.h5videoh{
-    border: 1px solid #f44336 !important;
-    box-sizing: border-box;
-    -moz-box-sizing:border-box;
-    -webkit-box-sizing:border-box;
-}
+
 
 .h5videowrapper{
     padding: 0px;
@@ -1156,7 +1163,7 @@ video {
     width: 24px;
     padding:0px;
     margin: 0px;
-    opacity: 1;
+    /* opacity: 1; */
     background:rgba(255,255,255,0.3);
 }
 
@@ -1198,11 +1205,11 @@ video {
     position:absolute;
     top:0;
     background:url("../views/gallery/videoxlk@2x.png") no-repeat;
-    background-size: 320px;
+    background-size: 350px;
     background-position-x:right;
     padding:0px;
     box-sizing:content-box;
-    z-index:10000;
+    z-index:1000;
     width: 100%;
     height: 32px;
     display:none;
