@@ -1221,7 +1221,7 @@ video {
     background:rgba(255,255,255,0);
     padding:0px;
     box-sizing:content-box;
-    z-index:1100;
+    /* z-index:1100; */
     width: 100%;
     height: 100%;
     display:none;

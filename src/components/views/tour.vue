@@ -35,14 +35,19 @@
         </el-drawer>
         
         <!-- Video -->
-        <el-row :gutter="20">
-            <el-col :span="5">
+        <el-row class="el_row" :gutter="20">
+            <el-col class="el_colzuo" :span="5">
                 <div class="zdg">
                     <!-- 模糊查询搜查 -->
                     <el-input
                         placeholder="输入关键字进行过滤"
                         v-model="filterText">
                     </el-input>
+                    
+                    <div class="devicetoog">
+                        <div>{{$t("message.setting.device")}}</div>
+                        <div class="iconfont icon-zhiding deviceicon"></div> 
+                    </div>
                     <el-tree
                         :data="data"
                         accordion
@@ -60,13 +65,17 @@
             </el-col>
 
             <!-- Video 1 4 9 16 -->
-            <el-col :span="19">
+            <el-col class="el_colyou" :span="19">
                 <div id="videoPanel">
                     <div name='flex' class="videoColor" v-for="r in rows" :key="r">
                         <div calss="videoflexitem" style="flex:1; border:1px solid black;" name="flex" v-for="c in cols" @contextmenu.prevent="stopVideo($event)" @click="videoClick(r,c,$event)" :key="c">
                         <v-liveplayer v-bind:id="'h'+r+c" :h5id="'tour'+r+c" :h5videoid="'hvid'+r+c"></v-liveplayer>
                         </div>
                     </div>
+                    
+                </div>
+                <div class="flex_but">
+                    
                     <div>
                         <el-button size="mini" @click="Playall">{{$t("message.tour.Start")}}</el-button>
                         <el-button size="mini" @click="Allpause">{{$t("message.tour.stop")}}</el-button>
@@ -89,6 +98,7 @@
                         </el-button>
                         <el-button type="button" class="layoutfull" @click="panelFullScreen($event)"> </el-button>
                     </div>
+                
                 </div>
             </el-col>
         </el-row>
@@ -488,6 +498,41 @@ export default {
 
 
 <style scoped>
+.el_row{
+    height: 900px;
+    margin-bottom: 8px;
+}
+.el_colzuo{
+    height: 100%;
+}
+.el_colyou{
+    height: 100%;
+    background-color: #ffffff;
+    overflow-y:auto;
+}
+/* 左边 */
+.devicetoog{
+    width:100%;
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 20px;
+    background: #f5f5f5;
+    font-size: 18px;
+    color: #333333;
+    font-weight: 600;
+}
+.deviceicon:hover{
+    color: #68ABCF;
+}
+/* 右边 */
+.flex_but div{
+    /* display: flex;
+    justify-content: space-between; */
+    /* padding: 10px 20px; */
+    margin-bottom: 5px;
+}
+
+
 .el-button+.el-button {
     margin-left: 0;
 }
@@ -512,7 +557,7 @@ export default {
 /* gao */
 .zdg{
     background-color: #ffffff;
-    height: 800px;
+    height: 100%;
     overflow-y:auto;
 }
 .content-header .breadcrumb {
@@ -590,37 +635,23 @@ div[name="flex"]:hover {
 }
 
 .layout3x3 {
-    background: url('../../assets/img/layout/3x3.png') #f2f2f2;
+    background: url('./gallery/9@2x.png') #f2f2f2;
     background-repeat: no-repeat;
-    background-size: 32px 32px;
+    background-size: 30px 30px;
     color: #000;
     height: 32px;
     width: 32px;
     padding: 0;
-}
-.layout3x3:hover {
-    background: url('../../assets/img/layout/3x3.png') #7a7878;
-    background-size: 32px 32px;
-    color: rgb(187, 184, 184);
-    height: 32px;
-    width: 32px;
 }
 
 .layoutfull {
-    background: url('../../assets/img/layout/fullscreen.png') #f2f2f2;
+    background: url('./gallery/quanping.png') #f2f2f2;
     background-repeat: no-repeat;
-    background-size: 32px 32px;
+    background-size: 30px 30px;
     color: #000;
     height: 32px;
     width: 32px;
     padding: 0;
-}
-.layoutfull:hover {
-    background: url('../../assets/img/layout/fullscreen.png') #7a7878;
-    background-size: 32px 32px;
-    color: rgb(187, 184, 184);
-    height: 32px;
-    width: 32px;
 }
 
 </style>

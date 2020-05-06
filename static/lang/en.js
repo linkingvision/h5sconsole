@@ -43,7 +43,8 @@ module.exports={
 		login_status_failed: 'Username or Password not correct',
 		username: 'USERNAME',
 		password: 'PASSWORD',
-		language: 'LANGUAGE'
+		language: 'LANGUAGE',
+		return:"Return",
 				
     },
 	dashboard:
@@ -172,7 +173,7 @@ module.exports={
 		Cancel:"Cancel",
 		OK:"OK",
 		Configuration:"Configuration",
-		ADD:"ADD",
+		ADD:"Add",
 		Change:"Change",
 		Changecg:"Change successfully, please login again！",
 		Changesb:"Change failed",

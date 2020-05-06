@@ -54,9 +54,9 @@
             <li v-if="user!=''&&user!=null">
                 <!-- 操作员设置 -->
                 <span type="text" class="hide-menu1" @click=" editPopup= true">
-                    <span class="apiab iconfont icon-icon-test"></span>
+                    <span style="margin-right: 10px; margin-left: -10px;" class="apiab iconfont icon-icon-test"></span>
                     <span class="admin_zi hide-menu">
-                        {{$t("message.left.setting")}}
+                        {{label.Change}}
                     </span>
                 </span>
                 <el-dialog :title="label.Edit" class="dialog" :visible.sync="editPopup" width="30%" append-to-body>
@@ -101,14 +101,12 @@
           </a>
           <ul class="dropdown-menu dropdown-user animated flipInY">
             <li>
-              <a href="javascript:void(0);">
-                  <a href="doc/api.html" class="waves-effect" > 
-                    <span style="margin:0 5px 0 9px" class="apiab iconfont icon-category"></span>
-                    <span class="admin_zi">
-                          {{$t("message.header.API")}}
-                      </span> 
-                  </a>
-              </a>
+                <a href="doc/api.html" class="waves-effect" > 
+                  <span  style="margin: 0 10px 0 16px;" class=" apiab iconfont icon-category"></span>
+                  <span class="admin_zi">
+                        {{$t("message.header.API")}}
+                    </span> 
+                </a>
             </li>
             <li role="separator" class="divider"></li>
             <li>
@@ -138,6 +136,15 @@
                     </a>
                     </div>
                 </el-dialog>
+            </li>
+            <li role="separator" class="divider"></li>
+            <li>
+              <router-link :to="{name:'DownloadappRouter'}">
+                <span class="apiab iconfont icon-download"></span>
+                <span class="admin_zi">
+                  {{label.Download}}
+                </span> 
+              </router-link>
             </li>
           </ul>
           <!-- /.dropdown-user -->
@@ -177,6 +184,8 @@ export default {
           olPassword:this.$t("message.setting.currentpass"),
           nePassword:this.$t("message.setting.newpass"),
           nePassword1:this.$t("message.setting.confirmpass"),
+          Change:this.$t("message.setting.Change"),
+          Download:this.$t("message.archive.Download"),
       },
       options: [{
               value: 'Administrator',
@@ -307,7 +316,6 @@ a{
 .apiab{
   font-size: 16px;
   color: #030303;
-  margin-right: 10px;
 }
 .navbar-top-links>li>a {
     padding: 0 14px;
@@ -375,7 +383,7 @@ a{
   text-align: center;
 }
 .dropdown-menu{
-  min-width: 100px;
+  min-width: 130px;
 }
 .hide-menu{
   width: 100%;
@@ -445,9 +453,5 @@ a{
     font-size: 14px;
 }
 
-.apiab {
-    padding: 0;
-    margin: 0;
-}
 </style>
 

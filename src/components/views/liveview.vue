@@ -296,7 +296,7 @@ export default {
                         }
                     }
                     
-                }.bind(this),500)
+                }.bind(this),1000)
             }else{
                console.log("不可用");
             }
@@ -368,7 +368,6 @@ export default {
                     for(var i=1;i<=this.rows;i++){
                         for(var c=1;c<=this.cols;c++){
                             var video= document.getElementById("hvideo"+i+c)
-                            console.log('video.paused',video);
                             if(video.paused){
                                 this.selectCol = c;
                                 this.selectRow =i;
@@ -382,7 +381,7 @@ export default {
                         }
                     }
                     
-                }.bind(this),500)
+                }.bind(this),1000)
             }else{
                console.log("不可用");
             }
@@ -419,7 +418,7 @@ export default {
                         }
                     }
                     
-                }.bind(this),500)
+                }.bind(this),1000)
             }else{
                 console.log("不可用");
             }

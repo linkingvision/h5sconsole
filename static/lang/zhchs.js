@@ -38,6 +38,7 @@ module.exports={
     },
     login:
     {
+		return:"返回",
 		high_perf: '高性能HTML5原生视频',
 		signin: '登录到管理界面',
 		login: '登录',

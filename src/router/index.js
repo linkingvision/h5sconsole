@@ -37,6 +37,8 @@ import GBplatform from '@/components/views/GB/GBplatform'
 import H5S from '@/components/h5s'
 import Login from '@/components/login'
 import Logout from '@/components/logout'
+import Downloadapp from '@/components/views/downloadapp'
+
 import Control from '@/components/Control'
 import store from '@/store/store'
 import * as types from '@/store/types'
@@ -53,6 +55,7 @@ const routes = [
     name: 'h5s',
     component: H5S,
     children: [
+      
       {
         path: '/app/liveview',
         name: 'liveviewRouter',
@@ -295,7 +298,12 @@ const routes = [
     path: '/login',
     name: 'LoginRouter',
     component: Login
-  }
+  },
+  {
+    path: '/Downloadapp',
+    name: 'DownloadappRouter',
+    component: Downloadapp
+  },
 ];
 
 // 页面刷新时，重新赋值token

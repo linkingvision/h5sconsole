@@ -8,7 +8,7 @@
                     <el-input v-model="editform.strUser"></el-input>
                 </el-form-item>
                 <el-form-item :label="label.password">
-                    <el-input v-model="editform.strPasswd"></el-input>
+                    <el-input type="password" v-model="editform.strPasswd"></el-input>
                 </el-form-item>
                 <el-form-item :label="label.name">
                     <el-input v-model="editform.strServerName"></el-input>
@@ -196,6 +196,7 @@ import '@/assets/jQuery.md5.js'
         tableData2: [],//2
         total2: 0, // 总条数 2
         currentPage2: 1, // 当前页码2
+        editpasswd:"",//编辑的密码
       };
     },
     mounted(){
@@ -214,7 +215,7 @@ import '@/assets/jQuery.md5.js'
             //   return false;
                 if(result.status == 200){
                     var itme=result.data;
-                    console.log(result)
+                    // console.log(result)
                     var tabledata={
                         strUser: itme.strUser,
                         strServerName:itme.strServerName,
@@ -265,19 +266,29 @@ import '@/assets/jQuery.md5.js'
             this.editform["nKeepaliveTime"]=row.nKeepaliveTime;
             this.editform["strCloudIp"]=row.strCloudIp;
             this.editform["strCloudPort"]=row.strCloudPort;
-            this.editform["strPasswd"]=$.md5(row.strPasswd);
-            console.log(this.editform);
+            this.editform["strPasswd"]=row.strPasswd;
+            this.editpasswd = row.strPasswd;
+            // console.log(this.editform);
             // console.log(this.tableData[index])
         },
         //  编辑 添加 的确定键
         proedityes(){
-            console.log("默认",this.editindex,this.editform);
             var form=this.editform;
+    
+            console.log("默认",this.editpasswd,form.strPasswd);
             var root = process.env.API_ROOT;
             if (root == undefined){
                 root = window.location.protocol + '//' + window.location.host + window.location.pathname;
             }
             //url
+            var passwordol=""
+            if(this.editpasswd==form.strPasswd){
+                passwordol=this.editpasswd
+            }else if(this.editpasswd!=form.strPasswd){
+                passwordol=$.md5(form.strPasswd)
+            }
+            console.log("默认",passwordol);
+            // return false
             var url = root + "/api/v1/SetCloudInfo?enable="+encodeURIComponent(form.bEnable)+
             "&servername="+encodeURIComponent(form.strServerName)+
             "&servertoken="+encodeURIComponent(form.strServerToken)+
@@ -285,7 +296,7 @@ import '@/assets/jQuery.md5.js'
             "&cloudport="+encodeURIComponent(form.strCloudPort)+
             "&ssl="+encodeURIComponent(form.bSSL)+
             "&user="+encodeURIComponent(form.strUser)+
-            "&password="+encodeURIComponent($.md5(form.strPasswd))+
+            "&password="+encodeURIComponent(passwordol)+
             "&keepalivetime="+encodeURIComponent(form.nKeepaliveTime)+
             "&edgetranscoding="+encodeURIComponent(form.bEdgeTranscoding)+
             "&session="+ this.$store.state.token;
@@ -295,6 +306,7 @@ import '@/assets/jQuery.md5.js'
                 console.log(result);
                 if(result.status==200){
                     if(result.data.bStatus==true){
+                        this.editPopup = false;
                         this.tableData=[];
                         this.loadstream();
                     }else{

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 23.0.1, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<svg version="1.1" id="图层_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 viewBox="0 0 64 65" style="enable-background:new 0 0 64 65;" xml:space="preserve">
+<style type="text/css">
+	.st0{fill-rule:evenodd;clip-rule:evenodd;fill:url(#Shape_1_);}
+	.st1{fill-rule:evenodd;clip-rule:evenodd;fill:#95D3FA;}
+	.st2{fill-rule:evenodd;clip-rule:evenodd;fill:#FFFFFF;}
+	.st3{fill-rule:evenodd;clip-rule:evenodd;fill:#FEFEFF;}
+</style>
+<title>应用图3</title>
+<desc>Created with Sketch.</desc>
+<g id="Page-1">
+	<g id="应用图3">
+		<g id="Rectangle">
+			<path id="path-2_1_" d="M13.9,0.2h36.3C57.8,0.2,64,6.5,64,14.3V51c0,7.7-6.2,14-13.9,14H13.9C6.2,64.8,0,58.6,0,50.9V14.3
+				C0,6.5,6.2,0.2,13.9,0.2z"/>
+			
+				<linearGradient id="Shape_1_" gradientUnits="userSpaceOnUse" x1="18.6635" y1="46.295" x2="17.7585" y2="47.3062" gradientTransform="matrix(64 0 0 -64 -1134 3027.1997)">
+				<stop  offset="0" style="stop-color:#0E87ED"/>
+				<stop  offset="1" style="stop-color:#29A9F4"/>
+			</linearGradient>
+			<path id="Shape" class="st0" d="M13.9,0.2h36.3C57.8,0.2,64,6.5,64,14.3V51c0,7.7-6.2,14-13.9,14H13.9C6.2,64.8,0,58.6,0,50.9
+				V14.3C0,6.5,6.2,0.2,13.9,0.2z"/>
+		</g>
+		<polygon id="Path-2" class="st1" points="27,33.6 35.9,27.7 40.8,31.8 31.8,38 		"/>
+		<polygon id="Path_1_" class="st2" points="9,27.9 32.7,45 38,41.3 15.3,24.5 32,12.2 56,29.5 56,22.3 35.1,7.1 28.8,7.1 9,21.9 		
+			"/>
+		<polygon id="Path-Copy" class="st3" points="9,35.3 32,52.3 49.2,40.9 26,23.8 31,19.7 56,37.7 56,43.7 35.1,57.6 28.8,57.6 
+			9,42.9 		"/>
+	</g>
+</g>
+</svg>

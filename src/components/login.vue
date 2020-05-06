@@ -8,10 +8,12 @@
         <div class="lg-info-panel">
             <div class="inner-panel">
                 <a href="javascript:void(0)" class="p-20 di"><img src="./gallery/WechatIMG@2x.png"/></a>
-                
             </div>
         </div>
         <div class="login_box">
+            <div class="login_but">
+                <router-link :to="{name:'DownloadappRouter'}"><el-button class="but_jump" plain>{{this.$t("message.archive.Download")}}</el-button></router-link>
+            </div>
             <div class="white-box">
                 <h3 class="box-title m-b-0">{{ $t("message.login.signin") }}</h3>
                 <div class="prompt" id="prompt">
@@ -179,6 +181,23 @@ export default {
 
 
 <style scoped>
+/* 下载按钮 */
+.login_but{
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+    padding: 0 20px;
+}
+.but_jump{
+    font-size:14px;
+    /* font-family:PingFang SC; */
+    font-weight:500;
+    color:rgba(32,137,229,1);
+    margin-top: 10px;
+    border:1px solid rgba(31,136,229,1);
+    border-radius:5px;
+    padding: 7px 11px;
+}
 /*错误提示 */
 .prompt{
     font-size:7px;
