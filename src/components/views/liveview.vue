@@ -354,7 +354,7 @@ export default {
             let _this =this;
             if(data.disabled_me==false){
                 // mdi-camcorder
-                $("#icon"+data.token).css("color","#5fbfa7");
+                // $("#icon"+data.token).css("color","#5fbfa7");
                 // $("#icon"+data.token).removeClass('mdi mdi-camcorder fa-fw');
                 // $("#icon"+data.token).addClass('iconfont icon-zhengzaibofang');
                 
@@ -391,7 +391,7 @@ export default {
             // console.log(data)
             // return false;
             if(data.disabled_me==false){
-                $("#icon"+data.token).css("color","#5fbfa7");
+                // $("#icon"+data.token).css("color","#5fbfa7");
                 // $("#icon"+data.token).removeClass('mdi mdi-camcorder fa-fw');
                 // $("#icon"+data.token).addClass('iconfont icon-zhengzaibofang');
                 var main="main"

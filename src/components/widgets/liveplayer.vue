@@ -343,7 +343,7 @@ export default {
             $("#"+this.inputid).removeClass("spanpicturequality") 
             if (this.h5handler != undefined)
             {
-                $("#icon"+this.tokenshou).css("color","rgb(142, 132, 132)");
+                // $("#icon"+this.tokenshou).css("color","rgb(142, 132, 132)");
                 // $("#icon"+this.tokenshou).addClass('mdi mdi-camcorder fa-fw');
                 // $("#icon"+this.tokenshou).removeClass('iconfont icon-zhengzaibofang');
                 // $("#"+this.videonameid).removeClass("videoname");
@@ -427,7 +427,7 @@ export default {
             $("#"+this.spanqualityid).addClass("spanquality")
             $("#"+this.inputid).addClass("spanpicturequality")
             // $("#icon"+this.tokenshou).css("color","rgb(142, 132, 132)");
-            $("#icon"+this.tokenshou).css("color","rgb(142, 132, 132)");
+            // $("#icon"+this.tokenshou).css("color","rgb(142, 132, 132)");
             // $("#icon"+this.tokenshou).addClass('mdi mdi-camcorder fa-fw');
             // $("#icon"+this.tokenshou).removeClass('iconfont icon-zhengzaibofang');
            
