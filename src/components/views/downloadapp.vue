@@ -14,7 +14,7 @@
                     <div class="Anchor_heng"></div>
                     <div class="Anchor">
                         <a href="#APP">
-                            <el-button class="but_jump1" icon="iconfont icon-download" type="primary"> 软件下载合集</el-button>
+                            <el-button class="but_jump1" icon="iconfont icon-download" type="primary"> 软件下载</el-button>
                         </a>
                     </div>
                 </div>
@@ -62,14 +62,14 @@ export default {
                     connode:[{
                         name:"插件",
                         img:require("./gallery/dow_icon.png"),
-                        Introduction:"手机版APP，视频监控类APP.",
+                        Introduction:"可以使用插件兼容IE, Chrome/Edge/Firefox 不需要该插件.",
                     }]
                 },{
                     name:"APP",
                     connode:[{
                         name:"H5S视频平台",
                         img:require("./gallery/dow_app.png"),
-                        Introduction:"手机版APP",
+                        Introduction:"Android APP(代码开放)",
                         qrcodenone:[{
                             name:"Android",
                             img:require("./gallery/Android.png")
