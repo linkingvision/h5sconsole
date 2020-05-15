@@ -29,8 +29,26 @@
         <button type="button" class="vidbuttion pull-right iconfont icon-camerafill" @click="DoSnapshot($event)"></button>
         <button type="button" class="vidbuttion pull-right iconfont icon-picfill" @click="DoSnapshotWeb($event)"></button>
         <button type="button" class="vidbuttion pull-right" @click="Shoutwheat($event)"> <i :class="Shoutwheatclass"></i></button>
-        <!-- <button type="button" class="vidbuttion pull-right iconfont icon-fangda" @click="Electronic($event)"></button> -->
-        <el-popover
+        <button type="button" class="vidbuttion pull-right iconfont icon-fangda" @click="Electronic($event)"></button>
+        <Poptip placement="bottom" class=" pull-right">
+            <button class="vidbuttion iconfont icon-erweima" @click="qrcode"></button>
+            <div class="api" slot="content">
+                <div class="bottom_QR">
+                    <div class="bottom_scan">{{$t("message.live.Scan")}}</div>
+                    <div class="bottom_QRcode">
+                        <div>
+                            <div ref="qrcodead" id="qrcodead1" style="margin-bottom: 16px;"></div>
+                            <div>Android</div>
+                        </div>
+                        <div>
+                            <div ref="qrcodeios" id="qrcodeios1" style="margin-bottom: 16px;"></div>
+                            <div>iOS</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </Poptip>
+        <!-- <el-popover
             placement="bottom"
             trigger="click">
             
@@ -48,11 +66,9 @@
                 </div>
             </div>
             <button slot="reference" class="vidbuttion pull-right iconfont icon-erweima" @click="qrcode"></button>
-        </el-popover>
+        </el-popover> -->
     </div>
-    <!-- <div class="myCanvas">
-        <canvas :id="canvaid" width="170" height="105"></canvas>
-    </div> -->
+    <canvas class="myCanvas" :id="canvaid" width="170" height="105"></canvas>
 
     <div class="ptzcontrols"  style="display:none padding:0px">
         
@@ -129,6 +145,7 @@ export default {
     props:['h5id', 'h5videoid',"cols","rows","canvasid"],
     data () {
         return {
+            Electronichide:false,//电子放大
             content:{
                 focusing:this.$t('message.live.focusing'),
                 Focus:this.$t('message.live.Focus'),
@@ -234,22 +251,55 @@ export default {
    
     methods: {
         //电子放大
-        // Electronic(){
-        //     console.log("电子放大")
-        //     var v = document.getElementById(this.videoid);
-		// 	var c = document.getElementById(this.canvaid);
-		// 	var ctx = c.getContext('2d');
-		// 	//每20毫秒画一次图
-		// 	this.canvasdate = window.setInterval(function() {
-		// 			ctx.drawImage(v, 0, 0, 170, 105);
-		// 			//打印当前视频的播放时间
-		// 			// console.log(v.currentTime);
-		// 			//当视频结束的时候去掉循环
-		// 			// if (v.ended) {
-		// 			// 	clearInterval(i)
-		// 			// }
-		// 		}, 20);
-        // },
+        Electronic(){
+            console.log("电子放大")
+            var root = process.env.API_ROOT;
+            if (root == undefined) {
+                root =window.location.protocol + "//" +window.location.host +window.location.pathname;
+            }
+            var v = document.getElementById(this.videoid);
+            if(v.poster!=""||v.poster!="http://localhost:6080/"||v.poster!=root){
+                if(this.Electronichide==false){
+                    this.Electronichide=true;
+                    $("#"+this.canvaid).show();
+                    this.Electronicopen();
+                }else if(this.Electronichide==true){
+                    this.Electronichide=false;
+                    $("#"+this.canvaid).hide();
+                    this.Electronicoff();
+                }
+            }
+        },
+        //开启电子放大
+        Electronicopen(){
+            var v = document.getElementById(this.videoid);
+            var c = document.getElementById(this.canvaid);
+            var ctx = c.getContext('2d');
+            //所需参数
+            var wh=$(".h5container");
+            // var screenH = document.documentElement.clientHeight/9;
+            // var screenw = document.documentElement.clientWidth/10;
+            // var videoH = $('#'+this.videoid)[0].offsetHeight/10;
+            // var videoW = $('#'+this.videoid)[0].offsetWidth/10;
+            // console.log(wh.width(),wh.height(),videoH,videoW,screenH,"111")
+            $("#"+this.videoid).addClass("myCanvasvideo")
+            // return false;
+            //每20毫秒画一次图
+            this.canvasdate = window.setInterval(function() {
+                ctx.drawImage(v, 0, 0, 170, 105);
+            }, 20);
+        },
+        //关闭电子放大
+        Electronicoff(){
+            var v = document.getElementById(this.videoid);
+            //所需参数
+            var wh=$(".h5container");
+            v.width=wh.width();
+            v.height=wh.height();
+            
+            $("#"+this.videoid).removeClass("myCanvasvideo")  
+            clearInterval(this.canvasdate);
+        },
         // 二维码
         qrcode () {
             console.log(this.tokenshou)
@@ -336,18 +386,14 @@ export default {
            
             $("#"+this.videonameid).addClass("videoname");
             $("#"+this.inputid).addClass("streambutton")
-             $("#"+this.qualityid).addClass("quality")
+            $("#"+this.qualityid).addClass("quality")
             $("#"+this. picturequalityid).removeClass("picturequality")      
             //console.log("*********************",label,token);
             $("#"+this.spanqualityid).removeClass("spanquality")
             $("#"+this.inputid).removeClass("spanpicturequality") 
             if (this.h5handler != undefined)
             {
-                // $("#icon"+this.tokenshou).css("color","rgb(142, 132, 132)");
-                // $("#icon"+this.tokenshou).addClass('mdi mdi-camcorder fa-fw');
-                // $("#icon"+this.tokenshou).removeClass('iconfont icon-zhengzaibofang');
-                // $("#"+this.videonameid).removeClass("videoname");
-                // $("#"+this.rtcid).removeClass("rtc_new");
+                document.getElementById("icon"+this.tokenshou).style.color="rgb(142, 132, 132)";
                 this.h5handler.disconnect();
                 delete this.h5handler;
                 this.h5handler = undefined;
@@ -426,10 +472,7 @@ export default {
             $("#"+this.rtcid).removeClass("rtc_new");
             $("#"+this.spanqualityid).addClass("spanquality")
             $("#"+this.inputid).addClass("spanpicturequality")
-            // $("#icon"+this.tokenshou).css("color","rgb(142, 132, 132)");
-            // $("#icon"+this.tokenshou).css("color","rgb(142, 132, 132)");
-            // $("#icon"+this.tokenshou).addClass('mdi mdi-camcorder fa-fw');
-            // $("#icon"+this.tokenshou).removeClass('iconfont icon-zhengzaibofang');
+            document.getElementById("icon"+this.tokenshou).style.color="rgb(142, 132, 132)";
            
             var $container = $("#"+this.h5id);
             var $controls = $container.children(".h5controls");
@@ -554,12 +597,16 @@ export default {
                         document.mozCancelFullScreen();
                     } else if (document.msExitFullscreen) {
                         document.msExitFullscreen();
+                        
                     }
+                    // this.Electronicoff();
+                    // this.Electronicopen();
                     console.log("========  updateUIExitFullScreen");
                     this.updateUIExitFullScreen();
                 } else {
                      console.log('panelFullScreen3');
-
+                    // this.Electronicoff();
+                    // this.Electronicopen();
                     if (elem.requestFullscreen) {
                         elem.requestFullscreen();
                     } else if (elem.webkitRequestFullscreen) {
@@ -851,10 +898,23 @@ export default {
 <style scoped>
 /* 电子放大 */
 .myCanvas {
+    width: 100%;
+    height: 100%;
     position:absolute;
-    bottom:0;
-    right: 0;
+    top: 0;
+    left: 0;
     padding:0px;
+    display: none;
+}
+.myCanvasvideo {
+    width: 36% !important;
+    height: 36% !important;
+    position:absolute;
+    right: 0;
+    bottom: 0;
+    padding:0px;
+    z-index: 1;
+    /* display: none; */
 }
 /* 二维码 */
 .bottom_QR{

@@ -264,39 +264,35 @@ export default {
             // ev.preventDefalut()
         },
         dropTarget (ev,r,c) {
-            console.log(ev,"12",ev.target.id,r,c,this.drag);
+            var root = process.env.API_ROOT;
+            if (root == undefined) {
+                root =window.location.protocol + "//" +window.location.host +window.location.pathname;
+            }
             let _this =this;
             var data=this.drag;
             // return false;
             if(data.disabled_me==false){
-                $("#icon"+data.token).css("color","#5fbfa7");
-                // $("#icon"+data.token).removeClass('mdi mdi-camcorder fa-fw');
-                // $("#icon"+data.token).addClass('iconfont icon-zhengzaibofang');
-                // console.log("----------------------");
+                document.getElementById("icon"+data.token).style.color="#5fbfa7";
                 if (data.token) {
                     let vid = 'h' + r + c;
-                    // console.log("----------------------",data.label);
                     _this.$root.bus.$emit('liveplay', data.token, data.streamprofile, data.name,data.label,vid);
                 }
-                setTimeout(function(){
-                    for(var i=1;i<=this.rows;i++){
-                        for(var c=1;c<=this.cols;c++){
-                            var video= document.getElementById("hvideo"+i+c)
-                            console.log('video.paused',video);
-                            if(video.paused){
-                                this.selectCol = c;
-                                this.selectRow =i;
-                                $(".h5container").removeClass('h5videoh');
-                                $("#h"+this.selectRow+this.selectCol).addClass('h5videoh');
-                                console.log('video.paused1',video.paused,i,c);
-                                return false
-                            }else{
-                                console.log('video.paused1',video.paused);
-                            }
+                for(var i=1;i<=this.rows;i++){
+                    for(var c=1;c<=this.cols;c++){
+                        var video= document.getElementById("hvideo"+i+c)
+                        console.log('video.paused',video);
+                        if(video.poster==""||video.poster=="http://localhost:6080/"||video.poster==root){
+                            this.selectCol = c;
+                            this.selectRow =i;
+                            $(".h5container").removeClass('h5videoh');
+                            $("#h"+this.selectRow+this.selectCol).addClass('h5videoh');
+                            return false
+                        }else{
+                            console.log('video.paused1',!video.poster);
                         }
                     }
+                }
                     
-                }.bind(this),1000)
             }else{
                console.log("不可用");
             }
@@ -348,15 +344,13 @@ export default {
         },
         //树形节点点击
         handleNodeClick(data, checked, indeterminate){
-            // console.log(data)
-            // console.log(data.label);
-            // console.log("1",data);
+            var root = process.env.API_ROOT;
+            if (root == undefined) {
+                root =window.location.protocol + "//" +window.location.host +window.location.pathname;
+            }
             let _this =this;
             if(data.disabled_me==false){
-                // mdi-camcorder
-                // $("#icon"+data.token).css("color","#5fbfa7");
-                // $("#icon"+data.token).removeClass('mdi mdi-camcorder fa-fw');
-                // $("#icon"+data.token).addClass('iconfont icon-zhengzaibofang');
+                document.getElementById("icon"+data.token).style.color="#5fbfa7";
                 
                 // return false;
                 if (data.token) {
@@ -364,61 +358,56 @@ export default {
                     // console.log("----------------------",data.label);
                     _this.$root.bus.$emit('liveplay', data.token, data.streamprofile, data.name,data.label,vid);
                 }
-                setTimeout(function(){
-                    for(var i=1;i<=this.rows;i++){
-                        for(var c=1;c<=this.cols;c++){
-                            var video= document.getElementById("hvideo"+i+c)
-                            if(video.paused){
-                                this.selectCol = c;
-                                this.selectRow =i;
-                                $(".h5container").removeClass('h5videoh');
-                                $("#h"+this.selectRow+this.selectCol).addClass('h5videoh');
-                                console.log('video.paused1',video.paused,i,c);
-                                return false
-                            }else{
-                                console.log('video.paused1',video.paused);
-                            }
+                for(var i=1;i<=this.rows;i++){
+                    for(var c=1;c<=this.cols;c++){
+                        var video= document.getElementById("hvideo"+i+c)
+                        console.log('video.paused++++',video.poster);
+                        if(video.poster==""||video.poster=="http://localhost:6080/"||video.poster==root){
+                            this.selectCol = c;
+                            this.selectRow =i;
+                            $(".h5container").removeClass('h5videoh');
+                            $("#h"+this.selectRow+this.selectCol).addClass('h5videoh');
+                            // console.log('video.paused1',video.poster,i,c);
+                            return false
+                        }else{
+                            console.log('video.paused1',video.poster);
                         }
                     }
+                }
                     
-                }.bind(this),1000)
             }else{
                console.log("不可用");
             }
         },
         handleNodeClick1(data, checked, indeterminate){
+            var root = process.env.API_ROOT;
+            if (root == undefined) {
+                root =window.location.protocol + "//" +window.location.host +window.location.pathname;
+            }
             let _this =this;
-            // console.log(data)
             // return false;
             if(data.disabled_me==false){
-                // $("#icon"+data.token).css("color","#5fbfa7");
-                // $("#icon"+data.token).removeClass('mdi mdi-camcorder fa-fw');
-                // $("#icon"+data.token).addClass('iconfont icon-zhengzaibofang');
+                document.getElementById("icon"+data.token).style.color="#5fbfa7";
                 var main="main"
                 if (data.strToken) {
                     let vid = 'h' + _this.$data.selectRow + _this.$data.selectCol;
-                    // console.log("----------------------",data.label);
                     _this.$root.bus.$emit('liveplay', data.strToken,data.streamprofile, data.name,data.label, vid);
                 }
-                setTimeout(function(){
-                    for(var i=1;i<=this.rows;i++){
-                        for(var c=1;c<=this.cols;c++){
-                            var video= document.getElementById("hvideo"+i+c)
-                            console.log('video.paused',video);
-                            if(video.paused){
-                                this.selectCol = c;
-                                this.selectRow =i;
-                                $(".h5container").removeClass('h5videoh');
-                                $("#h"+this.selectRow+this.selectCol).addClass('h5videoh');
-                                console.log('video.paused1',video.paused,i,c);
-                                return false
-                            }else{
-                                console.log('video.paused1',video.paused);
-                            }
+                for(var i=1;i<=this.rows;i++){
+                    for(var c=1;c<=this.cols;c++){
+                        var video= document.getElementById("hvideo"+i+c)
+                        console.log('video.paused++++++++',video.poster);
+                        if(video.poster==""||video.poster=="http://localhost:6080/"||video.poster==root){
+                            this.selectCol = c;
+                            this.selectRow =i;
+                            $(".h5container").removeClass('h5videoh');
+                            $("#h"+this.selectRow+this.selectCol).addClass('h5videoh');
+                            return false
+                        }else{
+                            console.log('video.paused1',!video.poster);
                         }
                     }
-                    
-                }.bind(this),1000)
+                }
             }else{
                 console.log("不可用");
             }

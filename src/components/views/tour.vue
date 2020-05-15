@@ -77,8 +77,8 @@
                 <div class="flex_but">
                     
                     <div>
-                        <el-button size="mini" @click="Playall">{{$t("message.tour.Start")}}</el-button>
-                        <el-button size="mini" @click="Allpause">{{$t("message.tour.stop")}}</el-button>
+                        <el-button class="tour_start" size="mini" @click="Playall">{{$t("message.tour.Start")}}</el-button>
+                        <el-button class="tour_stop" size="mini" @click="Allpause">{{$t("message.tour.stop")}}</el-button>
                         <el-select v-model="region" size="mini" style="width:70px" @change="Speed()">
                             <el-option label="20" value="20"></el-option>
                             <el-option label="30" value="30"></el-option>
@@ -498,6 +498,23 @@ export default {
 
 
 <style scoped>
+/* 修改按钮 */
+.tour_start{
+    background:rgba(88,178,155,1);
+    border-radius:20px;
+    font-family:PingFang SC;
+    font-weight:500;
+    color:rgba(255,255,255,1);
+}
+.tour_stop{
+    border:1px solid rgba(88,178,155,1);
+    box-shadow:0px 2px 10px 0px rgba(205,205,205,0.32);
+    border-radius:20px;
+    font-family:PingFang SC;
+    font-weight:500;
+    color:#333333;
+}
+
 .el_row{
     height: 900px;
     margin-bottom: 8px;
@@ -525,11 +542,15 @@ export default {
     color: #68ABCF;
 }
 /* 右边 */
-.flex_but div{
-    /* display: flex;
-    justify-content: space-between; */
+.flex_but{
+    display: flex;
+    justify-content: space-between;
     /* padding: 10px 20px; */
     margin-bottom: 5px;
+    margin-top: 15px;
+}
+.flex_but div{
+    width: 50%;
 }
 
 
@@ -637,20 +658,22 @@ div[name="flex"]:hover {
 .layout3x3 {
     background: url('./gallery/9@2x.png') #f2f2f2;
     background-repeat: no-repeat;
-    background-size: 30px 30px;
+    background-size: 26px 26px;
     color: #000;
-    height: 32px;
-    width: 32px;
+    height: 28px;
+    width: 28px;
     padding: 0;
+    margin-right: 30px;
+    margin-left: -50px;
 }
 
 .layoutfull {
     background: url('./gallery/quanping.png') #f2f2f2;
     background-repeat: no-repeat;
-    background-size: 30px 30px;
+    background-size: 26px 26px;
     color: #000;
-    height: 32px;
-    width: 32px;
+    height: 28px;
+    width: 28px;
     padding: 0;
 }
 

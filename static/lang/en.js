@@ -203,6 +203,9 @@ module.exports={
 		Engine:"Engine",
 		FPSType:"FPSType",
 		ScaleType:"ScaleType",
+		Bitrate:"Bitrate",
+		FPS:"FPS",
+		WH:"Width*Height",
 	},
 	playback:{
 		H5SPlayback:"H5S Playback",

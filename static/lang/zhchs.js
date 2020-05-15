@@ -204,6 +204,9 @@ module.exports={
 		Engine:"引擎",
 		FPSType:"帧率类型",
 		ScaleType:"分辨率类型",
+		Bitrate:"码率",
+		FPS:"帧率",
+		WH:"宽*高",
 	},
 	playback:{
 		H5SPlayback:"H5S回放",

@@ -14,7 +14,7 @@
                     <div class="Anchor_heng"></div>
                     <div class="Anchor">
                         <a href="#APP">
-                            <el-button class="but_jump1" icon="iconfont icon-download" type="primary"> 软件下载</el-button>
+                            <el-button class="but_jump1" icon="iconfont icon-download" type="primary"> 软件下载合集</el-button>
                         </a>
                     </div>
                 </div>
@@ -190,8 +190,8 @@ export default {
 }
 .title_back{
     width: 50%;
-    background: url('./gallery/dow_back.png') no-repeat;
-    background-size: 80%;
+    background: url('./gallery/dow_back.png') no-repeat 180px;
+    background-size: 70%;
     height: 100%;
 }
 .title_but{

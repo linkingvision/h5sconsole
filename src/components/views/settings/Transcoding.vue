@@ -26,7 +26,7 @@
                     </el-select>
                     <!-- <input class="editinput" v-model="form.nEngine"/> -->
                 </el-form-item>
-                <el-form-item label="Bitrate">
+                <el-form-item :label="label.Bitrate">
                     <el-input type="number" v-model="editform.nBitrate" @input="change($event)"></el-input>
                 </el-form-item>
                 <el-form-item :label="label.FPSType">
@@ -40,7 +40,7 @@
                     </el-select>
                     <!-- <input class="editinput" v-model="form.nFPSType"/> -->
                 </el-form-item>
-                <el-form-item label="FPS">
+                <el-form-item :label="label.FPS">
                     <el-input type="number" v-model="editform.nFPS" @input="change($event)"></el-input>
                 </el-form-item>
                 <el-form-item :label="label.ScaleType">
@@ -55,7 +55,7 @@
                     <!-- <input class="editinput" v-model="form.nScaleType"/> -->
                 </el-form-item>
                 <!-- v-if="form.Type!='H5_ONVIF'" -->
-                <el-form-item label="Width*Height">
+                <el-form-item :label="label.WH">
                     <el-select v-model="editform.wihe" placeholder="请选择" @input="change($event)">
                         <el-option
                             v-for="item in options"
@@ -315,6 +315,10 @@ import '@/assets/jQuery.md5.js'
             Engine:this.$t("message.table.Engine"),
             FPSType:this.$t("message.table.FPSType"),
             ScaleType:this.$t("message.table.ScaleType"),
+
+            Bitrate:this.$t("message.table.Bitrate"),
+            FPS:this.$t("message.table.FPS"),
+            WH:this.$t("message.table.WH"),
         },
         //分页
         form: {
