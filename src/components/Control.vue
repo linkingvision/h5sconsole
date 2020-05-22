@@ -321,7 +321,7 @@ export default {
             },
             data: [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
             data1: [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-            data2: [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+            data2: [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
         }
     },
     mounted(){
@@ -344,13 +344,13 @@ export default {
         }, 5000);
         this.timerRunInfo2 = setInterval(() => {
             this.GetDeviceSummary();
-        }, 60000*5);
+        }, 60000*5)
     },
     beforeDestroy() {
         clearInterval(this.timerRunInfo);
         clearInterval(this.timerRunInfo1);
         clearInterval(this.timerRunInfo2);
-        clearInterval(this.timersetInterval);
+        clearInterval(this.timersetInterval)
     },
     methods:{
         
@@ -932,7 +932,7 @@ export default {
                     data: this.data2
                 },]
             })
-        },
+        }
     }
 }
 </script>

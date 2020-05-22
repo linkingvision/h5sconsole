@@ -29,10 +29,10 @@ axios.interceptors.response.use(
   },
   error => {
     if (error.response) {
-      if(store.state.token!=null){
-        console.log(store.state.token);
-        return false
-      }
+      // if(store.state.token!=null){
+      //   console.log(store.state.token);
+      //   return false
+      // }
       switch (error.response.status) {
         case 401:
           // 401 清除token信息并跳转到登录页面

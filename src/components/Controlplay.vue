@@ -17,7 +17,7 @@ export default {
             h5handler: undefined,//视频内容
             currtoken: undefined,
             proto: 'RTC',
-            tokenshou:"",
+            tokenshou:""
         }
     },
     beforeDestroy() {
@@ -85,7 +85,7 @@ export default {
             }
             //return false;
             this.h5handler.connect();
-        },
+        }
     }
 }
 </script>

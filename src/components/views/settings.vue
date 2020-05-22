@@ -66,6 +66,13 @@
                             </div>
                         </a> 
                     </router-link>
+                    <router-link  :to="{name:'WebrtcRouter'}">
+                        <a href="javascript:void(0)" class="setting_left_a" :class="{setting_tj1:index_lj==9}">
+                            <div :class="{setting_tj:index_lj==9}"  @click="setting_ys8" class="setting_left">
+                                WEBRTC
+                            </div>
+                        </a> 
+                    </router-link>
                 </div>
             </el-col>
             <el-col style="padding:0px;" :span="20">
@@ -92,7 +99,7 @@ export default {
                 {name:this.$t("message.setting.devicesdk"),name1:'./setting/devicesdks'}
             ],*/
             index_lj:"1",
-            language:this.$t("message.setting.device"),
+            language:this.$t("message.setting.device")
         }
     },
     mounted(){
@@ -130,6 +137,10 @@ export default {
              this.index_lj=8;
              this.language=this.$t("message.setting.CloudConnect");
         },
+        setting_ys8(){
+             this.index_lj=9;
+             this.language="WEBRTC";
+        }
      
     }
 }
@@ -159,6 +170,8 @@ a{
     padding-left: 29%;
     box-sizing: border-box;
     font-size: 16px;
+    border-bottom: 1px solid rgba(247,247,247,1);
+    box-sizing: border-box;
 }
 /* 点击变换颜色 */
 .setting_tj{

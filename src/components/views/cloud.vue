@@ -35,7 +35,7 @@ export default {
     data(){
         return {
             isCollapse: false,
-            index_lj:"1",
+            index_lj:"1"
         }
     },
     mounted(){
@@ -43,7 +43,7 @@ export default {
     methods: {
         setting_ys(){
              this.index_lj=1;
-        },
+        }
     }
 }
 </script>

@@ -218,14 +218,14 @@ export default {
             defaultProps1: {
                 children: 'node',
                 label: 'strName',
-                cam:"cam",
+                cam:"cam"
             },
             drag:"",//拖动播放
             watermarkstring:this.$store.state.watermarkstring,//水印、
             drawer: false,//右侧栏
             direction: 'rtl',//右侧栏
             watermarktoggle:this.$store.state.watermarktoggle,
-            title:this.$t("message.live.setting"),
+            title:this.$t("message.live.setting")
         };
     },
     computed:{
@@ -234,7 +234,7 @@ export default {
         }
     },
     mounted() {
-        // console.log(listdatag)
+        // console.log("liveview",this.$store.state.linkweb)
         if( this.$store.state.root=="Operator"){
             $("#device").hide();
         }else{
@@ -248,7 +248,7 @@ export default {
     methods: {
         //拖动播放
         dragStart(ev,token,label,streamprofile,name,disabled_me){
-            console.log(ev,token,label,streamprofile,name,disabled_me,"124");
+            // console.log(ev,token,label,streamprofile,name,disabled_me,"124");
             var drag={
                 token:token,
                 label:label,
@@ -280,7 +280,7 @@ export default {
                 for(var i=1;i<=this.rows;i++){
                     for(var c=1;c<=this.cols;c++){
                         var video= document.getElementById("hvideo"+i+c)
-                        console.log('video.paused',video);
+                        // console.log('video.paused',video);
                         if(video.poster==""||video.poster=="http://localhost:6080/"||video.poster==root){
                             this.selectCol = c;
                             this.selectRow =i;
@@ -361,7 +361,7 @@ export default {
                 for(var i=1;i<=this.rows;i++){
                     for(var c=1;c<=this.cols;c++){
                         var video= document.getElementById("hvideo"+i+c)
-                        console.log('video.paused++++',video.poster);
+                        // console.log('video.paused++++',video.poster);
                         if(video.poster==""||video.poster=="http://localhost:6080/"||video.poster==root){
                             this.selectCol = c;
                             this.selectRow =i;
@@ -396,7 +396,7 @@ export default {
                 for(var i=1;i<=this.rows;i++){
                     for(var c=1;c<=this.cols;c++){
                         var video= document.getElementById("hvideo"+i+c)
-                        console.log('video.paused++++++++',video.poster);
+                        // console.log('video.paused++++++++',video.poster);
                         if(video.poster==""||video.poster=="http://localhost:6080/"||video.poster==root){
                             this.selectCol = c;
                             this.selectRow =i;
@@ -466,31 +466,31 @@ export default {
             let _this = this;
              window.setTimeout(function() {
                 if(data=='1|6'||data=='1|7'||data=='1|13'){
-                    console.log("121");
+                    // console.log("121");
                     
                 }else{
-                    console.log("45845454545");
+                    // console.log("45845454545");
                     $("#videoPanel .videoColor .palace").removeClass("Seven_Palace");
                     $("#videoPanel .videoColor .palace").removeClass("Six_Palace");
                     $("#videoPanel .videoColor .palace").removeClass("videoflexitem");
                 }
                 var list_gong=$(".palace");
                 if(data=='1|6'){
-                    console.log("23")
+                    // console.log("23")
                     list_gong.removeClass("videoflexitem");
                     list_gong.removeClass("Seven_Palace");
 
                     list_gong.addClass("Six_Palace");
                 }
                 if(data=='1|7'){
-                    console.log("234")
+                    // console.log("234")
                     list_gong.removeClass("videoflexitem");
                     list_gong.removeClass("Six_Palace");
 
                     list_gong.addClass("Seven_Palace");
                 }
                 if(data=='1|13'){
-                    console.log("2345")
+                    // console.log("2345")
                     list_gong.removeClass("Six_Palace");
                     list_gong.removeClass("Seven_Palace");
 
@@ -654,7 +654,7 @@ export default {
         console.log("filter",val);
         this.$refs.tree.filter(val);
       }
-    },
+    }
 };
 
 </script>

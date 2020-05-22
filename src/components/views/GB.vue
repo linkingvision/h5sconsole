@@ -52,7 +52,7 @@ export default {
                 {name:this.$t("message.setting.devicesdk"),name1:'./setting/devicesdks'}
             ],*/
             index_lj:"1",
-            language:this.$t("message.GB.GB28181"),
+            language:this.$t("message.GB.GB28181")
         }
     },
     mounted(){
@@ -65,7 +65,7 @@ export default {
         setting_ys1(){
              this.index_lj=2;
              this.language=this.$t("message.GB.GBPlatform");
-        },
+        }
      
     }
 }

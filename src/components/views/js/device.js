@@ -406,14 +406,14 @@ function getchild(arr,arr1) {
                         strName :i18n.tc('message.live.mainstream'),
                         name:arr1[j].strName+"--"+i18n.tc('message.live.mainstream'),
                         iconclass : 'mdi mdi-playlist-play fa-fw',
-                        disabled_me:false,
+                        disabled_me:false
                       },{
                         strToken : arr1[j].strToken,
                         streamprofile : "sub",
                         strName :i18n.tc('message.live.substream'),
                         name:arr1[j].strName+"--"+i18n.tc('message.live.substream'),
                         iconclass : 'mdi mdi-playlist-play fa-fw',
-                        disabled_me:false,
+                        disabled_me:false
                       }]
                     arr.cam[i].node=node1;
                     arr.cam[i].strName = arr1[j].strName;

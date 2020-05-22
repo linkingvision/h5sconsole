@@ -132,7 +132,7 @@ export default {
                 //过滤文字
                 label:{
                     label2:this.$t("message.live.mainstream"),//选3
-                    label3:this.$t("message.live.substream"),//选3
+                    label3:this.$t("message.live.substream")//选3
                 },
                 filterText:"",
                 rows: 3,
@@ -147,7 +147,7 @@ export default {
                     children: 'children',
                     label: 'label',
                     token:"token",
-                    iconclass:"iconclass",
+                    iconclass:"iconclass"
                 },
                 drawer: false,//右侧栏
                 direction: 'rtl',//右侧栏
@@ -157,13 +157,13 @@ export default {
                 proto: this.$store.state.tour,//协议
                 h5playev1:[],//内容
                 timersetInterval:"",//定时器
-                token_index:"",//删除个数
+                token_index:""//删除个数
             };
 
     },
     computed:{
         count(){
-            return this.$store.state.tour;
+            return this.$store.state.tour
         }
     },
     mounted() {
@@ -173,7 +173,7 @@ export default {
         // this.loadtest();
         // this.NumberDevice();
         // this.cloudDevice();
-        this.$root.bus.$emit('liveplayproto',this.proto);
+        this.$root.bus.$emit('liveplayproto',this.proto)
     },
     methods: {
        
@@ -478,7 +478,7 @@ export default {
             }
             // 没匹配到返回false
             return false;
-        },
+        }
 
     },
     beforeDestroy() {
@@ -491,7 +491,7 @@ export default {
         console.log("filter",val);
         this.$refs.tree.filter(val);
       }
-    },
+    }
 };
 
 </script>

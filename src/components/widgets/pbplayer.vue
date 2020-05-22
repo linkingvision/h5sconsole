@@ -62,14 +62,14 @@ export default {
             currtoken: undefined,
             ptzshow: false,
             proto: 'WS',
-            tokenplay:"",
+            tokenplay:""
         }
     },
     activated() {
-        console.log(this.h5id, "activated");
+        console.log(this.h5id, "activated")
     },
     deactivated() {
-        console.log(this.h5id, "deactivated");
+        console.log(this.h5id, "deactivated")
     },
     beforeDestroy() {
         //console.log(this.h5id, "beforeDestroy");
@@ -79,7 +79,7 @@ export default {
             delete this.h5handler;
             this.h5handler = undefined;
         }
-        this.currtoken = undefined;
+        this.currtoken = undefined
     },
     destroyed() {
         //console.log(this.h5id, "destroyed");

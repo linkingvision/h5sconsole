@@ -173,7 +173,7 @@ export default {
                 Token:this.$t("message.table.Token"),
                 StartTime:this.$t("message.table.StartTime"),
                 EndTime:this.$t("message.table.EndTime"),
-                Type:this.$t("message.table.Type"),
+                Type:this.$t("message.table.Type")
             },
             timelink:0,//滑块
             max:0,//滑块最大值
@@ -232,7 +232,7 @@ export default {
             icon:"mdi mdi-pause-circle fa-fw",//暂停图片
             displayc:"",//实时时间
             rowstarf:"",//跟进进度条开始时间
-            rowend:"",//进度条结束时间
+            rowend:""//进度条结束时间
         }
     },
     mounted(){
@@ -386,7 +386,7 @@ export default {
                                 percentage:0,
                                 url:item["strPath"],
                                 urlto:urlto[urlto.length-1],
-                                strFileName:"",
+                                strFileName:""
                               };
                               
                             //   console.log(data)
@@ -437,14 +437,14 @@ export default {
         filterNode(value, data) {
             if (!value) return true;
             return data.label.indexOf(value) !== -1;
-        },
+        }
     },
      //模糊查询
     watch: {
       filterText(val) {
         this.$refs.tree.filter(val);
       }
-    },
+    }
     
 }
 </script>

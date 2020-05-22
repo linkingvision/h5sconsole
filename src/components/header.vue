@@ -17,14 +17,26 @@
             <i class="ti-close ti-menu"></i>
           </a>
         </li>
+        <!-- link模式 -->
+        
+        <li style="margin-right: 25px;" class="dropdown control_center">
+          <el-switch
+            @change="linkweblick"
+            class="linkwed"
+            v-model="value"
+            active-color="#5DBFA6">
+          </el-switch>
+          <span>Link</span>
+        </li>
+        <!-- 控制中心 -->
         <li class="dropdown control_center">
-          <i class="iconfont icon-kongzhizhongxin"></i>
           <!-- <span></span> -->
-          <a href="#/Control" >
-            <router-link :to="{name:'ControlRouter'}">
-              <span class="icon_col">{{$t("message.left.Control")}}</span>
-            </router-link> 
-          </a>
+            
+            <el-tooltip class="item" effect="light" :content="label.Control" placement="bottom">
+              <router-link :to="{name:'ControlRouter'}">
+                <i class="iconfont icon-kongzhizhongxin"></i>
+              </router-link> 
+            </el-tooltip>
         </li>
         <!-- 搜索 -->
         <li class="dropdown icon_col">
@@ -162,19 +174,20 @@ export default {
   methods: {},
   data() {
     return {
+        value:'',
         user:this.$store.state.users,
         gEvvalue: 0,
         centerDialogVisible:false,
         Operator:false,
         information:{
-            strVersion: "",
+            strVersion: ""
         },
         editPopup:false,//编辑弹窗
         form: {
           strUser:this.$store.state.users,
           olPassword: "",
           nePassword:"",
-          nePassword1:"",
+          nePassword1:""
       },
       label:{
           Edit:this.$t("message.table.Edit"),
@@ -186,6 +199,7 @@ export default {
           nePassword1:this.$t("message.setting.confirmpass"),
           Change:this.$t("message.setting.Change"),
           Download:this.$t("message.archive.Download"),
+          Control:this.$t("message.left.Control")
       },
       options: [{
               value: 'Administrator',
@@ -194,15 +208,42 @@ export default {
               value: 'Operator',
               label: 'Operator'
           }
-      ],
-};
+      ]
+    };
   },
   mounted() {
-    // console.log(this.user)
+    if (window.ActiveXObject || "ActiveXObject" in window){
+        this.$store.state.link="true"
+        this.value=true;
+        $(".linkwed").css("pointer-events", "none");
+        console.log("ie")
+    }else{
+        if(this.$store.state.link=="true"){
+            this.value=true;
+        }else if(this.$store.state.link=="false"){
+            this.value=false
+        }
+        console.log("not ie")
+    }
     this.gEventval();
     this.GetSystemInfo();
   },
   methods: {
+    linkweblick(){
+      var link=this.value;
+      // return false;
+      if(link==false){
+        this.$store.commit(types.LINK, "false");
+        this.$store.state.link="false"
+        var a="false"
+        this.$root.bus.$emit('liveplaylink',a)
+      }else if(link==true){
+        var a="true"
+        this.$store.commit(types.LINK, "true");
+        this.$store.state.link="true"
+        this.$root.bus.$emit('liveplaylink',a)
+      }
+    },
     edityes(){
       var root = process.env.API_ROOT;
       if (root == undefined){
@@ -265,6 +306,21 @@ export default {
 };
 </script>
 <style scoped>
+.linkwed{
+	height: 40px;
+	margin-right: 8px;
+}
+.linkwed>>>.el-switch__core{
+	height: 15px;
+}
+.linkwed>>>.el-switch__core:after{
+	width: 11px;
+	height: 11px;
+}
+.linkwed.is-checked >>>.el-switch__core::after{
+	left: 100%;
+	margin-left: -11px;
+}
 .editinput{
     -webkit-appearance: none;
     background-color: #FFF;
@@ -318,7 +374,7 @@ a{
   color: #030303;
 }
 .navbar-top-links>li>a {
-    padding: 0 14px;
+    padding: 0 10px;
     line-height: 40px;
     min-height: 40px;
 }

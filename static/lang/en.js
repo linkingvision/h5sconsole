@@ -1,4 +1,4 @@
-module.exports={
+export default {
   message: {
     common:
     {
@@ -13,7 +13,7 @@ module.exports={
 		setting: 'Account setting',
 		logout: 'Logout',
 		login: 'Login',
-		API:"API",
+		API:"API"
     },
     left:
     {
@@ -33,7 +33,7 @@ module.exports={
 		logout: 'Logout',
 		tour:"Tour",
 		camera:"Camera",
-		VideoConference:"Video Conference",
+		VideoConference:"Video Conference"
     },
     login:
     {
@@ -44,7 +44,7 @@ module.exports={
 		username: 'USERNAME',
 		password: 'PASSWORD',
 		language: 'LANGUAGE',
-		return:"Return",
+		return:"Return"
 				
     },
 	dashboard:
@@ -100,7 +100,7 @@ module.exports={
 		RTMP:"RTMP push",
 		Online:"Online",
 		Offline:"Offline",
-		Editorfailure:"Editor failure",
+		Editorfailure:"Editor failure"
     },
 	live:
     {
@@ -154,13 +154,19 @@ module.exports={
 		Camera:"Camera Permissions",
 		Watchvideo:"View Anonymously",
 
-
 		CloudConnect:"Cloud Connect",
 		SSL:"SSL",
 		KeepaliveTime:"KeepaliveTime",
 		Enable:"Enable",
 		EdgeTranscoding:"EdgeTranscoding",
 
+		CloudMode:'Cloud Mode',
+		RelayMode:"Relay Mode",
+		TURNServer:"TURN Server",
+		PublicIP:"Public IP",
+		MinPort:"Min Port",
+		MaxPort:"Max Port",
+		PasswordEncrypt:"PasswordEncrypt",
 
 		currentpass: 'Current Password',
 		newpass: 'New Password',
@@ -180,9 +186,11 @@ module.exports={
 		Twopassword:"Two password are not same, please check!",
 		all:"All",
 		Creationfailed:"Creation failed",
-		Illegal:"Illegal login lock",
+		Illegal:"Illegal login lock"
 	},
 	table:{
+		pleasechoose:"please choose",
+		Enterkeywords:"Enter keywords",
 		Token:"Token",
 		Type:"Type",
 		Online:"Online",
@@ -205,11 +213,11 @@ module.exports={
 		ScaleType:"ScaleType",
 		Bitrate:"Bitrate",
 		FPS:"FPS",
-		WH:"Width*Height",
+		WH:"Width*Height"
 	},
 	playback:{
 		H5SPlayback:"H5S Playback",
-		NVRPlayback:"NVR Playback",
+		NVRPlayback:"NVR Playback"
 	},
 	GB:{
 		name: 'Name',
@@ -237,7 +245,7 @@ module.exports={
 		Configuration:"Configuration",
 		OVER:"OVER",
 		ADD:"ADD",
-		edit: 'Edit',
+		edit: 'Edit'
 
 	},
 	archive:{
@@ -261,11 +269,11 @@ module.exports={
 		Time:"Time",
 		Preview:"Preview",
 		Picture:"Picture",
-		Pleaseselectone:"Please select one",
+		Pleaseselectone:"Please select one"
 	},
 	tour:{
 		Start:"Start",
-		stop:"Stop",
+		stop:"Stop"
 	},
 	camera:{
 		Save_successfully:"Save successfully!",
@@ -275,7 +283,7 @@ module.exports={
 		open_Close:"Enable/Disable",
 		name: 'Name',
 		audio:"Audio" ,
-		save:"Save",
+		save:"Save"
 	},
 	Conference:{
 		VideoConference:"Video Conference",
@@ -285,7 +293,7 @@ module.exports={
 		HangUp:"Hang Up",
 		Hang:"Hang",
 		JoinConference:"Join Conference",
-		Nickname:"Nickname cannot be empty!",
+		Nickname:"Nickname cannot be empty!"
 	}
   }
 }

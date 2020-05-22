@@ -13,3 +13,5 @@ export const USER="users"
 export const ROOT="root"
 
 export const ADSWITCH="adswitch"
+
+export const LINK="link"

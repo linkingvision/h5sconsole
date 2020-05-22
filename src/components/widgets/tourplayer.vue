@@ -65,7 +65,7 @@ export default {
             proto: 'WS',
             Shoutwheatclass:"mdi mdi-microphone-off",
             tokenshou:"",
-            v2: undefined,//视频内容
+            v2: undefined//视频内容
         }
     },
     activated() {

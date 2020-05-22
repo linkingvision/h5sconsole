@@ -13,7 +13,7 @@ function EventCB(event, userdata)
             Type: msgevent.type,
             UUID:msgevent.strUUID,
             Time:msgevent.strTime,
-            Detail:event,
+            Detail:event
         };
     gEvent.push(timeitem);
     //console.log(gEvent.length)

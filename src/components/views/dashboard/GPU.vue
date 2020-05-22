@@ -60,7 +60,7 @@ export default {
             Gpu_in:this.$t("message.dashboard.gpudecoder"),
             Gpu_out:this.$t("message.dashboard.gpuencoder"),
             title_text:this.$t("message.dashboard.an_out"),
-            nvidiadata1:[],
+            nvidiadata1:[]
         }
     },
     beforeDestroy() {
@@ -154,7 +154,7 @@ export default {
                                 nIndex:data.nvidia[i].nIndex,
                                 strName:datafo.nvidia[i].strName,
                                 nEncodeUsage:data.nvidia[i].nEncodeUsage,
-                                nDecodeUsage:data.nvidia[i].nDecodeUsage,
+                                nDecodeUsage:data.nvidia[i].nDecodeUsage
                             }
                             nvidiadata.push(dataroot);
                             this.nvidiadata1.push(datafo.nvidia[i].strName);
@@ -210,7 +210,7 @@ export default {
                         data:[ this.Gpu_in,this.Gpu_out],
                         icon:'rect',
                         itemWidth: 35,
-                        itemHeight: 2,
+                        itemHeight: 2
                     },
                 xAxis: {
                     type: 'category',
@@ -284,8 +284,8 @@ export default {
             }
             // myChart.clear();
             myChart.setOption(Option)
-        },
-    },
+        }
+    }
 }
 </script>
 <style scoped>

@@ -1,4 +1,4 @@
-module.exports={
+export default {
   message: {
     common:
     {
@@ -14,7 +14,7 @@ module.exports={
 		setting: '帐号设置',
 		logout: '退出',
 		login: '登录',
-		API:"API",
+		API:"API"
     },
     left:
     {
@@ -34,7 +34,7 @@ module.exports={
 		cloud: '云视频',
 		logout: '退出',
 		camera:"监控点",
-		VideoConference:"视频会议",
+		VideoConference:"视频会议"
     },
     login:
     {
@@ -68,7 +68,6 @@ module.exports={
 		online_cam: "在线摄像机",
 		cameras: "摄像机总数",
 		total_space: "总空间",	
-		version_: '版本',
 		codec_info: "编解码器",
 		GPU_info: "GPU编解码器",
 		cpumodel: 'CPU型号',
@@ -100,7 +99,7 @@ module.exports={
 		Cloud:"云级联",
 		RTMP:"RTMP推流",
 		Online:"在线",
-		Offline:"离线",
+		Offline:"离线"
 
     },
 	live:
@@ -159,8 +158,17 @@ module.exports={
 		CloudConnect:"级联管理",
 		SSL:"SSL协议",
 		KeepaliveTime:"保持时间",
-		Enable:"启用",
+		Enable:"开启",
 		EdgeTranscoding:"边缘转码",
+
+		CloudMode:'云模式',
+		RelayMode:"转发模式",
+		TURNServer:"TURN服务",
+		Enable:"开启",
+		PublicIP:"公网地址",
+		MinPort:"最小端口",
+		MaxPort:"最大端口",
+		PasswordEncrypt:"密码加密",
 
 		currentpass: '当前密码',
 		newpass: '新密码',
@@ -181,9 +189,11 @@ module.exports={
 		all:"全部",
 		Editorfailure:"编辑失败",
 		Creationfailed:"创建失败",
-		Illegal:"非法登录锁定",
+		Illegal:"非法登录锁定"
 	},
 	table:{
+		pleasechoose:"请选择",
+		Enterkeywords:"输入关键字",
 		Token:"编号",
 		Type:"类型",
 		Online:"在线状态",
@@ -206,11 +216,11 @@ module.exports={
 		ScaleType:"分辨率类型",
 		Bitrate:"码率",
 		FPS:"帧率",
-		WH:"宽*高",
+		WH:"宽*高"
 	},
 	playback:{
 		H5SPlayback:"H5S回放",
-		NVRPlayback:"NVR回放",
+		NVRPlayback:"NVR回放"
 	},
 	GB:{
 		name: '名字',
@@ -239,7 +249,7 @@ module.exports={
 		Configuration:"配置",
 		OVER:"全部",
 		ADD:"添加",
-		edit: '编辑',
+		edit: '编辑'
 	},
 	archive:{
 		search: '搜索',
@@ -262,11 +272,11 @@ module.exports={
 		Time:"截图时间",
 		Preview:"预览",
 		Picture:"图片",
-		Pleaseselectone:"请选择一个",
+		Pleaseselectone:"请选择一个"
 	},
 	tour:{
 		Start:"开始",
-		stop:"停止",
+		stop:"停止"
 	},
 	camera:{
 		Save_successfully:"保存成功！",
@@ -276,7 +286,7 @@ module.exports={
 		open_Close:"开启/关闭",
 		name: "名称",
 		audio:"音频" ,
-		save:"保存",
+		save:"保存"
 	},
 	Conference:{
 		VideoConference:"视频会议",
@@ -286,7 +296,7 @@ module.exports={
 		HangUp:"挂断",
 		Hang:"挂断",
 		JoinConference:"加入会议",
-		Nickname:"昵称不能为空!",
+		Nickname:"昵称不能为空!"
 	}
   }
 }

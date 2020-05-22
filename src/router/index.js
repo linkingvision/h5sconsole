@@ -29,6 +29,7 @@ import usersettings from '@/components/views/settings/usersetting'
 import Transcoding  from '@/components/views/settings/Transcoding'
 import Regional from '@/components/views/settings/Regional'
 import Cloudconnect from '@/components/views/settings/cloudconnect'
+import Webrtc from '@/components/views/settings/webrtc'
 
 import GB from '@/components/views/GB'
 import GB28181 from '@/components/views/GB/GB28181'
@@ -260,7 +261,7 @@ const routes = [
               roles: 'admin',
               requireAuth: true
             }
-          },, 
+          },
           //8
           {
             path: '/app/setting/Cloudconnect',
@@ -271,6 +272,16 @@ const routes = [
               requireAuth: true
             }
           },
+          //8
+          {
+            path: '/app/setting/Webrtc',
+            name: 'WebrtcRouter',
+            component: Webrtc,
+            meta: {
+              roles: 'admin',
+              requireAuth: true
+            }
+          }
         ]
       },
       // {
@@ -305,10 +316,12 @@ const routes = [
     component: Downloadapp
   },
 ];
-
 // 页面刷新时，重新赋值token
 if (window.localStorage.getItem('h5stoken')) {
   store.commit(types.LOGIN, window.localStorage.getItem('h5stoken'))
+}
+if (window.localStorage.getItem('h5link')) {
+  store.commit(types.LINK, window.localStorage.getItem('h5link'))
 }
 
 if (window.localStorage.getItem('h5slang')) {

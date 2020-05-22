@@ -110,7 +110,7 @@
         save:this.$t('message.camera.save'),
         label:{
             Token:this.$t('message.table.Token'),
-            GBID:this.$t('message.table.GBID'),
+            GBID:this.$t('message.table.GBID')
         },
         //分页
         currentPage: 1, // 当前页码
@@ -127,9 +127,9 @@
         // editPopup:false,//编辑弹窗
         editform: {
             open_close:false,
-            audio:false,
+            audio:false
         },
-        searchTableInfo:"",
+        searchTableInfo:""
       }
     },
     mounted(){
@@ -165,7 +165,7 @@
                         open_close:true,
                         gbid:"",
                         audio:false,
-                        disabled:false,
+                        disabled:false
                     };
                     if(itme[i].nType!="H5_CH_DEV"){
                         // console.log(itme[i].nType)
@@ -233,7 +233,7 @@
                     open_close:true,
                     gbid:"",
                     audio:false,
-                    disabled:false,
+                    disabled:false
                 };
                 if(data[i].nType!="H5_CH_DEV"){
                     // console.log(itme[i].nType)
@@ -547,7 +547,7 @@
         }
         return this.tableData
       }
-    },
+    }
   };
 </script>
 <style scoped>

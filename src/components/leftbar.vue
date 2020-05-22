@@ -140,7 +140,7 @@ export default {
     data (){
         return {
             Adswitch:1,
-            root:this.$store.state.root,
+            root:this.$store.state.root
         }
     },
     mounted(){

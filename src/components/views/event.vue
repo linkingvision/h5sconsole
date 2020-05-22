@@ -65,13 +65,13 @@
             Tokenevent:this.$t("message.table.Tokenevent"),
             UUID:this.$t("message.table.UUID"),
             Time:this.$t("message.table.Time"),
-            Detaill:this.$t("message.table.Detaill"),
+            Detaill:this.$t("message.table.Detaill")
         },
         //分页
         currentPage: 1, // 当前页码
         total: 0, // 总条数
         pageSize: 10,//一页数量
-        tableData1: this.EVENT.gEvent,
+        tableData1: this.EVENT.gEvent
       }
     },
     mounted(){
@@ -92,7 +92,7 @@
         handleCurrentChange(val) {
             console.log(`当前页: ${val}`);
             this.currentPage = val;
-        },
+        }
     }
   };
 </script>

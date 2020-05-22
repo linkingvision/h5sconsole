@@ -122,7 +122,7 @@ import {H5siOS,H5sPlayerCreate} from '../../assets/h5splayerhelper.js'
             label: 'label',
             token:"token",
             iconclass:"iconclass"
-        },
+        }
       }
     },
     computed:{
@@ -247,7 +247,7 @@ import {H5siOS,H5sPlayerCreate} from '../../assets/h5splayerhelper.js'
                 console.log("****************",msgevent.peerAdd.strId);
                 var newItem ={
                     label:msgevent.peerAdd.strName,
-                    id:msgevent.peerAdd.strId,
+                    id:msgevent.peerAdd.strId
                 };
                 this.data.push(newItem);
                 // for(var i=0; i<this.data.length; i++){
@@ -305,7 +305,7 @@ import {H5siOS,H5sPlayerCreate} from '../../assets/h5splayerhelper.js'
             }
             // 没匹配到返回false
             return false;
-        },
+        }
     },
      //模糊查询
     watch: {

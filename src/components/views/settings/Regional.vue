@@ -95,6 +95,8 @@
                                             :check-strictly="true" -->
                                         <el-tree class="el_tree1" 
                                             ref="tree1"
+                                            show-checkbox
+                                            :check-strictly="true"
                                             :data="data.cam"
                                             :props="defaultProps"
                                             @node-click="handleNodeClick1" 
@@ -124,7 +126,7 @@
                 label:{
                     label:this.$t("message.setting.Area"),//选1
                     label1:this.$t("message.setting.Regional"),//选2
-                    placeholder:this.$t("message.setting.Please"),
+                    placeholder:this.$t("message.setting.Please")
                 },
                 activeName: 'first',
                 data: [],
@@ -137,8 +139,8 @@
                 defaultProps: {
                     children: 'node',
                     label: 'strName',
-                    cam:"cam",
-                },
+                    cam:"cam"
+                }
             };
         },
         mounted(){
@@ -152,7 +154,7 @@
             },
             //点击节点
             handleNodeClick(data) {
-                // console.log(data.strToken);
+                console.log(data.strToken);
                 this.datatoken=data.strToken;
                 this.dataname=data.strName;
             },
@@ -341,19 +343,21 @@
             },
             //删除
             deleteselectcam(){
-                // var tokencheked=this.$refs.tree1.getCheckedNodes();
-                // console.log(tokencheked);
+                var tokencheked=this.$refs.tree1.getCheckedNodes();
+                
+                // console.log(this.delcamtoken,this.datatoken);
                 // return false;
                 var root = process.env.API_ROOT;
                 if (root == undefined){
                     root = window.location.protocol + '//' + window.location.host + window.location.pathname;
                 }
-                // for(var i=0;i<tokencheked.length;i++){
-                    var oldarr=this.data[0];
-                    var oldarr1=this.delcamtoken;
-                    console.log(this.delcamtoken,this.datatoken);
-                    // return false;
-                    var url = root + "/api/v1/DelRegionCam?srctoken="+this.delcamtoken+"&regiontoken="+this.datatoken+"&session="+ this.$store.state.token;
+                if(tokencheked.length==0){
+                    return false;
+                }
+                for(var i=0;i<tokencheked.length;i++){
+                    
+                console.log(this.delcamtoken,tokencheked[i].strToken);
+                    var url = root + "/api/v1/DelRegionCam?srctoken="+tokencheked[i].strToken+"&regiontoken="+this.datatoken+"&session="+ this.$store.state.token;
                     console.log("////////////",url)
                     this.$http.get(url).then(result=>{
                         if(result.status==200){
@@ -363,14 +367,14 @@
                                 this.Regional();
                             }else{
                                 this.$message({
-                                    message: "摄像机"+name+"添加失败",
+                                    message: "摄像机"+name+"删除失败",
                                     type: 'warning'
                                 });
                                 // return false;
                             }
                         }
                     })
-                // }
+                }
             },
             delcamdata(arr,arr1){
                 for(var i in arr.node){

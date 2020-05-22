@@ -318,7 +318,7 @@ import '@/assets/jQuery.md5.js'
 
             Bitrate:this.$t("message.table.Bitrate"),
             FPS:this.$t("message.table.FPS"),
-            WH:this.$t("message.table.WH"),
+            WH:this.$t("message.table.WH")
         },
         //分页
         form: {
@@ -402,7 +402,7 @@ import '@/assets/jQuery.md5.js'
 
         tableData2: [],//2
         total2: 0, // 总条数 2
-        currentPage2: 1, // 当前页码2
+        currentPage2: 1 // 当前页码2
       };
     },
     mounted(){
@@ -466,7 +466,7 @@ import '@/assets/jQuery.md5.js'
                           nFPS :itme[i].nFPS,
                           nScaleType:itme[i].nScaleType,
                           nWidth:itme[i].nWidth,
-                          nHeight:itme[i].nHeight,
+                          nHeight:itme[i].nHeight
                       };
                       this.tableData.push(tabledata);
                       
@@ -499,7 +499,7 @@ import '@/assets/jQuery.md5.js'
                           nFPS :itme[i].nFPS,
                           nScaleType:itme[i].nScaleType,
                           nWidth:itme[i].nWidth,
-                          nHeight:itme[i].nHeight,
+                          nHeight:itme[i].nHeight
                       };
                       this.tableData2.push(tabledata);
                       
@@ -852,7 +852,7 @@ import '@/assets/jQuery.md5.js'
         handleCurrentChange2(val) {
             console.log(`当前页: ${val}`);
             this.currentPage2 = val;
-        },
+        }
     },
   };
 </script>

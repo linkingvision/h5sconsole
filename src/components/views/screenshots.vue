@@ -136,7 +136,7 @@ export default {
             label:{
                 Name:this.$t("message.table.Name"),
                 Token:this.$t("message.table.Token"),
-                Time:this.$t("message.table.Time"),
+                Time:this.$t("message.table.Time")
             },
             timelink:0,//滑块
             max:0,//滑块最大值
@@ -191,7 +191,7 @@ export default {
                 }]
             },
             rowstarf:"",//跟进进度条开始时间
-            url:"",//图片地址
+            url:""//图片地址
         }
     },
     mounted(){
@@ -254,7 +254,7 @@ export default {
                                 percentage:0,
                                 url:item["strPath"],
                                 urlto:urlto[urlto.length-1],
-                                strFileName:"",
+                                strFileName:""
                               };
                               this.tableData1.push(timeitem);
                     }
@@ -284,295 +284,18 @@ export default {
             console.log(`当前页: ${val}`);
             this.currentPage = val;
         },
-        //测试机仓
-        loadtest(){
-            let _this =this;
-		    var root = process.env.API_ROOT;
-		    var wsroot = process.env.WS_HOST_ROOT;
-		    if (root == undefined){
-		        root = window.location.protocol + '//' + window.location.host + window.location.pathname;
-		    }
-		    if (wsroot == undefined)
-		    {
-		        wsroot = window.location.host;
-		    }
-		    //url
-            var url = root + "/api/v1//GetSrcCamera?session="+ this.$store.state.token;
-            console.log(url);
-            this.$http.get(url).then(result=>{
-                if(result.status == 200){
-					var data =  result.data;
-                    var srcGroup = {children: []};
-                    srcGroup.label=this.$t('message.live.camera');
-                    srcGroup.iconclass="mdi mdi-view-sequential fa-fw";
-                    for(var i=0; i< data.src.length; i++){
-                         var item = data.src[i];
-                        if(item['nOriginalType'] == 'H5_CH_GB'){
-                            continue;
-                        }else{
-                           
-                            var newItem ={
-                                    token : item['strToken'],
-                                    label : item['strName'],
-                                    iconclass : 'mdi mdi-camcorder fa-fw',};
-
-                            if(!item['bOnline'])
-                                newItem['iconclass'] = 'mdi mdi-camcorder-off fa-fw';
-
-                            if(item['nType'] == 'H5_CLOUD')
-                                newItem['iconclass'] = 'mdi mdi-cloud-upload fa-fw';
-                            
-                        
-
-                        srcGroup.children.push(newItem);
-                        }
-                    }
-                    this.data.push(srcGroup);
-				  } 
-            })
-
-        },
-        // 机舱
-        loadOneDevice(toplevels)
-		{
-			let _this =this;
-			var root = process.env.API_ROOT;
-			var wsroot = process.env.WS_HOST_ROOT;
-			if (root == undefined){
-			    root = window.location.protocol + '//' + window.location.host + window.location.pathname;
-			}
-			if (wsroot == undefined)
-			{
-			    wsroot = window.location.host;
-			}
-			var url = root + "/api/v1/GetDeviceSrc?token="+ toplevels.strToken + "&session=" + this.$store.state.token;
-            
-			this.$http.get(url).then(result=>{
-				  if(result.status == 200){
-					  var data=result.data;
-					  var topGroup={children:[]};
-                      topGroup.label=toplevels.strName;
-                      topGroup.iconclass="mdi mdi-view-sequential fa-fw";
-					  for(var i = 0; i < data.src.length; i++){
-						  var item=data.src[i];
-						  var topitem={
-                                id : i,
-                                token:item['strToken'],
-                                label : item['strName'],
-                                iconclass:"mdi mdi-camcorder fa-fw"
-							  };
-                              topGroup.children.push(topitem);
-                              if(!item['bOnline'])
-                                topitem['iconclass'] = 'mdi mdi-camcorder-off fa-fw';
-
-                              if(item['nType'] == 'H5_CLOUD')
-                                topitem['iconclass'] = 'mdi mdi-cloud-upload fa-fw';
-
-
-                            if(item['bDisable'] == true){
-                                // newItem['disabled_me'] =true;
-                                topitem['iconclass1'] = 'camera';
-                            }
-                      }
-                       this.data.push(topGroup);
-                       
-				  }
-			})
-		},
-
-		loadDevice() {
-		    let _this =this;
-		    var root = process.env.API_ROOT;
-		    var wsroot = process.env.WS_HOST_ROOT;
-		    if (root == undefined){
-		        root = window.location.protocol + '//' + window.location.host + window.location.pathname;
-		    }
-		    if (wsroot == undefined)
-		    {
-		        wsroot = window.location.host;
-            }
-		   //url
-		   var url = root + "/api/v1/GetDevice?session="+ this.$store.state.token;
-
-			  //重组
-			  this.$http.get(url).then(result=>{
-				  if(result.status == 200){
-                      
-					  var data=result.data;
-					  for(var i = 0; i < data.dev.length; i++){
-						  var item=data.dev[i];
-						  var toplevel=[];
-						  toplevel["strToken"]=item.strToken;
-						  toplevel["strName"]=item.strName;
-                          this.loadOneDevice(toplevel);
-                      }
-                      
-				  }
-			  })
-        },
-        //数字仓机
-        NumberDevice() {
-		    let _this =this;
-		    var root = process.env.API_ROOT;
-		    var wsroot = process.env.WS_HOST_ROOT;
-		    if (root == undefined){
-		        root = window.location.protocol + '//' + window.location.host + window.location.pathname;
-		    }
-		    if (wsroot == undefined)
-		    {
-		        wsroot = window.location.host;
-		    }
-		   //url
-		   var url = root + "/api/v1/GetGbDevice?session="+ this.$store.state.token;
-
-			  //重组
-			  this.$http.get(url).then(result=>{
-				  if(result.status == 200){
-					  var srcData = [];
-					  var data=result.data;
-					  for(var i = 0; i < data.dev.length; i++){
-						  var item=data.dev[i];
-						  var srclevel=[];
-						  srclevel["strToken"]=item.strToken;
-						  srclevel["strName"]=item.strName;
-						  this.NumberSrc(srclevel,srcData);
-					  }
-				  }
-			  })
-		},
-        NumberSrc(srclevel, srcData) {
-
-            let _this =this;
-            var root = process.env.API_ROOT;
-            var wsroot = process.env.WS_HOST_ROOT;
-            if (root == undefined){
-                root = window.location.protocol + '//' + window.location.host + window.location.pathname;
-            }
-            if (wsroot == undefined)
-            {
-                wsroot = window.location.host;
-            }
-
-            var url = root + "/api/v1/GetGbDeviceSrc?token="+ srclevel.strToken + "&session=" + this.$store.state.token;
-
-            this.$http.get(url).then(result => {
-                if (result.status == 200)
-                {
-                    var data =  result.data;
-                    var srcGroup = {children: []};
-                    srcGroup.label=srclevel.strName;
-                    srcGroup.iconclass="mdi mdi-view-sequential fa-fw";
-                    for(var i=0; i< data.src.length; i++){
-                        var item = data.src[i];
-                        
-                        var newItem ={
-                                token : item['strToken'],
-                                label : item['strName'],
-                                iconclass : 'mdi mdi-camcorder fa-fw',};
-
-                        if(!item['bOnline'])
-                            newItem['iconclass'] = 'mdi mdi-camcorder-off fa-fw';
-
-                        if(item['nType'] == 'H5_CLOUD')
-                            newItem['iconclass'] = 'mdi mdi-cloud-upload fa-fw';
-
-                       srcGroup.children.push(newItem);
-                    }
-                    this.data.push(srcGroup);
-                }
-            }).catch(error => {
-                console.log('GetSrc failed', error);
-            });
-        },
-
-        //级联
-        cloudDevice() {
-		    let _this =this;
-		    var root = process.env.API_ROOT;
-		    var wsroot = process.env.WS_HOST_ROOT;
-		    if (root == undefined){
-		        root = window.location.protocol + '//' + window.location.host + window.location.pathname;
-		    }
-		    if (wsroot == undefined)
-		    {
-		        wsroot = window.location.host;
-		    }
-		   //url
-		   var url = root + "/api/v1/GetCloudDevice?session="+ this.$store.state.token;
-
-			  //重组
-			  this.$http.get(url).then(result=>{
-				  if(result.status == 200){
-					  var srcData = [];
-					  var data=result.data;
-					  for(var i = 0; i < data.dev.length; i++){
-						  var item=data.dev[i];
-						  var srclevel=[];
-						  srclevel["strToken"]=item.strToken;
-						  srclevel["strName"]=item.strName;
-						  this.cloudSrc(srclevel,srcData);
-					  }
-				  }
-			  })
-		},
-        cloudSrc(srclevel, srcData) {
-
-            let _this =this;
-            var root = process.env.API_ROOT;
-            var wsroot = process.env.WS_HOST_ROOT;
-            if (root == undefined){
-                root = window.location.protocol + '//' + window.location.host + window.location.pathname;
-            }
-            if (wsroot == undefined)
-            {
-                wsroot = window.location.host;
-            }
-
-            var url = root + "/api/v1/GetCloudDeviceSrc?token="+ srclevel.strToken + "&session=" + this.$store.state.token;
-
-            this.$http.get(url).then(result => {
-                if (result.status == 200)
-                {
-                    var data =  result.data;
-                    var srcGroup = {children: []};
-                    srcGroup.label=srclevel.strName;
-                    srcGroup.iconclass="mdi mdi-view-sequential fa-fw";
-                    for(var i=0; i< data.src.length; i++){
-                        var item = data.src[i];
-                        
-                        var newItem ={
-                                token : item['strToken'],
-                                label : item['strName'],
-                                iconclass : 'mdi mdi-camcorder fa-fw',};
-
-                        if(!item['bOnline'])
-                            newItem['iconclass'] = 'mdi mdi-camcorder-off fa-fw';
-
-                        if(item['nType'] == 'H5_CLOUD')
-                            newItem['iconclass'] = 'mdi mdi-cloud-upload fa-fw';
-
-                       srcGroup.children.push(newItem);
-                    }
-                    this.data.push(srcGroup);
-                }
-            }).catch(error => {
-                console.log('GetSrc failed', error);
-            });
-        },
-
-
         //模糊查询
         filterNode(value, data) {
             if (!value) return true;
             return data.label.indexOf(value) !== -1;
-        },
+        }
     },
      //模糊查询
     watch: {
       filterText(val) {
         this.$refs.tree.filter(val);
       }
-    },
+    }
     
 }
 </script>

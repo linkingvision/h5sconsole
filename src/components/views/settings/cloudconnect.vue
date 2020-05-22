@@ -160,7 +160,7 @@ import '@/assets/jQuery.md5.js'
             password:this.$t("message.setting.password"),
             KeepaliveTime:this.$t("message.setting.KeepaliveTime"),
             Enable:this.$t("message.setting.Enable"),
-            EdgeTranscoding:this.$t("message.setting.EdgeTranscoding"),
+            EdgeTranscoding:this.$t("message.setting.EdgeTranscoding")
         },
         //分页
         editform: {
@@ -174,7 +174,7 @@ import '@/assets/jQuery.md5.js'
             nKeepaliveTime:"",
             strCloudIp:"",
             strCloudPort:"",
-            strPasswd:"12345",
+            strPasswd:"12345"
         },
         scaletype:[
             {
@@ -196,7 +196,7 @@ import '@/assets/jQuery.md5.js'
         tableData2: [],//2
         total2: 0, // 总条数 2
         currentPage2: 1, // 当前页码2
-        editpasswd:"",//编辑的密码
+        editpasswd:""//编辑的密码
       };
     },
     mounted(){
@@ -227,7 +227,7 @@ import '@/assets/jQuery.md5.js'
                         nKeepaliveTime:itme.nKeepaliveTime,
                         strCloudIp:itme.strCloudIp,
                         strCloudPort:itme.strCloudPort,
-                        strPasswd:itme.strPasswd,
+                        strPasswd:itme.strPasswd
                     };
                     console.log(tabledata)
                     this.tableData.push(tabledata);
@@ -327,7 +327,7 @@ import '@/assets/jQuery.md5.js'
                 var selectop={
                     token:row[i].strToken,
                     index:row[i].index,
-                    type:row[i].nFPSType,
+                    type:row[i].nFPSType
                 };
                 this.selectop.push(selectop);
             }
@@ -338,7 +338,7 @@ import '@/assets/jQuery.md5.js'
             this.selectop=[];
             for(var i=0;i<row.length;i++){
                 var selectop={
-                    token:row[i].strToken,
+                    token:row[i].strToken
                 };
                 this.selectop.push(selectop);
             }
@@ -360,7 +360,7 @@ import '@/assets/jQuery.md5.js'
         handleCurrentChange1(val) {
             console.log(`当前页: ${val}`);
             this.currentPage1 = val;
-        },
+        }
     },
   };
 </script>

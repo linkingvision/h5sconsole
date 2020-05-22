@@ -56,7 +56,7 @@ export default {
             ge:this.$t("message.dashboard.ge"),
 
             Online:this.$t("message.dashboard.Online"),
-            Offline:this.$t("message.dashboard.Offline"),
+            Offline:this.$t("message.dashboard.Offline")
         }
     },
     beforeDestroy() {
@@ -89,27 +89,27 @@ export default {
                     var devdata=[{
                             name:this.Hikvision,
                             Total:data.nHikDevTotal,
-                            Online:data.nHikDevOnline,
+                            Online:data.nHikDevOnline
                         },{
                             name:this.Dahua,
                             Total:data.nDhDevTotal,
-                            Online:data.nDhDevOnline,
+                            Online:data.nDhDevOnline
                         },{
                             name:"iSecure Center",
                             Total:data.nHikIscDevTotal,
-                            Online:data.nHikIscDevOnline,
+                            Online:data.nHikIscDevOnline
                         },{
                             name:this.Tiandy,
                             Total:data.nTdDevTotal,
-                            Online:data.nTdDevOnline,
+                            Online:data.nTdDevOnline
                         },{
                             name:"GB",
                             Total:data.nGbDevTotal,
-                            Online:data.nGbDevOnline,
+                            Online:data.nGbDevOnline
                         },{
                             name:this.Uniview,
                             Total:data.nUnvDevTotal,
-                            Online:data.nUnvDevOnline,
+                            Online:data.nUnvDevOnline
                     }];
                     
                     this.devdata=devdata
@@ -132,15 +132,15 @@ export default {
             var myChart = echarts.init(pieId);
             myChart.setOption({
                 tooltip: {
-                    show:true,
+                    show:true
                 },
                 title: {
                     x: 'center',
                     y: 'center',
                     textStyle:{
                         fontSize:12,
-                        fontWeight:400,
-                    },
+                        fontWeight:400
+                    }
                 },
                 
                 series: [{
@@ -160,7 +160,7 @@ export default {
                                 fontWeight: 'bold'
                             },
                             formatter:'{b}\n{c}'
-                        },
+                        }
                         
                     },
                     labelLine: {
@@ -208,8 +208,8 @@ export default {
                     }
                 })
             });
-        },
-    },
+        }
+    }
 }
 </script>
 <style scoped>

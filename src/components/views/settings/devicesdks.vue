@@ -218,7 +218,7 @@ import uuid from '@/store/uuid'
             User:this.$t("message.table.User"),
             Online:this.$t("message.table.Online"),
             Type:this.$t("message.table.Type"),
-            Token:this.$t("message.table.Token"),
+            Token:this.$t("message.table.Token")
         },
         options: [{
                 value: 'H5_DEV_HIK',
@@ -259,15 +259,15 @@ import uuid from '@/store/uuid'
             Port_isc:"443",
             Port_td:"3000",
             Port_unv:"80",
-            Audio:false,
+            Audio:false
         },
         editform: {
-            Audio:"false",
+            Audio:"false"
         },
         edittoken:"",//编辑时要删除的token
         editindex:"",//编辑时所在索引
         tableData: [],//1
-        selectop:[],//选择那几个
+        selectop:[]//选择那几个
       };
     },
     mounted(){
@@ -304,7 +304,7 @@ import uuid from '@/store/uuid'
                           Port:itme[i].strDevPort,
                           Audio :itme[i].bEnableAudio,
                           Online:itme[i].bOnline+"",
-                          bPasswdEncrypt:itme[i].bPasswdEncrypt,
+                          bPasswdEncrypt:itme[i].bPasswdEncrypt
                       };
                       this.tableData.push(tabledata);
                       //console.log(tabledata);
@@ -451,7 +451,7 @@ import uuid from '@/store/uuid'
                             Port:form.Port,
                             Audio :form.Audio,
                             Online:form.Online+"",
-                            bPasswdEncrypt:form.bPasswdEncrypt,
+                            bPasswdEncrypt:form.bPasswdEncrypt
                             }
                         this.tableData.splice(this.editindex, 1,list)
                         

@@ -327,7 +327,7 @@ import '@/assets/jQuery.md5.js'
                 label5:this.$t("message.setting.name"),
                 label6:this.$t("message.setting.currentpass"),
                 label7:this.$t("message.setting.newpass"),
-                label8:this.$t("message.setting.confirmpass"),
+                label8:this.$t("message.setting.confirmpass")
             },
             options: [{
                     value: 'Administrator',
@@ -340,12 +340,12 @@ import '@/assets/jQuery.md5.js'
             Role:[],
             defaultrole:{
                 children: 'cam',
-                label: 'strRoleToken',
+                label: 'strRoleToken'
             },
             defaultProps: {
                 children: 'node',
                 label: 'strName',
-                cam:"cam",
+                cam:"cam"
             },
             //分页
             pageSize: 10,//一页数量
@@ -359,7 +359,7 @@ import '@/assets/jQuery.md5.js'
                 strUserType: "Operator",
                 
                 strRole:"Administrator",
-                strRoleToken:"Administrator",
+                strRoleToken:"Administrator"
 
             },
             editform: {
@@ -367,7 +367,7 @@ import '@/assets/jQuery.md5.js'
                 strPasswd: "",
                 strUserType: "",
                 Newpassword:"",
-                Newpassword1:"",
+                Newpassword1:""
             },
             edittoken:"",//编辑时要删除的token
             editindex:"",//编辑时所在索引
@@ -379,7 +379,7 @@ import '@/assets/jQuery.md5.js'
             tableData1: [],
             currentPage1: 1, // 当前页码
             total1: 0, // 总条数 1
-            selectop:[],//选择那几个
+            selectop:[]//选择那几个
         };
     },
     mounted(){
@@ -418,7 +418,7 @@ import '@/assets/jQuery.md5.js'
                         var datasrc={
                             strRoleToken:data[i].strRoleToken,
                             bConfig:data[i].permission.bConfig+"",
-                            bOperate:data[i].permission.bOperate+"",
+                            bOperate:data[i].permission.bOperate+""
                         }
                         // console.log("**--*",datasrc);
                         var Role={
@@ -813,7 +813,7 @@ import '@/assets/jQuery.md5.js'
                 this.Illegallook();
             }
         },
-        handlechange(){},
+        handlechange(){}
     },
   };
 </script>

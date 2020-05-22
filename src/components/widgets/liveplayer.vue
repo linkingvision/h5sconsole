@@ -1,5 +1,6 @@
 <template>
 <div class="h5videowrapper h5container" >
+    <canvas class="canh5video" width=960 height=540 :id="canvasplay" ></canvas>
     <video class="h5video" @click="redborder" :id="videoid" autoplay webkit-playsinline playsinline></video>
     <div :id="videonameid" class="" >
         {{videoname}} {{picturequality}}
@@ -29,7 +30,7 @@
         <button type="button" class="vidbuttion pull-right iconfont icon-camerafill" @click="DoSnapshot($event)"></button>
         <button type="button" class="vidbuttion pull-right iconfont icon-picfill" @click="DoSnapshotWeb($event)"></button>
         <button type="button" class="vidbuttion pull-right" @click="Shoutwheat($event)"> <i :class="Shoutwheatclass"></i></button>
-        <button type="button" class="vidbuttion pull-right iconfont icon-fangda" @click="Electronic($event)"></button>
+        <!-- <button type="button" class="vidbuttion pull-right iconfont icon-fangda" @click="Electronic($event)"></button> -->
         <Poptip placement="bottom" class=" pull-right">
             <button class="vidbuttion iconfont icon-erweima" @click="qrcode"></button>
             <div class="api" slot="content">
@@ -68,7 +69,7 @@
             <button slot="reference" class="vidbuttion pull-right iconfont icon-erweima" @click="qrcode"></button>
         </el-popover> -->
     </div>
-    <canvas class="myCanvas" :id="canvaid" width="170" height="105"></canvas>
+    <!-- <canvas class="myCanvas" :id="canvaid" width="170" height="105"></canvas> -->
 
     <div class="ptzcontrols"  style="display:none padding:0px">
         
@@ -138,6 +139,7 @@
 import QRCode from 'qrcodejs2';
 import '../../assets/adapter.js'
 import {H5sPlayerWS,H5sPlayerHls,H5sPlayerRTC,H5sPlayerAudBack} from '../../assets/h5splayer.js'
+import {H5sPlayerCanvas} from '../../assets/linkplayer.js'
 import {H5siOS,H5sPlayerCreate} from '../../assets/h5splayerhelper.js'
 import "../../../static/lang/en"
 export default {
@@ -149,7 +151,7 @@ export default {
             content:{
                 focusing:this.$t('message.live.focusing'),
                 Focus:this.$t('message.live.Focus'),
-                aperture:this.$t('message.live.aperture'),
+                aperture:this.$t('message.live.aperture')
             },
             canvaid: this.canvasid,
             videoid: this.h5videoid,
@@ -157,6 +159,7 @@ export default {
             videonameid:"name"+this.h5videoid,
             rtcid:"rtc"+this.h5videoid,
             h5handler: undefined,//视频内容
+            h5handlercavas:undefined,
             currtoken: undefined,
             ptzshow: false,
             proto: 'WS',
@@ -171,6 +174,7 @@ export default {
             inputtoken:'',
             inputlabel:'',
             name:'',
+            canvasplay:"canvasplay"+this.h5videoid,
             inputid:"input"+this.h5videoid,
             qualityid: 'quality'+this.h5videoid,
             elqualityid:'elqualityid'+this.h5videoid,
@@ -179,8 +183,10 @@ export default {
             qualitylist:[],
             picturequality:'',//画质名称
             qualityform:[],
-            canvasdate:""
-           
+            canvasdate:"",
+            wathlinkwed:this.$store.state.link,
+            cavaswidth:'',
+            cavasheidht:''
         }
     },
     activated() {
@@ -198,14 +204,19 @@ export default {
             delete this.h5handler;
             this.h5handler = undefined;
         }
-        this.currtoken = undefined;
+        this.currtoken = undefined
     },
     destroyed() {
         //console.log(this.h5id, "destroyed");
     },
    
     mounted() {
-        
+        // console.log("liveviewplay",typeof( this.wathlinkwed), this.wathlinkwed)
+        if(this.wathlinkwed=='true'){
+            $("#"+this.videoid).hide();
+        }else if(this.wathlinkwed=='false'){
+            $("#"+this.canvasplay).hide();
+        }
         // this.qrcode();
         var $container = $("#"+this.h5id);
         var $video =$container.children("video");
@@ -215,6 +226,9 @@ export default {
         var $rtcbutton = $controls.children(".rtcbutton");
     
         let _this = this;
+        this.$root.bus.$on('liveplaylink', function(link){
+            _this.wathlinkwed=link
+        });
         this.$root.bus.$on('liveplay', function(token,streamprofile,label,name, id)
         {
             // this.videoname=label;//视频名称
@@ -248,8 +262,216 @@ export default {
         // 转码
        this. Gettranscod()
     },
-   
+    watch:{
+        wathlinkwed(val){
+            clearInterval(this.canvasdate);
+            if (this.h5handler != undefined)
+            {
+                this.h5handler.disconnect();
+                delete this.h5handler;
+                this.h5handler = undefined;
+                $("#" + this.h5videoid).get(0).load();
+                $("#" + this.h5videoid).get(0).poster = '';
+            }
+            this.currtoken = undefined
+
+            if(this.wathlinkwed=='true'){
+                $("#"+this.videoid).hide();
+                $("#"+this.canvasplay).show();
+            }else if(this.wathlinkwed=='false'){
+                $("#"+this.canvasplay).hide();
+                $("#"+this.videoid).show();
+            }
+            console.log(val,this.wathlinkwed,"监听")
+        },
+        cavaswidth(val){
+            console.log(val,"监控宽")
+        },
+        cavasheidht(val){
+            console.log(val,'监控高')
+        }
+    },
     methods: {
+        
+     
+        PlayVideo(token,streamprofile,label,name)
+        { 
+            var videosize = document.querySelector('#'+this.h5id);
+            // return false;
+           this.inputtoken=token
+           this.inputlabel=label
+           this.streamprofile=streamprofile
+            // this.streamprofile=streamprofile
+            this.videoname=label;//视频名称
+           
+            $("#"+this.videonameid).addClass("videoname");
+            $("#"+this.inputid).addClass("streambutton")
+            $("#"+this.qualityid).addClass("quality")
+            $("#"+this. picturequalityid).removeClass("picturequality")      
+            //console.log("*********************",label,token);
+            $("#"+this.spanqualityid).removeClass("spanquality")
+            $("#"+this.inputid).removeClass("spanpicturequality") 
+            if (this.h5handler != undefined)
+            {
+                document.getElementById("icon"+this.tokenshou).style.color="rgb(142, 132, 132)";
+                this.h5handler.disconnect();
+                delete this.h5handler;
+                this.h5handler = undefined;
+            }
+            this.currtoken = token;
+            if(this.wathlinkwed=='true'){
+                
+                // this.cavaswidth=widthx;
+                // this.cavasheidht=heightx;
+                // console.log(widthx,heightx,this.h5id);
+                var confk= this.playclick(this.canvasplay,token,streamprofile);
+                this.h5handler = new H5sPlayerCanvas(confk);
+                this.playjkwh(videosize,confk);
+            }else if(this.wathlinkwed=='false'){
+                var $container = $("#"+this.h5id);
+                var $controls = $container.children(".h5controls");
+                var $rtcbutton = $controls.children(".rtcbutton");
+
+                var confk= this.playclick(this.h5videoid,token,streamprofile);
+                console.log(confk)
+                // return false
+                if (this.proto == 'RTC' || (H5siOS() === true))
+                {
+                    $rtcbutton.css("display", "block");
+                    this.h5handler = new H5sPlayerRTC(confk);
+                    $("#"+this.rtcid).addClass("rtc_new");
+                }else
+                {
+                    $rtcbutton.css("display", "none");
+                    this.h5handler = new H5sPlayerWS(confk);
+                }
+            }
+            this.h5handler.connect();
+            
+
+        },
+        playjkwh(videosize,confk){
+            console.log(this.h5handler,confk,"**********")
+            var resizeElement = document.createElement('iframe');
+            var a=document.getElementById(this.canvasplay);
+            var _this=this
+            console.log(resizeElement)
+            resizeElement.style.width = '100%';
+            resizeElement.style.height = '100%';
+            resizeElement.style.position= 'absolute';
+            resizeElement.style.visibility='hidden';
+            resizeElement.style.margin= '0';
+            resizeElement.style.padding= '0';
+            resizeElement.style.border= '0';
+            videosize.appendChild(resizeElement);
+            resizeElement.contentWindow.onresize = function () 
+            {
+                if (_this.h5handler != undefined)
+                {
+                    console.log(_this.h5handler,confk,"**********")
+                    // document.getElementById("icon"+this.tokenshou).style.color="rgb(142, 132, 132)";
+                    _this.h5handler.disconnect();
+                    delete _this.h5handler;
+                    _this.h5handler = undefined;
+                    var c=document.getElementById(_this.canvasplay);  
+                    var cxt=c.getContext("2d");  
+                    c.height=c.height; 
+                    
+                    _this.h5handler = new H5sPlayerCanvas(confk);
+                    console.log(_this.h5handler,confk,"**********")
+                    // return false
+                    _this.h5handler.connect();
+
+                }else{
+                    console.log(_this.h5handler,"**********")
+                    return false;
+                }
+                
+            };
+        },
+        playclick(playid,token,streamprofile){
+            var wsroot = process.env.WS_HOST_ROOT;
+            if (wsroot == undefined)
+            {
+                wsroot = window.location.host;
+            }
+            console.log(playid,token,streamprofile)
+            let conf = {
+                videoid:playid,
+                protocol: window.location.protocol, //http: or https:
+                host: wsroot, //localhost:8080
+                streamprofile: streamprofile, // {string} - stream profile, main/sub or other predefine transcoding profile
+                rootpath: '/', // '/'
+                token: token,
+                hlsver: 'v1', //v1 is for ts, v2 is for fmp4
+                session: this.$store.state.token //session got from login
+            };
+            
+            //码流按钮
+            if(streamprofile==="sub"){
+                this.valuebutton=this.$t("message.live.mainstream ")
+            } else if(streamprofile==="main"){
+                this.valuebutton=this.$t("message.live.substream")
+            }
+            return conf;
+        
+            
+        },
+        //关闭
+        CloseVideo(event)
+        {   
+            var _this=this
+            clearInterval(this.canvasdate);
+            if (this.audioback != undefined)
+            { 
+               // console.log("关闭");
+                this.audioback.disconnect();
+                delete this.audioback;
+                this.audioback = undefined;
+                this.Shoutwheatclass="mdi mdi-microphone-off";
+            }
+            this.videoname="";
+            this.valuebutton='';
+            var $container = $("#"+this.h5id);
+            var $ptzcontrols = $container.children(".ptzcontrols");
+            
+            // var valueId=document.getElementById('inputid ')
+            // var divId=document.getElementById('divid')
+            // console.log(divId)
+            $ptzcontrols.css("display", "none");
+            $("#"+this.videonameid).removeClass("videoname");
+            $("#"+this.inputid).removeClass("streambutton")
+            $("#"+this.qualityid).removeClass("quality")
+            $("#"+this.rtcid).removeClass("rtc_new");
+            $("#"+this.spanqualityid).addClass("spanquality")
+            $("#"+this.inputid).addClass("spanpicturequality")
+            document.getElementById("icon"+this.tokenshou).style.color="rgb(142, 132, 132)";
+           
+            var $container = $("#"+this.h5id);
+            var $controls = $container.children(".h5controls");
+            var $rtcbutton = $controls.children(".rtcbutton");
+            if (this.h5handler != undefined)
+            {
+                $rtcbutton.css("display", "none");
+                this.h5handler.disconnect();
+                delete this.h5handler;
+                this.h5handler = undefined;
+                this.$Notice.info({
+                    title: "Stop successfully"
+                });
+
+                $("#" + this.h5videoid).get(0).load();
+                $("#" + this.h5videoid).get(0).poster = '';
+                
+                var c=document.getElementById(_this.canvasplay);  
+                var cxt=c.getContext("2d");  
+                c.height=c.height;  
+                
+                console.log("关闭1",this.h5handler);
+
+            }
+           console.log("关闭",this.h5handler);
+        },
         //电子放大
         Electronic(){
             console.log("电子放大")
@@ -314,11 +536,11 @@ export default {
             console.log(android,ios)
             var qrcode = new QRCode(this.$refs.qrcodead, {
                 width: 100,
-                height: 100, // 高度
+                height: 100// 高度
             })
             var qrcode1 = new QRCode(this.$refs.qrcodeios, {
                 width: 100,
-                height: 100, // 高度
+                height: 100// 高度
             })
             qrcode.clear();
             qrcode1.clear();
@@ -374,124 +596,6 @@ export default {
         },
         changePanel(event){
             console.log(event)
-        },
-     
-        PlayVideo(token,streamprofile,label,name)
-        {  
-           this.inputtoken=token
-           this.inputlabel=label
-           this.streamprofile=streamprofile
-            // this.streamprofile=streamprofile
-            this.videoname=label;//视频名称
-           
-            $("#"+this.videonameid).addClass("videoname");
-            $("#"+this.inputid).addClass("streambutton")
-            $("#"+this.qualityid).addClass("quality")
-            $("#"+this. picturequalityid).removeClass("picturequality")      
-            //console.log("*********************",label,token);
-            $("#"+this.spanqualityid).removeClass("spanquality")
-            $("#"+this.inputid).removeClass("spanpicturequality") 
-            if (this.h5handler != undefined)
-            {
-                document.getElementById("icon"+this.tokenshou).style.color="rgb(142, 132, 132)";
-                this.h5handler.disconnect();
-                delete this.h5handler;
-                this.h5handler = undefined;
-            }
-            this.currtoken = token;
-            // console.log("play ", token);
-            //console.log("play ",streamprofile);
-            var root = process.env.API_ROOT;
-            var wsroot = process.env.WS_HOST_ROOT;
-            if (root == undefined){
-                root = window.location.protocol + '//' + window.location.host + window.location.pathname;
-            }
-            if (wsroot == undefined)
-            {
-                wsroot = window.location.host;
-            }
-            let conf = {
-                videoid: this.h5videoid,
-                protocol: window.location.protocol, //http: or https:
-                host: wsroot, //localhost:8080
-	            streamprofile: streamprofile, // {string} - stream profile, main/sub or other predefine transcoding profile
-                rootpath: '/', // '/'
-                token: token,
-                hlsver: 'v1', //v1 is for ts, v2 is for fmp4
-                session: this.$store.state.token //session got from login
-            };
-            var $container = $("#"+this.h5id);
-            var $controls = $container.children(".h5controls");
-            var $rtcbutton = $controls.children(".rtcbutton");
-            //码流按钮
-            if(streamprofile==="sub"){
-               this.valuebutton=this.$t("message.live.mainstream ")
-           } else if(streamprofile==="main"){
-               this.valuebutton=this.$t("message.live.substream")
-            }
-            
-          
-            if (this.proto == 'RTC' || (H5siOS() === true))
-            {
-                $rtcbutton.css("display", "block");
-                this.h5handler = new H5sPlayerRTC(conf);
-                $("#"+this.rtcid).addClass("rtc_new");
-            }else
-            {
-                $rtcbutton.css("display", "none");
-                this.h5handler = new H5sPlayerWS(conf);
-            }
-
-            this.h5handler.connect();
-        },
-
-        CloseVideo(event)
-        {   
-            clearInterval(this.canvasdate);
-            console.log("关闭",this.audioback);
-            if (this.audioback != undefined)
-            { 
-               // console.log("关闭");
-                this.audioback.disconnect();
-                delete this.audioback;
-                this.audioback = undefined;
-                this.Shoutwheatclass="mdi mdi-microphone-off";
-            }
-            this.videoname="";
-            this.valuebutton='';
-            var $container = $("#"+this.h5id);
-            var $ptzcontrols = $container.children(".ptzcontrols");
-            
-            // var valueId=document.getElementById('inputid ')
-            // var divId=document.getElementById('divid')
-            // console.log(divId)
-            $ptzcontrols.css("display", "none");
-            $("#"+this.videonameid).removeClass("videoname");
-            $("#"+this.inputid).removeClass("streambutton")
-            $("#"+this.qualityid).removeClass("quality")
-            $("#"+this.rtcid).removeClass("rtc_new");
-            $("#"+this.spanqualityid).addClass("spanquality")
-            $("#"+this.inputid).addClass("spanpicturequality")
-            document.getElementById("icon"+this.tokenshou).style.color="rgb(142, 132, 132)";
-           
-            var $container = $("#"+this.h5id);
-            var $controls = $container.children(".h5controls");
-            var $rtcbutton = $controls.children(".rtcbutton");
-            if (this.h5handler != undefined)
-            {
-                $rtcbutton.css("display", "none");
-                this.h5handler.disconnect();
-                delete this.h5handler;
-                this.h5handler = undefined;
-                this.$Notice.info({
-                    title: "Stop successfully"
-                });
-
-                $("#" + this.h5videoid).get(0).load();
-                $("#" + this.h5videoid).get(0).poster = '';
-
-            }
-           
         },
         //码流按钮
         Bitstream(event){
@@ -896,6 +1000,10 @@ export default {
 </script>
 
 <style scoped>
+.canh5video{
+    width: 100%;
+    height: 100%;
+}
 /* 电子放大 */
 .myCanvas {
     width: 100%;
@@ -1173,8 +1281,6 @@ export default {
 .h5video{
    object-fit: fill;
 }
-
-
 .h5videowrapper{
     padding: 0px;
     height: 100%;

@@ -66,13 +66,13 @@ import uuid from '@/store/uuid'
             Token:this.$t("message.table.Token"),
             Online:this.$t("message.table.Online"),
             Type:this.$t("message.table.Type"),
-            Edit:this.$t("message.table.Edit"),
+            Edit:this.$t("message.table.Edit")
         },
         //分页
         pageSize: 10,//一页数量
         currentPage1: 1, // 当前页码
         total2: 0, // 总条数
-        tableData1: [],//1
+        tableData1: []//1
       };
     },
     mounted(){
@@ -111,7 +111,7 @@ import uuid from '@/store/uuid'
                               strDevIpAddress:itme[i].strDevIpAddress,
                               strDevPort:itme[i].strDevPort,
                               bEnableAudio:itme[i].bEnableAudio+"",
-                              bOnline:itme[i].bOnline+"",
+                              bOnline:itme[i].bOnline+""
                           };
                           this.tableData1.push(tabledata);
                       }
@@ -164,8 +164,8 @@ import uuid from '@/store/uuid'
         handleCurrentChange1(val) {
             console.log(`当前页: ${val}`);
             this.currentPage1 = val;
-        },
-    },
+        }
+    }
   };
 </script>
 <style scoped>

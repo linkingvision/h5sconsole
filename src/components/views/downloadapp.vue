@@ -41,7 +41,8 @@
                             <div class="qrcode" v-for="(c,index) in b.qrcodenone" :key="index">
                                 <div>
                                     <div class="qrcode_size">{{c.name}}</div>
-                                    <img :src="c.img" alt="">
+                                    <img v-if="c.img" :src="c.img" alt="">
+                                    <a :href="c.url">{{c.urlname}}</a>
                                 </div>
                             </div>
                         </div>
@@ -61,8 +62,12 @@ export default {
                     name:"插件",
                     connode:[{
                         name:"插件",
-                        img:require("./gallery/dow_icon.png"),
+                        img:require("./gallery/dow_plugin.png"),
                         Introduction:"可以使用插件兼容IE, Chrome/Edge/Firefox 不需要该插件.",
+                        qrcodenone:[{
+                            url:"https://linkingvision.cn/download/linkweb/linkweb-latest-win64-release.exe",
+                            urlname:this.$t("message.archive.Download")
+                        }]
                     }]
                 },{
                     name:"APP",
@@ -73,7 +78,7 @@ export default {
                         qrcodenone:[{
                             name:"Android",
                             img:require("./gallery/Android.png")
-                        },],
+                        }]
                     }]
                 }
             ]

@@ -240,7 +240,7 @@ export default {
 		// this.goolsh();
 		this.functlist();
 		this.funtimeine();
-		this.$root.bus.$emit('liveplayproto', "RTC");
+		this.$root.bus.$emit('liveplayproto', "RTC")
 	},
 	methods:{
 		Adswitchs(){
@@ -1169,7 +1169,7 @@ export default {
 		filterNode(value, data) {
 			if (!value) return true;
 			return data.label.indexOf(value) !== -1;
-		},
+		}
 		
 
 	},//模糊查询
@@ -1204,7 +1204,7 @@ export default {
 		filterText(val) {
 			this.$refs.tree.filter(val);
 		}
-	},
+	}
 }
 </script>
 

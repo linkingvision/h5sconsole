@@ -1,4 +1,3 @@
-import "babel-polyfill"
 import Vuex from 'vuex'
 import Vue from 'vue'
 import * as types from './types'
@@ -19,8 +18,15 @@ export default new Vuex.Store({
     root:null,
     users:null,
     Adswitch:"false",
+    link:false
   },
   mutations: {
+    // LINK模式
+    [types.LINK]: (state, data) => {
+      localStorage.h5link= data
+      state.link=data
+    },
+
     [types.WATERMARKTOGGLE]: (state, data) => {
       localStorage.h5watermarktoggle= data
       state.watermarktoggle=data
@@ -78,6 +84,6 @@ export default new Vuex.Store({
     [types.LANG]: (state, data) => {
       localStorage.h5slang = data
       state.lang = data
-    },
+    }
   }
 })

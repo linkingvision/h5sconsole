@@ -31,7 +31,7 @@ export default {
         return {
             value:false,
             value1:true,
-            recordstart:[],
+            recordstart:[]
         }
     },
     mounted(){
@@ -126,7 +126,7 @@ export default {
                 }
             })
          }
-     },
+     }
     }
 }
 </script>

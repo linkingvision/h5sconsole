@@ -212,28 +212,44 @@
                     </div>
                     <div class="container_sdk">
                         <div class="containesr_sdks">
-                            <dv-water-level-pond :config="config"/>
+                            <div class="sdk_back">
+                                <div class="sdk_back1">
+                                    80%
+                                </div>
+                            </div>
                             <div class="containesr_sdks_zi">
                                 <div>{{this.$t("message.dashboard.Cloud")}}</div>
                                 <div>{{this.total}}{{dev.nCloudTotal}}{{this.ge}}</div>
                             </div>
                         </div>
                         <div class="containesr_sdks">
-                            <dv-water-level-pond :config="config1"/>
+                            <div class="sdk_back">
+                                <div class="sdk_back1">
+                                    80%
+                                </div>
+                            </div>
                             <div class="containesr_sdks_zi">
                                 <div>RTSP/RTMP</div>
                                 <div>{{this.total}}{{dev.nRTSPRTMPTotal}}{{this.ge}}</div>
                             </div>
                         </div>
                         <div class="containesr_sdks">
-                            <dv-water-level-pond :config="config2"/>
+                            <div class="sdk_back">
+                                <div class="sdk_back1">
+                                    80%
+                                </div>
+                            </div>
                             <div class="containesr_sdks_zi">
                                 <div>ONVIF</div>
                                 <div>{{this.total}}{{dev.nONVIFTotal}}{{this.ge}}</div>
                             </div>
                         </div>
                         <div class="containesr_sdks">
-                            <dv-water-level-pond :config="config3"/>
+                            <div class="sdk_back">
+                                <div class="sdk_back1">
+                                    80%
+                                </div>
+                            </div>
                             <div class="containesr_sdks_zi">
                                 <div>{{this.$t("message.dashboard.RTMP")}}</div>
                                 <div>{{this.total}}{{dev.nRTMPPushTotal}}{{this.ge}}</div>
@@ -250,6 +266,7 @@
 
 
 <script>
+import Vue from 'vue'
 import echarts from 'echarts'
 var Highcharts = require("highcharts");
 export default {
@@ -257,30 +274,6 @@ export default {
     data() {
         return {
             value:true,
-            config:{
-                data: [0],
-                shape: 'roundRect',
-                waveHeight:10,
-                waveNum:2
-            },
-            config1:{
-                data: [0],
-                shape: 'roundRect',
-                waveHeight:10,
-                waveNum:2
-            },
-            config2:{
-                data: [0],
-                shape: 'roundRect',
-                waveHeight:10,
-                waveNum:2
-            },
-            config3:{
-                data: [0],
-                shape: 'roundRect',
-                waveHeight:10,
-                waveNum:2
-            },
             data: [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
             data1: [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
             data2: [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
@@ -312,7 +305,7 @@ export default {
                 nONVIFOnline: "",
 
                 nRTMPPushTotal: "",
-                nRTMPPushOnline: "",
+                nRTMPPushOnline: ""
             },
             timerRunInfo: undefined,
             title_text:this.$t("message.dashboard.an_out"),
@@ -332,16 +325,16 @@ export default {
             strRunTime:"",//运行时间
             Gpulen:{
                 nIndex:"",
-                nvidia:"",
+                nvidia:""
             }
         };
     },
     destroyed() {
-        this.config1.data[0]=Math.round(this.dev.nONVIFOnline/this.dev.nONVIFTotal*100);
+        this.config1.data[0]=Math.round(this.dev.nONVIFOnline/this.dev.nONVIFTotal*100)
     },
     beforeDestroy() {
         clearInterval(this.timerRunInfo);
-        clearInterval(this.timerRunInfo1);
+        clearInterval(this.timerRunInfo1)
     },
     mounted: function() {
         
@@ -373,7 +366,7 @@ export default {
             this.devisc();
             this.devtd();
             this.devgb();
-        }, 60000*5);
+        }, 60000*5)
 
     },
     methods: {
@@ -451,7 +444,7 @@ export default {
                         data:[ this.network_in,this.network_out],
                         icon:'rect',
                         itemWidth: 35,
-                        itemHeight: 2,
+                        itemHeight: 2
                     },
                 xAxis: {
                     type: 'category',
@@ -521,7 +514,7 @@ export default {
                         ])
                     },
                     data: this.data1
-                }, ]
+                } ]
             })
         },
         // cpu
@@ -559,7 +552,7 @@ export default {
                         data:['CPU'],
                         icon:'rect',
                         itemWidth: 35,
-                        itemHeight: 2,
+                        itemHeight: 2
                     },
                 xAxis: {
                     type: 'category',
@@ -608,7 +601,7 @@ export default {
                         ])
                     },
                     data: this.data2
-                },]
+                }]
             })
         },
         //海康
@@ -623,15 +616,15 @@ export default {
                 var myChart = echarts.init(pieId);
                 myChart.setOption({
                     tooltip: {
-                        show:true,
+                        show:true
                     },
                     title: {
                         x: 'center',
                         y: 'center',
                         textStyle:{
                             fontSize:12,
-                            fontWeight:400,
-                        },
+                            fontWeight:400
+                        }
                     },
                     
                     series: [{
@@ -651,7 +644,7 @@ export default {
                                     fontWeight: 'bold'
                                 },
                                 formatter:'{b}\n{c}'
-                            },
+                            }
                             
                         },
                         labelLine: {
@@ -712,15 +705,15 @@ export default {
                 var myChart = echarts.init(pieId);
                 myChart.setOption({
                     tooltip: {
-                        show:true,
+                        show:true
                     },
                     title: {
                         x: 'center',
                         y: 'center',
                         textStyle:{
                             fontSize:12,
-                            fontWeight:400,
-                        },
+                            fontWeight:400
+                        }
                     },
                     series: [{
                         name: this.Dahua,
@@ -739,7 +732,7 @@ export default {
                                     fontWeight: 'bold'
                                 },
                                 formatter:'{b}\n{c}'
-                            },
+                            }
                             
                         },
                         labelLine: {
@@ -799,7 +792,7 @@ export default {
                 var myChart = echarts.init(pieId);
                 myChart.setOption({
                     tooltip: {
-                        show:true,
+                        show:true
                         
                     },
                     title: {
@@ -807,8 +800,8 @@ export default {
                         y: 'center',
                         textStyle:{
                             fontSize:12,
-                            fontWeight:400,
-                        },
+                            fontWeight:400
+                        }
                     },
                     series: [{
                         name: 'iSecure Center',
@@ -827,7 +820,7 @@ export default {
                                     fontWeight: 'bold'
                                 },
                                 formatter:'{b}\n{c}'
-                            },
+                            }
                             
                         },
                         labelLine: {
@@ -887,7 +880,7 @@ export default {
                 var myChart = echarts.init(pieId);
                 myChart.setOption({
                     tooltip: {
-                        show:true,
+                        show:true
                         
                     },
                     title: {
@@ -895,8 +888,8 @@ export default {
                         y: 'center',
                         textStyle:{
                             fontSize:12,
-                            fontWeight:400,
-                        },
+                            fontWeight:400
+                        }
                     },
                     series: [{
                         name:this.Tiandy,
@@ -915,7 +908,7 @@ export default {
                                     fontWeight: 'bold'
                                 },
                                 formatter:'{b}\n{c}'
-                            },
+                            }
                             
                         },
                         labelLine: {
@@ -975,7 +968,7 @@ export default {
                 var myChart = echarts.init(pieId);
                 myChart.setOption({
                     tooltip: {
-                        show:true,
+                        show:true
                         
                     },
                     title: {
@@ -983,8 +976,8 @@ export default {
                         y: 'center',
                         textStyle:{
                             fontSize:12,
-                            fontWeight:400,
-                        },
+                            fontWeight:400
+                        }
                     },
                     series: [{
                         name: 'GB',
@@ -1003,7 +996,7 @@ export default {
                                     fontWeight: 'bold'
                                 },
                                 formatter:'{b}\n{c}'
-                            },
+                            }
                             
                         },
                         labelLine: {
@@ -1312,6 +1305,26 @@ export default {
 };
 </script>
 <style scoped>
+.sdk_back{
+    text-align: center;
+    padding: 45% 6px;
+    font-size:22px;
+    font-family:Arial Black;
+    font-weight:400;
+    color:rgba(25,198,240,1);
+    width: 100%;
+    height: 72%;
+    background: url('./gallery/dash_bucket1.png')no-repeat;
+    background-size: 85%;
+    position: relative;
+}
+.sdk_back1{
+    width: 76%;
+    height: 60%;
+    background: url('./gallery/dash_bucket.png');
+    position: absolute;
+    bottom: 11px;
+}
 /* copy */
 #foo{
     border: 0;

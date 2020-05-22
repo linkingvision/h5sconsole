@@ -208,7 +208,7 @@ import uuid from '@/store/uuid'
             label13:this.$t("message.GB.Domain"),
 
             Index:this.$t("message.table.Index"),
-            Token:this.$t("message.table.Token"),
+            Token:this.$t("message.table.Token")
         },
         //分页
         search:"",//搜索
@@ -230,14 +230,14 @@ import uuid from '@/store/uuid'
             strGbIDChBase:"34020000001320000001",
             nGbKeepaliveTime:"10",
             nGbRegisterPeriod:"120",
-            nGbLocalPort:"50600",
+            nGbLocalPort:"50600"
         },
         editform: {
         },
         edittoken:"",//编辑时要删除的token
         editindex:"",//编辑时所在索引
         tableData: [],//2
-        selectop:[],//选择那几个
+        selectop:[]//选择那几个
       };
     },
     mounted(){
@@ -281,7 +281,7 @@ import uuid from '@/store/uuid'
                               strGbProto:itme[i].strGbProto,
                               strGbIDChBase:itme[i].strGbIDChBase,
                               nGbRegisterPeriod:itme[i].nGbRegisterPeriod,
-                              nGbKeepaliveTime:itme[i].nGbKeepaliveTime,
+                              nGbKeepaliveTime:itme[i].nGbKeepaliveTime
                           };
                           this.tableData.push(tabledata);
                       }
@@ -571,8 +571,8 @@ import uuid from '@/store/uuid'
         handleCurrentChange(val) {
             console.log(`当前页: ${val}`);
             this.currentPage = val;
-        },
-    },
+        }
+    }
   };
 </script>
 <style>

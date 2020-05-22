@@ -412,7 +412,7 @@ import uuid from '@/store/uuid'
             User:this.$t("message.table.User"),
             Online:this.$t("message.table.Online"),
             Type:this.$t("message.table.Type"),
-            Token:this.$t("message.table.Token"),
+            Token:this.$t("message.table.Token")
         },
         options: [{
                 value: 'H5_STREAM',
@@ -438,10 +438,10 @@ import uuid from '@/store/uuid'
             URL:"rtsp://192.168.1.1/stream",
             Audio:"false",
             IP:"192.168.1.1",
-            Port:"80",
+            Port:"80"
         },
         editform: {
-            Audio:"false",
+            Audio:"false"
         },
         edittoken:"",//编辑时要删除的token
         editindex:"",//编辑时所在索引
@@ -457,7 +457,7 @@ import uuid from '@/store/uuid'
         tableData3: [],//4
         total3: 0, // 总条数 4
         currentPage3: 1, // 当前页码4
-        selectop:[],//选择啦那几个
+        selectop:[]//选择啦那几个
       };
     },
     mounted(){
@@ -500,7 +500,7 @@ import uuid from '@/store/uuid'
                           Audio :itme[i].bEnableAudio,
                           Online:itme[i].bOnline+"",
                           strUrl:itme[i].strUrl,
-                          bPasswdEncrypt:itme[i].bPasswdEncrypt,
+                          bPasswdEncrypt:itme[i].bPasswdEncrypt
                       };
                       this.tableData.push(tabledata);
                       console.log(tabledata);
@@ -542,7 +542,7 @@ import uuid from '@/store/uuid'
                           Port:itme[i].strSrcPort,
                           Audio :itme[i].bEnableAudio,
                           Online:itme[i].bOnline+"",
-                          bPasswdEncrypt:itme[i].bPasswdEncrypt,
+                          bPasswdEncrypt:itme[i].bPasswdEncrypt
                       };
                       this.tableData1.push(tabledata);
                       //console.log(tabledata);
@@ -582,7 +582,7 @@ import uuid from '@/store/uuid'
                           Audio :itme[i].bEnableAudio,
                           Online:itme[i].bOnline+"",
                           strUrl:itme[i].strUrl,
-                          bPasswdEncrypt:itme[i].bPasswdEncrypt,
+                          bPasswdEncrypt:itme[i].bPasswdEncrypt
                       };
                       this.tableData2.push(tabledata);
                       console.log(tabledata);
@@ -622,7 +622,7 @@ import uuid from '@/store/uuid'
                           Port:itme[i].strSrcPort,
                           Audio :itme[i].bEnableAudio,
                           Online:itme[i].bOnline+"",
-                          bPasswdEncrypt:itme[i].bPasswdEncrypt,
+                          bPasswdEncrypt:itme[i].bPasswdEncrypt
                       };
                       this.tableData3.push(tabledata);
                       
@@ -777,7 +777,7 @@ import uuid from '@/store/uuid'
                 Port:form.Port,
                 Audio :form.Audio,
                 Online:form.Online+"",
-                bPasswdEncrypt:form.bPasswdEncrypt,
+                bPasswdEncrypt:form.bPasswdEncrypt
             }
             console.log("form",form);
            
@@ -1147,7 +1147,7 @@ import uuid from '@/store/uuid'
             }
             
             //this.reload();
-        },
+        }
     },
   };
 </script>

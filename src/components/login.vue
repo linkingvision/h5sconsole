@@ -80,13 +80,13 @@ export default {
                 ],
             model1: this.$store.state.lang,
             frequency:0,
-            lockingdate:0,
+            lockingdate:0
         }
     },
     mounted(){
         $("#prompt").hide();
         $("#prompt1").hide();
-        this.$store.commit(types.TITLE, 'Login');
+        this.$store.commit(types.TITLE, 'Login')
         
     },
     methods:{
@@ -174,7 +174,7 @@ export default {
                 location.reload();
             })
             
-        },
+        }
   }
 }
 </script>

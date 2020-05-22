@@ -12,7 +12,7 @@ export default {
         this.$store.commit(types.LOGOUT);
         this.$router.push({
             path: '/login'
-        });
+        })
         
         // location.reload();
     }
