@@ -13,7 +13,9 @@ export default {
 		setting: 'Account setting',
 		logout: 'Logout',
 		login: 'Login',
-		API:"API"
+		API:"API",
+		goto:"Go to download",
+		control:"The control is successfully installed, please download and install the plugin"
     },
     left:
     {

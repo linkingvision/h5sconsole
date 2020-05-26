@@ -1,58 +1,64 @@
 <template>
     <div>
-    <!--  <div class="preloader">
-    <div class="cssload-speeding-wheel"></div>
-    </div>
-    -->
-    <section id="wrapper" class="login_con">
-        <div class="lg-info-panel">
-            <div class="inner-panel">
-                <a href="javascript:void(0)" class="p-20 di"><img src="./gallery/WechatIMG@2x.png"/></a>
-            </div>
-        </div>
-        <div class="login_box">
+        <!-- <div class="preloader">
+            <div class="cssload-speeding-wheel"></div>
+        </div> -->
+   
+        <section id="wrapper" class="login_con">
             <div class="login_but">
                 <router-link :to="{name:'DownloadappRouter'}"><el-button class="but_jump" plain>{{this.$t("message.archive.Download")}}</el-button></router-link>
             </div>
-            <div class="white-box">
-                <h3 class="box-title m-b-0">{{ $t("message.login.signin") }}</h3>
-                <div class="prompt" id="prompt">
-                    <i class="iconfont icon-ts-caveat"></i> <span>用户名或密码错误，请您重新输入，剩余次数{{frequency}}次。</span>
+            <!-- <div class="lg-info-panel">
+                <div class="inner-panel">
+                    <a href="javascript:void(0)" class="p-20 di"><img src="./gallery/WechatIMG@2x.png"/></a>
                 </div>
-                <div class="prompt" id="prompt1">
-                    <i class="iconfont icon-ts-caveat"></i> <span>错误次数过多，账户已锁定 ,请{{lockingdate}}分钟后再试!</span>
-                </div>
-                <form class="form-horizontal new-lg-form" id="loginform" novalidate @submit.stop.prevent="login">
-                    <div class="form-group  m-t-20">
-                        <div class="col-xs-12">
-                            <Label >{{ $t("message.login.username") }}</Label>
-                            <input class="form-control" type="text" v-model="user" required="" placeholder="Username">
-                        </div>
+            </div> -->
+            <div class="longin_logo"></div>
+            <div class="login_box">
+                <div class="white-box">
+                    <div class="prompt" id="prompt">
+                        <i class="iconfont icon-ts-caveat"></i> <span>用户名或密码错误，请您重新输入，剩余次数{{frequency}}次。</span>
                     </div>
-                    <div class="form-group">
-                        <div class="col-xs-12">
-                            <label>{{ $t("message.login.password") }}</label>
-                            <input class="form-control" type="password" v-model="passwd" required="" placeholder="Password">
-                        </div>
+                    <div class="prompt" id="prompt1">
+                        <i class="iconfont icon-ts-caveat"></i> <span>错误次数过多，账户已锁定 ,请{{lockingdate}}分钟后再试!</span>
                     </div>
-                    <div class="form-group">
-                        <div class="col-xs-12">
-                            <button class="btn btn-info btn-lg btn-block btn-rounded text-uppercase waves-effect waves-light" type="submit">{{ $t("message.login.login") }}</button>
+                    <form class="form-horizontal new-lg-form" id="loginform" novalidate @submit.stop.prevent="login">
+                        <div class="form-group  m-t-20">
+                            <div class="col-xs-12 logo_ipt">
+                                <span class="logo_icon"></span>
+                                <!-- <Label >{{ $t("message.login.username") }}</Label> -->
+                                <input class="form-control" type="text" v-model="user" required="" placeholder="Username">
+                            </div>
                         </div>
-                    </div>
-                    <div class="form-group">
-                        <div class="col-xs-12">
+                        <div class="form-group">
+                            <div class="col-xs-12 logo_ipt">
+                                
+                                <span class="logo_icon1"></span>
+                                <!-- <label>{{ $t("message.login.password") }}</label> -->
+                                <input class="form-control" type="password" v-model="passwd" required="" placeholder="Password">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-xs-12 language">
                                 <label>{{ $t("message.login.language") }}</label>
-                                <Select v-model="model1" @on-change="changeLanguage" >
+                                <Select class="language_size" v-model="model1" @on-change="changeLanguage" >
                                     <Option v-for="item in langList" :value="item.value" :key="item.value">{{ item.label }}</Option>
-                            </Select>
+                                </Select>
+                            </div>
                         </div>
-                    </div>
-                </form>
+                        <div class="form-group">
+                            <div class="col-xs-12">
+                                <button class="btn btn-info btn-block" type="submit">{{ $t("message.login.login") }}</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
             </div>
+        </section>
+        <div class="login_butt">
+            <div class="login_butt_back"></div>
+            <div class="login_butt_size">  {{date}} &copy; linkingvision.com </div>
         </div>
-    
-    </section>
     </div>
 </template>
 
@@ -65,6 +71,7 @@ export default {
 
     data () {
         return {
+            date:new Date().getFullYear(),
             user: '',
             passwd: '',
             session:'',
@@ -181,6 +188,71 @@ export default {
 
 
 <style scoped>
+.login_butt{
+    font-size:12px;
+    font-family:PingFang SC;
+    font-weight:600;
+    color:rgba(255,255,255,1);
+    width: 100%;
+    height: 30px;
+    position: fixed;
+    bottom: 0;
+    text-align: center;
+}
+.login_butt_back{
+    width: 100%;
+    height: 100%;
+    background: #000;
+    opacity: 0.3;
+    position: absolute;
+    top: 0;
+}
+.login_butt_size{
+    width: 100%;
+    position: absolute;
+    top: 0;
+    line-height: 30px;
+}
+
+/*  */
+
+.language label{
+    font-size:16px;
+    font-family:PingFang SC;
+    font-weight:600;
+    color:rgba(34,38,44,1);
+}
+.language_size >>> .ivu-select-selection{
+    border: 0 ;
+    border-bottom:1px solid rgba(226,226,226,1);
+    opacity:0.7;
+}
+/*  */
+.logo_ipt{
+    display: flex;
+    border-bottom:1px solid rgba(226,226,226,1);
+    opacity:0.7;
+}
+.logo_ipt input{
+    border: 0;
+    background:none;
+}
+.logo_icon{
+    height: 30px;
+    background: url("./gallery/login_name.png") no-repeat center center;
+    padding:  0 20px;
+}
+.logo_icon1{
+    height: 30px;
+    background: url("./gallery/login_pass.png") no-repeat center center;
+    padding:  0 20px;
+}
+.longin_logo{
+    width: 100%;
+    height: 140px;
+    margin: 5% auto 0;
+    background: url("./gallery/login_logo.png") no-repeat center center;
+}
 /* 下载按钮 */
 .login_but{
     width: 100%;
@@ -209,24 +281,24 @@ export default {
 .login_con{
     height: 100%;
     width: 100%;
-    display: flex;
+    background: url("./gallery/login_back.png");
+    /* display: flex; */
+    position: fixed;
 }
 .lg-info-panel{
     width: 60% !important;
     background: url("./gallery/cover.png") no-repeat -5px !important;
     background-size: 100%;
     height: 100%;
-    position: fixed;
 }
 .login_box{
-    width: 40%;
+    width: 24%;
     height: 100%;
-    position: fixed;
-    right: 0;
+    margin: 0 auto;
 }
 .white-box{
-    padding: 22%;
-    margin-top: 10%;
+    padding: 8% 12%;
+    /* margin-top: 10%; */
     box-shadow: none!important;
 }
 .box-title{

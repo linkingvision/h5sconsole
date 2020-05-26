@@ -40,35 +40,16 @@
                     </div>
                     <div class="device">{{this.$t("message.dashboard.device")}}</div>
                     <div class="cpu_dev_sdk">
-                        <div class="cpu_sdk">
-                            <div class="dev_sdk">
-                                <dv-water-level-pond :config="round"/>
-                                <div class="containesr_sdks_zi">
-                                    <div>{{Hikvision}}</div>
-                                    <div>{{total}}{{dev.nHikDevTotal}}{{ge}}</div>
+                        <div class="container_sdk">
+                            <div class="containesr_sdks" v-for="(da,index) in devbucket" :key="index">
+                                <div class="cpu_back" :id="'cpuaa'+index">
+                                    <!-- <div class="cpu_back1">
+                                    </div> -->
+                                    <div class="sdk_szie">{{da.percentage}}%</div>
                                 </div>
-                            </div>
-                            <div class="dev_sdk">
-                                <dv-water-level-pond :config="round1"/>
                                 <div class="containesr_sdks_zi">
-                                    <div>{{Dahua}}</div>
-                                    <div>{{total}}{{dev.nDhDevTotal}}{{ge}}</div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="cpu_sdk">
-                            <div class="dev_sdk">
-                                <dv-water-level-pond :config="round2"/>
-                                <div class="containesr_sdks_zi">
-                                    <div>{{Tiandy}}</div>
-                                    <div>{{total}}{{dev.nTdDevTotal}}{{ge}}</div>
-                                </div>
-                            </div>
-                            <div class="dev_sdk">
-                                <dv-water-level-pond  :config="round3"/>
-                                <div class="containesr_sdks_zi">
-                                    <div>GB</div>
-                                    <div>{{total}}{{dev.nGbDevTotal}}{{ge}}</div>
+                                    <div>{{da.name}}</div>
+                                    <div>{{total}} {{da.total1}} {{ge}}</div>
                                 </div>
                             </div>
                         </div>
@@ -195,35 +176,15 @@
                     </div>
                     <div class="device">{{this.$t("message.dashboard.device")}}</div>
                     <div class="container_sdk">
-                        <div class="containesr_sdks">
-                            <dv-water-level-pond :config="config"/>
-                            <div class="containesr_sdks_zi">
-                                <div>{{this.$t("message.dashboard.Cloud")}}</div>
-                                <div>{{total}}{{dev.nCloudTotal}}{{ge}}</div>
+                        <div class="containesr_sdks" v-for="(da,index) in devbucket1" :key="index">
+                            <div class="sdk_back" :id="'devaa'+index">
+                                <!-- <div class="sdk_back1" >
+                                </div> -->
+                                <div class="sdk_szie">{{da.percentage}}%</div>
                             </div>
-                        </div>
-                        <div class="containesr_sdks">
-                            <dv-water-level-pond :config="config1"/>
                             <div class="containesr_sdks_zi">
-                                <div>RTSP/RTMP</div>
-                                <div>{{total}}{{dev.nRTSPRTMPTotal}}{{ge}}</div>
-                            </div>
-                        </div>
-                    
-                    </div>
-                    <div class="container_sdk">
-                        <div class="containesr_sdks">
-                            <dv-water-level-pond :config="config2"/>
-                            <div class="containesr_sdks_zi">
-                                <div>ONVIF</div>
-                                <div>{{total}}{{dev.nONVIFTotal}}{{ge}}</div>
-                            </div>
-                        </div>
-                        <div class="containesr_sdks">
-                            <dv-water-level-pond :config="config3"/>
-                            <div class="containesr_sdks_zi">
-                                <div>{{this.$t("message.dashboard.RTMP")}}</div>
-                                <div>{{total}}{{dev.nRTMPPushTotal}}{{ge}}</div>
+                                <div>{{da.name}}</div>
+                                <div>{{total}} {{da.total1}} {{ge}}</div>
                             </div>
                         </div>
                     </div>
@@ -259,7 +220,8 @@ export default {
             Hikvision:this.$t("message.dashboard.Hikvision"),
             Dahua:this.$t("message.dashboard.Dahua"),
             Tiandy:this.$t("message.dashboard.Tiandy"),
-            
+            devbucket:[],
+            devbucket1:[],
             dev:{},
             dateany:"",
             capability:"",
@@ -267,58 +229,7 @@ export default {
             timersetInterval:"",//定时器
             streamprofile:"main",
             token_index:"",
-            config:{
-                data: [0],
-                shape: 'roundRect',
-                waveHeight:10,
-                waveNum:2
-            },
-            config1:{
-                data: [0],
-                shape: 'roundRect',
-                waveHeight:10,
-                waveNum:2
-            },
-            config2:{
-                data: [0],
-                shape: 'roundRect',
-                waveHeight:10,
-                waveNum:2
-            },
-            config3:{
-                data: [0],
-                shape: 'roundRect',
-                waveHeight:10,
-                waveNum:2
-            },
-            round:{
-                data: [0],
-                shape: 'round',
-                waveHeight:10,
-                waveNum:2,
-                colors:['#2E55E3', '#48A9FB']
-            },
-            round1:{
-                data: [0],
-                shape: 'round',
-                waveHeight:10,
-                waveNum:2,
-                colors:['#0FB870', '#05B6CD']
-            },
-            round2:{
-                data: [0],
-                shape: 'round',
-                waveHeight:10,
-                waveNum:2,
-                colors:['#D0234D', '#F13E26']
-            },
-            round3:{
-                data: [0],
-                shape: 'round',
-                waveHeight:10,
-                waveNum:2,
-                colors:['#2E55E3', '#48A9FB']
-            },
+            
             data: [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
             data1: [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
             data2: [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
@@ -518,11 +429,6 @@ export default {
             this.$http.get(url).then(result=>{
                 if (result.status == 200) {
                         this.dev=result.data;
-                        var Cloud="";
-                        var RTSPR="";
-                        var ONVIF="";
-                        var RTMP="";
-
                         var Hik="";
                         var dh="";
                         var td="";
@@ -550,6 +456,29 @@ export default {
                         }else{
                             gb=Math.round(this.dev.nGbDevOnline/this.dev.nGbDevTotal*100)
                         }
+                        var databuk1=[{
+                            name:this.$t("message.dashboard.Hikvision"),
+                            total1:this.dev.nHikDevTotal,
+                            percentage:Hik
+                        },{
+                            name:this.$t("message.dashboard.Dahua"),
+                            total1:this.dev.nDhDevTotal,
+                            percentage:dh
+                        },{
+                            name:this.$t("message.dashboard.Tiandy"),
+                            total1:this.dev.nTdDevTotal,
+                            percentage:td
+                        },{
+                            name:'GB',
+                            total1:this.dev.nGbDevTotal,
+                            percentage:gb
+                        }]
+                        this.devbucket1=databuk1
+                        // console.log("---------",Cloud)
+                        var Cloud="";
+                        var RTSPRx="";
+                        var ONVIFx="";
+                        var RTMPx="";
                         if(this.dev.nCloudTotal==0){
                             Cloud=0;
                         }else{
@@ -557,76 +486,41 @@ export default {
                         }
 
                         if(this.dev.nRTSPRTMPTotal==0){
-                            RTSPR=0;
+                            RTSPRx=0;
                         }else{
-                            RTSPR=Math.round(this.dev.nRTSPRTMPOnline/this.dev.nRTSPRTMPTotal*100)
+                            RTSPRx=Math.round(this.dev.nRTSPRTMPOnline/this.dev.nRTSPRTMPTotal*100)
                         }
 
                         if(this.dev.nONVIFTotal==0){
-                            ONVIF=0;
+                            ONVIFx=0;
                         }else{
-                            ONVIF=Math.round(this.dev.nONVIFOnline/this.dev.nONVIFTotal*100)
+                            ONVIFx=Math.round(this.dev.nONVIFOnline/this.dev.nONVIFTotal*100)
                         }
 
                         if(this.dev.nRTMPPushTotal==0){
-                            RTMP=0;
+                            RTMPx=0;
                         }else{
-                            RTMP=Math.round(this.dev.nRTMPPushOnline/this.dev.nRTMPPushTotal*100)
+                            RTMPx=Math.round(this.dev.nRTMPPushOnline/this.dev.nRTMPPushTotal*100)
                         }
-                        // 
-                        // console.log("---------",Cloud)
-                        this.config={
-                                data: [Cloud],
-                                shape: 'roundRect',
-                                waveHeight:10,
-                                waveNum:2
-                            };
-                        this.config1={
-                                data: [RTSPR],
-                                shape: 'roundRect',
-                                waveHeight:10,
-                                waveNum:2
-                            };
-                        this.config2={
-                                data: [ONVIF],
-                                shape: 'roundRect',
-                                waveHeight:10,
-                                waveNum:2
-                            };
-                        this.config3={
-                                data: [RTMP],
-                                shape: 'roundRect',
-                                waveHeight:10,
-                                waveNum:2
-                            };
-                        this.round={
-                            data: [Hik],
-                            shape: 'round',
-                            waveHeight:10,
-                            waveNum:2,
-                            colors:['#2E55E3', '#48A9FB']
-                        };
-                        this.round1={
-                                data: [dh],
-                                shape: 'round',
-                                waveHeight:5,
-                                waveNum:2,
-                                colors:['#0FB870', '#05B6CD']
-                            };
-                        this.round2={
-                                data: [td],
-                                shape: 'round',
-                                waveHeight:5,
-                                waveNum:2,
-                                colors:['#D0234D', '#F13E26']
-                            };
-                        this.round3={
-                                data: [gb],
-                                shape: 'round',
-                                waveHeight:5,
-                                waveNum:2,
-                                colors:['#2E55E3', '#48A9FB']
-                            };
+                        // console.log(Cloud,RTSPRx,ONVIFx,RTMPx)
+                        var databuk=[{
+                            name:this.$t("message.dashboard.Cloud"),
+                            total1:this.dev.nCloudTotal,
+                            percentage:Cloud
+                        },{
+                            name:'RTSP/RTMP',
+                            total1:this.dev.nRTSPRTMPTotal,
+                            percentage:RTSPRx
+                        },{
+                            name:'ONVIF',
+                            total1:this.dev.nONVIFTotal,
+                            percentage:ONVIFx
+                        },{
+                            name:this.$t("message.dashboard.RTMP"),
+                            total1:this.dev.nRTMPPushTotal,
+                            percentage:RTMPx
+                        }]
+                        this.devbucket=databuk
                         // console.log("设备",this.dev,result.data);
                 }
             })
@@ -939,6 +833,55 @@ export default {
 
 
 <style scoped>
+.sdk_szie{
+    width: 78%;
+    /* position: absolute; */
+    text-align: center;
+}
+.sdk_back{
+    text-align: center;
+    padding: 45% 6px;
+    font-size:22px;
+    font-family:Arial Black;
+    font-weight:400;
+    color:rgba(25,198,240,1);
+    width: 100%;
+    height: 77%;
+    background: url('./views/gallery/contro_suitong.png')no-repeat;
+    background-size: 73%;
+    position: relative;
+    margin-left: 10%;
+}
+.cpu_back{
+    text-align: center;
+    padding-top: 20%;
+    font-size:22px;
+    font-family:Arial Black;
+    font-weight:400;
+    color:rgba(25,198,240,1);
+    width: 90px;
+    height: 80px;
+    position: relative;
+    /* margin-left: 18px; */
+    margin-left: 22%;
+}
+.containesr_sdks #cpuaa0{
+    background: url('./views/gallery/contro_yuan1.png')no-repeat;
+    background-size: 86%;
+}
+.containesr_sdks #cpuaa1{
+    background: url('./views/gallery/contro_yuan.png')no-repeat;
+    background-size: 86%;
+}
+.containesr_sdks #cpuaa2{
+    background: url('./views/gallery/contro_yuan3.png')no-repeat;
+    background-size: 86%;
+}
+.containesr_sdks #cpuaa3{
+    background: url('./views/gallery/contro_yuan1.png')no-repeat;
+    background-size: 86%;
+}
+/*  */
 .dv-water-pond-level>>> canvas{
     margin-left: 0;
 }
@@ -999,7 +942,7 @@ export default {
 
 .container_sdk{
     width: 100%;
-    height: 45%;
+    height: 100%;
     display: flex;
     justify-content: space-around;
     flex-wrap: wrap;
@@ -1008,8 +951,9 @@ export default {
     height: 100%;
 }
 .containesr_sdks{
-    width: 25%;
-    height: 70%;
+    margin: 0 auto;
+    width: 35%;
+    height: 40%;
     text-align: center;
     font-size:16px;
     font-family:PingFang SC;

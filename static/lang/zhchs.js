@@ -14,7 +14,9 @@ export default {
 		setting: '帐号设置',
 		logout: '退出',
 		login: '登录',
-		API:"API"
+		API:"API",
+		goto:"前往下载",
+		control:"控件安装成功，请在下载安装插件"
     },
     left:
     {

@@ -21,9 +21,12 @@ export default {
         }
     },
     beforeDestroy() {
-        this.h5handler.disconnect();
-        delete this.h5handler;
-        this.h5handler = undefined;
+        if (this.h5handler != undefined)
+        {
+            this.h5handler.disconnect();
+            delete this.h5handler;
+            this.h5handler = undefined;
+        }
         console.log("000")
     },
     mounted(){

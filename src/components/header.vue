@@ -26,7 +26,7 @@
             v-model="value"
             active-color="#5DBFA6">
           </el-switch>
-          <span>Link</span>
+          <span>Linkweb</span>
         </li>
         <!-- 控制中心 -->
         <li class="dropdown control_center">
@@ -129,6 +129,7 @@
                     </span>
                 </span>
                 <el-dialog
+                    class="plugin_adout"
                     :visible.sync="centerDialogVisible"
                     width="30%"
                     append-to-body
@@ -161,6 +162,21 @@
           </ul>
           <!-- /.dropdown-user -->
         </li>
+        <el-dialog
+            class="plugin"
+            :visible.sync="centerDialogVisiblex"
+            width="25%"
+            append-to-body
+            center>
+            <div class="plugin_back">
+            </div>
+            <div class="plugin_size">
+                <div>{{label.control1}}</div>
+                <router-link :to="{name:'DownloadappRouter'}" class="plugin_size1">
+                  {{label.goto}}
+              </router-link>
+            </div>
+        </el-dialog>
       </ul>
     </div>
 
@@ -169,6 +185,7 @@
 <script>
 import * as types from "@/store/types";
 import '@/assets/jQuery.md5.js'
+import {H5sPlayerCanvas,H5sPlayerCanvasGetLinkWebVersion} from '../assets/linkplayer.js'
 export default {
   name: "vheader",
   methods: {},
@@ -178,6 +195,7 @@ export default {
         user:this.$store.state.users,
         gEvvalue: 0,
         centerDialogVisible:false,
+        centerDialogVisiblex:false,
         Operator:false,
         information:{
             strVersion: ""
@@ -199,7 +217,9 @@ export default {
           nePassword1:this.$t("message.setting.confirmpass"),
           Change:this.$t("message.setting.Change"),
           Download:this.$t("message.archive.Download"),
-          Control:this.$t("message.left.Control")
+          Control:this.$t("message.left.Control"),
+          goto:this.$t("message.header.goto"),
+		      control1:this.$t("message.header.control")
       },
       options: [{
               value: 'Administrator',
@@ -217,6 +237,14 @@ export default {
         this.value=true;
         $(".linkwed").css("pointer-events", "none");
         console.log("ie")
+        var _this=this
+        H5sPlayerCanvasGetLinkWebVersion(function(strVer){
+          console.log(strVer); 
+        }, 
+        function(){
+          _this.centerDialogVisiblex=true;
+          console.log('Please install LinkWeb 111!'); 
+        });
     }else{
         if(this.$store.state.link=="true"){
             this.value=true;
@@ -233,11 +261,20 @@ export default {
       var link=this.value;
       // return false;
       if(link==false){
+        this.centerDialogVisiblex=false;
         this.$store.commit(types.LINK, "false");
         this.$store.state.link="false"
         var a="false"
         this.$root.bus.$emit('liveplaylink',a)
       }else if(link==true){
+        var _this=this
+        H5sPlayerCanvasGetLinkWebVersion(function(strVer){
+          console.log(strVer); 
+        }, 
+        function(){
+          _this.centerDialogVisiblex=true;
+          console.log('Please install LinkWeb 111!'); 
+        });
         var a="true"
         this.$store.commit(types.LINK, "true");
         this.$store.state.link="true"
@@ -306,7 +343,35 @@ export default {
 };
 </script>
 <style scoped>
+
+.plugin >>> .el-dialog{
+  background: #FFFFFF;
+}
+.plugin >>>.el-dialog__header{
+  padding: 0;
+}
+.plugin_back{
+  width: 100%;
+  height: 200px;
+  background: url("./gallery/header_tk.png") no-repeat center;
+
+}
+.plugin_size{
+  font-size:16px;
+  font-family:PingFang SC;
+  font-weight:400;
+  color:rgba(1,1,1,1);
+  text-align: center;
+}
+.plugin_size1{
+  font-size:14px;
+  font-family:PingFang SC;
+  font-weight:500;
+  color:rgba(0,144,255,1);
+}
+/*  */
 .linkwed{
+  width: 30px;
 	height: 40px;
 	margin-right: 8px;
 }
@@ -340,7 +405,7 @@ export default {
     transition: border-color .2s cubic-bezier(.645,.045,.355,1);
     width: 80%;
   }
-  .el-dialog__wrapper >>>.el-form-item__content{
+  .plugin_adout >>>.el-form-item__content{
         margin-left: 160px !important;
   }
 /* 控制中心 */
@@ -407,8 +472,7 @@ a{
     float: left;
     border-right: 1px solid rgba(0,0,0,.08);
 }
-
-.el-dialog__wrapper >>> .el-dialog{
+.plugin_adout >>> .el-dialog{
     background: #292929;
 }
 .dialog >>>.el-dialog{
@@ -424,7 +488,7 @@ a{
 .dialog >>>.el-dialog__footer{
   text-align: right;
 }
-.el-dialog__wrapper >>>  .el-dialog--center .el-dialog__body {
+.plugin_adout >>>  .el-dialog--center .el-dialog__body {
     padding: 1px 30px;
 }
 /* admin */

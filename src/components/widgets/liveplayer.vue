@@ -211,6 +211,7 @@ export default {
     },
    
     mounted() {
+        
         // console.log("liveviewplay",typeof( this.wathlinkwed), this.wathlinkwed)
         if(this.wathlinkwed=='true'){
             $("#"+this.videoid).hide();

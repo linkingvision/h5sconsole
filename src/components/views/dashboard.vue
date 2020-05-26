@@ -211,48 +211,15 @@
                         <span>{{this.$t("message.dashboard.device")}}</span>
                     </div>
                     <div class="container_sdk">
-                        <div class="containesr_sdks">
+                        <div class="containesr_sdks" v-for="(da,index) in devbucket" :key="index">
                             <div class="sdk_back">
-                                <div class="sdk_back1">
-                                    80%
+                                <div class="sdk_back1" :id="'aa'+index">
                                 </div>
+                                <div class="sdk_szie">{{da.percentage}}%</div>
                             </div>
                             <div class="containesr_sdks_zi">
-                                <div>{{this.$t("message.dashboard.Cloud")}}</div>
-                                <div>{{this.total}}{{dev.nCloudTotal}}{{this.ge}}</div>
-                            </div>
-                        </div>
-                        <div class="containesr_sdks">
-                            <div class="sdk_back">
-                                <div class="sdk_back1">
-                                    80%
-                                </div>
-                            </div>
-                            <div class="containesr_sdks_zi">
-                                <div>RTSP/RTMP</div>
-                                <div>{{this.total}}{{dev.nRTSPRTMPTotal}}{{this.ge}}</div>
-                            </div>
-                        </div>
-                        <div class="containesr_sdks">
-                            <div class="sdk_back">
-                                <div class="sdk_back1">
-                                    80%
-                                </div>
-                            </div>
-                            <div class="containesr_sdks_zi">
-                                <div>ONVIF</div>
-                                <div>{{this.total}}{{dev.nONVIFTotal}}{{this.ge}}</div>
-                            </div>
-                        </div>
-                        <div class="containesr_sdks">
-                            <div class="sdk_back">
-                                <div class="sdk_back1">
-                                    80%
-                                </div>
-                            </div>
-                            <div class="containesr_sdks_zi">
-                                <div>{{this.$t("message.dashboard.RTMP")}}</div>
-                                <div>{{this.total}}{{dev.nRTMPPushTotal}}{{this.ge}}</div>
+                                <div>{{da.name}}</div>
+                                <div>{{total}} {{da.total1}} {{ge}}</div>
                             </div>
                         </div>
                     </div>
@@ -279,6 +246,7 @@ export default {
             data2: [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
             codecInfo:"",
             capability:"",
+            devbucket:[],
             system:"",
             dev:{
                 nCameraTotal: "",
@@ -330,7 +298,6 @@ export default {
         };
     },
     destroyed() {
-        this.config1.data[0]=Math.round(this.dev.nONVIFOnline/this.dev.nONVIFTotal*100)
     },
     beforeDestroy() {
         clearInterval(this.timerRunInfo);
@@ -1084,9 +1051,9 @@ export default {
                 if (result.status == 200) {
                         this.dev=result.data;
                         var Cloud="";
-                        var RTSPR="";
-                        var ONVIF="";
-                        var RTMP="";
+                        var RTSPRx="";
+                        var ONVIFx="";
+                        var RTMPx="";
                         if(this.dev.nCloudTotal==0){
                             Cloud=0;
                         }else{
@@ -1094,49 +1061,41 @@ export default {
                         }
 
                         if(this.dev.nRTSPRTMPTotal==0){
-                            RTSPR=0;
+                            RTSPRx=0;
                         }else{
-                            RTSPR=Math.round(this.dev.nRTSPRTMPOnline/this.dev.nRTSPRTMPTotal*100)
+                            RTSPRx=Math.round(this.dev.nRTSPRTMPOnline/this.dev.nRTSPRTMPTotal*100)
                         }
 
                         if(this.dev.nONVIFTotal==0){
-                            ONVIF=0;
+                            ONVIFx=0;
                         }else{
-                            ONVIF=Math.round(this.dev.nONVIFOnline/this.dev.nONVIFTotal*100)
+                            ONVIFx=Math.round(this.dev.nONVIFOnline/this.dev.nONVIFTotal*100)
                         }
 
                         if(this.dev.nRTMPPushTotal==0){
-                            RTMP=0;
+                            RTMPx=0;
                         }else{
-                            RTMP=Math.round(this.dev.nRTMPPushOnline/this.dev.nRTMPPushTotal*100)
+                            RTMPx=Math.round(this.dev.nRTMPPushOnline/this.dev.nRTMPPushTotal*100)
                         }
-                        // 
-                        // console.log("---------",Cloud)
-                        this.config={
-                                data: [Cloud],
-                                shape: 'roundRect',
-                                waveHeight:10,
-                                waveNum:2
-                            };
-                        this.config1={
-                                data: [RTSPR],
-                                shape: 'roundRect',
-                                waveHeight:10,
-                                waveNum:2
-                            };
-                        this.config2={
-                                data: [ONVIF],
-                                shape: 'roundRect',
-                                waveHeight:10,
-                                waveNum:2
-                            };
-                        this.config3={
-                                data: [RTMP],
-                                shape: 'roundRect',
-                                waveHeight:10,
-                                waveNum:2
-                            };
-                        // console.log("设备",this.dev,result.data);
+                        // console.log(Cloud,RTSPRx,ONVIFx,RTMPx)
+                        var databuk=[{
+                            name:this.$t("message.dashboard.Cloud"),
+                            total1:this.dev.nCloudTotal,
+                            percentage:Cloud
+                        },{
+                            name:'RTSP/RTMP',
+                            total1:this.dev.nRTSPRTMPTotal,
+                            percentage:RTSPRx
+                        },{
+                            name:'ONVIF',
+                            total1:this.dev.nONVIFTotal,
+                            percentage:ONVIFx
+                        },{
+                            name:this.$t("message.dashboard.RTMP"),
+                            total1:this.dev.nRTMPPushTotal,
+                            percentage:RTMPx
+                        }]
+                        this.devbucket=databuk
                 }
             })
         },
@@ -1305,6 +1264,10 @@ export default {
 };
 </script>
 <style scoped>
+.sdk_szie{
+    width: 76%;
+    position: absolute;
+}
 .sdk_back{
     text-align: center;
     padding: 45% 6px;
@@ -1409,10 +1372,6 @@ export default {
     width: 14%;
     height: 100%;
     /* text-align: center */
-}
-.container_sdk .containesr_sdks .dv-water-pond-level{
-    width: 100%;
-    height: 70%;
 }
 .containesr_sdks_zi{
     text-align: center;
