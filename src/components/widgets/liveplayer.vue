@@ -211,8 +211,12 @@ export default {
     },
    
     mounted() {
-        
+        if (window.ActiveXObject || "ActiveXObject" in window){
+            this.wathlinkwed='true'
+            console.log("liveviewplay",typeof( this.wathlinkwed), this.wathlinkwed)
+        }
         // console.log("liveviewplay",typeof( this.wathlinkwed), this.wathlinkwed)
+        // return false
         if(this.wathlinkwed=='true'){
             $("#"+this.videoid).hide();
         }else if(this.wathlinkwed=='false'){
@@ -287,12 +291,6 @@ export default {
             }
             console.log(val,this.wathlinkwed,"监听")
         },
-        cavaswidth(val){
-            console.log(val,"监控宽")
-        },
-        cavasheidht(val){
-            console.log(val,'监控高')
-        }
     },
     methods: {
         
@@ -322,7 +320,7 @@ export default {
                 this.h5handler = undefined;
             }
             this.currtoken = token;
-            console.log(streamprofile,"111111111111111111*****")
+            // console.log(streamprofile,"111111111111111111*****")
             if(streamprofile==="sub"){
                 this.valuebutton=this.$t("message.live.mainstream ")
             } else if(streamprofile==="main"){
@@ -331,7 +329,8 @@ export default {
                 this.valuebutton=this.$t("message.live.substream")
             }
             if(this.wathlinkwed=='true'){
-                
+                console.log("ieieieieieie",this.wathlinkwed);
+                // return false
                 // this.cavaswidth=widthx;
                 // this.cavasheidht=heightx;
                 // console.log(widthx,heightx,this.h5id);
@@ -339,6 +338,8 @@ export default {
                 this.h5handler = new H5sPlayerCanvas(confk);
                 this.playjkwh(videosize,confk);
             }else if(this.wathlinkwed=='false'){
+                console.log("cocococ",this.wathlinkwed)
+                // return false
                 var $container = $("#"+this.h5id);
                 var $controls = $container.children(".h5controls");
                 var $rtcbutton = $controls.children(".rtcbutton");

@@ -724,7 +724,9 @@ export default {
     -webkit-box-sizing:border-box;
 }
 .h5videoh{
-    border: 2px solid #f44336 !important;
+    /* border: 2px solid #f44336 !important;
+    box-sizing: border-box; */
+    box-shadow: 0 0 0 2px #f44336;
     z-index: 10;
 }
 .Seven_Palace{
