@@ -18,7 +18,7 @@ export default new Vuex.Store({
     root:null,
     users:null,
     Adswitch:"false",
-    link:false
+    link:'false'
   },
   mutations: {
     // LINK模式
@@ -77,6 +77,8 @@ export default new Vuex.Store({
       state.users = null
       localStorage.removeItem('h5sroot')
       state.root = null
+      localStorage.removeItem('h5link')
+      state.link = 'false'
     },
     [types.TITLE]: (state, data) => {
       state.title = data

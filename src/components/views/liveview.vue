@@ -234,11 +234,13 @@ export default {
         }
     },
     mounted() {
-        // console.log("liveview",this.$store.state.linkweb)
+        // console.log("liveview",this.$store.state.root)
         if( this.$store.state.root=="Operator"){
             $("#device").hide();
-        }else{
+        }else if(this.$store.state.root=="Administrator"){
             $("#device1").hide();
+        }else{
+            $("#device").hide();
         }
         this.updateUI();
         this.addWaterMarker();

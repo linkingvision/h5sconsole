@@ -275,7 +275,9 @@ export default {
                 $("#" + this.h5videoid).get(0).poster = '';
             }
             this.currtoken = undefined
-
+            var c=document.getElementById(this.canvasplay);  
+            var cxt=c.getContext("2d");  
+            c.height=c.height;  
             if(this.wathlinkwed=='true'){
                 $("#"+this.videoid).hide();
                 $("#"+this.canvasplay).show();
@@ -320,6 +322,14 @@ export default {
                 this.h5handler = undefined;
             }
             this.currtoken = token;
+            console.log(streamprofile,"111111111111111111*****")
+            if(streamprofile==="sub"){
+                this.valuebutton=this.$t("message.live.mainstream ")
+            } else if(streamprofile==="main"){
+                this.valuebutton=this.$t("message.live.substream")
+            }else{
+                this.valuebutton=this.$t("message.live.substream")
+            }
             if(this.wathlinkwed=='true'){
                 
                 // this.cavaswidth=widthx;
@@ -409,11 +419,6 @@ export default {
             };
             
             //码流按钮
-            if(streamprofile==="sub"){
-                this.valuebutton=this.$t("message.live.mainstream ")
-            } else if(streamprofile==="main"){
-                this.valuebutton=this.$t("message.live.substream")
-            }
             return conf;
         
             
