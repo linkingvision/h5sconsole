@@ -15,7 +15,7 @@
                 </div>
         </div>
         <div class="container_co">
-            <div class="container" v-for="(a,index) in 6" :key="index">
+            <div class="container" v-for="(a,index) in 7" :key="index">
                 <div class="flex_beibiao">
                     <div class="beibiao_zi">
                     </div>
@@ -81,6 +81,7 @@ export default {
             // console.log("----------",url)
             this.$http.get(url).then(result=>{
                 if (result.status == 200) {
+                    console.log("----------",url,result)
                     // this.dev=result.data;
                     var data=result.data;
                     for(var i in data){
@@ -110,6 +111,10 @@ export default {
                             name:this.Uniview,
                             Total:data.nUnvDevTotal,
                             Online:data.nUnvDevOnline
+                        },{
+                            name:"DSS",
+                            Total:data.nDssDevTotal,
+                            Online:data.nDssDevOnline
                     }];
                     
                     this.devdata=devdata
@@ -230,9 +235,10 @@ export default {
     margin-bottom: 10px;
 }
 .container_co{
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-around;
+    width: 100%;
+    /* display: flex; */
+    /* flex-wrap: wrap;
+    justify-content: space-between; */
     padding: 0 10px;
     box-sizing: border-box;
 }
@@ -241,9 +247,10 @@ export default {
     padding: 30px 30px;
     background-color: #FFFFFF;
     display: flex;
+    display: inline-block;
     flex-wrap: wrap;
-    justify-content: space-around;
     margin-bottom: 10px;
+    margin-left: 0.6%;
     border-radius: 10px;
 }
 .flex_beibiao{

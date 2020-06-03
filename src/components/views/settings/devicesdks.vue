@@ -93,6 +93,7 @@
                             <input class="editinput" v-if="form.Type=='H5_DEV_HIKISC'" v-model="form.Port_isc"/>
                             <input class="editinput" v-if="form.Type=='H5_DEV_TD'" v-model="form.Port_td"/>
                             <input class="editinput" v-if="form.Type=='H5_DEV_UNV'" v-model="form.Port_unv"/>
+                            <input class="editinput" v-if="form.Type=='H5_DEV_DHDSS'" v-model="form.Port_DSS"/>
                         </el-form-item>
                         <el-form-item label="Audio">
                           <el-switch
@@ -237,6 +238,9 @@ import uuid from '@/store/uuid'
             }, {
                 value: 'H5_DEV_UNV',
                 label: 'H5_DEV_UNV'
+            }, {
+                value: 'H5_DEV_DHDSS',
+                label: 'H5_DEV_DHDSS'
             }
         ],
         //分页
@@ -251,7 +255,7 @@ import uuid from '@/store/uuid'
             Token:"platform1",
             Username:"admin",
             Username_isc:"22936233",
-            Password:"12345",
+            Password:"admin12345",
             Password_isc:"px50TzrNNUiU1uxloJLG",
             IP:"192.168.1.1",
             Port:"8000",
@@ -259,6 +263,7 @@ import uuid from '@/store/uuid'
             Port_isc:"443",
             Port_td:"3000",
             Port_unv:"80",
+            Port_DSS:"9000",
             Audio:false
         },
         editform: {
@@ -323,8 +328,8 @@ import uuid from '@/store/uuid'
         Success(){
             
             var form=this.editform;
-            console.log(this.editindex,form.Type);
-            //return false;
+            // console.log(this.editindex,form.Type);
+            // return false;
             var root = process.env.API_ROOT;
             var wsroot = process.env.WS_HOST_ROOT;
             if (root == undefined){
@@ -413,6 +418,21 @@ import uuid from '@/store/uuid'
                     if(result.status==200){
                     }
                 })
+            }else if(form.Type=="H5_DEV_DHDSS"){
+                var url = root + "/api/v1/AddDeviceUnv?&name="+encodeURIComponent(form.Name)+
+                "&token="+encodeURIComponent(form.Token)+
+                "&user="+encodeURIComponent(form.User)+
+                "&password="+encodeURIComponent(form.Password)+
+                "&ip="+encodeURIComponent(form.IP)+
+                "&port="+encodeURIComponent(form.Port)+
+                "&audio="+form.Audio+
+                "&session="+ this.$store.state.token;
+                console.log("yushi****************************",url);
+                this.$http.get(url).then(result=>{
+                    console.log(result);
+                    if(result.status==200){
+                    }
+                })
             }
 
         },
@@ -486,6 +506,7 @@ import uuid from '@/store/uuid'
                 wsroot = window.location.host;
             }
             console.log(form.Type)
+            // return false
             if(form.Type=="H5_DEV_HIK"){
               var url = root + "/api/v1/AddDeviceHik?&name="+encodeURIComponent(form.Name)+
               "&token="+encodeURIComponent(form.Token)+
@@ -616,6 +637,32 @@ import uuid from '@/store/uuid'
                         }
                     }
                 })
+            }else if(form.Type=="H5_DEV_DHDSS"){
+                console.log(form.Type)
+                var url = root + "/api/v1/AddDeviceDss?&name="+encodeURIComponent(form.Name)+
+                "&token="+encodeURIComponent(form.Token)+
+                "&user="+encodeURIComponent(form.Username)+
+                "&password="+encodeURIComponent(form.Password)+
+                "&ip="+encodeURIComponent(form.IP)+
+                "&port="+encodeURIComponent(form.Port_DSS)+
+                "&audio="+form.Audio+
+                "&session="+ this.$store.state.token;
+                console.log(url);
+                this.$http.get(url).then(result=>{
+                    console.log(result);
+                    if(result.status==200){
+                        if(result.data.bStatus==true){
+                            this.tableData=[];
+                            this.loadHIK();
+                        }else{
+                            this.$message({
+                                message: '添加失败',
+                                type: 'warning'
+                            });
+                            return false;
+                        }
+                    }
+                })
             }
             
         },
@@ -639,11 +686,9 @@ import uuid from '@/store/uuid'
             })
         },
         handleEdit(index,row){
-            console.log("****************",this.tableData[index].User);
-            console.log(this.tableData[index]);
-            console.log("序列号",((this.currentPage1-1)*10)+index);
+            console.log("****************",row);
             var index_xlh=((this.currentPage1-1)*10)+index;
-            //return false;
+            // return false;
             this.editPopup = true;
             this.edittoken=row.Token;
             this.editindex=index_xlh;
@@ -669,7 +714,7 @@ import uuid from '@/store/uuid'
         //删除
         deleteRow(index, row,rows) {
             //var form=this.form;
-            console.log(index)
+            // console.log(index)
             console.log("序列号",((this.currentPage1-1)*10)+index);
             var index_xlh=((this.currentPage1-1)*10)+index;
             //return false;

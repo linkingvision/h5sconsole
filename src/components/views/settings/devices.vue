@@ -363,14 +363,21 @@
                     :label="label.Online">
                     </el-table-column>
                     <el-table-column
-                    prop="Type"
-                    :label="label.Type"
-                    min-width="140">
-                    </el-table-column>
-                    <el-table-column
                     prop="Token"
                     :label="label.Token"
                     min-width="140">
+                    </el-table-column>
+                    <el-table-column
+                    prop="Type"
+                    :label="label.Type"
+                    min-width="140">
+                        <template slot="header" slot-scope="scope">
+                            <el-input
+                            v-model="search"
+                            @change="handlechange(scope.$index,scope.row)"
+                            size="mini"
+                            placeholder="输入关键字"/>
+                        </template>
                     </el-table-column>
                 </el-table>
                 <!-- 分页 -->

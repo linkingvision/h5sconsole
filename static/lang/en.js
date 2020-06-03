@@ -15,7 +15,7 @@ export default {
 		login: 'Login',
 		API:"API",
 		goto:"Go to download",
-		control:"The control is successfully installed, please download and install the plugin"
+		control:"Please download and install the plugin"
     },
     left:
     {
@@ -288,7 +288,11 @@ export default {
 		save:"Save"
 	},
 	Conference:{
+		Upload:"Upload",
+		Videointercom:"Video intercom",
 		VideoConference:"Video Conference",
+		Connect:"Connect",
+		Disconnect:"Disconnect",
 		Call:"Call",
 		VideoCall:"Video Call",
 		AudioCall:"Audio Call",

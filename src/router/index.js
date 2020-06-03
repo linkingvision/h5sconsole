@@ -10,7 +10,10 @@ import AdvancePB from '@/components/views/Advancepbss'
 import Sreenshots from '@/components/views/screenshots'
 import Playback from '@/components/views/playback'
 import camera from '@/components/views/camera'
+
 import avintercom from '@/components/views/avintercom'
+import avintercoms from '@/components/views/avintercom/avintercoms'
+import upload from '@/components/views/avintercom/upload'
 
 import Tour from '@/components/views/tour'
 //import AdvancePB from '@/components/views/Advancepb'
@@ -78,11 +81,6 @@ const routes = [
         component: Playback
       },
       {
-        path: '/app/avintercom',
-        name: 'avintercomRouter',
-        component: avintercom
-      },
-      {
         path: '/app/AdvancePB',
         name: 'AdvancePBRouter',
         component: AdvancePB
@@ -129,6 +127,23 @@ const routes = [
           roles: 'admin',
         },
         component: camera
+      },
+      {
+        path: '/app/avintercom',
+        name: 'avintercomRouter',
+        component: avintercom,
+        children: [
+          //1
+          {
+            path: '/app/avintercom/avintercoms',
+            name: 'avintercomsRouter',
+            component: avintercoms,
+          },{
+            path: '/app/avintercom/upload',
+            name: 'uploadRouter',
+            component: upload,
+          },
+        ],
       },
       {
         path: '/app/GB',

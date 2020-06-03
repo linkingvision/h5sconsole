@@ -213,8 +213,8 @@
                     <div class="container_sdk">
                         <div class="containesr_sdks" v-for="(da,index) in devbucket" :key="index">
                             <div class="sdk_back">
-                                <div class="sdk_back1" :id="'aa'+index">
-                                </div>
+                                <!-- <div class="sdk_back1" :id="'aa'+index">
+                                </div> -->
                                 <div class="sdk_szie">{{da.percentage}}%</div>
                             </div>
                             <div class="containesr_sdks_zi">
@@ -1277,7 +1277,7 @@ export default {
     color:rgba(25,198,240,1);
     width: 100%;
     height: 72%;
-    background: url('./gallery/dash_bucket1.png')no-repeat;
+    background: url('./gallery/dash_shuitong.png')no-repeat;
     background-size: 85%;
     position: relative;
 }

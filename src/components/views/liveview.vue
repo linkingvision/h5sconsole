@@ -846,6 +846,7 @@ export default {
 .flexvideo{
     width: 81.5%;
     height: 100%;
+    overflow: auto;
 }
 /* .video_hed{
     height: 100%;

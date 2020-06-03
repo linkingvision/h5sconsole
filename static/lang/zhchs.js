@@ -16,7 +16,7 @@ export default {
 		login: '登录',
 		API:"API",
 		goto:"前往下载",
-		control:"控件安装成功，请在下载安装插件"
+		control:"请在下载安装插件"
     },
     left:
     {
@@ -291,7 +291,11 @@ export default {
 		save:"保存"
 	},
 	Conference:{
+		Upload:"上传",
+		Videointercom:"视频对讲",
 		VideoConference:"视频会议",
+		Connect:"连接",
+		Disconnect:"断开",
 		Call:"通话",
 		VideoCall:"接通视频",
 		AudioCall:"接通语音",
