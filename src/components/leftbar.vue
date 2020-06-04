@@ -36,7 +36,7 @@
             <!-- 音视频对讲 -->
             <li :class="{co_Baise:Adswitch===6}" @click="Adswitch=6">
                 <router-link :to="{name:'avintercomsRouter'}" :class="{color_size:Adswitch===6}">
-                    <i class="iconfont icon-shipinhuiyi3" style=" margin:0 24px 0 2px;font-size: 17px;" data-icon="v"></i>
+                    <i class="iconfont icon-shipinhuiyi3" style=" margin:0 20px 0 2px;font-size: 17px;" data-icon="v"></i>
                     <span class="hide-menu" style="line-height: 25px;"> {{$t("message.Conference.Upload")}}  </span>
                 </router-link>
             </li>

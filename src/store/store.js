@@ -9,7 +9,7 @@ export default new Vuex.Store({
     user: {},
     token: null,
     title: '',
-    lang: 'en',
+    lang: 'zhchs',
     rtc:"WS",
     tour:"WS",
     watermarkstring:"linkingvision",
