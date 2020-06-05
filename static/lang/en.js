@@ -289,7 +289,7 @@ export default {
 	},
 	Conference:{
 		Upload:"Upload",
-		Videointercom:"Video intercom",
+		Videointercom:"Video Intercom",
 		VideoConference:"Video Conference",
 		Connect:"Connect",
 		Disconnect:"Disconnect",
