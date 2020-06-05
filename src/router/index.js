@@ -132,16 +132,28 @@ const routes = [
         path: '/app/avintercom',
         name: 'avintercomRouter',
         component: avintercom,
+        meta: {
+          roles: 'admin',
+          requireAuth: true
+        },
         children: [
           //1
           {
             path: '/app/avintercom/avintercoms',
             name: 'avintercomsRouter',
             component: avintercoms,
+            meta: {
+              roles: 'admin',
+              requireAuth: true
+            }
           },{
             path: '/app/avintercom/upload',
             name: 'uploadRouter',
             component: upload,
+            meta: {
+              roles: 'admin',
+              requireAuth: true
+            }
           },
         ],
       },

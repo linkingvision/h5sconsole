@@ -3,19 +3,14 @@
         <!-- 头部 -->
         <!--  -->
         <div class="container-fluid">
-            <div class="bg-title" style="margin-bottom: 0px;">
+            <!-- <div class="bg-title" style="margin-bottom: 0px;">
                 <div class="flex_ld">
                     <h4 class="page-title">{{$t("message.Conference.Videointercom")}}</h4>
                     <div>
-                        <el-input
-                            style="width:200px"
-                            v-model="searchTableInfo"
-                            size="mini"
-                            placeholder="请输入名字"/>
                         <el-button type="success" @click="add()" round size="mini">{{$t("message.Conference.JoinConference")}}</el-button>
                     </div>
                 </div>
-            </div>
+            </div> -->
             
         </div>
         <!-- shenti -->
@@ -53,6 +48,56 @@
                 </el-tree>
             </div>
             <div class="content_2">
+                <!--  -->
+                <div class="up_you_flex">
+                    <div class="up_you_content">
+                        <span>Video In</span>
+                        <el-select style="width:75%" v-model="VideoIn" size="small" placeholder="请选择">
+                            <el-option
+                            v-for="item in VideoIns"
+                            :key="item.value"
+                            :label="item.label"
+                            :value="item.value">
+                            </el-option>
+                        </el-select>
+                    </div>
+
+                    <div class="up_you_content">
+                        <span>Audio In</span>
+                        <el-select style="width:75%" v-model="AudioIn" size="small" placeholder="请选择">
+                            <el-option
+                            v-for="item in AudioIns"
+                            :key="item.value"
+                            :label="item.label"
+                            :value="item.value">
+                            </el-option>
+                        </el-select>
+                    </div>
+                    
+                    <div class="up_you_content">
+                        <span>Audio Out</span>
+                        <el-select style="width:75%" v-model="AudioOut" size="small" placeholder="请选择">
+                            <el-option
+                            v-for="item in AudioOuts"
+                            :key="item.value"
+                            :label="item.label"
+                            :value="item.value">
+                            </el-option>
+                        </el-select>
+                    </div>
+
+                    <div class="up_you_content">
+                        <span>Resolution</span>
+                        <el-select style="width:75%" v-model="Resolution" size="small" placeholder="请选择">
+                            <el-option
+                            v-for="item in Resolutions"
+                            :key="item.value"
+                            :label="item.label"
+                            :value="item.value">
+                            </el-option>
+                        </el-select>
+                    </div>
+                </div>
                 <div class="content_name">
                     {{name}}
                 </div>
@@ -104,219 +149,305 @@
 <script>
 import * as types from '@/store/types'
 import '../../../assets/adapter'
-import {H5sPlayerWS,H5sPlayerHls,H5sPlayerRTC,H5sPlayerAudBack,H5sConference} from '../../../assets/h5splayer.js'
+import {H5sPlayerHls,H5sPlayerAudBack,H5sConference,H5sRTCGetCapability} from '../../../assets/h5splayer.js'
 import '../../../assets/platform.js'
 import {H5siOS,H5sPlayerCreate} from '../../../assets/h5splayerhelper.js'
 
-  export default {
-    data() {
-      return {
-        filterText:"",
-        searchTableInfo:this.$store.state.conference,
-        v1:undefined,
-        data:[],
-        name:'',
-        id:"",
-        defaultProps: {
-            children: 'children',
-            label: 'label',
-            token:"token",
-            iconclass:"iconclass"
-        }
-      }
-    },
-    computed:{
-        count(){
-            return this.$store.state.conference;
-        }
-    },
-    mounted(){
-        // this.list();
-    },
-    methods:{
-        //拨打视频语音电话
-        CallVideoAudio(data){
-            this.name=data.label;
-            // this.id=data.id;
-            console.log("CallVideoAudio",data.id);
-	        this.v1.call(true,data.id);
-        },
-        //拨打语音电话
-        CallAudio(data){
-            this.name=data.label;
-            // this.id=data.id;
-            console.log("CallAudio",data.id);
-            this.v1.call(false, data.id);
-        },
-        //接通视频
-        AnswerVideoAudio(){
-            console.log("AnswerVideoAudio",this.id);
-            $(".content_anniu2").css("display","none");
-            this.v1.answer(true,this.id);
-        },
-        //接通语音
-        AnswerAudio(){
-            console.log("AnswerAudio",this.id);
-            $(".content_anniu2").css("display","none");
-            this.v1.answer(false, this.id);
-        },
+    export default {
+        data() {
+        return {
+            VideoIns: [],
+            VideoIn:"",
 
-        //挂断
-        Hangup(){
-            console.log("Hangup");
-            this.v1.hangup();
-            $(".content_anniu2").css("display","none");
-        },
-        // 添加用户
-        add(){
-            if( this.searchTableInfo!=""){
-                if (this.v1 != undefined)
-                {
-                    this.v1.disconnect();
-                    delete this.v1;
-                    this.v1 = undefined;
-                }
-                // this.data=[];
-                this.list();
-                this.$store.commit(types.CONFERENCE, this.searchTableInfo);
-            }else{
-                this.$message({
-                    message: this.$t("message.Conference.Nickname"),
-                    type: 'warning'
-                });
+            AudioIns: [],
+            AudioIn:"",
+
+            AudioOuts: [],
+            AudioOut:"",
+
+            Resolutions: [],
+            Resolution:"",
+
+            filterText:"",
+            searchTableInfo:this.$store.state.users,
+            v1:undefined,
+            data:[],
+            name:'',
+            id:"",
+            defaultProps: {
+                children: 'children',
+                label: 'label',
+                token:"token",
+                iconclass:"iconclass"
             }
-            
+        }
         },
-        //获取列表
-        list(){
-            this.data=[];
-            var root = process.env.API_ROOT;
-            var wsroot = process.env.WS_HOST_ROOT;
-            if (root == undefined){
-                root = window.location.protocol + '//' + window.location.host + window.location.pathname;
+        computed:{
+            count(){
+                return this.$store.state.conference;
             }
-            if (wsroot == undefined)
-            {
-                wsroot = window.location.host;
-            }
-            // console.log("11111111111111",process.env.API_ROOT)
-            var conf1 = {
-                localvideoid:'h5sVideoLocal',
-                remotevideoid:'h5sVideoRemote',
-                protocol: window.location.protocol, //http: or https:
-                host: wsroot, //localhost:8080
-                rootpath:'/', // '/'
-                callback: this.EventCB, 
-                userdata: null, // user data
-                name:this.searchTableInfo,
-                hlsver: 'v1', //v1 is for ts, v2 is for fmp4
-                session: this.$store.state.token //session got from login
-            };
-            console.log(conf1);
-            this.v1 = new H5sConference(conf1);
-            this.v1.connect();
         },
-        sortAll(){
-            $(".content_anniu").css("display","block");
-            // console.log("1548");
+        mounted(){
+            this.list();
+            this.updisplay()
         },
-        leave(){
-            $(".content_anniu").css("display","none");
-            // console.log("456787");
-        },
-        //点击事件
-        handleNodeClick(data){
-            // console.log("点击",data)
-        },
-        EventCB(event, userdata){
-            var msgevent = JSON.parse(event);
-            if (msgevent.type === 'CFE_EVENT_PEER_CALL')
-            {
-                for(var i=0;i<this.data.length;i++){
-                    if(this.data[i].id==msgevent.peerCall.strId){
-                        console.log("对方id",this.data[i].label)
-                        this.name=this.data[i].label;
+        methods:{
+            //拨打视频语音电话
+            CallVideoAudio(data){
+                this.name=data.label;
+                // this.id=data.id;
+                console.log("CallVideoAudio",data.id);
+                this.v1.call(true,data.id,this.VideoIn,this.Resolution,this.AudioIn);
+            },
+            //拨打语音电话
+            CallAudio(data){
+                this.name=data.label;
+                // this.id=data.id;
+                console.log("CallAudio",data.id);
+                this.v1.call(false, data.id,this.VideoIn,this.Resolution,this.AudioIn);
+            },
+            //接通视频
+            AnswerVideoAudio(){
+                console.log("AnswerVideoAudio",this.id);
+                $(".content_anniu2").css("display","none");
+                this.v1.answer(true,this.id,this.VideoIn,this.Resolution,this.AudioIn);
+            },
+            //接通语音
+            AnswerAudio(){
+                console.log("AnswerAudio",this.id);
+                $(".content_anniu2").css("display","none");
+                this.v1.answer(false, this.id,this.VideoIn,this.Resolution,this.AudioIn);
+            },
+
+            //挂断
+            Hangup(){
+                console.log("Hangup");
+                this.v1.hangup();
+                $(".content_anniu2").css("display","none");
+            },
+            // 添加用户
+            add(){
+                if( this.searchTableInfo!=""){
+                    if (this.v1 != undefined)
+                    {
+                        this.v1.disconnect();
+                        delete this.v1;
+                        this.v1 = undefined;
                     }
+                    // this.data=[];
+                    this.list();
+                    // this.$store.commit(types.CONFERENCE, this.searchTableInfo);
+                }else{
+                    this.$message({
+                        message: this.$t("message.Conference.Nickname"),
+                        type: 'warning'
+                    });
                 }
-                $(".content_anniu2").css("display","block");
-                this.id=msgevent.peerCall.strId;
-                console.log("****************",msgevent.peerCall.strId);
-            }
-            if (msgevent.type === 'CFE_EVENT_PEER_ADD')
-            {
-                console.log("****************",msgevent.peerAdd.strId);
-                var newItem ={
-                    label:msgevent.peerAdd.strName,
-                    id:msgevent.peerAdd.strId
-                };
-                this.data.push(newItem);
-                // for(var i=0; i<this.data.length; i++){
-                //     for(var j=i+1; j<this.data.length; j++){
-                //         if(this.data[i].id==this.data[j].id){
-                //             this.data.splice(j,1);
-                //             j--;
-                //         }
-                //     }
-                // }
                 
-                console.log("****************",newItem,this.data);
-            }
-            if (msgevent.type === 'CFE_EVENT_PEER_DEL')
-            {
-                for(var i=0;i<this.data.length;i++){
-                    if(this.data[i].id==msgevent.peerDel.strId){
-                        this.data.splice(i,1);
-                        // console.log("对方id",this.data[i].label)
+            },
+            updisplay(){
+                var up=H5sRTCGetCapability(this.UpdateCapability);
+            },
+            UpdateCapability(capability){
+                
+                console.log(capability);
+                if(capability){
+
+                    
+                    for (let i = 0; i !== capability['videoin'].length; ++i) {
+                        const data = capability['videoin'][i];
+                        var src={
+                            value: data.id,
+                            label: data.name
+                        }
+                        this.VideoIn=data.id
+                        this.VideoIns.push(src);
+                    }	
+
+                    for (let i = 0; i !== capability['audioin'].length; ++i) {
+                        const data = capability['audioin'][i];
+                        var src={
+                            value: data.id,
+                            label: data.name
+                        }
+                        this.AudioIn=capability['audioin'][0].id
+                        this.AudioIns.push(src);
+                    }
+                    
+                    for (let i = 0; i !== capability['audioout'].length; ++i) {
+                        const data = capability['audioout'][i];
+                        var src={
+                            value: data.id,
+                            label: data.name
+                        }
+                        this.AudioOut=capability['audioout'][0].id
+                        this.AudioOuts.push(src);
+                    }
+                    
+                    var resolution = ['QVGA', 'VGA', 'D1', '720P', '1080P', '4K', '8K']
+                    for (let i = 0; i !== resolution.length; ++i) {
+                        const data = resolution[i];
+                        /* Default use 720P */
+                        
+                        var src={
+                            value: data,
+                            label: data
+                        }
+                        // this.Resolution=data
+                        if (data == '720P')
+                        {
+                            this.Resolution=data
+                        }
+                        this.Resolutions.push(src);
                     }
                 }
-                console.log("****************",msgevent.peerDel.strId);
+            },
+            //获取列表
+            list(){
+                console.log(this.searchTableInfo)
+                this.data=[];
+                var root = process.env.API_ROOT;
+                var wsroot = process.env.WS_HOST_ROOT;
+                if (root == undefined){
+                    root = window.location.protocol + '//' + window.location.host + window.location.pathname;
+                }
+                if (wsroot == undefined)
+                {
+                    wsroot = window.location.host;
+                }
+                // console.log("11111111111111",process.env.API_ROOT)
+                var conf1 = {
+                    localvideoid:'h5sVideoLocal',
+                    remotevideoid:'h5sVideoRemote',
+                    protocol: window.location.protocol, //http: or https:
+                    host: wsroot, //localhost:8080
+                    rootpath:'/', // '/'
+                    callback: this.EventCB, 
+                    userdata: null, // user data
+                    user:this.searchTableInfo,
+                    hlsver: 'v1', //v1 is for ts, v2 is for fmp4
+                    session: this.$store.state.token //session got from login
+                };
+                console.log(conf1);
+                this.v1 = new H5sConference(conf1);
+                this.v1.connect();
+            },
+            sortAll(){
+                $(".content_anniu").css("display","block");
+                // console.log("1548");
+            },
+            leave(){
+                $(".content_anniu").css("display","none");
+                // console.log("456787");
+            },
+            //点击事件
+            handleNodeClick(data){
+                // console.log("点击",data)
+            },
+            EventCB(event, userdata){
+                var msgevent = JSON.parse(event);
+                if (msgevent.type === 'CFE_EVENT_PEER_CALL')
+                {
+                    for(var i=0;i<this.data.length;i++){
+                        if(this.data[i].id==msgevent.peerCall.strId){
+                            console.log("对方id",this.data[i].label)
+                            this.name=this.data[i].label;
+                        }
+                    }
+                    $(".content_anniu2").css("display","block");
+                    this.id=msgevent.peerCall.strId;
+                    console.log("****************",msgevent.peerCall.strId);
+                }
+                if (msgevent.type === 'CFE_EVENT_PEER_ADD')
+                {
+                    console.log("****************",msgevent.peerAdd.strId);
+                    var newItem ={
+                        label:msgevent.peerAdd.strName,
+                        id:msgevent.peerAdd.strId
+                    };
+                    this.data.push(newItem);
+                    // for(var i=0; i<this.data.length; i++){
+                    //     for(var j=i+1; j<this.data.length; j++){
+                    //         if(this.data[i].id==this.data[j].id){
+                    //             this.data.splice(j,1);
+                    //             j--;
+                    //         }
+                    //     }
+                    // }
+                    
+                    console.log("****************",newItem,this.data);
+                }
+                if (msgevent.type === 'CFE_EVENT_PEER_DEL')
+                {
+                    for(var i=0;i<this.data.length;i++){
+                        if(this.data[i].id==msgevent.peerDel.strId){
+                            this.data.splice(i,1);
+                            // console.log("对方id",this.data[i].label)
+                        }
+                    }
+                    console.log("****************",msgevent.peerDel.strId);
+                }
+            },
+            //模糊查询
+            filterNode(value, data, node) {
+                // 如果什么都没填就直接返回
+                if (!value) return true;
+                // 如果传入的value和data中的label相同说明是匹配到了
+                if (data.label.indexOf(value) !== -1) {
+                return true;
+                }
+                // 否则要去判断它是不是选中节点的子节点
+                return this.checkBelongToChooseNode(value, data, node);
+            },
+            // 判断传入的节点是不是选中节点的子节点
+            checkBelongToChooseNode(value, data, node) {
+                const level = node.level;
+                // 如果传入的节点本身就是一级节点就不用校验了
+                if (level === 1) {
+                return false;
+                }
+                // 先取当前节点的父节点
+                let parentData = node.parent;
+                // 遍历当前节点的父节点
+                let index = 0;
+                while (index < level - 1) {
+                // 如果匹配到直接返回
+                if (parentData.data.label.indexOf(value) !== -1) {
+                    return true;
+                }
+                // 否则的话再往上一层做匹配
+                parentData = parentData.parent;
+                index ++;
+                }
+                // 没匹配到返回false
+                return false;
             }
         },
         //模糊查询
-        filterNode(value, data, node) {
-            // 如果什么都没填就直接返回
-            if (!value) return true;
-            // 如果传入的value和data中的label相同说明是匹配到了
-            if (data.label.indexOf(value) !== -1) {
-            return true;
-            }
-            // 否则要去判断它是不是选中节点的子节点
-            return this.checkBelongToChooseNode(value, data, node);
-        },
-        // 判断传入的节点是不是选中节点的子节点
-        checkBelongToChooseNode(value, data, node) {
-            const level = node.level;
-            // 如果传入的节点本身就是一级节点就不用校验了
-            if (level === 1) {
-            return false;
-            }
-            // 先取当前节点的父节点
-            let parentData = node.parent;
-            // 遍历当前节点的父节点
-            let index = 0;
-            while (index < level - 1) {
-            // 如果匹配到直接返回
-            if (parentData.data.label.indexOf(value) !== -1) {
-                return true;
-            }
-            // 否则的话再往上一层做匹配
-            parentData = parentData.parent;
-            index ++;
-            }
-            // 没匹配到返回false
-            return false;
+        watch: {
+        filterText(val) {
+            console.log("filter",val);
+            this.$refs.tree.filter(val);
         }
-    },
-     //模糊查询
-    watch: {
-      filterText(val) {
-        console.log("filter",val);
-        this.$refs.tree.filter(val);
-      }
-    },
-  };
+        },
+    };
 </script>
 <style scoped>
+.up_you_flex{
+    display: flex;
+    justify-content: space-around;
+}
+.up_you_content{
+    width: 24%;
+    display: flex;
+    align-items: center;
+    justify-content:space-around;
+}
+.up_you_content span{
+    width: 26%;
+}
+
+
 .content{
     display: flex;
     justify-content: space-between;

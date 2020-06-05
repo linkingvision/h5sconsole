@@ -19,29 +19,6 @@
         <div class="">
             <router-view></router-view>
         </div>
-        <!-- <el-row :gutter="20">
-            <el-col :span="24" style="padding-right:0px">
-                <div class="grid-content bg-purple">
-                    <router-link  :to="{name:'avintercomsRouter'}">
-                        <a href="javascript:void(0)" class="setting_left_a" :class="{setting_tj1:index_lj==1}">
-                            <div :class="{setting_tj:index_lj==1}"  @click="setting_ys" class="setting_left">
-                                {{$t("message.Conference.Videointercom")}}
-                            </div>
-                        </a> 
-                    </router-link>
-                    <router-link  :to="{name:'GBplatformRouter'}">
-                        <a href="javascript:void(0)" class="setting_left_a" :class="{setting_tj1:index_lj==2}">
-                            <div :class="{setting_tj:index_lj==2}"  @click="setting_ys1" class="setting_left">
-                                {{$t("message.GB.GBPlatform")}}
-                            </div>
-                        </a> 
-                    </router-link>
-                </div>
-            </el-col>
-            <el-col :span="24"  style="padding-right:0px">
-            </el-col>
-        </el-row> -->
-
     </div>
 
 </div>
