@@ -248,13 +248,13 @@ export default {
             console.log("-----------------",_this.tokenshou)
         });
 
-        this.$root.bus.$on('liveplayproto', function(proto)
-        {
-            _this.proto = proto;
-            //储存
-            localStorage.setItem("proto",_this.proto);
-            //console.log("liveplayproto", _this.proto);
-        });
+        // this.$root.bus.$on('liveplayproto', function(proto)
+        // {
+        //     _this.proto = proto;
+        //     //储存
+        //     localStorage.setItem("proto",_this.proto);
+        //     //console.log("liveplayproto", _this.proto);
+        // });
 
         // control visibility
         $container.on("mouseover mouseout touchstart touchmove", function(e) {
@@ -347,8 +347,9 @@ export default {
                 var confk= this.playclick(this.h5videoid,token,streamprofile);
                 console.log(confk)
                 // return false
-                if (this.proto == 'RTC' || (H5siOS() === true))
+                if (this.$store.state.rtc == 'RTC' || (H5siOS() === true))
                 {
+                    console.log(this.$store.state.rtc)
                     $rtcbutton.css("display", "block");
                     this.h5handler = new H5sPlayerRTC(confk);
                     $("#"+this.rtcid).addClass("rtc_new");
@@ -357,8 +358,9 @@ export default {
                     $rtcbutton.css("display", "none");
                     this.h5handler = new H5sPlayerWS(confk);
                 }
+                console.log(this.$store.state.rtc,"11212")
             }
-            this.h5handler.connect();
+            // this.h5handler.connect();
             
 
         },
