@@ -360,7 +360,7 @@ export default {
                 }
                 console.log(this.$store.state.rtc,"11212")
             }
-            // this.h5handler.connect();
+            this.h5handler.connect();
             
 
         },
