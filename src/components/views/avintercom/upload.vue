@@ -77,7 +77,7 @@
                     </el-select>
                 </div>
                 <div class="up_you_content">
-                    <span>Bitrate（Kpbs）</span>
+                    <span>Audio</span>
                     <el-switch
                         style="width:75%"
                         v-model="audioout"
