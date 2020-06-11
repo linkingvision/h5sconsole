@@ -76,6 +76,14 @@
                         </el-option>
                     </el-select>
                 </div>
+                <div class="up_you_content">
+                    <span>Bitrate（Kpbs）</span>
+                    <el-switch
+                        style="width:75%"
+                        v-model="audioout"
+                        active-color="#5DBFA6">
+                    </el-switch>
+                </div>
 
                 <div class="up_you_content">
                     <el-button @click="connection" class="button_addpv" type="success" round size="mini">{{$t("message.Conference.Connect")}}</el-button>
@@ -108,6 +116,7 @@ export default {
 
             Bitrates: [],
             Bitratess:"",
+            audioout:true,
             v1:undefined
         }
     },
@@ -143,19 +152,20 @@ export default {
                 rootpath:'/', // {string} - path of the app running
                 user:this.$store.state.users, // {string} - user name
                 type:'media', // {string} - media or sharing
+                audio: this.audioout,
                 callback: null, //Callback for the event
                 userdata: null, // user data
                 session: this.$store.state.token, //session got from login
                 consolelog: 'true' // 'true' or 'false' enable/disable console.log
             };
-            console.log(conf1,this.AudioIn)
-            
+            console.log(conf1)
+            // return false
             console.log("*******",this.VideoCodec,"1*",
                 this.VideoIn,"2*",
                 this.Bitratess,"5*",
                 this.Resolution,"3*",
                 this.AudioIn,
-                )
+            )
                 // return false
             this.v1 = new H5sRTCPush(conf1);
 		    this.v1.connect(
