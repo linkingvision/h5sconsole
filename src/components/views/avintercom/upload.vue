@@ -144,6 +144,7 @@ export default {
             {
                 wsroot = window.location.host;
             }
+            var audioout=this.audioout.toString();
             var conf1 = {
                 localvideoid:'h5sVideoLocal', //{string} - id of the local video element tag
                 //localvideodom: h5svideodomlocal, //{object} - local video dom. if there has videoid, just use the videoid
@@ -152,13 +153,13 @@ export default {
                 rootpath:'/', // {string} - path of the app running
                 user:this.$store.state.users, // {string} - user name
                 type:'media', // {string} - media or sharing
-                audio: this.audioout,
+                audio: audioout,
                 callback: null, //Callback for the event
                 userdata: null, // user data
                 session: this.$store.state.token, //session got from login
                 consolelog: 'true' // 'true' or 'false' enable/disable console.log
             };
-            console.log(conf1)
+            console.log("***********",conf1, audioout)
             // return false
             console.log("*******",this.VideoCodec,"1*",
                 this.VideoIn,"2*",

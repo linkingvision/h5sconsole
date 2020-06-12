@@ -187,6 +187,14 @@ import {H5siOS,H5sPlayerCreate} from '../../../assets/h5splayerhelper.js'
                 return this.$store.state.conference;
             }
         },
+        beforeDestroy(){
+        if (this.v1 != undefined)
+            {
+                this.v1.disconnect();
+                delete this.v1;
+                this.v1 = undefined;
+            }
+        },
         mounted(){
             this.list();
             this.updisplay()
@@ -234,7 +242,7 @@ import {H5siOS,H5sPlayerCreate} from '../../../assets/h5splayerhelper.js'
                         delete this.v1;
                         this.v1 = undefined;
                     }
-                    // this.data=[];
+                    this.data=[];
                     this.list();
                     // this.$store.commit(types.CONFERENCE, this.searchTableInfo);
                 }else{
