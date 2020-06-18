@@ -563,7 +563,7 @@ import '@/assets/jQuery.md5.js'
             
             var nWidhei= form.wihe.split("*");
             // return false;
-            var url1 = root + "/api/v1/DelTransProfile?token="+form.strToken+"&session="+ this.$store.state.token;
+            var url1 = root + "/api/v1/DelTransProfile?token="+encodeURIComponent(this.edittoken)+"&session="+ this.$store.state.token;
             this.$http.get(url1).then(result=>{
                 //console.log("1",result);
                 if(result.status==200){
