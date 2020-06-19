@@ -352,7 +352,6 @@ export default {
             var seconds=this.addZero(dt.getSeconds());
             var data=year+"."+month+"."+day+" "+honrs+":"+minutes+":"+seconds;
             this.dateany=data;
-            // console.log(new Date(),dt,day);
         },
         //判断月、日、时、分、秒低于10前加0
         addZero(n){
