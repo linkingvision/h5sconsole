@@ -246,7 +246,7 @@ export default {
         this.GetDeviceSummary();
         this.timedate();
         this.GetCodecInfo();
-        this.Playall();
+        // this.Playall();
         this.timerRunInfo1 = setInterval(() => {
             this.timedate();
         },1000)
@@ -343,15 +343,16 @@ export default {
         }, 
         // 时间
         timedate(){
-           var dt=new Date()
+            var dt=new Date()
             var year=dt.getFullYear();
             var month=this.addZero(dt.getMonth()+1);
-            var day=this.addZero(dt.getDay());
+            var day=this.addZero(dt.getDate());
             var honrs=this.addZero(dt.getHours());
             var minutes=this.addZero(dt.getMinutes());
             var seconds=this.addZero(dt.getSeconds());
             var data=year+"."+month+"."+day+" "+honrs+":"+minutes+":"+seconds;
             this.dateany=data;
+            // console.log(new Date(),dt,day);
         },
         //判断月、日、时、分、秒低于10前加0
         addZero(n){
