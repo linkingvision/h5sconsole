@@ -222,9 +222,14 @@ export default {
 		NVRPlayback:"NVR Playback"
 	},
 	GB:{
+		GB28181:"Down Level Domain",
+		GBPlatform:"Up Level Domain",
+		GBService:"GB Service",
+
+
 		name: 'Name',
-		GB28181:"GB28181",
-		GBPlatform:"GB Platform",
+		// GB28181:"GB28181",
+		// GBPlatform:"GB Platform",
 		Name:"Name",
 		SIPServerIP:"SIP Server IP",
 		SIPServerPort:"SIP Server Port",

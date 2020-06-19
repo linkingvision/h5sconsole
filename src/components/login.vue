@@ -117,6 +117,8 @@ export default {
             if (root == undefined){
                 root = window.location.protocol + '//' + window.location.host + window.location.pathname;
             }
+            // console.log(root)
+            // return false
             $.ajax({
                 type: "GET",
                 url: root + "/api/v1/Login?user=" +encodeURIComponent( _this.user) + "&password=" +encodeURIComponent( $.md5(_this.passwd)),

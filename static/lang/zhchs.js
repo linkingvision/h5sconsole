@@ -225,9 +225,13 @@ export default {
 		NVRPlayback:"NVR回放"
 	},
 	GB:{
+		GB28181:"下级域",
+		GBPlatform:"上级域",
+		GBService:"GB服务配置",
+
 		name: '名字',
-		GB28181:"国标",
-		GBPlatform:"国标平台",
+		// GB28181:"国标",
+		// GBPlatform:"国标平台",
 		Name:"名字",
 		SIPServerIP:"SIP服务器地址",
 		SIPServerPort:"SIP服务器端口",

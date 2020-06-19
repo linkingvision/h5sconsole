@@ -37,6 +37,7 @@ import Webrtc from '@/components/views/settings/webrtc'
 import GB from '@/components/views/GB'
 import GB28181 from '@/components/views/GB/GB28181'
 import GBplatform from '@/components/views/GB/GBplatform'
+import GB_Service from '@/components/views/GB/GB_Service'
 
 import H5S from '@/components/h5s'
 import Login from '@/components/login'
@@ -181,6 +182,14 @@ const routes = [
             path: '/app/GB/GBplatform',
             name: 'GBplatformRouter',
             component: GBplatform,
+            meta: {
+              roles: 'admin',
+              requireAuth: true
+            }
+          },{
+            path: '/app/GB/GB_Service',
+            name: 'GB_ServiceRouter',
+            component: GB_Service,
             meta: {
               roles: 'admin',
               requireAuth: true

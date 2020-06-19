@@ -25,6 +25,13 @@
                             </div>
                         </a> 
                     </router-link>
+                    <router-link  :to="{name:'GB_ServiceRouter'}">
+                        <a href="javascript:void(0)" class="setting_left_a" :class="{setting_tj1:index_lj==3}">
+                            <div :class="{setting_tj:index_lj==3}"  @click="setting_ys2" class="setting_left">
+                                {{$t("message.GB.GBService")}}
+                            </div>
+                        </a> 
+                    </router-link>
                 </div>
             </el-col>
             <el-col :span="20"  style="padding-right:0px">
@@ -65,6 +72,10 @@ export default {
         setting_ys1(){
              this.index_lj=2;
              this.language=this.$t("message.GB.GBPlatform");
+        },
+        setting_ys2(){
+             this.index_lj=3;
+             this.language=this.$t("message.GB.GBService");
         }
      
     }
