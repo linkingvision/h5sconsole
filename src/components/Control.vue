@@ -246,7 +246,7 @@ export default {
         this.GetDeviceSummary();
         this.timedate();
         this.GetCodecInfo();
-        // this.Playall();
+        this.Playall();
         this.timerRunInfo1 = setInterval(() => {
             this.timedate();
         },1000)
