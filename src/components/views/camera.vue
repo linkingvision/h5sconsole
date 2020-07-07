@@ -585,6 +585,7 @@
     width: 19.5%;
     height: 98%;
     background: #ffffff;
+    overflow: auto;
 }
 .content .content_2{
     width: 80%;
