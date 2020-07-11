@@ -1,9 +1,8 @@
-export default {
+module.exports={
   message: {
     common:
     {
 		update_successfully: '更新成功'
-
     },
     header:
     {
@@ -13,15 +12,10 @@ export default {
 		user_name: '用户名',
 		setting: '帐号设置',
 		logout: '退出',
-		login: '登录',
-		API:"API",
-		goto:"前往下载",
-		control:"请在下载安装插件"
+		API:"API文档",
     },
     left:
     {
-		VIDEO:"视频平台控制中心",
-		Control:"控制中心",
 		navigation: '导航',
 		dashboard: '仪表盘',
 		live: '实时视频',
@@ -36,11 +30,10 @@ export default {
 		cloud: '云视频',
 		logout: '退出',
 		camera:"监控点",
-		VideoConference:"视频会议"
+		VideoConference:"视频会议",
     },
     login:
     {
-		return:"返回",
 		high_perf: '高性能HTML5原生视频',
 		signin: '登录到管理界面',
 		login: '登录',
@@ -51,8 +44,6 @@ export default {
     },
 	dashboard:
     {
-		Storage:"存储",
-		Copysuccessful:"复制成功",
 		about:"关于",
 		dashboard: '仪表盘',
 		system_info: '系统',
@@ -70,8 +61,8 @@ export default {
 		online_cam: "在线摄像机",
 		cameras: "摄像机总数",
 		total_space: "总空间",	
+		version_: '版本',
 		codec_info: "编解码器",
-		GPU_info: "GPU编解码器",
 		cpumodel: 'CPU型号',
 		PhysicalCPU:"CPU路数",
 		CPUCore:"CPU核数",
@@ -93,7 +84,6 @@ export default {
 		Hikvision:"海康SDK",
 		Dahua:"大华SDK",
 		Tiandy:"天地SDK",
-		Uniview:"宇视SDK",
 		DiskMemory:"硬盘/内存",
 		TotalMemory:"总内存",
 		total:"共",
@@ -101,14 +91,11 @@ export default {
 		Cloud:"云级联",
 		RTMP:"RTMP推流",
 		Online:"在线",
-		Offline:"离线"
+		Offline:"离线",
 
     },
 	live:
     {
-		focusing:"调焦",
-		Focus:"聚焦",
-		aperture:"光圈",
 		liveview: '实时视频',
 		device: '视频源',
 		setting: '设置',
@@ -118,64 +105,22 @@ export default {
 		camera:"摄像机",
 		waterprint:"水印",
 		Videorecording:"正在录像",
-		Region:"区域",
-		Scan:"扫扫查看视频",
-		Quality:"画质",
-		Switched:'已切换'
-		
     },
     setting:
     {
-
-		Default:"默认",
-		Transcoding:"转码管理",
-		Profile:"自定义",
 		setting: '设置',
 		device: '设备',
 		record:"录像管理",
 		devicesdk: '设备SDK',
 		devicertmppush: 'RTMP推流',
-		Regional:"区域管理",
-		Please:"请输入名字",
-		Area:"区域删除/添加",
-		Input:"输入框不能为空",
 		user: '用户',
 		role: '角色',
-		Authority:"权限",
 		action: '操作',
 		edit: '编辑',
 		name: '名字',
-
-		username:"用户名",
-		Rolemanagement:"角色管理",
-		SystemManagement:"系统管理",
-		CyberSecurity:"安全管理",
-		password:"密码",
-		RoleName:"角色名称",
-		Configure:"配置权限",
-		Operation:"操作权限",
-		Camera:"摄像机权限",
-		Watchvideo:"匿名观看视频",
-
-		CloudConnect:"级联管理",
-		SSL:"SSL协议",
-		KeepaliveTime:"保持时间",
-		Enable:"开启",
-		EdgeTranscoding:"边缘转码",
-
-		CloudMode:'云模式',
-		RelayMode:"转发模式",
-		TURNServer:"TURN服务",
-		Enable:"开启",
-		PublicIP:"公网地址",
-		MinPort:"最小端口",
-		MaxPort:"最大端口",
-		PasswordEncrypt:"密码加密",
-
 		currentpass: '当前密码',
 		newpass: '新密码',
-		confirmpass: '重复新密码',
-		confirmpassword: '重复密码',
+		confirmpass: '新密码确认',
 		manualstart:"开启所有通道录像",
 		manualstop:"关闭所有通道录像",
 		DeleteAll:"删除",
@@ -185,53 +130,20 @@ export default {
 		Configuration:"配置",
 		ADD:"添加",
 		Change:"修改密码",
-		Changecg:"修改成功，请重新登录！",
+		Changecg:"修改成功，请重新登陆！",
 		Changesb:"修改失败！",
 		Twopassword:"两次密码不一致，请重新输入!",
 		all:"全部",
 		Editorfailure:"编辑失败",
-		Creationfailed:"创建失败",
-		Illegal:"非法登录锁定"
-	},
-	table:{
-		pleasechoose:"请选择",
-		Enterkeywords:"输入关键字",
-		Token:"编号",
-		Type:"类型",
-		Online:"在线状态",
-		Edit:"编辑",
-		Index:"序号",
-		GBID:"国标ID",
-		IP:"IP地址",
-		Name:"名称",
-		Port:"端口",
-		User:"用户名",
-		UUID:"事件编号",
-		Time:"时间",
-		Detaill:"详细",
-		Tokenevent:"设备编号",
-		StartTime:"开始时间",
-		EndTime:"结束时间",
-		Codec:"视频编码",
-		Engine:"引擎",
-		FPSType:"帧率类型",
-		ScaleType:"分辨率类型",
-		Bitrate:"码率",
-		FPS:"帧率",
-		WH:"宽*高"
 	},
 	playback:{
 		H5SPlayback:"H5S回放",
-		NVRPlayback:"NVR回放"
+		NVRPlayback:"NVR回放",
 	},
 	GB:{
-		GB28181:"下级域",
-		GBPlatform:"上级域",
-		GBService:"GB服务配置",
-
 		name: '名字',
-		// GB28181:"国标",
-		// GBPlatform:"国标平台",
+		GB28181:"国标",
+		GBPlatform:"国标平台",
 		Name:"名字",
 		SIPServerIP:"SIP服务器地址",
 		SIPServerPort:"SIP服务器端口",
@@ -244,10 +156,7 @@ export default {
 		RegisterPeriod:"注册有效期",
 		KeepaliveTime:"心跳周期",
 		Domain:"服务器域",
-		Refreshsuccess:"刷新成功",
-		Restartsuccessfully:"重启成功",
-
-
+		
 		DeleteAll:"删除",
 		Detail:"查看",
 		Cancel:"取消",
@@ -255,7 +164,7 @@ export default {
 		Configuration:"配置",
 		OVER:"全部",
 		ADD:"添加",
-		edit: '编辑'
+		edit: '编辑',
 	},
 	archive:{
 		search: '搜索',
@@ -278,11 +187,11 @@ export default {
 		Time:"截图时间",
 		Preview:"预览",
 		Picture:"图片",
-		Pleaseselectone:"请选择一个"
+		Pleaseselectone:"请选择一个",
 	},
 	tour:{
 		Start:"开始",
-		stop:"停止"
+		stop:"停止",
 	},
 	camera:{
 		Save_successfully:"保存成功！",
@@ -292,21 +201,17 @@ export default {
 		open_Close:"开启/关闭",
 		name: "名称",
 		audio:"音频" ,
-		save:"保存"
+		save:"保存",
 	},
 	Conference:{
-		Upload:"上传",
-		Videointercom:"视频对讲",
 		VideoConference:"视频会议",
-		Connect:"连接",
-		Disconnect:"断开",
 		Call:"通话",
 		VideoCall:"接通视频",
 		AudioCall:"接通语音",
 		HangUp:"挂断",
 		Hang:"挂断",
 		JoinConference:"加入会议",
-		Nickname:"昵称不能为空!"
+		Nickname:"昵称不能为空!",
 	}
   }
 }

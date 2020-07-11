@@ -38,7 +38,7 @@
                     style="width: 100%;overflow-y: auto;">
                     <el-table-column
                         prop="token"
-                        :label="label.Token"
+                        label="Token"
                         width="300">
                     </el-table-column>
                     <el-table-column
@@ -48,7 +48,7 @@
                     </el-table-column>
                     <el-table-column
                         width="250"
-                        :label="open_Close">
+                        :label="label">
                         <template slot-scope="scope">
                             <el-switch
                                 v-model="scope.row.open_close"
@@ -59,7 +59,7 @@
                         </template>
                     </el-table-column>
                     <el-table-column
-                        :label="label.GBID">
+                        label="GBID">
                         <template slot-scope="scope">
                             <el-input v-model="scope.row.gbid" placeholder="请输入内容"></el-input>
                         </template>
@@ -104,14 +104,10 @@
   export default {
     data() {
       return {
-        open_Close:this.$t('message.camera.open_Close'),
+        label:this.$t('message.camera.open_Close'),
         Name1:this.$t('message.camera.name'),
         audio:this.$t('message.camera.audio'),
         save:this.$t('message.camera.save'),
-        label:{
-            Token:this.$t('message.table.Token'),
-            GBID:this.$t('message.table.GBID')
-        },
         //分页
         currentPage: 1, // 当前页码
         total: 0, // 总条数
@@ -127,20 +123,16 @@
         // editPopup:false,//编辑弹窗
         editform: {
             open_close:false,
-            audio:false
+            audio:false,
         },
-        searchTableInfo:""
+        searchTableInfo:"",
       }
     },
     mounted(){
         // this.GetSrc();
-        if(this.$store.state.root=="Operator"){
-            console.log("nihencai")
-        }else{
-            this.loadtest();
-            this.loadDevice();
-            this.NumberDevice();
-        }
+        this.loadtest();
+        this.loadDevice();
+        this.NumberDevice();
         // this.height_zsy();
     },
     methods:{
@@ -165,7 +157,7 @@
                         open_close:true,
                         gbid:"",
                         audio:false,
-                        disabled:false
+                        disabled:false,
                     };
                     if(itme[i].nType!="H5_CH_DEV"){
                         // console.log(itme[i].nType)
@@ -233,7 +225,7 @@
                     open_close:true,
                     gbid:"",
                     audio:false,
-                    disabled:false
+                    disabled:false,
                 };
                 if(data[i].nType!="H5_CH_DEV"){
                     // console.log(itme[i].nType)
@@ -547,7 +539,7 @@
         }
         return this.tableData
       }
-    }
+    },
   };
 </script>
 <style scoped>
@@ -585,7 +577,6 @@
     width: 19.5%;
     height: 98%;
     background: #ffffff;
-    overflow: auto;
 }
 .content .content_2{
     width: 80%;

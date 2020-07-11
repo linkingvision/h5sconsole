@@ -56,7 +56,7 @@
                         style="width: 100%;">
                         <el-table-column
                             prop="token"
-                            :label="label.Name"
+                            :label="label.label2"
                             min-width="50" >
                             <template slot-scope="scope">
                                 <span style="margin-left: 10px">{{ scope.row.token }}</span>
@@ -64,14 +64,14 @@
                         </el-table-column>
                         <el-table-column
                             prop="name"
-                            :label="label.Token">
+                            label="Token">
                              <template slot-scope="scope">
                                 <span>{{ scope.row.name }}</span>
                             </template>
                         </el-table-column>
                         <el-table-column
                             prop="starf"
-                            :label="label.StartTime">
+                            :label="label.label3">
                              <template slot-scope="scope">
                                 <i class="el-icon-time"></i>
                                 <span>{{ scope.row.starf }}</span>
@@ -79,7 +79,7 @@
                         </el-table-column>
                         <el-table-column
                             prop="end"
-                            :label="label.EndTime">
+                            :label="label.label4">
                              <template slot-scope="scope">
                                 <i class="el-icon-time"></i>
                                 <span>{{ scope.row.end }}</span>
@@ -87,7 +87,7 @@
                         </el-table-column>
                         <el-table-column
                             prop="end"
-                            :label="label.Type"
+                            label="Type"
                             min-width="50">
                              <template slot-scope="scope">
                                 <span>{{ scope.row.type }}</span>
@@ -111,6 +111,18 @@
                                         <el-button size="mini" style="font-size: 25px;" @click="Refresh1(scope.$index, scope.row)" data-toggle="modal" data-target="#myModal" class="iconfont icon-play"></el-button>
                                     </el-tooltip>
                                 </div>
+                                <!-- <el-button
+                                size="mini"
+                                @click="handleEdit(scope.$index, scope.row)">{{$t("message.archive.archive")}}</el-button>
+                                <el-button
+                                size="mini"
+                                type="primary"
+                                @click="Refresh(scope.row)">{{$t("message.archive.Refresh")}}</el-button>
+                                <el-progress type="circle" :percentage="scope.row.percentage" :stroke-width="2" :width="35"></el-progress>
+                                <el-button
+                                size="mini"
+                                type="success"><a :href="scope.row.url" :download="scope.row.urlto">{{$t("message.archive.Download")}}</a></el-button>
+                                <el-button size="mini" style="font-size: 25px;" icon="el-icon-caret-right" circle @click="Refresh1(scope.$index, scope.row)" data-toggle="modal" data-target="#myModal"></el-button> -->
                             </template>
                          </el-table-column>
                     </el-table>
@@ -127,7 +139,7 @@
             </div>
         </div>
         <!-- bootstrap模态框1 -->
-        <div class="modal fade"  data-backdrop="static" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -180,14 +192,12 @@ export default {
                 content1:this.$t("message.archive.archive"),
                 content2:this.$t("message.archive.Refresh"),
                 content3:this.$t("message.archive.Download"),
-                content4:this.$t("message.archive.Playback")
+                content4:this.$t("message.archive.Playback"),
             },
             label:{
-                Name:this.$t("message.table.Name"),
-                Token:this.$t("message.table.Token"),
-                StartTime:this.$t("message.table.StartTime"),
-                EndTime:this.$t("message.table.EndTime"),
-                Type:this.$t("message.table.Type")
+                label2:this.$t("message.archive.Name"),
+                label3:this.$t("message.archive.StartTime"),
+                label4:this.$t("message.archive.EndTime"),
             },
             timelink:0,//滑块
             value: [new Date(new Date().getTime()- 3600 * 1000 * 1), new Date()],
@@ -197,7 +207,7 @@ export default {
             pageSize: 10,//一页数量
             search: '',
             filterText: '',
-            data:this.regionaldata.regionaldata,
+            data: [],
             defaultProps: {
                 children: 'children',
                 label: 'label',
@@ -205,7 +215,7 @@ export default {
                 iconclass:"iconclass"
             },
             tableData1: [],
-            pickerOptions: {
+             pickerOptions: {
                 shortcuts: [{
                     text: this.$t("message.archive.Onehour"),
                     onClick(picker) {
@@ -250,13 +260,13 @@ export default {
             redata:"",//刷新的数据
             rebfb:"",//刷新的百分比
             rerow:[],
-            max:100
+            max:100,
         }
     },
     mounted(){
-        // this.loadDevice();
-        // this.cloudDevice();
-        // this.NumberDevice();
+        this.loadDevice();
+        this.cloudDevice();
+        this.NumberDevice();
     },
     methods:{
         PlaybackCB(event, userdata)
@@ -502,7 +512,7 @@ export default {
                                 percentage:0,
                                 url:'',
                                 urlto:'',
-                                strFileName:""
+                                strFileName:"",
                               };
                               if(item['nType']=="H5_REC_MANUAL"){
                                     timeitem["type"] = this.$t("message.archive.ManualRecord");
@@ -540,20 +550,244 @@ export default {
             this.currentPage = val;
         },
         
+        // 机舱
+        loadDevice() {
+		    let _this =this;
+		    var root = process.env.API_ROOT;
+		    var wsroot = process.env.WS_HOST_ROOT;
+		    if (root == undefined){
+		        root = window.location.protocol + '//' + window.location.host + window.location.pathname;
+		    }
+		    if (wsroot == undefined)
+		    {
+		        wsroot = window.location.host;
+            }
+		   //url
+		   var url = root + "/api/v1/GetDevice?session="+ this.$store.state.token;
+
+			  //重组
+			  this.$http.get(url).then(result=>{
+				  if(result.status == 200){
+                      
+					  var data=result.data;
+					  for(var i = 0; i < data.dev.length; i++){
+						  var item=data.dev[i];
+						  var toplevel=[];
+						  toplevel["strToken"]=item.strToken;
+						  toplevel["strName"]=item.strName;
+                          this.loadOneDevice(toplevel);
+                      }
+                      
+				  }
+			  })
+        },
+        loadOneDevice(toplevels)
+		{
+			let _this =this;
+			var root = process.env.API_ROOT;
+			var wsroot = process.env.WS_HOST_ROOT;
+			if (root == undefined){
+			    root = window.location.protocol + '//' + window.location.host + window.location.pathname;
+			}
+			if (wsroot == undefined)
+			{
+			    wsroot = window.location.host;
+			}
+			var url = root + "/api/v1/GetDeviceSrc?token="+ toplevels.strToken + "&session=" + this.$store.state.token;
+            
+			this.$http.get(url).then(result=>{
+				  if(result.status == 200){
+					  var data=result.data;
+					  var topGroup={children:[]};
+                      topGroup.label=toplevels.strName;
+                      topGroup.iconclass="mdi mdi-view-sequential fa-fw";
+					  for(var i = 0; i < data.src.length; i++){
+						  var item=data.src[i];
+						  var topitem={
+                                id : i,
+                                token:item['strToken'],
+                                label : item['strName'],
+                                iconclass:"mdi mdi-camcorder fa-fw"
+							  };
+                              topGroup.children.push(topitem);
+                              if(!item['bOnline'])
+                                topitem['iconclass'] = 'mdi mdi-camcorder-off fa-fw';
+
+                            if(item['bDisable'] == true){
+                                // newItem['disabled_me'] =true;
+                                topitem['iconclass1'] = 'camera';
+                            }
+                      }
+                       this.data.push(topGroup);
+                       
+				  }
+			})
+		},
+
+        //数字仓机
+        NumberDevice() {
+		    let _this =this;
+		    var root = process.env.API_ROOT;
+		    var wsroot = process.env.WS_HOST_ROOT;
+		    if (root == undefined){
+		        root = window.location.protocol + '//' + window.location.host + window.location.pathname;
+		    }
+		    if (wsroot == undefined)
+		    {
+		        wsroot = window.location.host;
+		    }
+		   //url
+		   var url = root + "/api/v1/GetGbDevice?session="+ this.$store.state.token;
+
+			  //重组
+			  this.$http.get(url).then(result=>{
+				  if(result.status == 200){
+					  var srcData = [];
+					  var data=result.data;
+					  for(var i = 0; i < data.dev.length; i++){
+						  var item=data.dev[i];
+						  var srclevel=[];
+						  srclevel["strToken"]=item.strToken;
+						  srclevel["strName"]=item.strName;
+						  this.NumberSrc(srclevel,srcData);
+					  }
+				  }
+			  })
+		},
+        NumberSrc(srclevel, srcData) {
+
+            let _this =this;
+            var root = process.env.API_ROOT;
+            var wsroot = process.env.WS_HOST_ROOT;
+            if (root == undefined){
+                root = window.location.protocol + '//' + window.location.host + window.location.pathname;
+            }
+            if (wsroot == undefined)
+            {
+                wsroot = window.location.host;
+            }
+
+            var url = root + "/api/v1/GetGbDeviceSrc?token="+ srclevel.strToken + "&session=" + this.$store.state.token;
+
+            this.$http.get(url).then(result => {
+                if (result.status == 200)
+                {
+                    var data =  result.data;
+                    var srcGroup = {children: []};
+                    srcGroup.label=srclevel.strName;
+                    srcGroup.iconclass="mdi mdi-view-sequential fa-fw";
+                    for(var i=0; i< data.src.length; i++){
+                        var item = data.src[i];
+                        
+                        var newItem ={
+                                token : item['strToken'],
+                                label : item['strName'],
+                                iconclass : 'mdi mdi-camcorder fa-fw',};
+
+                        if(!item['bOnline'])
+                            newItem['iconclass'] = 'mdi mdi-camcorder-off fa-fw';
+
+                       srcGroup.children.push(newItem);
+                    }
+                    this.data.push(srcGroup);
+                }
+            }).catch(error => {
+                console.log('GetSrc failed', error);
+            });
+        },
+
+
+        //级联
+        cloudDevice() {
+		    let _this =this;
+		    var root = process.env.API_ROOT;
+		    var wsroot = process.env.WS_HOST_ROOT;
+		    if (root == undefined){
+		        root = window.location.protocol + '//' + window.location.host + window.location.pathname;
+		    }
+		    if (wsroot == undefined)
+		    {
+		        wsroot = window.location.host;
+		    }
+		   //url
+		   var url = root + "/api/v1/GetCloudDevice?session="+ this.$store.state.token;
+
+			  //重组
+			  this.$http.get(url).then(result=>{
+				  if(result.status == 200){
+					  var srcData = [];
+					  var data=result.data;
+					  for(var i = 0; i < data.dev.length; i++){
+						  var item=data.dev[i];
+						  var srclevel=[];
+						  srclevel["strToken"]=item.strToken;
+						  srclevel["strName"]=item.strName;
+						  this.cloudSrc(srclevel,srcData);
+					  }
+				  }
+			  })
+		},
+        cloudSrc(srclevel, srcData) {
+
+            let _this =this;
+            var root = process.env.API_ROOT;
+            var wsroot = process.env.WS_HOST_ROOT;
+            if (root == undefined){
+                root = window.location.protocol + '//' + window.location.host + window.location.pathname;
+            }
+            if (wsroot == undefined)
+            {
+                wsroot = window.location.host;
+            }
+
+            var url = root + "/api/v1/GetCloudDeviceSrc?token="+ srclevel.strToken + "&session=" + this.$store.state.token;
+
+            this.$http.get(url).then(result => {
+                if (result.status == 200)
+                {
+                    var data =  result.data;
+                    var srcGroup = {children: []};
+                    srcGroup.label=srclevel.strName;
+                    srcGroup.iconclass="mdi mdi-view-sequential fa-fw";
+                    for(var i=0; i< data.src.length; i++){
+                        var item = data.src[i];
+                        
+                        var newItem ={
+                                token : item['strToken'],
+                                label : item['strName'],
+                                iconclass : 'mdi mdi-camcorder fa-fw',};
+
+                        if(item['nType'] == 'H5_CLOUD')
+                            newItem['iconclass'] = 'mdi mdi-camcorder fa-fw';
+
+                        if(item['bRec'] == true)
+                                newItem['iconclass2'] = 'iconfont icon-radioboxfill none';
+
+                        if(!item['bOnline'])
+                            newItem['iconclass'] = 'mdi mdi-camcorder-off fa-fw';
+
+                       srcGroup.children.push(newItem);
+                    }
+                    this.data.push(srcGroup);
+                }
+            }).catch(error => {
+                console.log('GetSrc failed', error);
+            });
+        },
 
 		
         //模糊查询
         filterNode(value, data) {
             if (!value) return true;
             return data.label.indexOf(value) !== -1;
-        }
+        },
     },
      //模糊查询
     watch: {
       filterText(val) {
         this.$refs.tree.filter(val);
       }
-    }
+    },
     
 }
 </script>

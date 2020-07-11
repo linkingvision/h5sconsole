@@ -1,19 +1,14 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Dashboard from '@/components/views/dashboard'
-import GPU from '@/components/views/dashboard/GPU'
-import Device from '@/components/views/dashboard/device'
-
 import Liveview from '@/components/views/liveview'
 import Archive from '@/components/views/archive'
-import AdvancePB from '@/components/views/Advancepbss'
+import AdvancePB from '@/components/views/Advancepbs'
+import Gaogao1 from '@/components/views/gaogao1'
 import Sreenshots from '@/components/views/screenshots'
 import Playback from '@/components/views/playback'
 import camera from '@/components/views/camera'
-
 import avintercom from '@/components/views/avintercom'
-import avintercoms from '@/components/views/avintercom/avintercoms'
-import upload from '@/components/views/avintercom/upload'
 
 import Tour from '@/components/views/tour'
 //import AdvancePB from '@/components/views/Advancepb'
@@ -29,22 +24,14 @@ import devicesdks from '@/components/views/settings/devicesdks'
 import devicertmppushs from '@/components/views/settings/devicertmppushs'
 import records from '@/components/views/settings/record'
 import usersettings from '@/components/views/settings/usersetting'
-import Transcoding  from '@/components/views/settings/Transcoding'
-import Regional from '@/components/views/settings/Regional'
-import Cloudconnect from '@/components/views/settings/cloudconnect'
-import Webrtc from '@/components/views/settings/webrtc'
 
 import GB from '@/components/views/GB'
 import GB28181 from '@/components/views/GB/GB28181'
 import GBplatform from '@/components/views/GB/GBplatform'
-import GB_Service from '@/components/views/GB/GB_Service'
 
 import H5S from '@/components/h5s'
 import Login from '@/components/login'
 import Logout from '@/components/logout'
-import Downloadapp from '@/components/views/downloadapp'
-
-import Control from '@/components/Control'
 import store from '@/store/store'
 import * as types from '@/store/types'
 
@@ -60,21 +47,10 @@ const routes = [
     name: 'h5s',
     component: H5S,
     children: [
-      
       {
         path: '/app/liveview',
         name: 'liveviewRouter',
         component: Liveview
-      },
-      {
-        path: '/app/GPU',
-        name: 'GPURouter',
-        component: GPU
-      },
-      {
-        path: '/app/Device',
-        name: 'DeviceRouter',
-        component: Device
       },
       {
         path: '/app/playback',
@@ -82,20 +58,62 @@ const routes = [
         component: Playback
       },
       {
+        path: '/app/camera',
+        name: 'cameraRouter',
+        component: camera
+      },
+      {
+        path: '/app/avintercom',
+        name: 'avintercomRouter',
+        component: avintercom
+      },
+      {
         path: '/app/AdvancePB',
         name: 'AdvancePBRouter',
         component: AdvancePB
       },
-     
       {
-        path: '/app/event',
-        name: 'eventRouter',
-        component: Event
+        path: '/app/GB',
+        name: 'GBRouter',
+        meta: {
+          requireAuth: true
+        },
+        component: GB,
+        children: [
+          //1
+          {
+            path: '/app/GB/GB28181',
+            name: 'GB28181Router',
+            component: GB28181,
+            meta: {
+              requireAuth: true
+            }
+          },
+          //2
+          {
+            path: '/app/GB/GBplatform',
+            name: 'GBplatformRouter',
+            component: GBplatform,
+            meta: {
+              requireAuth: true
+            }
+          },
+        ]
+      },
+      {
+        path: '/app/Gaogao1',
+        name: 'Gaogao1Router',
+        component: Gaogao1
       },
       {
         path: '/app/archive',
         name: 'archiveRouter',
         component: Archive
+      },
+      {
+        path: '/app/event',
+        name: 'eventRouter',
+        component: Event
       },
       {
         path: '/app/Tour',
@@ -118,91 +136,11 @@ const routes = [
         name: 'dashboardRouter',
         component: Dashboard
       },
-
-
-      //用户
-      {
-        path: '/app/camera',
-        name: 'cameraRouter',
-        meta: {
-          roles: 'admin',
-        },
-        component: camera
-      },
-      {
-        path: '/app/avintercom',
-        name: 'avintercomRouter',
-        component: avintercom,
-        meta: {
-          roles: 'admin',
-          requireAuth: true
-        },
-        children: [
-          //1
-          {
-            path: '/app/avintercom/avintercoms',
-            name: 'avintercomsRouter',
-            component: avintercoms,
-            meta: {
-              roles: 'admin',
-              requireAuth: true
-            }
-          },{
-            path: '/app/avintercom/upload',
-            name: 'uploadRouter',
-            component: upload,
-            meta: {
-              roles: 'admin',
-              requireAuth: true
-            }
-          },
-        ],
-      },
-      {
-        path: '/app/GB',
-        name: 'GBRouter',
-        meta: {
-          roles: 'admin',
-          requireAuth: true
-        },
-        component: GB,
-        children: [
-          //1
-          {
-            path: '/app/GB/GB28181',
-            name: 'GB28181Router',
-            component: GB28181,
-            meta: {
-              roles: 'admin',
-              requireAuth: true
-            }
-          },
-          //2
-          {
-            path: '/app/GB/GBplatform',
-            name: 'GBplatformRouter',
-            component: GBplatform,
-            meta: {
-              roles: 'admin',
-              requireAuth: true
-            }
-          },{
-            path: '/app/GB/GB_Service',
-            name: 'GB_ServiceRouter',
-            component: GB_Service,
-            meta: {
-              roles: 'admin',
-              requireAuth: true
-            }
-          },
-        ]
-      },
       {
         path: '/app/cloud',
         name: 'cloudRouter',
         component: cloud,
         meta: {
-          roles: 'admin',
           requireAuth: true
         },
         children: [
@@ -212,7 +150,6 @@ const routes = [
             name: 'cloudsRouter',
             component: clouds,
             meta: {
-              roles: 'admin',
               requireAuth: true
             }
           }
@@ -223,7 +160,6 @@ const routes = [
         path: '/app/settings',
         name: 'settingsRouter',
         meta: {
-          roles: 'admin',
           requireAuth: true
         },
         component: Settings,
@@ -234,7 +170,6 @@ const routes = [
             name: 'devicesRouter',
             component: devices,
             meta: {
-              roles: 'admin',
               requireAuth: true
             }
           },
@@ -244,7 +179,6 @@ const routes = [
             name: 'devicesdksRouter',
             component: devicesdks,
             meta: {
-              roles: 'admin',
               requireAuth: true
             }
           },
@@ -254,7 +188,6 @@ const routes = [
             name: 'devicertmppushsRouter',
             component: devicertmppushs,
             meta: {
-              roles: 'admin',
               requireAuth: true
             }
           },
@@ -264,7 +197,6 @@ const routes = [
             name: 'recordsRouter',
             component: records,
             meta: {
-              roles: 'admin',
               requireAuth: true
             }
           },
@@ -274,50 +206,9 @@ const routes = [
             name: 'usersettingsRouter',
             component: usersettings,
             meta: {
-              roles: 'admin',
               requireAuth: true
             }
           },
-          //6
-          {
-            path: '/app/setting/Regional',
-            name: 'RegionalRouter',
-            component: Regional,
-            meta: {
-              roles: 'admin',
-              requireAuth: true
-            }
-          }, 
-          //7
-          {
-            path: '/app/setting/Transcoding',
-            name: 'TranscodingRouter',
-            component: Transcoding,
-            meta: {
-              roles: 'admin',
-              requireAuth: true
-            }
-          },
-          //8
-          {
-            path: '/app/setting/Cloudconnect',
-            name: 'CloudconnectRouter',
-            component: Cloudconnect,
-            meta: {
-              roles: 'admin',
-              requireAuth: true
-            }
-          },
-          //8
-          {
-            path: '/app/setting/Webrtc',
-            name: 'WebrtcRouter',
-            component: Webrtc,
-            meta: {
-              roles: 'admin',
-              requireAuth: true
-            }
-          }
         ]
       },
       // {
@@ -335,29 +226,16 @@ const routes = [
       }
     ]
   },
-  
-  {
-    path: '/Control',
-    name: 'ControlRouter',
-    component: Control
-  },
   {
     path: '/login',
     name: 'LoginRouter',
     component: Login
-  },
-  {
-    path: '/Downloadapp',
-    name: 'DownloadappRouter',
-    component: Downloadapp
-  },
+  }
 ];
+
 // 页面刷新时，重新赋值token
 if (window.localStorage.getItem('h5stoken')) {
   store.commit(types.LOGIN, window.localStorage.getItem('h5stoken'))
-}
-if (window.localStorage.getItem('h5link')) {
-  store.commit(types.LINK, window.localStorage.getItem('h5link'))
 }
 
 if (window.localStorage.getItem('h5slang')) {
@@ -381,58 +259,23 @@ if (window.localStorage.getItem('h5conference')) {
   store.commit(types.CONFERENCE, window.localStorage.getItem('h5conference'))
 }
 
-if (window.localStorage.getItem('h5adswitch')) {
-  store.commit(types.ADSWITCH, window.localStorage.getItem('h5adswitch'))
-}
-
-//用户名
-if (window.localStorage.getItem('h5suser')) {
-  store.commit(types.USER, window.localStorage.getItem('h5suser'))
-}
-if (window.localStorage.getItem('h5sroot')) {
-  store.commit(types.ROOT, window.localStorage.getItem('h5sroot'))
-}
-
 const Router = new VueRouter({
   routes
 });
 
 Router.beforeEach((to, from, next) => {
-  // console.log('hao',store.state.token,to.meta.roles)
-  if(store.state.root=="Operator"&&to.meta.roles){
-    console.log("store.state.root",store.state.root,to.meta.roles)
-    next({
-      path: '/login',
-      query: {redirect: to.fullPath}
-    })
-  }
   if (to.matched.some(r => r.meta.requireAuth)) {
-        if (store.state.token) {
-          next()
-        } else {
-          next({
-            path: '/login',
-            query: {redirect: to.fullPath}
-          })
-        }
-      } else {
-        next();
-      }
+    if (store.state.token) {
+      next()
+    } else {
+      next({
+        path: '/login',
+        query: {redirect: to.fullPath}
+      })
+    }
+  } else {
+    next();
+  }
 })
-
-// Router.beforeEach((to, from, next) => {
-//   if (to.matched.some(r => r.meta.requireAuth)) {
-//     if (store.state.token) {
-//       next()
-//     } else {
-//       next({
-//         path: '/login',
-//         query: {redirect: to.fullPath}
-//       })
-//     }
-//   } else {
-//     next();
-//   }
-// })
 
 export default Router;

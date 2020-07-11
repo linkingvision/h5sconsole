@@ -1,7 +1,7 @@
 <template>
     <div>
         <!-- 两个表格 -->
-        <el-tabs v-model="activeName" type="border-card" max-height="850">
+        <el-tabs v-model="activeName" style="width: 100%;padding: 0 50px" max-height="850">
             <!-- 1 -->
             
              <el-tab-pane :label="label.label" name="GB28181">
@@ -10,26 +10,62 @@
                 <el-table
                     :data="tableData1.slice((currentPage1-1)*pageSize,currentPage1*pageSize)"
                     style="width: 100%">
+                    <el-table-column type="expand">
+                        <template slot-scope="props">
+                            <el-form label-position="left" inline class="demo-table-expand">
+                                <el-form-item label="nType :">
+                                    <span>{{ props.row.nType }}</span>
+                                </el-form-item>
+                                <el-form-item label="strName :">
+                                    <span>{{ props.row.strName }}</span>
+                                </el-form-item>
+                                <el-form-item label="strToken :">
+                                    <span>{{ props.row.strToken }}</span>
+                                </el-form-item>
+                                <el-form-item label="strUser :">
+                                    <span>{{ props.row.strUser }}</span>
+                                </el-form-item>
+                                <el-form-item label="strPasswd :">
+                                    <span>{{ props.row.strPasswd }}</span>
+                                </el-form-item>
+                                <el-form-item label="bPasswdEncrypt :">
+                                    <span>{{ props.row.bPasswdEncrypt }}</span>
+                                </el-form-item>
+                                <el-form-item label="strDevIpAddress :">
+                                    <span>{{ props.row.strDevIpAddress }}</span>
+                                </el-form-item>
+                                <el-form-item label="strDevPort :">
+                                    <span>{{ props.row.strDevPort }}</span>
+                                </el-form-item>
+                                <el-form-item label="bEnableAudio :">
+                                    <span>{{ props.row.bEnableAudio }}</span>
+                                </el-form-item>
+                                <el-form-item label="bOnline :">
+                                    <span>{{ props.row.bOnline }}</span>
+                                </el-form-item>
+                            </el-form>
+                        </template>
+                    </el-table-column>
                     <el-table-column
                     prop="name"
-                    :label="label.Name"
+                    :label="label.label1"
                     width="180">
                     </el-table-column>
                     <el-table-column
                     prop="Token"
-                    :label="label.Token"
+                    label="Token"
                     width="180">
                     </el-table-column>
                     <el-table-column
                     prop="bOnline"
-                    :label="label.Online">
+                    label="bOnline">
                     </el-table-column>
                     <el-table-column
                     prop="nType"
-                    :label="label.Type">
+                    label="nType">
                     </el-table-column>
                     <el-table-column
-                        :label="label.Edit">
+                        label="edit">
                         <template slot-scope="scope">
                             <div class="button_edi">
                                 <el-button type="text" size="small" @click="handleRefresh(scope.$index,scope.row)">刷新</el-button>
@@ -62,17 +98,13 @@ import uuid from '@/store/uuid'
         activeName: 'GB28181',//优先显示选项卡
         label:{
             label:this.$t("message.GB.GB28181"),//选1
-            Name:this.$t("message.table.Name"),
-            Token:this.$t("message.table.Token"),
-            Online:this.$t("message.table.Online"),
-            Type:this.$t("message.table.Type"),
-            Edit:this.$t("message.table.Edit")
+            label1:this.$t("message.GB.name"),
         },
         //分页
         pageSize: 10,//一页数量
         currentPage1: 1, // 当前页码
         total2: 0, // 总条数
-        tableData1: []//1
+        tableData1: [],//1
       };
     },
     mounted(){
@@ -81,9 +113,6 @@ import uuid from '@/store/uuid'
     methods:{
         //第二个表格的数据
         loadDevice(){
-            if(this.$store.state.root=="Operator"){
-                return false
-            }
 		    var root = process.env.API_ROOT;
 		    var wsroot = process.env.WS_HOST_ROOT;
 		    if (root == undefined){
@@ -111,7 +140,7 @@ import uuid from '@/store/uuid'
                               strDevIpAddress:itme[i].strDevIpAddress,
                               strDevPort:itme[i].strDevPort,
                               bEnableAudio:itme[i].bEnableAudio+"",
-                              bOnline:itme[i].bOnline+""
+                              bOnline:itme[i].bOnline+"",
                           };
                           this.tableData1.push(tabledata);
                       }
@@ -131,7 +160,7 @@ import uuid from '@/store/uuid'
                 console.log(result);
                 if(result.status==200){
                     this.$message({
-                        message: this.$t('message.GB.Refreshsuccess'),
+                        message: this.$t('message.camera.Editorial_success'),
                         type: 'success'
                     });
                 }
@@ -149,7 +178,7 @@ import uuid from '@/store/uuid'
                 console.log(result);
                 if(result.status==200){
                     this.$message({
-                        message: this.$t('message.GB.Restartsuccessfully'),
+                        message: this.$t('message.camera.Editorial_success'),
                         type: 'success'
                     });
                 }
@@ -164,8 +193,8 @@ import uuid from '@/store/uuid'
         handleCurrentChange1(val) {
             console.log(`当前页: ${val}`);
             this.currentPage1 = val;
-        }
-    }
+        },
+    },
   };
 </script>
 <style scoped>

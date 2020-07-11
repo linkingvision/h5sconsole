@@ -12,29 +12,19 @@
         <el-row :gutter="20">
             <el-col :span="4" style="padding-right:0px">
                 <div class="grid-content bg-purple">
-                    <router-link  :to="{name:'GB28181Router'}">
-                        <a href="javascript:void(0)" class="setting_left_a" :class="{setting_tj1:index_lj==1}">
-                            <div :class="{setting_tj:index_lj==1}"  @click="setting_ys" class="setting_left">
-                                {{$t("message.GB.GB28181")}}
-                            </div>
-                        </a> 
-                    </router-link><router-link  :to="{name:'GBplatformRouter'}">
-                        <a href="javascript:void(0)" class="setting_left_a" :class="{setting_tj1:index_lj==2}">
-                            <div :class="{setting_tj:index_lj==2}"  @click="setting_ys1" class="setting_left">
-                                {{$t("message.GB.GBPlatform")}}
-                            </div>
-                        </a> 
-                    </router-link>
-                    <router-link  :to="{name:'GB_ServiceRouter'}">
-                        <a href="javascript:void(0)" class="setting_left_a" :class="{setting_tj1:index_lj==3}">
-                            <div :class="{setting_tj:index_lj==3}"  @click="setting_ys2" class="setting_left">
-                                {{$t("message.GB.GBService")}}
-                            </div>
-                        </a> 
-                    </router-link>
+                    <div :class="{setting_tj:index_lj==1}"  @click="setting_ys" class="setting_left">
+                        <router-link  :to="{name:'GB28181Router'}">
+                            <a href="javascript:void(0)" class="setting_left_a" :class="{setting_tj1:index_lj==1}">{{$t("message.GB.GB28181")}} </a> 
+                        </router-link>
+                    </div>
+                    <div :class="{setting_tj:index_lj==2}"  @click="setting_ys1" class="setting_left">
+                        <router-link  :to="{name:'GBplatformRouter'}">
+                            <a href="javascript:void(0)" class="setting_left_a" :class="{setting_tj1:index_lj==2}">{{$t("message.GB.GBPlatform")}} </a> 
+                        </router-link>
+                    </div>
                 </div>
             </el-col>
-            <el-col :span="20"  style="padding-right:0px">
+            <el-col :span="20">
                 <div class="grid-content bg-purple">
                     <router-view></router-view>
                 </div>
@@ -59,7 +49,7 @@ export default {
                 {name:this.$t("message.setting.devicesdk"),name1:'./setting/devicesdks'}
             ],*/
             index_lj:"1",
-            language:this.$t("message.GB.GB28181")
+            language:this.$t("message.GB.GB28181"),
         }
     },
     mounted(){
@@ -73,10 +63,6 @@ export default {
              this.index_lj=2;
              this.language=this.$t("message.GB.GBPlatform");
         },
-        setting_ys2(){
-             this.index_lj=3;
-             this.language=this.$t("message.GB.GBService");
-        }
      
     }
 }
@@ -84,9 +70,11 @@ export default {
 
 
 <style scoped>
-a{
-    color: #000;
-}
+/* 左边的点击后显示的颜色 */
+/* .el-menu-item.is-active {
+    color: #409EFF;
+    border-right: 1px solid #409eff;
+} */
 .el-button {
     width: 100%;
     padding: 10px 0;
@@ -95,17 +83,15 @@ a{
 }
 /*布局 */
 .setting_left{
-    margin-bottom: 5px;
+    text-align: right;
     padding: 10px 0;
-    padding-left: 29%;
+    border-right: 2px solid #eee;
     box-sizing: border-box;
-    font-size: 16px;
 }
 /* 点击变换颜色 */
 .setting_tj{
-    border-left: 3px solid rgba(95,191,167,1);
+    border-right: 2px solid rgba(95,191,167,1);
     box-sizing: border-box;
-    background-color: #FAFAFA;
 }
 .setting_tj1{
     color:rgba(95,191,167,1) !important;
@@ -124,8 +110,7 @@ a{
 /* 布局 */
  .el-row {
     margin-bottom: 20px;
-    height: 800px;
-    /* background-color: #ffffff; */
+    height: 800px; background-color: #ffffff;
     overflow-y: auto;
   }
   .el-col {
@@ -133,7 +118,6 @@ a{
     height: 800px;
     overflow-y: auto;
     background-color: #ffffff;
-  border-left: 5px solid #F8F6F9;
   }
   .bg-purple-dark {
     background: #ffffff;
@@ -149,7 +133,7 @@ a{
     min-height: 36px;
   }
   .row-bg {
-    padding: 10px 0;
+    /* padding: 10px 0; */
     background-color: #ffffff;
   }
 </style>

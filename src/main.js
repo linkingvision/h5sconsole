@@ -1,6 +1,6 @@
 // The Vue build version to load with the `import` command
 // (runtime-only or standalone) has been set in webpack.base.conf with an alias.
-import   "babel-polyfill"
+import "babel-polyfill"
 import Vue from 'vue'
 import App from './App'
 import router from './router'
@@ -43,7 +43,9 @@ import * as types from '@/store/types'
 import 'vue-event-calendar/dist/style.css' //1.1.10之后的版本，css被放在了单独的文件中，方便替换
 import vueEventCalendar from 'vue-event-calendar'
 Vue.use(vueEventCalendar, {locale: 'zh'}) //可以设置语言，支持中文和英文
-console.log("ie",window.ActiveXObject)
+
+import dataV from '@jiaminghi/data-view'
+Vue.use(dataV)
 
 
 import ElementUI from 'element-ui'
@@ -56,18 +58,7 @@ Vue.use(iView)
 
 import event from '@/components/views/js/event'
 Vue.prototype.EVENT = event
-import listdatag from "./components/views/js/device"
-Vue.prototype.listdatag = listdatag
-
-import regionaldata from '@/components/views/js/regional'
-import clipboard from 'clipboard';
-//注册到vue原型上
-Vue.prototype.clipboard = clipboard;
-
-Vue.prototype.regionaldata = regionaldata
-
 Vue.prototype.$http = axios
-
 Vue.prototype.$http.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded'
 const bus = new Vue()
 Vue.config.productionTip = false
@@ -83,12 +74,10 @@ const i18n = new VueI18n({
 
 i18n.locale = store.state.lang
 
-
-
 /* this.$i18n.locale='zhCHS' */
 /* eslint-disable no-new */
 new Vue({
-  el:'#app',
+  el: '#app',
   router,
   store,
   i18n,

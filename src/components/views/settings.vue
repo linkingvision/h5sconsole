@@ -12,75 +12,45 @@
         <el-row :gutter="20">
             <el-col :span="4" style="padding-right:0px">
                 <div class="grid-content bg-purple">
-                    <router-link  :to="{name:'devicesRouter'}">
-                        <a href="javascript:void(0)" class="setting_left_a" :class="{setting_tj1:index_lj==1}">
-                            <div :class="{setting_tj:index_lj==1}"  @click="setting_ys" class="setting_left">
-                                {{$t("message.setting.device")}} 
-                            </div>
-                        </a> 
-                    </router-link>
-                    <router-link  :to="{name:'devicesdksRouter'}">
-                        <a href="javascript:void(0)" class="setting_left_a" :class="{setting_tj1:index_lj==2}">
-                            <div :class="{setting_tj:index_lj==2}"  @click="setting_ys1" class="setting_left">
-                                {{$t("message.setting.devicesdk")}}
-                            </div>
-                        </a> 
-                    </router-link>
-                    <router-link  :to="{name:'devicertmppushsRouter'}">
-                        <a href="javascript:void(0)" class="setting_left_a" :class="{setting_tj1:index_lj==3}">
-                            <div :class="{setting_tj:index_lj==3}"  @click="setting_ys2" class="setting_left">
-                                {{$t("message.setting.devicertmppush")}}
-                            </div>
-                         </a> 
-                    </router-link>
-                    <router-link  :to="{name:'usersettingsRouter'}">
-                        <a href="javascript:void(0)" class="setting_left_a" :class="{setting_tj1:index_lj==4}">
-                            <div :class="{setting_tj:index_lj==4}"  @click="setting_ys3" class="setting_left">
-                                {{$t("message.setting.user")}}
-                            </div>
-                        </a> 
-                    </router-link>
-                    <router-link  :to="{name:'recordsRouter'}">
-                        <a href="javascript:void(0)" class="setting_left_a" :class="{setting_tj1:index_lj==5}">
-                            <div :class="{setting_tj:index_lj==5}"  @click="setting_ys4" class="setting_left">{{$t("message.setting.record")}}</div>
-                        </a> 
-                    </router-link>
-                    <router-link  :to="{name:'RegionalRouter'}">
-                        <a href="javascript:void(0)" class="setting_left_a" :class="{setting_tj1:index_lj==6}">
-                            <div :class="{setting_tj:index_lj==6}"  @click="setting_ys5" class="setting_left">
-                                {{$t("message.setting.Regional")}} 
-                            </div>
-                        </a> 
-                    </router-link>
-                    <router-link  :to="{name:'TranscodingRouter'}">
-                        <a href="javascript:void(0)" class="setting_left_a" :class="{setting_tj1:index_lj==7}">
-                            <div :class="{setting_tj:index_lj==7}"  @click="setting_ys6" class="setting_left">
-                                {{$t("message.setting.Transcoding")}} 
-                            </div>
-                        </a> 
-                    </router-link>
-                    <router-link  :to="{name:'CloudconnectRouter'}">
-                        <a href="javascript:void(0)" class="setting_left_a" :class="{setting_tj1:index_lj==8}">
-                            <div :class="{setting_tj:index_lj==8}"  @click="setting_ys7" class="setting_left">
-                                {{$t("message.setting.CloudConnect")}} 
-                            </div>
-                        </a> 
-                    </router-link>
-                    <router-link  :to="{name:'WebrtcRouter'}">
-                        <a href="javascript:void(0)" class="setting_left_a" :class="{setting_tj1:index_lj==9}">
-                            <div :class="{setting_tj:index_lj==9}"  @click="setting_ys8" class="setting_left">
-                                WEBRTC
-                            </div>
-                        </a> 
-                    </router-link>
+                    <!-- <div>
+                        <el-button type="info">设置</el-button>
+                    </div> -->
+                    <div :class="{setting_tj:index_lj==1}"  @click="setting_ys" class="setting_left">
+                        <router-link  :to="{name:'devicesRouter'}">
+                            <a href="javascript:void(0)" class="setting_left_a" :class="{setting_tj1:index_lj==1}">{{$t("message.setting.device")}} </a> 
+                        </router-link>
+                    </div>
+                    <div :class="{setting_tj:index_lj==2}"  @click="setting_ys1" class="setting_left">
+                        <router-link  :to="{name:'devicesdksRouter'}">
+                            <a href="javascript:void(0)" class="setting_left_a" :class="{setting_tj1:index_lj==2}">{{$t("message.setting.devicesdk")}} </a> 
+                        </router-link>
+                    </div>
+                    <div :class="{setting_tj:index_lj==3}"  @click="setting_ys2" class="setting_left">
+                        <router-link  :to="{name:'devicertmppushsRouter'}">
+                            <a href="javascript:void(0)" class="setting_left_a" :class="{setting_tj1:index_lj==3}">{{$t("message.setting.devicertmppush")}} </a> 
+                        </router-link>
+                    </div>
+                    <div :class="{setting_tj:index_lj==4}"  @click="setting_ys3" class="setting_left">
+                        <router-link  :to="{name:'usersettingsRouter'}">
+                            <a href="javascript:void(0)" class="setting_left_a" :class="{setting_tj1:index_lj==4}">{{$t("message.setting.user")}} </a> 
+                        </router-link>
+                    </div>
+                    <div :class="{setting_tj:index_lj==5}"  @click="setting_ys4" class="setting_left">
+                        <router-link  :to="{name:'recordsRouter'}">
+                            <a href="javascript:void(0)" class="setting_left_a" :class="{setting_tj1:index_lj==5}">{{$t("message.setting.record")}} </a> 
+                        </router-link>
+                    </div>
                 </div>
             </el-col>
-            <el-col style="padding:0px;" :span="20">
+            <el-col :span="20">
+                
                 <div class="grid-content bg-purple">
+                    
                     <router-view></router-view>
                 </div>
             </el-col>
         </el-row>
+
     </div>
 
 </div>
@@ -99,7 +69,7 @@ export default {
                 {name:this.$t("message.setting.devicesdk"),name1:'./setting/devicesdks'}
             ],*/
             index_lj:"1",
-            language:this.$t("message.setting.device")
+            language:this.$t("message.setting.device"),
         }
     },
     mounted(){
@@ -125,22 +95,6 @@ export default {
              this.index_lj=5;
              this.language=this.$t("message.setting.record");
         },
-        setting_ys5(){
-             this.index_lj=6;
-             this.language=this.$t("message.setting.Regional");
-        },
-        setting_ys6(){
-             this.index_lj=7;
-             this.language=this.$t("message.setting.Transcoding");
-        },
-        setting_ys7(){
-             this.index_lj=8;
-             this.language=this.$t("message.setting.CloudConnect");
-        },
-        setting_ys8(){
-             this.index_lj=9;
-             this.language="WEBRTC";
-        }
      
     }
 }
@@ -148,10 +102,6 @@ export default {
 
 
 <style scoped>
-a{
-    font-size: 14px;
-    color: #000;
-}
 /* 左边的点击后显示的颜色 */
 /* .el-menu-item.is-active {
     color: #409EFF;
@@ -165,19 +115,15 @@ a{
 }
 /*布局 */
 .setting_left{
-    margin-bottom: 5px;
+    text-align: right;
     padding: 10px 0;
-    padding-left: 29%;
-    box-sizing: border-box;
-    font-size: 16px;
-    border-bottom: 1px solid rgba(247,247,247,1);
+    border-right: 2px solid #eee;
     box-sizing: border-box;
 }
 /* 点击变换颜色 */
 .setting_tj{
-    border-left: 3px solid rgba(95,191,167,1);
+    border-right: 2px solid rgba(95,191,167,1);
     box-sizing: border-box;
-    background-color: #FAFAFA;
 }
 .setting_tj1{
     color:rgba(95,191,167,1) !important;
@@ -196,8 +142,7 @@ a{
 /* 布局 */
  .el-row {
     margin-bottom: 20px;
-    height: 800px;
-    /* background-color: #ffffff; */
+    height: 800px; background-color: #ffffff;
     overflow-y: auto;
   }
   .el-col {
@@ -205,7 +150,6 @@ a{
     height: 800px;
     overflow-y: auto;
     background-color: #ffffff;
-  border-left: 5px solid #F8F6F9;
   }
   .bg-purple-dark {
     background: #ffffff;
@@ -221,7 +165,7 @@ a{
     min-height: 36px;
   }
   .row-bg {
-    padding: 10px 0;
+    /* padding: 10px 0; */
     background-color: #ffffff;
   }
 </style>

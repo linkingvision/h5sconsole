@@ -127,12 +127,9 @@ TimeSlider.prototype.drawLine = function(beginX,beginY,endX,endY,color,width){
  */
 TimeSlider.prototype.add_cells = function(cells){
     var _this = this;
-    if(cells){
-        
-        cells.forEach(cell => {
-            _this.draw_cell(cell)
-        });
-    }
+    cells.forEach(cell => {
+        _this.draw_cell(cell)
+    });
 }  
 
 /**
@@ -197,7 +194,7 @@ TimeSlider.prototype.mousemoveFunc = function(e){
         _this.init(_this.start_timestamp,_this.timecell,true);
         _this.drawLine(pos_x-390,0,pos_x-390,53,"rgb(194, 202, 215)",1);
         _this.ctx.fillStyle = "rgb(194, 202, 215)";
-        _this.ctx.fillText(_this.changeTime(time),pos_x-460,90);//黑色竖线的位置和时间位置
+        _this.ctx.fillText(_this.changeTime(time),pos_x-460,75);//黑色竖线的位置和时间位置
     }
 }
 

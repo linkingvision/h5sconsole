@@ -1,27 +1,10 @@
 <template>
 <div class="h5videowrapper h5container" >
-    <canvas class="canh5video" width=960 height=540 :id="canvasplay" ></canvas>
     <video class="h5video" @click="redborder" :id="videoid" autoplay webkit-playsinline playsinline></video>
-    <div :id="videonameid" class="" >
-        {{videoname}} {{picturequality}}
-       <input type="button" :value="valuebutton"  @click="Bitstream($event.target.value)" :id="inputid" class=""/>
-    </div>
-   <!-- 画质 -->
-    <span class=" "  :id="spanqualityid">
-        <el-dropdown placement='top-end' trigger="click"  @command="handleCommand" class=" "  :id="qualityid">
-            <span :id="elqualityid" class="el-dropdown-link">
-                <i class="el-icon-video-camera el-icon--left"></i>{{$t('message.live.Quality')}}
-            </span>
-            <el-dropdown-menu slot="dropdown">
-              <template >
-                <el-dropdown-item v-for="(it,index) in qualitylist"   :key="index" :command="it">{{it.strName}}</el-dropdown-item>
-              </template>
-           </el-dropdown-menu>
-       </el-dropdown>
-    </span>
+    <div :id="videonameid" class="">{{videoname}}</div>
     <div :id="rtcid" class=""></div>
     <div class="h5controls"  style="display:none padding:0px;">
-        <button type="button" class="vidbuttion pull-right iconfont icon-roundclosefill" style="margin-right: 20px;" @click="CloseVideo($event)"></button>
+        <button type="button" class="vidbuttion pull-right iconfont icon-roundclosefill" @click="CloseVideo($event)"></button>
         <button type="button" class="vidbuttion pull-right iconfont icon-full" @click="FullScreen($event)"></button>
         <button :id="ptz"  type="button" class="btn vidbuttion pull-right" @click="PtzControlShow($event)"></button>
         <!-- <button type="button" class="btn vidbuttion pull-right rtcbutton" > <i class="mdi mdi-format-title"></i></button> -->
@@ -30,85 +13,33 @@
         <button type="button" class="vidbuttion pull-right iconfont icon-camerafill" @click="DoSnapshot($event)"></button>
         <button type="button" class="vidbuttion pull-right iconfont icon-picfill" @click="DoSnapshotWeb($event)"></button>
         <button type="button" class="vidbuttion pull-right" @click="Shoutwheat($event)"> <i :class="Shoutwheatclass"></i></button>
-        <!-- <button type="button" class="vidbuttion pull-right iconfont icon-fangda" @click="Electronic($event)"></button> -->
-        <Poptip placement="bottom" class=" pull-right">
-            <button class="vidbuttion iconfont icon-erweima" @click="qrcode"></button>
-            <div class="api" slot="content">
-                <div class="bottom_QR">
-                    <div class="bottom_scan">{{$t("message.live.Scan")}}</div>
-                    <div class="bottom_QRcode">
-                        <div>
-                            <div ref="qrcodead" id="qrcodead1" style="margin-bottom: 16px;"></div>
-                            <div>Android</div>
-                        </div>
-                        <div>
-                            <div ref="qrcodeios" id="qrcodeios1" style="margin-bottom: 16px;"></div>
-                            <div>iOS</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </Poptip>
-        <!-- <el-popover
-            placement="bottom"
-            trigger="click">
-            
-            <div class="bottom_QR">
-                <div class="bottom_scan">{{$t("message.live.Scan")}}</div>
-                <div class="bottom_QRcode">
-                    <div>
-                        <div ref="qrcodead" id="qrcodead1" style="margin-bottom: 16px;"></div>
-                        <div>Android</div>
-                    </div>
-                    <div>
-                        <div ref="qrcodeios" id="qrcodeios1" style="margin-bottom: 16px;"></div>
-                        <div>iOS</div>
-                    </div>
-                </div>
-            </div>
-            <button slot="reference" class="vidbuttion pull-right iconfont icon-erweima" @click="qrcode"></button>
-        </el-popover> -->
+        <!-- audio
+        <button type="button" class="btn vidbuttion pull-right" > <i class="mdi  mdi-record"></i></button>
+        <button type="button" class="btn vidbuttion pull-right" href="#"> <i class="mdi mdi-volume-high"></i></button>
+        <button type="button" class="btn vidbuttion pull-right" href="#"> <i class="mdi mdi-volume-off"></i></button>
+        -->
     </div>
-    <!-- <canvas class="myCanvas" :id="canvaid" width="170" height="105"></canvas> -->
 
     <div class="ptzcontrols"  style="display:none padding:0px">
         
         <div class="flex_content">
-            <div class="content_zoom">
-                <div class="key_zoom">
-                    <div class="key_flex">
-                        <div class="key_but" @mousedown ="PtzActionUpleft($event)" @mouseup="PtzActionStop($event)" @touchstart ="PtzActionUpleft($event)" @touchend="PtzActionStop($event)"></div>
-                        <div class="key_but" @mousedown ="PtzActionUp($event)" @mouseup="PtzActionStop($event)" @touchstart ="PtzActionUp($event)" @touchend="PtzActionStop($event)"></div>
-                        <div class="key_but" @mousedown ="PtzActionUpright($event)" @mouseup="PtzActionStop($event)" @touchstart ="PtzActionUpright($event)" @touchend="PtzActionStop($event)"></div>
-                        <div class="key_but" @mousedown ="PtzActionLeft($event)" @mouseup="PtzActionStop($event)" @touchstart ="PtzActionLeft($event)" @touchend="PtzActionStop($event)"></div>
-                        <div class="key_but" ></div>
-                        <div class="key_but" @mousedown ="PtzActionRight($event)" @mouseup="PtzActionStop($event)" @touchstart ="PtzActionRight($event)" @touchend="PtzActionStop($event)"></div>
-                        <div class="key_but" @mousedown ="PtzActionDownleft($event)" @mouseup="PtzActionStop($event)" @touchstart ="PtzActionDownleft($event)" @touchend="PtzActionStop($event)"></div>
-                        <div class="key_but" @mousedown ="PtzActionDown($event)" @mouseup="PtzActionStop($event)" @touchstart ="PtzActionDown($event)" @touchend="PtzActionStop($event)"></div>
-                        <div class="key_but" @mousedown ="PtzActionDownright($event)" @mouseup="PtzActionStop($event)" @touchstart ="PtzActionDownright($event)" @touchend="PtzActionStop($event)"></div>
-                    </div>
-                </div>
+            <div class="key_zoom">
+                
                 <div class="zoom">
-                    <el-tooltip :enterable="false" :content="content.focusing" placement="top" effect="light">
-                        <button class="iconfont icon-add-focus zoom_add" @mousedown ="PtzActionZoomIn($event)" @mouseup="PtzActionStop($event)" @touchstart ="PtzActionZoomIn($event)" @touchend="PtzActionStop($event)"></button>
-                    </el-tooltip>
-                    <el-tooltip :enterable="false" :content="content.focusing" placement="top" effect="light">
-                        <button class="iconfont icon-reduce-focus zoom_add" @mousedown ="PtzActionZoomOut($event)" @mouseup="PtzActionStop($event)" @touchstart ="PtzActionZoomOut($event)" @touchend="PtzActionStop($event)"></button>
-                    </el-tooltip>
-
-                    <el-tooltip :enterable="false" :content="content.Focus" placement="top" effect="light">
-                        <button class="iconfont icon-jujiao2 zoom_add" @mousedown ="PtzActionfocusing($event)" @mouseup="PtzActionStop($event)" @touchstart ="PtzActionfocusing($event)" @touchend="PtzActionStop($event)"></button>
-                    </el-tooltip>
-                    <el-tooltip :enterable="false" :content="content.Focus" placement="top" effect="light">
-                        <button class="iconfont icon-jujiao1 zoom_add" @mousedown ="PtzActionfocusings($event)" @mouseup="PtzActionStop($event)" @touchstart ="PtzActionfocusings($event)" @touchend="PtzActionStop($event)"></button>
-                    </el-tooltip>
-
-                    <el-tooltip :enterable="false" :content="content.aperture" placement="top" effect="light">
-                        <button class="iconfont icon-guangquanjia zoom_add" @mousedown ="PtzActionaperture($event)" @mouseup="PtzActionStop($event)" @touchstart ="PtzActionaperture($event)" @touchend="PtzActionStop($event)"></button>
-                    </el-tooltip>
-                    <el-tooltip :enterable="false" :content="content.aperture" placement="top" effect="light">
-                        <button class="iconfont icon-guangquanjian zoom_add"  @mousedown ="PtzActionaperturej" @mouseup="PtzActionStop" @touchstart ="PtzActionaperturej" @touchend="PtzActionStop"></button>
-                    </el-tooltip>
+                    <div class="zoom_add" @mousedown ="PtzActionZoomIn($event)" @mouseup="PtzActionStop($event)" @touchstart ="PtzActionZoomIn($event)" @touchend="PtzActionStop($event)"></div>
+                    <div class="zoom_add" @mousedown ="PtzActionZoomOut($event)" @mouseup="PtzActionStop($event)" @touchstart ="PtzActionZoomOut($event)" @touchend="PtzActionStop($event)"></div>
+                </div>
+            
+                <div class="key_flex">
+                    <div class="key_but"></div>
+                    <div class="key_but"  @mousedown ="PtzActionUp($event)" @mouseup="PtzActionStop($event)" @touchstart ="PtzActionUp($event)" @touchend="PtzActionStop($event)"></div>
+                    <div class="key_but"></div>
+                    <div class="key_but" @mousedown ="PtzActionLeft($event)" @mouseup="PtzActionStop($event)" @touchstart ="PtzActionLeft($event)" @touchend="PtzActionStop($event)"></div>
+                    <div class="key_but"></div>
+                    <div class="key_but" @mousedown ="PtzActionRight($event)" @mouseup="PtzActionStop($event)" @touchstart ="PtzActionRight($event)" @touchend="PtzActionStop($event)"></div>
+                    <div class="key_but"></div>
+                    <div class="key_but" @mousedown ="PtzActionDown($event)" @mouseup="PtzActionStop($event)" @touchstart ="PtzActionDown($event)" @touchend="PtzActionStop($event)"></div>
+                    <div class="key_but"></div>
                 </div>
             </div>
             <div class="Preset">
@@ -123,7 +54,7 @@
                                 <div class="preset_bgc">
                                     <input type="text" class="preset_input" :value="Pre.strName"/>
                                     <button type="button" class="iconfont icon-RectangleCopy1" @click="preset_Jump(Pre.strToken)"></button>
-                                    <button type="button" class="iconfont icon-icon-test" @click="preset_set(Pre.strToken,$event)"></button>
+                                    <button type="button" class="iconfont icon-shezhi" @click="preset_set(Pre.strToken,$event)"></button>
                                 </div>
                             </el-card>
                         </el-timeline-item>
@@ -131,62 +62,60 @@
                 </div>
             </div>
         </div>
+        <!-- <div class="row ">
+            <button type="button" class="btn ptzbuttonnone pull-right" href="#"> <i ></i></button>
+            <button type="button" class="btn ptzbutton pull-right" href="#"
+                @mousedown ="PtzActionZoomIn($event)" @mouseup="PtzActionStop($event)" @touchstart ="PtzActionZoomIn($event)" @touchend="PtzActionStop($event)"> <i class="mdi  mdi-plus-circle-outline"></i></button>
+            <button type="button" class="btn ptzbuttonnone pull-right" href="#"> <i ></i></button>
+            <button type="button" class="btn ptzbutton pull-right" href="#"
+                @mousedown ="PtzActionUp($event)" @mouseup="PtzActionStop($event)" @touchstart ="PtzActionUp($event)" @touchend="PtzActionStop($event)"> <i class="mdi  mdi-arrow-up"></i></button>
+        </div>
+        <div class="row ">
+            <button type="button" class="btn ptzbuttonnone pull-right" href="#"> <i ></i></button>
+            <button type="button" class="btn ptzbuttonnone pull-right" href="#"> <i ></i></button>
+            <button type="button" class="btn ptzbutton pull-right" href="#"
+                @mousedown ="PtzActionRight($event)" @mouseup="PtzActionStop($event)" @touchstart ="PtzActionRight($event)" @touchend="PtzActionStop($event)"> <i class="mdi  mdi-arrow-right"></i></button>
+            <button type="button" class="btn ptzbuttonnone pull-right" href="#"> <i ></i></button>
+            <button type="button" class="btn ptzbutton pull-right" href="#"
+                @mousedown ="PtzActionLeft($event)" @mouseup="PtzActionStop($event)" @touchstart ="PtzActionLeft($event)" @touchend="PtzActionStop($event)"> <i class="mdi  mdi-arrow-left"></i></button>
+        </div>
+        <div class="row ">
+            <button type="button" class="btn ptzbuttonnone pull-right" href="#"> <i ></i></button>
+            <button type="button" class="btn ptzbutton pull-right" href="#"
+                @mousedown ="PtzActionZoomOut($event)" @mouseup="PtzActionStop($event)" @touchstart ="PtzActionZoomOut($event)" @touchend="PtzActionStop($event)"> <i class="mdi  mdi-minus-circle-outline"></i></button>
+            <button type="button" class="btn ptzbuttonnone pull-right" href="#"> <i ></i></button>
+            <button type="button" class="btn ptzbutton pull-right" href="#"
+                @mousedown ="PtzActionDown($event)" @mouseup="PtzActionStop($event)" @touchstart ="PtzActionDown($event)" @touchend="PtzActionStop($event)"> <i class="mdi  mdi-arrow-down"></i></button>
+        </div> -->
+        
+        
     </div>
 </div>
 </template>
 
 <script>
-import QRCode from 'qrcodejs2';
 import '../../assets/adapter.js'
 import {H5sPlayerWS,H5sPlayerHls,H5sPlayerRTC,H5sPlayerAudBack} from '../../assets/h5splayer.js'
-import {H5sPlayerCanvas} from '../../assets/linkplayer.js'
 import {H5siOS,H5sPlayerCreate} from '../../assets/h5splayerhelper.js'
-import "../../../static/lang/en"
 export default {
     name: 'liveplayer',
-    props:['h5id', 'h5videoid',"cols","rows","canvasid"],
+    props:['h5id', 'h5videoid',"cols","rows"],
     data () {
         return {
-            Electronichide:false,//电子放大
-            content:{
-                focusing:this.$t('message.live.focusing'),
-                Focus:this.$t('message.live.Focus'),
-                aperture:this.$t('message.live.aperture')
-            },
-            canvaid: this.canvasid,
             videoid: this.h5videoid,
             ptz:"ptz"+ this.h5videoid,
             videonameid:"name"+this.h5videoid,
             rtcid:"rtc"+this.h5videoid,
             h5handler: undefined,//视频内容
-            h5handlercavas:undefined,
             currtoken: undefined,
             ptzshow: false,
             proto: 'WS',
             Shoutwheatclass:"mdi mdi-microphone-off",
             tokenshou:"",
-            audioback: undefined,//视频内容
+            v2: undefined,//视频内容
             videoname:"",//视频名称
             Presetdata:[],//预置位数组
             Preset_value:0.5,//镜头转换速度
-            streamprofile:'',
-            valuebutton:this.$t("message.live.substream"),
-            inputtoken:'',
-            inputlabel:'',
-            name:'',
-            canvasplay:"canvasplay"+this.h5videoid,
-            inputid:"input"+this.h5videoid,
-            qualityid: 'quality'+this.h5videoid,
-            elqualityid:'elqualityid'+this.h5videoid,
-            spanqualityid:"spanqualityid"+this.h5videoid,
-            picturequalityid:"picturequalityid"+this.h5videoid,
-            qualitylist:[],
-            picturequality:'',//画质名称
-            qualityform:[],
-            canvasdate:"",
-            wathlinkwed:this.$store.state.link,
-            cavaswidth:'',
-            cavasheidht:''
         }
     },
     activated() {
@@ -196,7 +125,6 @@ export default {
         //console.log(this.h5id, "deactivated");
     },
     beforeDestroy() {
-        clearInterval(this.canvasdate);
         //console.log(this.h5id, "beforeDestroy");
         if (this.h5handler != undefined)
         {
@@ -204,37 +132,21 @@ export default {
             delete this.h5handler;
             this.h5handler = undefined;
         }
-        this.currtoken = undefined
+        this.currtoken = undefined;
     },
     destroyed() {
         //console.log(this.h5id, "destroyed");
     },
-   
     mounted() {
-        if (window.ActiveXObject || "ActiveXObject" in window){
-            this.wathlinkwed='true'
-            console.log("liveviewplay",typeof( this.wathlinkwed), this.wathlinkwed)
-        }
-        // console.log("liveviewplay",typeof( this.wathlinkwed), this.wathlinkwed)
-        // return false
-        if(this.wathlinkwed=='true'){
-            $("#"+this.videoid).hide();
-        }else if(this.wathlinkwed=='false'){
-            $("#"+this.canvasplay).hide();
-        }
-        // this.qrcode();
+        //console.log(this.h5id, "mount");
         var $container = $("#"+this.h5id);
         var $video =$container.children("video");
         var videodom = $container.children("video").get(0);
         var $controls = $container.children(".h5controls");
-        // console.log($controls)
         var $rtcbutton = $controls.children(".rtcbutton");
-    
+
         let _this = this;
-        this.$root.bus.$on('liveplaylink', function(link){
-            _this.wathlinkwed=link
-        });
-        this.$root.bus.$on('liveplay', function(token,streamprofile,label,name, id)
+        this.$root.bus.$on('liveplay', function(token,streamprofile,label, id)
         {
             // this.videoname=label;//视频名称
             // console.log("++++++++++++++++++++",label,this.videoname)
@@ -242,320 +154,26 @@ export default {
             {
                 return;
             }
-            
-            _this.PlayVideo(token,streamprofile,label,name);
+            _this.PlayVideo(token,streamprofile,label);
             _this.tokenshou=token;
             console.log("-----------------",_this.tokenshou)
         });
 
-        // this.$root.bus.$on('liveplayproto', function(proto)
-        // {
-        //     _this.proto = proto;
-        //     //储存
-        //     localStorage.setItem("proto",_this.proto);
-        //     //console.log("liveplayproto", _this.proto);
-        // });
+        this.$root.bus.$on('liveplayproto', function(proto)
+        {
+            _this.proto = proto;
+            //储存
+            localStorage.setItem("proto",_this.proto);
+            //console.log("liveplayproto", _this.proto);
+        });
 
         // control visibility
         $container.on("mouseover mouseout touchstart touchmove", function(e) {
             $controls.css("display", e.type === "mouseout" ? "none" : "block");
             //$controls.css("display", e.type === "touchend" ? "none" : "block");
         });
-        
-         $("#"+this.spanqualityid).addClass("spanquality")
-         $("#"+this.inputid).addClass("spanpicturequality")
-        // 转码
-       this. Gettranscod()
-    },
-    watch:{
-        wathlinkwed(val){
-            clearInterval(this.canvasdate);
-            if (this.h5handler != undefined)
-            {
-                this.h5handler.disconnect();
-                delete this.h5handler;
-                this.h5handler = undefined;
-                $("#" + this.h5videoid).get(0).load();
-                $("#" + this.h5videoid).get(0).poster = '';
-            }
-            this.currtoken = undefined
-            var c=document.getElementById(this.canvasplay);  
-            var cxt=c.getContext("2d");  
-            c.height=c.height;  
-            if(this.wathlinkwed=='true'){
-                $("#"+this.videoid).hide();
-                $("#"+this.canvasplay).show();
-            }else if(this.wathlinkwed=='false'){
-                $("#"+this.canvasplay).hide();
-                $("#"+this.videoid).show();
-            }
-            console.log(val,this.wathlinkwed,"监听")
-        },
     },
     methods: {
-        
-     
-        PlayVideo(token,streamprofile,label,name)
-        { 
-            var videosize = document.querySelector('#'+this.h5id);
-            // return false;
-           this.inputtoken=token
-           this.inputlabel=label
-           this.streamprofile=streamprofile
-            // this.streamprofile=streamprofile
-            this.videoname=label;//视频名称
-           
-            $("#"+this.videonameid).addClass("videoname");
-            $("#"+this.inputid).addClass("streambutton")
-            $("#"+this.qualityid).addClass("quality")
-            $("#"+this. picturequalityid).removeClass("picturequality")      
-            //console.log("*********************",label,token);
-            $("#"+this.spanqualityid).removeClass("spanquality")
-            $("#"+this.inputid).removeClass("spanpicturequality") 
-            if (this.h5handler != undefined)
-            {
-                document.getElementById("icon"+this.tokenshou).style.color="rgb(142, 132, 132)";
-                this.h5handler.disconnect();
-                delete this.h5handler;
-                this.h5handler = undefined;
-            }
-            this.currtoken = token;
-            // console.log(streamprofile,"111111111111111111*****")
-            if(streamprofile==="sub"){
-                this.valuebutton=this.$t("message.live.mainstream ")
-            } else if(streamprofile==="main"){
-                this.valuebutton=this.$t("message.live.substream")
-            }else{
-                this.valuebutton=this.$t("message.live.substream")
-            }
-            if(this.wathlinkwed=='true'){
-                console.log("ieieieieieie",this.wathlinkwed);
-                // return false
-                // this.cavaswidth=widthx;
-                // this.cavasheidht=heightx;
-                // console.log(widthx,heightx,this.h5id);
-                var confk= this.playclick(this.canvasplay,token,streamprofile);
-                this.h5handler = new H5sPlayerCanvas(confk);
-                this.playjkwh(videosize,confk);
-            }else if(this.wathlinkwed=='false'){
-                console.log("cocococ",this.wathlinkwed)
-                // return false
-                var $container = $("#"+this.h5id);
-                var $controls = $container.children(".h5controls");
-                var $rtcbutton = $controls.children(".rtcbutton");
-
-                var confk= this.playclick(this.h5videoid,token,streamprofile);
-                console.log(confk)
-                // return false
-                if (this.$store.state.rtc == 'RTC' || (H5siOS() === true))
-                {
-                    console.log(this.$store.state.rtc)
-                    $rtcbutton.css("display", "block");
-                    this.h5handler = new H5sPlayerRTC(confk);
-                    $("#"+this.rtcid).addClass("rtc_new");
-                }else
-                {
-                    $rtcbutton.css("display", "none");
-                    this.h5handler = new H5sPlayerWS(confk);
-                }
-                console.log(this.$store.state.rtc,"11212")
-            }
-            this.h5handler.connect();
-            
-
-        },
-        playjkwh(videosize,confk){
-            console.log(this.h5handler,confk,"**********")
-            var resizeElement = document.createElement('iframe');
-            var a=document.getElementById(this.canvasplay);
-            var _this=this
-            console.log(resizeElement)
-            resizeElement.style.width = '100%';
-            resizeElement.style.height = '100%';
-            resizeElement.style.position= 'absolute';
-            resizeElement.style.visibility='hidden';
-            resizeElement.style.margin= '0';
-            resizeElement.style.padding= '0';
-            resizeElement.style.border= '0';
-            videosize.appendChild(resizeElement);
-            resizeElement.contentWindow.onresize = function () 
-            {
-                if (_this.h5handler != undefined)
-                {
-                    console.log(_this.h5handler,confk,"**********")
-                    // document.getElementById("icon"+this.tokenshou).style.color="rgb(142, 132, 132)";
-                    _this.h5handler.disconnect();
-                    delete _this.h5handler;
-                    _this.h5handler = undefined;
-                    var c=document.getElementById(_this.canvasplay);  
-                    var cxt=c.getContext("2d");  
-                    c.height=c.height; 
-                    
-                    _this.h5handler = new H5sPlayerCanvas(confk);
-                    console.log(_this.h5handler,confk,"**********")
-                    // return false
-                    _this.h5handler.connect();
-
-                }else{
-                    console.log(_this.h5handler,"**********")
-                    return false;
-                }
-                
-            };
-        },
-        playclick(playid,token,streamprofile){
-            var wsroot = process.env.WS_HOST_ROOT;
-            if (wsroot == undefined)
-            {
-                wsroot = window.location.host;
-            }
-            console.log(playid,token,streamprofile)
-            let conf = {
-                videoid:playid,
-                protocol: window.location.protocol, //http: or https:
-                host: wsroot, //localhost:8080
-                streamprofile: streamprofile, // {string} - stream profile, main/sub or other predefine transcoding profile
-                rootpath: '/', // '/'
-                token: token,
-                hlsver: 'v1', //v1 is for ts, v2 is for fmp4
-                session: this.$store.state.token //session got from login
-            };
-            
-            //码流按钮
-            return conf;
-        
-            
-        },
-        //关闭
-        CloseVideo(event)
-        {   
-            var _this=this
-            clearInterval(this.canvasdate);
-            if (this.audioback != undefined)
-            { 
-               // console.log("关闭");
-                this.audioback.disconnect();
-                delete this.audioback;
-                this.audioback = undefined;
-                this.Shoutwheatclass="mdi mdi-microphone-off";
-            }
-            this.videoname="";
-            this.valuebutton='';
-            var $container = $("#"+this.h5id);
-            var $ptzcontrols = $container.children(".ptzcontrols");
-            
-            // var valueId=document.getElementById('inputid ')
-            // var divId=document.getElementById('divid')
-            // console.log(divId)
-            $ptzcontrols.css("display", "none");
-            $("#"+this.videonameid).removeClass("videoname");
-            $("#"+this.inputid).removeClass("streambutton")
-            $("#"+this.qualityid).removeClass("quality")
-            $("#"+this.rtcid).removeClass("rtc_new");
-            $("#"+this.spanqualityid).addClass("spanquality")
-            $("#"+this.inputid).addClass("spanpicturequality")
-            document.getElementById("icon"+this.tokenshou).style.color="rgb(142, 132, 132)";
-           
-            var $container = $("#"+this.h5id);
-            var $controls = $container.children(".h5controls");
-            var $rtcbutton = $controls.children(".rtcbutton");
-            if (this.h5handler != undefined)
-            {
-                $rtcbutton.css("display", "none");
-                this.h5handler.disconnect();
-                delete this.h5handler;
-                this.h5handler = undefined;
-                this.$Notice.info({
-                    title: "Stop successfully"
-                });
-
-                $("#" + this.h5videoid).get(0).load();
-                $("#" + this.h5videoid).get(0).poster = '';
-                
-                var c=document.getElementById(_this.canvasplay);  
-                var cxt=c.getContext("2d");  
-                c.height=c.height;  
-                
-                console.log("关闭1",this.h5handler);
-
-            }
-           console.log("关闭",this.h5handler);
-        },
-        //电子放大
-        Electronic(){
-            console.log("电子放大")
-            var root = process.env.API_ROOT;
-            if (root == undefined) {
-                root =window.location.protocol + "//" +window.location.host +window.location.pathname;
-            }
-            var v = document.getElementById(this.videoid);
-            if(v.poster!=""||v.poster!="http://localhost:6080/"||v.poster!=root){
-                if(this.Electronichide==false){
-                    this.Electronichide=true;
-                    $("#"+this.canvaid).show();
-                    this.Electronicopen();
-                }else if(this.Electronichide==true){
-                    this.Electronichide=false;
-                    $("#"+this.canvaid).hide();
-                    this.Electronicoff();
-                }
-            }
-        },
-        //开启电子放大
-        Electronicopen(){
-            var v = document.getElementById(this.videoid);
-            var c = document.getElementById(this.canvaid);
-            var ctx = c.getContext('2d');
-            //所需参数
-            var wh=$(".h5container");
-            // var screenH = document.documentElement.clientHeight/9;
-            // var screenw = document.documentElement.clientWidth/10;
-            // var videoH = $('#'+this.videoid)[0].offsetHeight/10;
-            // var videoW = $('#'+this.videoid)[0].offsetWidth/10;
-            // console.log(wh.width(),wh.height(),videoH,videoW,screenH,"111")
-            $("#"+this.videoid).addClass("myCanvasvideo")
-            // return false;
-            //每20毫秒画一次图
-            this.canvasdate = window.setInterval(function() {
-                ctx.drawImage(v, 0, 0, 170, 105);
-            }, 20);
-        },
-        //关闭电子放大
-        Electronicoff(){
-            var v = document.getElementById(this.videoid);
-            //所需参数
-            var wh=$(".h5container");
-            v.width=wh.width();
-            v.height=wh.height();
-            
-            $("#"+this.videoid).removeClass("myCanvasvideo")  
-            clearInterval(this.canvasdate);
-        },
-        // 二维码
-        qrcode () {
-            console.log(this.tokenshou)
-            if(this.tokenshou==""){
-                return false;
-            }else{
-                var android= window.location.protocol + '//' + window.location.host + '/single.html?token=' + this.tokenshou+"&h5splayer=ws";
-                var ios= window.location.protocol + '//' + window.location.host + '/single.html?token=' + this.tokenshou+"&h5splayer=rtc";
-            }
-            this.$refs.qrcodead.innerHTML="";
-            this.$refs.qrcodeios.innerHTML="";
-            console.log(android,ios)
-            var qrcode = new QRCode(this.$refs.qrcodead, {
-                width: 100,
-                height: 100// 高度
-            })
-            var qrcode1 = new QRCode(this.$refs.qrcodeios, {
-                width: 100,
-                height: 100// 高度
-            })
-            qrcode.clear();
-            qrcode1.clear();
-            qrcode.makeCode(android);
-            qrcode1.makeCode(ios);
-        },
         //预置位跳转
         preset_Jump(token){
             var root = process.env.API_ROOT;
@@ -592,98 +210,91 @@ export default {
             })
             console.log("设置");
         },
-        // 画质
-        handleCommand(command) {
-           this.videoname=''
-           var arr=this.inputlabel.split("-")
-           var label=arr[0]+"-"+command.strName
-           var token=this.inputtoken
-           this.videoname=label
-           var streamprofile= command.strToken
-           this.PlayVideo(token,streamprofile,label,name)
-           
-        },
-        changePanel(event){
-            console.log(event)
-        },
-        //码流按钮
-        Bitstream(event){
-            if(event===this.$t("message.live.substream")){
-            var streamprofile='sub'
-            var token=this.inputtoken
-            var label=this.inputlabel
-            var arr=label.split("-")
-            var label=arr[0]+"-"+this.$t("message.live.substream")
-            this.PlayVideo(token,streamprofile,label,name)
-            this.valuebutton=this.$t("message.live.mainstream")
-            this.picturequality=''
-            }else if(event===this.$t("message.live.mainstream")){
-            var streamprofile='main'
-            var token=this.inputtoken
-            var arr=this.inputlabel.split("-")
-            var label=arr[0]+"-"+this.$t("message.live.mainstream")
-            this.PlayVideo(token,streamprofile,label,name);
-            this.valuebutton=this.$t("message.live.substream")
-            this.picturequality=''
+        PlayVideo(token,streamprofile,label)
+        {
+            this.videoname=label;//视频名称
+            $("#"+this.videonameid).addClass("videoname");
+            //console.log("*********************",label,token);
+            if (this.h5handler != undefined)
+            {
+                // $("#"+this.videonameid).removeClass("videoname");
+                // $("#"+this.rtcid).removeClass("rtc_new");
+                this.h5handler.disconnect();
+                delete this.h5handler;
+                this.h5handler = undefined;
             }
-        },
-       // 转码
-        Gettranscod(){
+            this.currtoken = token;
+            //console.log("play ", token);
+            //console.log("play ",streamprofile);
             var root = process.env.API_ROOT;
             var wsroot = process.env.WS_HOST_ROOT;
             if (root == undefined){
-            root = window.location.protocol + '//' + window.location.host + window.location.pathname;
+                root = window.location.protocol + '//' + window.location.host + window.location.pathname;
             }
-            var url = root + "/api/v1/GetTransProfile?session="+ this.$store.state.token;
-            this.$http.get(url).then(result=>{
-            //   return false;
-              if(result.status == 200){
-                this.qualitylist=result.data.profile
-                //   var itme=result.data.profile;
-                //   for(var i=0;i<itme.length;i++){
-                //       var qualitydata={
-                //           strName:itme[i].strName,
-                //           strToken:itme[i].strToken,
-                //           nCodec:itme[i].nCodec,
-                //           nEngine:itme[i].nEngine,
-                //           nBitrate:itme[i].nBitrate,
-                //           nFPSType:itme[i].nFPSType,
-                //           nFPS :itme[i].nFPS,
-                //           nScaleType:itme[i].nScaleType,
-                //           nWidth:itme[i].nWidth,
-                //           nHeight:itme[i].nHeight,
-                //       };
-                //       this.qualityform.push(qualitydata);
-                //   }
-
-             }
-            }).catch()
-        },
-       //麦克风
-        Shoutwheat(event){
-            var tokenshou=this.tokenshou
-            var conf2 = {
+            if (wsroot == undefined)
+            {
+                wsroot = window.location.host;
+            }
+            let conf = {
+                videoid: this.h5videoid,
                 protocol: window.location.protocol, //http: or https:
-                host: window.location.host, //localhost:8080
-                rootpath:'/', // '/' or window.location.pathname
-                token:tokenshou,
-                session:this.$store.state.token //session got from login
+                host: wsroot, //localhost:8080
+	            streamprofile: streamprofile, // {string} - stream profile, main/sub or other predefine transcoding profile
+                rootpath: '/', // '/'
+                token: token,
+                hlsver: 'v1', //v1 is for ts, v2 is for fmp4
+                session: this.$store.state.token //session got from login
             };
-            
-            
-            var Shoutwheat=this.Shoutwheatclass;
-            if(Shoutwheat=="mdi mdi-microphone-off"){
-                console.log("大开");
-                this.audioback = new H5sPlayerAudBack(conf2);
-                this.audioback.connect();
-                this.Shoutwheatclass="mdi mdi-microphone";
-            }else{
-                console.log("关闭2");
-                this.audioback.disconnect();
-                delete this.audioback;
-                this.audioback = undefined;
-                this.Shoutwheatclass="mdi mdi-microphone-off";
+            var $container = $("#"+this.h5id);
+            var $controls = $container.children(".h5controls");
+            var $rtcbutton = $controls.children(".rtcbutton");
+
+            if (this.proto == 'RTC' || (H5siOS() === true))
+            {
+                $rtcbutton.css("display", "block");
+                this.h5handler = new H5sPlayerRTC(conf);
+                $("#"+this.rtcid).addClass("rtc_new");
+            }else
+            {
+                $rtcbutton.css("display", "none");
+                this.h5handler = new H5sPlayerWS(conf);
             }
+
+            this.h5handler.connect();
+        },
+        CloseVideo(event)
+        {
+            this.videoname="";
+            var $container = $("#"+this.h5id);
+            var $ptzcontrols = $container.children(".ptzcontrols");
+            $ptzcontrols.css("display", "none");
+            $("#"+this.videonameid).removeClass("videoname");
+            $("#"+this.rtcid).removeClass("rtc_new");
+            
+            
+            var $container = $("#"+this.h5id);
+            var $controls = $container.children(".h5controls");
+            var $rtcbutton = $controls.children(".rtcbutton");
+            if (this.h5handler != undefined)
+            {
+                $rtcbutton.css("display", "none");
+                this.h5handler.disconnect();
+                delete this.h5handler;
+                this.h5handler = undefined;
+                this.$Notice.info({
+                    title: "Stop successfully"
+                });
+
+                $("#" + this.h5videoid).get(0).load();
+                $("#" + this.h5videoid).get(0).poster = '';
+
+            }
+
+            //var $container = $("#"+this.h5id);
+            //var $video =$container.children("video");
+            //$video.remove();
+            //var videoHTML = '<video class="h5video" id=' + this.videoid + ' autoplay webkit-playsinline playsinline></video>';
+            //$container.append(videoHTML);
         },
         FullScreen(event)
         {
@@ -710,16 +321,12 @@ export default {
                         document.mozCancelFullScreen();
                     } else if (document.msExitFullscreen) {
                         document.msExitFullscreen();
-                        
                     }
-                    // this.Electronicoff();
-                    // this.Electronicopen();
                     console.log("========  updateUIExitFullScreen");
                     this.updateUIExitFullScreen();
                 } else {
                      console.log('panelFullScreen3');
-                    // this.Electronicoff();
-                    // this.Electronicopen();
+
                     if (elem.requestFullscreen) {
                         elem.requestFullscreen();
                     } else if (elem.webkitRequestFullscreen) {
@@ -743,20 +350,25 @@ export default {
         PtzControlShow(event)
         {
             this.Presetdata=[];
+            console.log("+++++++++",this.Presetdata);
             var root = process.env.API_ROOT;
 		    if (root == undefined){
 		        root = window.location.protocol + '//' + window.location.host + window.location.pathname;
 		    }
 		   //url
            var url = root + "/api/v1/GetPresets?token="+this.tokenshou+"&session="+ this.$store.state.token;
+           console.log(url);
             //重组
             this.$http.get(url).then(result=>{
                 if(result.status == 200){
+                    console.log(result);
                     if(result.bStatus==false){
+                        console.log("data.preset[i].strName")
                         return false;
                     }else{
                         var data=result.data;
                         for(var i = 0; i < data.preset.length; i++){
+                            console.log(data.preset[i].strName)
                             var newItem ={
                                 strName : data.preset[i].strName,
                                 strToken : data.preset[i].strToken,};
@@ -766,6 +378,7 @@ export default {
                             }
                         }
                     }
+                    console.log("---------",this.Presetdata);
                 }
             })
 
@@ -783,19 +396,6 @@ export default {
                 this.ptzshow = false;
             }
         },
-        
-        PtzActionfocusing(event){
-            this.PtzAction('focusin');
-        },
-        PtzActionfocusings(event){
-            this.PtzAction('focusout');
-        },
-        PtzActionaperture(event){
-            this.PtzAction('irisin');
-        },
-        PtzActionaperturej(event){
-            this.PtzAction('irisout');
-        },
 
         PtzActionZoomIn(event)
         {
@@ -805,18 +405,6 @@ export default {
         PtzActionZoomOut(event)
         {
             this.PtzAction('zoomout');
-        },
-        PtzActionUpleft(event){
-            this.PtzAction('upleft');
-        },
-        PtzActionUpright(event){
-            this.PtzAction('upright');
-        },
-        PtzActionDownleft(event){
-            this.PtzAction('downleft');
-        },
-        PtzActionDownright(event){
-            this.PtzAction('downright');
         },
         PtzActionLeft(event)
         {
@@ -839,7 +427,6 @@ export default {
             console.log("PtzActionStop");
             this.PtzAction('stop');
         },
-
         PtzAction(action)
         {
             if (this.h5handler == undefined)
@@ -991,6 +578,27 @@ export default {
             dlLink.click();
             document.body.removeChild(dlLink);
         },
+        //麦克风
+        Shoutwheat(event){
+            var tokenshou=this.tokenshou
+            var conf2 = {
+                protocol: window.location.protocol, //http: or https:
+                host: window.location.host, //localhost:8080
+                rootpath:'/', // '/' or window.location.pathname
+                token:tokenshou,
+                session:this.$store.state.token //session got from login
+            };
+            this.v2 = new H5sPlayerAudBack(conf2);
+            
+            var Shoutwheat=this.Shoutwheatclass;
+            if(Shoutwheat=="mdi mdi-microphone-off"){
+                this.v2.connect();
+                this.Shoutwheatclass="mdi mdi-microphone";
+            }else{
+                this.v2.disconnect();
+                this.Shoutwheatclass="mdi mdi-microphone-off";
+            }
+        },
         redborder(){
             var cors=this.cols*this.rows;
             if(cors>9){
@@ -1001,7 +609,8 @@ export default {
                 document.getElementById(this.ptz).style.display="block";
             }
             //console.log("122514541561",this.videoid);
-            
+            $("video").removeClass('h5videoh');
+            $("#"+this.videoid).addClass('h5videoh');
         }
     }
 }
@@ -1009,54 +618,27 @@ export default {
 </script>
 
 <style scoped>
-.canh5video{
+.flex_content{
     width: 100%;
     height: 100%;
-}
-/* 电子放大 */
-.myCanvas {
-    width: 100%;
-    height: 100%;
-    position:absolute;
-    top: 0;
-    left: 0;
-    padding:0px;
-    display: none;
-}
-.myCanvasvideo {
-    width: 36% !important;
-    height: 36% !important;
-    position:absolute;
-    right: 0;
-    bottom: 0;
-    padding:0px;
-    z-index: 1;
-    /* display: none; */
-}
-/* 二维码 */
-.bottom_QR{
-    margin: 16px 30px;
-    font-size:16px;
-    font-weight:600;
-    color:rgba(51,51,51,1);
-    text-align: center;
-}
-.bottom_scan{
-    font-size:16px;
-    font-weight:600;
-    color:rgba(51,51,51,1);
-    margin-bottom: 20px;
-    padding: 0 20px;
-}
-.bottom_QRcode{
     display: flex;
+    justify-content: space-between;
+    background: rgba(0,0,0,0.3);
+    padding: 8% 0 0 0;
+    position: relative;
 }
-.bottom_QRcode div{
-    padding: 0 20px;
+.key_zoom{
+    width: 25%;
+    margin: 0 4% 0 8%;
+    position: absolute;
+    bottom: 4%;
 }
-
-
-
+.Preset{
+    width: 30%;
+    position: absolute;
+    bottom: 4%;
+    right: 4%;
+}
 .block{
     width: 100%;
     height: 175px;
@@ -1068,13 +650,7 @@ export default {
 .block::-webkit-scrollbar{
     display: none;
 }
-.Seven_Palace{
-    float: left;
-
-}
-.videoname{ 
-    /* justify-content: flex-start;
-    align-items:flex-end; */
+.videoname{
     position: absolute;
     bottom: 0px;
     font-size:14px;
@@ -1086,62 +662,8 @@ export default {
     word-wrap:break-word;
     word-break:nomal; */
     text-align: center;
-   
-}
-/* 洋码流 */
 
-.streambutton{
-    position: absolute;
-    bottom: 5px;
-    right: -73px;
-    border-radius: 10px;
-    background-color: #67cfb5;
-    border: none;
-    width:68px;
-    font-size: 10px;
-    height: 25px;
-    padding: 0 2px;
-    }
-
-.quality{
-    position: absolute;
-    bottom: 5px;
-    right: 10px;
-    padding:0 10px;
-    /* display:none; */
 }
-.spanquality{
-    display:none;
-}
-.spanpicturequality{
-    display: none !important;
-}
-/* 画质 */
- .el-dropdown-link {
-   color: white;
-  
-}
-  .el-dropdown-link .el-dropdown-menu :hover li{
-      background-color: rgb(248, 28, 28)!important;
-  }
-  .el-icon-arrow-down {
-    font-size: 12px;
-   
-  }
-  .el-dropdown-menu{
-     background-color: rgba(0,0,0,.1);
-     border: none;
-     text-align: center;
-}
-
-.el-dropdown-menu__item{
-    color: white;
-}
-.el-dropdown-menu__item :hover{
-    background-color: rgb(248, 28, 28)!important;
-}
-.popper__arrow{
-   border-top-color:none;}
 /* 预置位 */
 .el-timeline {
     margin: 0;
@@ -1214,59 +736,29 @@ export default {
     color: #ffffff;
 }
 
-/*  */
-.Preset{
-    width: 30%;
-    position: absolute;
-    bottom: 10%;
-    right: 4%;
-}
-.flex_content{
-    width: 100%;
-    height: 100%;
-    background: rgba(0,0,0,0.3);
-    padding: 8% 0 8% 0;
-    position: relative;
-    /* margin-bottom: 6%; */
-}
-.content_zoom{
-    width: 50%;
-    height: 100%;
-    display: flex;
-    /* justify-content: space-between; */
-    align-items: flex-end;
-}
-.key_zoom{
-    width: 25%;
-    margin: 0 4% 0 2%;
-    /* position: absolute;
-    bottom: 4%; */
-
-}
 /* 加减 */
 
 .zoom{
-    width: 50px;
-    height: 100px;
+    width: 26px;
+    height: 80px;
+    line-height: 40px;
     /* background-color: #808181; */
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-around;
-    align-content: space-around;
-    margin-left: 16%;
 }
 .zoom_add{
-    width: 20px;
-    height: 20px;
-    text-align: center;
-    background: none;
-    border: 0;
-    padding: 0;
-    color: #FFFFFF;
+    width: 100%;
+    height: 40px;
 }
-.el-button{
-    margin: 0;
+.zoom .zoom_add:nth-child(1){
+    background:url("../views/gallery/jia@2x.png") no-repeat;
+    background-size: 100%;
+    background-position:center center;
 }
+.zoom .zoom_add:nth-child(2){
+    background:url("../views/gallery/jian@2x.png") no-repeat;
+    background-size: 100%;
+    background-position:center center;
+}
+
 /* 上下左右 */
 .key_flex{
     width: 100px;
@@ -1274,8 +766,7 @@ export default {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
-    margin-left: 5%;
-    background:url("../views/gallery/Dibutton.png") no-repeat center;
+    margin-left: 20%;
     /* margin-bottom: 20px; */
 }
 .key_but{
@@ -1284,12 +775,39 @@ export default {
     text-align: center;
     /* background-color: #FF0000; */
 }
+.key_flex .key_but:nth-child(2){
+    background:url("../views/gallery/shang@2x.png") no-repeat;
+    background-size: contain;
+    background-position:center center
+}
+.key_flex .key_but:nth-child(4){
+    background:url("../views/gallery/you@2x.png") no-repeat;
+    background-size: contain;
+    background-position:center center
+}
+.key_flex .key_but:nth-child(6){
+    background:url("../views/gallery/zuo@2x.png") no-repeat;
+    background-size: contain;
+    background-position:center center
+}
+.key_flex .key_but:nth-child(8){
+    background:url("../views/gallery/xia@2x.png") no-repeat;
+    background-size: contain;
+    background-position:center center
+}
 
 
 
 .h5video{
    object-fit: fill;
 }
+.h5videoh{
+    border: 1px solid #f44336 !important;
+    box-sizing: border-box;
+    -moz-box-sizing:border-box;
+    -webkit-box-sizing:border-box;
+}
+
 .h5videowrapper{
     padding: 0px;
     height: 100%;
@@ -1313,12 +831,13 @@ video {
     font-size: 18px;
     background: none;
     border: 0;
+
 }
 .vidbuttion:hover{
     color: #ffffff !important;
 }
 .vidbuttion:nth-child(1){
-    /* margin-right: 20px; */
+    margin-right: 20px;
     background: none;
 }
 .vidbuttion:nth-child(3){
@@ -1338,7 +857,7 @@ video {
     width: 24px;
     padding:0px;
     margin: 0px;
-    /* opacity: 1; */
+    opacity: 1;
     background:rgba(255,255,255,0.3);
 }
 
@@ -1375,20 +894,19 @@ video {
     position: absolute;
     top: 0px;
 }
-/* 视频按钮背景图片 */
+
 .h5container > .h5controls {
     position:absolute;
     top:0;
     background:url("../views/gallery/videoxlk@2x.png") no-repeat;
-    background-size: 350px;
+    background-size: 300px;
     background-position-x:right;
     padding:0px;
     box-sizing:content-box;
-    z-index:1000;
+    z-index:10000;
     width: 100%;
     height: 32px;
     display:none;
-    object-fit: 0.3;
 }
 .h5container > .ptzcontrols {
     position:absolute;
@@ -1396,7 +914,7 @@ video {
     background:rgba(255,255,255,0);
     padding:0px;
     box-sizing:content-box;
-    /* z-index:1100; */
+    z-index:1100;
     width: 100%;
     height: 100%;
     display:none;

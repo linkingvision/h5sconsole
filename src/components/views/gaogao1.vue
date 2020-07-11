@@ -53,7 +53,7 @@
                         :props="defaultProps">
                         <span slot-scope="{ node, data }">
                             <i :class="data.iconclass" style="color:rgb(142, 132, 132);"></i>
-                            <span :class="data.iconclass1" style="padding-left: 4px;">{{data.label}}</span>
+                            <span style="padding-left: 4px;">{{data.label}}</span>
                         </span>
                     </el-tree>
                 </div>
@@ -63,7 +63,7 @@
 				<div class="" id="videoPanel" style="width:100%;">
 					<div name='flex' class="videoColor" v-for="r in rows" :key="r">
 						<div calss="videoflexitem" style="flex:1; border:1px solid black;" name="flex" v-for="c in cols" @contextmenu.prevent="stopVideo($event)" @click="videoClick(r,c,$event)" :key="c">
-							<v-pbplayer 
+							<!-- <v-pbplayer 
 								v-bind:id="'h'+r+c" :h5id="'h'+r+c" 
 								:h5videoid="'hvideo'+r+c" 
 								:xzvalue="xzvalue" 
@@ -72,7 +72,8 @@
 								v-on:videh5handler="videh5handler1"
 								v-on:vv="timetz"
 								v-on:h5videoid1="h5videoid1">
-							</v-pbplayer>
+							</v-pbplayer> -->
+                            <video class="h5video" :id="videoid" autoplay webkit-playsinline playsinline></video>
 						</div>
 					</div>
 					
@@ -116,12 +117,6 @@
 					<!-- 切换九宫格 -->
 					<div class="btn-group blocks" style="margin-top: 20px;">
 						<button type="button" class="btn btn-default layout1x1 waves-effect" data-row="1|1" @click="changePanel($event)">
-							</button>
-						<button type="button" class="btn btn-default layout2x2 waves-effect" data-row="2|2" @click="changePanel($event)">
-							</button>
-						<button type="button" class="hidden-xs btn btn-default layout3x3 waves-effect" data-row="3|3" @click="changePanel($event)">
-							</button>
-						<button type="button" class="hidden-xs btn btn-default layout4x4 waves-effect" data-row="4|4" @click="changePanel($event)">
 							</button>
 						<button type="button" class="btn btn-default layoutfull waves-effect" @click="panelFullScreen($event)"> </button>
 					</div>
@@ -172,7 +167,6 @@
 	import './js/timeline-canvas1.js'
 	import 'patternfly-bootstrap-treeview/dist/bootstrap-treeview.min.css'
 	import 'patternfly-bootstrap-treeview/dist/bootstrap-treeview.min.js'
-	import pbplayer from '../../components/widgets/pbplayer'
 
 	function sleep(delay) {
 	  var start = (new Date()).getTime();
@@ -183,11 +177,9 @@
 	
 export default {
 	name: "Advancepb",
-	components: {
-      'v-pbplayer': pbplayer,
-	},
 	data() {
 	  	return {
+            videoid:"",
 			demoEvents: [],
 			//过滤文字
 			region:1.0,//倍速
@@ -212,8 +204,6 @@ export default {
 			value:new Date(),
 			xzvalue: new Date(),//双向日历
 			timedata:[],//数据数组
-			timecell:[],//滚动条数组
-			vv:undefined,
 			v1:undefined,
 			Gtoken:"",//全局token
 		}
@@ -225,14 +215,13 @@ export default {
         this.NumberDevice();
 		this.funtimeine();
 		this.updateTitle();
-		this.videh5handler1();
-		this.timetz();
-		this.h5videoid1();
+		//this.timetz();
 		this.$root.bus.$emit('liveplayproto', "RTC");
 	},
 	methods:{
 		//删除并填充东西
 		hidt(Gtoken){
+			
 			//return false
 			var timevalue=this.xzvalue;
             var year = timevalue.getFullYear();
@@ -303,14 +292,14 @@ export default {
 		//开始
         resume(){
             var strart=this.icon;
-            console.log(this.vv);
+            console.log(this.v1);
             if(strart=="mdi mdi-pause-circle fa-fw"){
                 this.icon="mdi mdi-play-circle fa-fw";
-                this.vv.pause();
+                this.v1.pause();
             }
             if(strart=="mdi mdi-play-circle fa-fw"){
                 this.icon="mdi mdi-pause-circle fa-fw";
-                this.vv.resume();
+                this.v1.resume();
             }
 		},
 		//倍速
@@ -326,53 +315,25 @@ export default {
             var msgevent = JSON.parse(event);
             if (msgevent.type === 'H5S_EVENT_PB_TIME')
             {
+				 this.value=msgevent.pbTime.strTime;
+				 var time = new Date(msgevent.pbTime.strTime).getTime();
+				 $("#timeline").TimeSlider('set_time_to_middle', time);
+                // var starf=new Date(this.rowstarf).getTime()/1000;
+                // var endd=new Date(msgevent.pbTime.strTime).getTime()/1000;
+                // var staefend=endd-starf;
+                // this.timelink=staefend;
             }
             
-		},
-		
-       h5videoid1(h5videoid1){
-		   //console.log(h5videoid1);
-		   return false
-		    var timevalue=this.xzvalue;
-            var year = timevalue.getFullYear();
-            var month = timevalue.getMonth() + 1;
-            var strDate = timevalue.getDate();
-            var timevalues=new Date(year+"-"+month+"-"+strDate+" 00:00:00").toISOString();
-			var timevaluee=new Date(year+"-"+month+"-"+strDate+" 24:00:00").toISOString();
-			//时间
-		    var root = process.env.API_ROOT;
-        	var wsroot = process.env.WS_HOST_ROOT;
-        	if (root == undefined){
-        		root = window.location.protocol + '//' + window.location.host + window.location.pathname;
-        	}
-        	if (wsroot == undefined)
-        	{
-        		wsroot = window.location.host;
-            }
-            var pbconf1 = {
-				begintime: timevalues,
-	            endtime: timevaluee,
-				showposter: 'true', //'true' or 'false' show poster
-				callback: this.PlaybackCB,
-				userdata:  this // user data
-			};
-        	let conf = {
-        		videoid: h5videoid1,
-				protocol: window.location.protocol, //http: or https:
-				host: wsroot, //localhost:8080
-				rootpath:'/', // '/'
-				token:row.name,
-				pbconf: pbconf1, //This is optional, if no pbconf, this will be live.
-				hlsver:'v1', //v1 is for ts, v2 is for fmp4
-				session:this.$store.state.token
-            };
-			this.v1 = new H5sPlayerRTC(conf);
-			console.log(this.v1)
-       },
+        },
+
 		
 		//树形节点点击
 		handleNodeClick(data, checked, indeterminate){
-			
+            this.timedata=[];
+            var videoid='hvideo'+this.rows+this.cols;
+            this.videoid=videoid;
+            console.log(videoid,"21",this.videoid);
+            //return false;
 			//console.log(data.token);
 			if(data.token==undefined){
 				return false;
@@ -429,20 +390,38 @@ export default {
 						
 					}
 				  }
-			  })//0.0
-            if (data.token) {
-                let vid = 'h' + _this.$data.selectRow + _this.$data.selectCol;
-                _this.$root.bus.$emit('pbplayer', data.token, vid);
-			}
-			
+              })//0.0
+              
+              var pbconf1 = {
+				begintime: timevalues,
+				endtime: timevaluee,
+                showposter:true, //'true' or 'false' show poster
+                callback: this.PlaybackCB,
+	            serverpb: true, 
+				userdata:  this // user data
+            };
+        	let conf = {
+        		videoid: this.videoid,
+				protocol: window.location.protocol, //http: or https:
+				host: wsroot, //localhost:8080
+				rootpath:'/', // '/'
+				token:data.token,
+				pbconf: pbconf1, //This is optional, if no pbconf, this will be live.
+				hlsver:'v1', //v1 is for ts, v2 is for fmp4
+				session: this.$store.state.token
+        	};
+            this.v1 = new H5sPlayerRTC(conf);
+            this.v1.connect();
+            setTimeout(function(){
+				this.v1.start();
+			}.bind(this),1000);
 		},
 
 		//timeline
 		funtimeine(){
-			this.timecell =this.timedata;
 			//console.log(this.timecell);
 			$("#timeline").TimeSlider({
-				init_cells: this.timecell
+				init_cells: this.timedata
 			});
 		},
 		//视频播放函数
@@ -458,9 +437,7 @@ export default {
 			}
 			
 		},
-		videh5handler1(h5handler){
-			console.log("v2",h5handler);
-		},
+
 
 		//un ui
 		updateUI()
@@ -538,11 +515,6 @@ export default {
 
                               if(item['nType'] == 'H5_CLOUD')
 								topitem['iconclass'] = 'mdi mdi-cloud-upload fa-fw';
-
-							if(item['bDisable'] == true){
-                                // newItem['disabled_me'] =true;
-                                topitem['iconclass1'] = 'camera';
-                            }
 
                        		topGroup.children.push(topitem);
                     }

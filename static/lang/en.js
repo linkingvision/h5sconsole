@@ -1,4 +1,4 @@
-export default {
+module.exports={
   message: {
     common:
     {
@@ -12,15 +12,10 @@ export default {
 		user_name: 'User name',
 		setting: 'Account setting',
 		logout: 'Logout',
-		login: 'Login',
 		API:"API",
-		goto:"Go to download",
-		control:"Please download and install the plugin"
     },
     left:
     {
-		VIDEO:'VIDEO PLATFORM CONTROL CENTER',
-		Control:"Control Center",
 		navigation: 'Navigation',
 		dashboard: 'Dashboard',
 		live: 'Live',
@@ -35,7 +30,7 @@ export default {
 		logout: 'Logout',
 		tour:"Tour",
 		camera:"Camera",
-		VideoConference:"Video Conference"
+		VideoConference:"Video Conference",
     },
     login:
     {
@@ -45,14 +40,11 @@ export default {
 		login_status_failed: 'Username or Password not correct',
 		username: 'USERNAME',
 		password: 'PASSWORD',
-		language: 'LANGUAGE',
-		return:"Return"
+		language: 'LANGUAGE'
 				
     },
 	dashboard:
     {
-		Storage:"Storage",
-		Copysuccessful:"Copy successful",
 		about:"	About",
 		dashboard: 'Dashboard',
 		system_info: 'System Info',
@@ -71,7 +63,6 @@ export default {
 		cameras: "Cameras",
 		total_space: "Total Space",
 		codec_info: "Codec Info",
-		GPU_info: "GPU info",
 		cpumodel: 'CPU Model',
 		gpuencoder:"GPU Encoders",
 		gpudecoder:"GPU Decoders",
@@ -92,7 +83,6 @@ export default {
 		Platform:"Platform",
 		Hikvision:"Hikvision",
 		Dahua:"Dahua",
-		Uniview:"Uniview",
 		Tiandy:"Tiandy",
 		DiskMemory:"Disk/Memory",
 		TotalMemory:"Total Memory",
@@ -102,13 +92,10 @@ export default {
 		RTMP:"RTMP push",
 		Online:"Online",
 		Offline:"Offline",
-		Editorfailure:"Editor failure"
+		Editorfailure:"Editor failure",
     },
 	live:
     {
-		focusing:"Focusing",
-		Focus:"Focus",
-		aperture:"Aperture",
 		liveview: 'Liveview',
 		device: 'DEVICE',
 		setting: 'SETTING',
@@ -118,62 +105,22 @@ export default {
 		camera:"Camera",
 		waterprint:"Watermark",
 		Videorecording:"Video recording",
-		Region:"Region",
-		Scan:"Scan to view video",
-		Quality:"Quality",
-		Switched:"Switched"
     },
     setting:
     {
-		Default:"Default",
-		Transcoding:"Transcoding",
-		Profile:"Profile",
 		setting: 'SETTING',
 		device: 'Device',
 		record: 'Record',
 		devicesdk: 'Device SDK',
 		devicertmppush: 'RTMP Push',
-		Regional:"Region",
-		Area:"Edit",
-		Please:"Please enter a name",
-		Input:"Input box cannot be empty",
-		
 		user: 'User',
 		role: 'Role',
 		action: 'Action',
 		edit: 'Edit',
 		name: 'Name',
-
-		Authority:"Authority",
-		username:"User Name",
-		Rolemanagement:"Role",
-		SystemManagement:"System",
-		CyberSecurity:"CyberSecurity",
-		password:"Password",
-		RoleName:"Role Name",
-		Configure:"Configure",
-		Operation:" Operate ",
-		Camera:"Camera Permissions",
-		Watchvideo:"View Anonymously",
-
-		CloudConnect:"Cloud Connect",
-		SSL:"SSL",
-		KeepaliveTime:"KeepaliveTime",
-		Enable:"Enable",
-		EdgeTranscoding:"EdgeTranscoding",
-
-		CloudMode:'Cloud Mode',
-		RelayMode:"Relay Mode",
-		TURNServer:"TURN Server",
-		PublicIP:"Public IP",
-		MinPort:"Min Port",
-		MaxPort:"Max Port",
-		PasswordEncrypt:"PasswordEncrypt",
-
 		currentpass: 'Current Password',
 		newpass: 'New Password',
-		confirmpass: 'Repeat New Password',
-		confirmpassword: 'Repeat The Password',
+		confirmpass: 'Confirm Password',
 		manualstart:"Manual Start Record All Channel ",
 		manualstop:"Manual Stop Record All Channel",
 		DeleteAll:"Delete",
@@ -181,55 +128,21 @@ export default {
 		Cancel:"Cancel",
 		OK:"OK",
 		Configuration:"Configuration",
-		ADD:"Add",
+		ADD:"ADD",
 		Change:"Change",
 		Changecg:"Change successfully, please login again！",
 		Changesb:"Change failed",
 		Twopassword:"Two password are not same, please check!",
 		all:"All",
-		Creationfailed:"Creation failed",
-		Illegal:"Illegal login lock"
-	},
-	table:{
-		pleasechoose:"please choose",
-		Enterkeywords:"Enter keywords",
-		Token:"Token",
-		Type:"Type",
-		Online:"Online",
-		Edit:"Edit",
-		Index:"Index",
-		GBID:"GBID",
-		IP:"IP",
-		Name:"Name",
-		Port:"Port",
-		User:"User",
-		UUID:"UUID",
-		Time:"Time",
-		Detaill:"Detaill",
-		Tokenevent:"Token",
-		StartTime:"Start Time",
-		EndTime:"End Time",
-		Codec:"Codec",
-		Engine:"Engine",
-		FPSType:"FPSType",
-		ScaleType:"ScaleType",
-		Bitrate:"Bitrate",
-		FPS:"FPS",
-		WH:"Width*Height"
 	},
 	playback:{
 		H5SPlayback:"H5S Playback",
-		NVRPlayback:"NVR Playback"
+		NVRPlayback:"NVR Playback",
 	},
 	GB:{
-		GB28181:"Down Level Domain",
-		GBPlatform:"Up Level Domain",
-		GBService:"GB Service",
-
-
 		name: 'Name',
-		// GB28181:"GB28181",
-		// GBPlatform:"GB Platform",
+		GB28181:"GB28181",
+		GBPlatform:"GB Platform",
 		Name:"Name",
 		SIPServerIP:"SIP Server IP",
 		SIPServerPort:"SIP Server Port",
@@ -242,8 +155,6 @@ export default {
 		RegisterPeriod:"Register Period",
 		KeepaliveTime:"Keepalive Time",
 		Domain:"Domain",
-		Refreshsuccess:"Refresh success",
-		Restartsuccessfully:"Restart successfully",
 
 		DeleteAll:"DeleteAll",
 		Detail:"Detail",
@@ -252,7 +163,7 @@ export default {
 		Configuration:"Configuration",
 		OVER:"OVER",
 		ADD:"ADD",
-		edit: 'Edit'
+		edit: 'Edit',
 
 	},
 	archive:{
@@ -276,11 +187,11 @@ export default {
 		Time:"Time",
 		Preview:"Preview",
 		Picture:"Picture",
-		Pleaseselectone:"Please select one"
+		Pleaseselectone:"Please select one",
 	},
 	tour:{
 		Start:"Start",
-		stop:"Stop"
+		stop:"Stop",
 	},
 	camera:{
 		Save_successfully:"Save successfully!",
@@ -290,21 +201,17 @@ export default {
 		open_Close:"Enable/Disable",
 		name: 'Name',
 		audio:"Audio" ,
-		save:"Save"
+		save:"Save",
 	},
 	Conference:{
-		Upload:"Upload",
-		Videointercom:"Video Intercom",
 		VideoConference:"Video Conference",
-		Connect:"Connect",
-		Disconnect:"Disconnect",
 		Call:"Call",
 		VideoCall:"Video Call",
 		AudioCall:"Audio Call",
 		HangUp:"Hang Up",
 		Hang:"Hang",
 		JoinConference:"Join Conference",
-		Nickname:"Nickname cannot be empty!"
+		Nickname:"Nickname cannot be empty!",
 	}
   }
 }

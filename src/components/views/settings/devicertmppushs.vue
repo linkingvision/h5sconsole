@@ -5,7 +5,7 @@
         <el-dialog :title="eltitle" :visible.sync="editPopup">
             <el-form label-position="right" label-width="140px" :model="editform">
                     
-                <el-form-item :label="label.Type">
+                <el-form-item label="Type">
                     <el-select v-model="form.Type" placeholder="请选择">
                     <el-option
                         v-for="item in options"
@@ -15,10 +15,10 @@
                     </el-option>
                     </el-select>
                 </el-form-item>
-                <el-form-item :label="label.Name">
+                <el-form-item label="Name">
                     <input class="editinput" v-model="editform.Name"/>
                 </el-form-item>
-                <el-form-item :label="label.Token">
+                <el-form-item label="Token">
                     <input class="editinput" v-model="editform.Token"/>
                 </el-form-item>
                 <el-form-item label="Audio">
@@ -39,7 +39,7 @@
         <el-dialog :title="eltitle" :visible.sync="dialogFormVisible">
                     <el-form label-position="right" label-width="140px" :model="form">
                     
-                        <el-form-item :label="label.Type">
+                        <el-form-item label="Type">
                           <el-select v-model="form.Type" placeholder="请选择">
                             <el-option
                               v-for="item in options"
@@ -49,10 +49,10 @@
                             </el-option>
                           </el-select>
                         </el-form-item>
-                        <el-form-item :label="label.Name">
+                        <el-form-item label="Name">
                             <input class="editinput" v-model="form.Name"/>
                         </el-form-item>
-                        <el-form-item :label="label.Token">
+                        <el-form-item label="Token">
                             <input class="editinput" v-model="form.Token"/>
                         </el-form-item>
                         <el-form-item label="Audio">
@@ -70,7 +70,7 @@
                     </div>
                 </el-dialog>
         <!-- 两个表格 -->
-        <el-tabs v-model="activeName" type="border-card" max-height="850">
+        <el-tabs v-model="activeName" style="width: 100%;padding: 0 50px;" max-height="850">
             <!-- 1 -->
             
              <el-tab-pane :label="label.label" name="first">
@@ -85,35 +85,65 @@
                     @select='selectCall'
                     @select-all='select_Call'
                     style="width: 100%">
+                    <el-table-column type="expand">
+                        <template slot-scope="props">
+                            <el-form label-position="left" inline class="demo-table-expand">
+                                <el-form-item label="nType :">
+                                    <span>{{ props.row.Type }}</span>
+                                </el-form-item>
+                                <el-form-item label="strName :">
+                                    <span>{{ props.row.Name }}</span>
+                                </el-form-item>
+                                <el-form-item label="strToken :">
+                                    <span>{{ props.row.Token }}</span>
+                                </el-form-item>
+                                <el-form-item label="strUser :">
+                                    <span>{{ props.row.User }}</span>
+                                </el-form-item>
+                                <el-form-item label="strPasswd :">
+                                    <span>{{ props.row.Password }}</span>
+                                </el-form-item>
+                                <el-form-item label="bPasswdEncrypt :">
+                                    <span>{{ props.row.bPasswdEncrypt }}</span>
+                                </el-form-item>
+                                <el-form-item label="bEnableAudio :">
+                                    <span>{{ props.row.Audio }}</span>
+                                </el-form-item>
+                                <el-form-item label="bOnline :">
+                                    <span>{{ props.row.Online }}</span>
+                                </el-form-item>
+                            </el-form>
+                        </template>
+                    </el-table-column>
                     <el-table-column
                         type="selection"
                         width="55">
                     </el-table-column>
                     <el-table-column
                         prop="index"
-                        :label="label.Index"
+                        label="index"
                         width="100">
                     </el-table-column>
                     <el-table-column
                     prop="Name"
-                    :label="label.Name">
+                    label="Name">
                     </el-table-column>
                     <el-table-column
                     prop="User"
-                    :label="label.User">
+                    label="User">
                     </el-table-column>
                     <el-table-column
                     prop="Online"
-                    :label="label.Online">
+                    label="Online">
                     </el-table-column>
                     <el-table-column
                     prop="Type"
-                    :label="label.Type"
+                    label="Type"
                     min-width="140">
                     </el-table-column>
                     <el-table-column
                     prop="Token"
-                    :label="label.Token">
+                    label="Token">
                     </el-table-column>
                     <el-table-column
                         fixed="right"
@@ -172,15 +202,6 @@ import uuid from '@/store/uuid'
             label10:this.$t("message.GB.SIPChannelBaseID"),
             label11:this.$t("message.GB.RegisterPeriod"),
             label12:this.$t("message.GB.KeepaliveTime"),
-
-            Index:this.$t("message.table.Index"),
-            Name:this.$t("message.table.Name"),
-            IP:this.$t("message.table.IP"),
-            Port:this.$t("message.table.Port"),
-            User:this.$t("message.table.User"),
-            Online:this.$t("message.table.Online"),
-            Type:this.$t("message.table.Type"),
-            Token:this.$t("message.table.Token")
         },
         options: [{
                 value: 'H5_RTMP_PUSH',
@@ -201,15 +222,15 @@ import uuid from '@/store/uuid'
             Password:"12345",
             IP:"192.168.1.1",
             Port:"8000",
-            Audio:false
+            Audio:false,
         },
         editform: {
-            Audio:false
+            Audio:false,
         },
         edittoken:"",//编辑时要删除的token
         editindex:"",//编辑时所在索引
         tableData: [],//1
-        selectop:[]//选择那几个
+        selectop:[],//选择那几个
       };
     },
     mounted(){
@@ -244,7 +265,7 @@ import uuid from '@/store/uuid'
                           Password:itme[i].strPasswd,
                           Audio :itme[i].bEnableAudio,
                           Online:itme[i].bOnline+"",
-                          bPasswdEncrypt:itme[i].bPasswdEncrypt
+                          bPasswdEncrypt:itme[i].bPasswdEncrypt,
                       };
                       this.tableData.push(tabledata);
                       //console.log(tabledata);
@@ -303,7 +324,7 @@ import uuid from '@/store/uuid'
                             Password:form.Password,
                             Audio :form.Audio,
                             Online:form.Online+"",
-                            bPasswdEncrypt:form.bPasswdEncrypt
+                            bPasswdEncrypt:form.bPasswdEncrypt,
                             }
                         this.tableData.splice(this.editindex, 1,list)
                         var url = root + "/api/v1/AddRTMPPush?&name="+form.Name+
@@ -516,7 +537,7 @@ import uuid from '@/store/uuid'
         handleCurrentChange1(val) {
             console.log(`当前页: ${val}`);
             this.currentPage1 = val;
-        }
+        },
     },
   };
 </script>

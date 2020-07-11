@@ -21,11 +21,11 @@
                     </el-table-column>
                     <el-table-column
                     prop="Token"
-                    :label="label.Token">
+                    label="Token">
                     </el-table-column>
                     <el-table-column
                     prop="ip"
-                    :label="label.IP">
+                    label="ip">
                     </el-table-column>
                 </el-table>
                 <!-- 分页 -->
@@ -50,14 +50,12 @@ export default {
             label:{
                 label:this.$t("message.left.cloud"),//选1
                 label1:this.$t("message.GB.name"),
-                Token:this.$t('message.table.Token'),
-                IP:this.$t('message.table.IP')
             },
             //分页
             pageSize: 10,//一页数量
             currentPage1: 1, // 当前页码
             total2: 0, // 总条数
-            tableData1: []//1
+            tableData1: [],//1
         }
     },
     mounted(){
@@ -65,10 +63,6 @@ export default {
     },
     methods:{
         loadDevice(){
-            if(this.$store.state.root=="Operator"){
-                console.log("a");
-                return false
-            }
 		    var root = process.env.API_ROOT;
 		    var wsroot = process.env.WS_HOST_ROOT;
 		    if (root == undefined){
@@ -89,7 +83,7 @@ export default {
                           var tabledata={
                               Token:itme[i].strToken,
                               name:itme[i].strName,
-                              ip:itme[i].strIp
+                              ip:itme[i].strIp,
                           };
                           this.tableData1.push(tabledata);
                       }
@@ -107,7 +101,7 @@ export default {
         handleCurrentChange1(val) {
             console.log(`当前页: ${val}`);
             this.currentPage1 = val;
-        }
+        },
     }
 }
 </script>

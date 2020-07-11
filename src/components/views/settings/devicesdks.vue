@@ -5,14 +5,14 @@
         <el-dialog :title="eltitle" :visible.sync="editPopup">
             <el-form label-position="right" label-width="140px" :model="editform">
                     
-                <el-form-item :label="label.Type">
+                <el-form-item label="Type">
                     <el-select v-model="editform.Type" placeholder="请选择">
                     </el-select>
                 </el-form-item>
-                <el-form-item :label="label.Name">
+                <el-form-item label="Name">
                     <input class="editinput" v-model="editform.Name"/>
                 </el-form-item>
-                <el-form-item :label="label.Token">
+                <el-form-item label="Token">
                     <input class="editinput" v-model="editform.Token"/>
                 </el-form-item>
                 <el-form-item label="Username">
@@ -24,7 +24,7 @@
                 <el-form-item label="IP">
                     <input class="editinput" v-model="editform.IP"/>
                 </el-form-item>
-                <el-form-item :label="label.Port">
+                <el-form-item label="Port">
                     <input class="editinput" v-model="editform.Port"/>
                 </el-form-item>
                 <el-form-item label="Audio">
@@ -42,7 +42,7 @@
             </div>
         </el-dialog>
         <!-- 两个表格 -->
-        <el-tabs v-model="activeName" type="border-card" max-height="850">
+        <el-tabs v-model="activeName" style="width: 100%;padding: 0 50px;" max-height="850">
             <!-- 1 -->
             
              <el-tab-pane :label="label.label" name="first">
@@ -54,7 +54,7 @@
                 <el-dialog :title="eltitle" :visible.sync="dialogFormVisible">
                     <el-form label-position="right" label-width="140px" :model="form">
                     
-                        <el-form-item :label="label.Type">
+                        <el-form-item label="Type">
                           <el-select v-model="form.Type" placeholder="请选择">
                             <el-option
                               v-for="item in options"
@@ -64,10 +64,10 @@
                             </el-option>
                           </el-select>
                         </el-form-item>
-                        <el-form-item :label="label.Name">
+                        <el-form-item label="Name">
                             <input class="editinput" v-model="form.Name"/>
                         </el-form-item>
-                        <el-form-item :label="label.Token">
+                        <el-form-item label="Token">
                             <input class="editinput" v-model="form.Token"/>
                         </el-form-item>
                         <el-form-item label="Username" v-if="form.Type!='H5_DEV_HIKISC'">
@@ -87,13 +87,11 @@
                         <el-form-item label="IP">
                             <input class="editinput" v-model="form.IP"/>
                         </el-form-item>
-                        <el-form-item :label="label.Port">
+                        <el-form-item label="Port">
                             <input class="editinput" v-if="form.Type=='H5_DEV_HIK'" v-model="form.Port"/>
                             <input class="editinput" v-if="form.Type=='H5_DEV_DH'" v-model="form.Port_dh"/>
                             <input class="editinput" v-if="form.Type=='H5_DEV_HIKISC'" v-model="form.Port_isc"/>
                             <input class="editinput" v-if="form.Type=='H5_DEV_TD'" v-model="form.Port_td"/>
-                            <input class="editinput" v-if="form.Type=='H5_DEV_UNV'" v-model="form.Port_unv"/>
-                            <input class="editinput" v-if="form.Type=='H5_DEV_DHDSS'" v-model="form.Port_DSS"/>
                         </el-form-item>
                         <el-form-item label="Audio">
                           <el-switch
@@ -115,18 +113,54 @@
                     @select='selectCall'
                     @select-all='select_Call'
                     style="width: 100%">
+                    <el-table-column type="expand">
+                        <template slot-scope="props">
+                            <el-form label-position="left" inline class="demo-table-expand">
+                                <el-form-item label="nType :">
+                                    <span>{{ props.row.Type }}</span>
+                                </el-form-item>
+                                <el-form-item label="strName :">
+                                    <span>{{ props.row.Name }}</span>
+                                </el-form-item>
+                                <el-form-item label="strToken :">
+                                    <span>{{ props.row.Token }}</span>
+                                </el-form-item>
+                                <el-form-item label="strUser :">
+                                    <span>{{ props.row.User }}</span>
+                                </el-form-item>
+                                <el-form-item label="strPasswd :">
+                                    <span>{{ props.row.Password }}</span>
+                                </el-form-item>
+                                <el-form-item label="bPasswdEncrypt :">
+                                    <span>{{ props.row.bPasswdEncrypt }}</span>
+                                </el-form-item>
+                                <el-form-item label="strDevIpAddress :">
+                                    <span>{{ props.row.IP }}</span>
+                                </el-form-item>
+                                <el-form-item label="strDevPort :">
+                                    <span>{{ props.row.Port }}</span>
+                                </el-form-item>
+                                <el-form-item label="bEnableAudio :">
+                                    <span>{{ props.row.Audio }}</span>
+                                </el-form-item>
+                                <el-form-item label="bOnline :">
+                                    <span>{{ props.row.Online }}</span>
+                                </el-form-item>
+                            </el-form>
+                        </template>
+                    </el-table-column>
                     <el-table-column
                         type="selection"
                         width="55">
                     </el-table-column>
                     <el-table-column
                         prop="index"
-                        :label="label.Index"
+                        label="index"
                         width="100">
                     </el-table-column>
                     <el-table-column
                     prop="Name"
-                    :label="label.Name">
+                    label="Name">
                     </el-table-column>
                     <el-table-column
                     prop="IP"
@@ -135,24 +169,24 @@
                     </el-table-column>
                     <el-table-column
                     prop="Port"
-                    :label="label.Port">
+                    label="Port">
                     </el-table-column>
                     <el-table-column
                     prop="User"
-                    :label="label.User">
+                    label="User">
                     </el-table-column>
                     <el-table-column
                     prop="Online"
-                    :label="label.Online">
+                    label="Online">
                     </el-table-column>
                     <el-table-column
                     prop="Type"
-                    :label="label.Type"
+                    label="Type"
                     min-width="140">
                     </el-table-column>
                     <el-table-column
                     prop="Token"
-                    :label="label.Token">
+                    label="Token">
                     </el-table-column>
                     <el-table-column
                         fixed="right"
@@ -211,15 +245,6 @@ import uuid from '@/store/uuid'
             label10:this.$t("message.GB.SIPChannelBaseID"),
             label11:this.$t("message.GB.RegisterPeriod"),
             label12:this.$t("message.GB.KeepaliveTime"),
-
-            Index:this.$t("message.table.Index"),
-            Name:this.$t("message.table.Name"),
-            IP:this.$t("message.table.IP"),
-            Port:this.$t("message.table.Port"),
-            User:this.$t("message.table.User"),
-            Online:this.$t("message.table.Online"),
-            Type:this.$t("message.table.Type"),
-            Token:this.$t("message.table.Token")
         },
         options: [{
                 value: 'H5_DEV_HIK',
@@ -235,12 +260,6 @@ import uuid from '@/store/uuid'
             , {
                 value: 'H5_DEV_TD',
                 label: 'H5_DEV_TD'
-            }, {
-                value: 'H5_DEV_UNV',
-                label: 'H5_DEV_UNV'
-            }, {
-                value: 'H5_DEV_DHDSS',
-                label: 'H5_DEV_DHDSS'
             }
         ],
         //分页
@@ -255,24 +274,22 @@ import uuid from '@/store/uuid'
             Token:"platform1",
             Username:"admin",
             Username_isc:"22936233",
-            Password:"admin12345",
+            Password:"12345",
             Password_isc:"px50TzrNNUiU1uxloJLG",
             IP:"192.168.1.1",
             Port:"8000",
             Port_dh:"37777",
             Port_isc:"443",
             Port_td:"3000",
-            Port_unv:"80",
-            Port_DSS:"9000",
-            Audio:false
+            Audio:false,
         },
         editform: {
-            Audio:"false"
+            Audio:"false",
         },
         edittoken:"",//编辑时要删除的token
         editindex:"",//编辑时所在索引
         tableData: [],//1
-        selectop:[]//选择那几个
+        selectop:[],//选择那几个
       };
     },
     mounted(){
@@ -309,7 +326,7 @@ import uuid from '@/store/uuid'
                           Port:itme[i].strDevPort,
                           Audio :itme[i].bEnableAudio,
                           Online:itme[i].bOnline+"",
-                          bPasswdEncrypt:itme[i].bPasswdEncrypt
+                          bPasswdEncrypt:itme[i].bPasswdEncrypt,
                       };
                       this.tableData.push(tabledata);
                       //console.log(tabledata);
@@ -326,10 +343,8 @@ import uuid from '@/store/uuid'
         },
         //编辑成功
         Success(){
-            
-            var form=this.editform;
-            // console.log(this.editindex,form.Type);
-            // return false;
+            console.log(this.editindex);
+            //return false;
             var root = process.env.API_ROOT;
             var wsroot = process.env.WS_HOST_ROOT;
             if (root == undefined){
@@ -340,13 +355,14 @@ import uuid from '@/store/uuid'
                 wsroot = window.location.host;
             }
             //url
+            var form=this.editform;
             if(form.Type=="H5_DEV_HIK"){
-                var url = root + "/api/v1/AddDeviceHik?&name="+encodeURIComponent(form.Name)+
-                "&token="+encodeURIComponent(form.Token)+
-                "&user="+encodeURIComponent(form.User)+
-                "&password="+encodeURIComponent(form.Password)+
-                "&ip="+encodeURIComponent(form.IP)+
-                "&port="+encodeURIComponent(form.Port)+
+                var url = root + "/api/v1/AddDeviceHik?&name="+form.Name+
+                "&token="+form.Token+
+                "&user="+form.User+
+                "&password="+form.Password+
+                "&ip="+form.IP+
+                "&port="+form.Port+
                 "&audio="+form.Audio+
                 "&session="+ this.$store.state.token;
                 console.log(url);
@@ -357,12 +373,12 @@ import uuid from '@/store/uuid'
                 })
             }else if(form.Type=="H5_DEV_DH"){
                 console.log(form.Type)
-                var url = root + "/api/v1/AddDeviceDh?&name="+encodeURIComponent(form.Name)+
-                "&token="+encodeURIComponent(form.Token)+
-                "&user="+encodeURIComponent(form.User)+
-                "&password="+encodeURIComponent(form.Password)+
-                "&ip="+encodeURIComponent(form.IP)+
-                "&port="+encodeURIComponent(form.Port)+
+                var url = root + "/api/v1/AddDeviceDh?&name="+form.Name+
+                "&token="+form.Token+
+                "&user="+form.User+
+                "&password="+form.Password+
+                "&ip="+form.IP+
+                "&port="+form.Port+
                 "&audio="+form.Audio+
                 "&session="+ this.$store.state.token;
                 console.log(url);
@@ -373,12 +389,12 @@ import uuid from '@/store/uuid'
                 })
             }else if(form.Type=="H5_DEV_HIKISC"){
                 console.log(form.Type)
-                var url = root + "/api/v1/AddDeviceHikISC?&name="+encodeURIComponent(form.Name)+
-                "&token="+encodeURIComponent(form.Token)+
-                "&user="+encodeURIComponent(form.User)+
-                "&password="+encodeURIComponent(form.Password)+
-                "&ip="+encodeURIComponent(form.IP)+
-                "&port="+encodeURIComponent(form.Port)+
+                var url = root + "/api/v1/AddDeviceHikISC?&name="+form.Name+
+                "&token="+form.Token+
+                "&user="+form.User+
+                "&password="+form.Password+
+                "&ip="+form.IP+
+                "&port="+form.Port+
                 "&audio="+form.Audio+
                 "&session="+ this.$store.state.token;
                 console.log("isc****************************",url);
@@ -389,45 +405,15 @@ import uuid from '@/store/uuid'
                 })
             }else if(form.Type=="H5_DEV_TD"){
                 console.log(form.Type)
-                var url = root + "/api/v1/AddDeviceTd?&name="+encodeURIComponent(form.Name)+
-                "&token="+encodeURIComponent(form.Token)+
-                "&user="+encodeURIComponent(form.User)+
-                "&password="+encodeURIComponent(form.Password)+
-                "&ip="+encodeURIComponent(form.IP)+
-                "&port="+encodeURIComponent(form.Port)+
+                var url = root + "/api/v1/AddDeviceTd?&name="+form.Name+
+                "&token="+form.Token+
+                "&user="+form.User+
+                "&password="+form.Password+
+                "&ip="+form.IP+
+                "&port="+form.Port+
                 "&audio="+form.Audio+
                 "&session="+ this.$store.state.token;
                 console.log("td****************************",url);
-                this.$http.get(url).then(result=>{
-                    console.log(result);
-                    if(result.status==200){
-                    }
-                })
-            }else if(form.Type=="H5_DEV_UNV"){
-                var url = root + "/api/v1/AddDeviceUnv?&name="+encodeURIComponent(form.Name)+
-                "&token="+encodeURIComponent(form.Token)+
-                "&user="+encodeURIComponent(form.User)+
-                "&password="+encodeURIComponent(form.Password)+
-                "&ip="+encodeURIComponent(form.IP)+
-                "&port="+encodeURIComponent(form.Port)+
-                "&audio="+form.Audio+
-                "&session="+ this.$store.state.token;
-                console.log("yushi****************************",url);
-                this.$http.get(url).then(result=>{
-                    console.log(result);
-                    if(result.status==200){
-                    }
-                })
-            }else if(form.Type=="H5_DEV_DHDSS"){
-                var url = root + "/api/v1/AddDeviceUnv?&name="+encodeURIComponent(form.Name)+
-                "&token="+encodeURIComponent(form.Token)+
-                "&user="+encodeURIComponent(form.User)+
-                "&password="+encodeURIComponent(form.Password)+
-                "&ip="+encodeURIComponent(form.IP)+
-                "&port="+encodeURIComponent(form.Port)+
-                "&audio="+form.Audio+
-                "&session="+ this.$store.state.token;
-                console.log("yushi****************************",url);
                 this.$http.get(url).then(result=>{
                     console.log(result);
                     if(result.status==200){
@@ -454,7 +440,7 @@ import uuid from '@/store/uuid'
             var form=this.editform;
             console.log("45111111******",form)
             //return false;
-            var url1 = root + "/api/v1/DelDevice?token="+encodeURIComponent(this.edittoken)+"&session="+ this.$store.state.token;
+            var url1 = root + "/api/v1/DelDevice?token="+this.edittoken+"&session="+ this.$store.state.token;
             console.log("isc------------------------",url1)
             this.$http.get(url1).then(result=>{
                 //console.log("1",result);
@@ -471,7 +457,7 @@ import uuid from '@/store/uuid'
                             Port:form.Port,
                             Audio :form.Audio,
                             Online:form.Online+"",
-                            bPasswdEncrypt:form.bPasswdEncrypt
+                            bPasswdEncrypt:form.bPasswdEncrypt,
                             }
                         this.tableData.splice(this.editindex, 1,list)
                         
@@ -506,14 +492,13 @@ import uuid from '@/store/uuid'
                 wsroot = window.location.host;
             }
             console.log(form.Type)
-            // return false
             if(form.Type=="H5_DEV_HIK"){
-              var url = root + "/api/v1/AddDeviceHik?&name="+encodeURIComponent(form.Name)+
-              "&token="+encodeURIComponent(form.Token)+
-              "&user="+encodeURIComponent(form.Username)+
+              var url = root + "/api/v1/AddDeviceHik?&name="+form.Name+
+              "&token="+form.Token+
+              "&user="+form.Username+
               "&password="+encodeURIComponent(form.Password)+
-              "&ip="+encodeURIComponent(form.IP)+
-              "&port="+encodeURIComponent(form.Port)+
+              "&ip="+form.IP+
+              "&port="+form.Port+
               "&audio="+form.Audio+
               "&session="+ this.$store.state.token;
               console.log(url);
@@ -535,12 +520,12 @@ import uuid from '@/store/uuid'
               })
             }else if(form.Type=="H5_DEV_DH"){
                 console.log(form.Type)
-                var url = root + "/api/v1/AddDeviceDh?&name="+encodeURIComponent(form.Name)+
-                "&token="+encodeURIComponent(form.Token)+
-                "&user="+encodeURIComponent(form.Username)+
+                var url = root + "/api/v1/AddDeviceDh?&name="+form.Name+
+                "&token="+form.Token+
+                "&user="+form.Username+
                 "&password="+encodeURIComponent(form.Password)+
-                "&ip="+encodeURIComponent(form.IP)+
-                "&port="+encodeURIComponent(form.Port_dh)+
+                "&ip="+form.IP+
+                "&port="+form.Port_dh+
                 "&audio="+form.Audio+
                 "&session="+ this.$store.state.token;
                 console.log(url);
@@ -561,12 +546,12 @@ import uuid from '@/store/uuid'
                 })
             }else if(form.Type=="H5_DEV_HIKISC"){
                 console.log(form.Type)
-                var url = root + "/api/v1/AddDeviceHikISC?&name="+encodeURIComponent(form.Name)+
-                "&token="+encodeURIComponent(form.Token)+
-                "&user="+encodeURIComponent(form.Username_isc)+
-                "&password="+encodeURIComponent(form.Password_isc)+
-                "&ip="+encodeURIComponent(form.IP)+
-                "&port="+encodeURIComponent(form.Port_isc)+
+                var url = root + "/api/v1/AddDeviceHikISC?&name="+form.Name+
+                "&token="+form.Token+
+                "&user="+form.Username_isc+
+                "&password="+form.Password_isc+
+                "&ip="+form.IP+
+                "&port="+form.Port_isc+
                 "&audio="+form.Audio+
                 "&session="+ this.$store.state.token;
                 console.log(url);
@@ -587,64 +572,12 @@ import uuid from '@/store/uuid'
                 })
             }else if(form.Type=="H5_DEV_TD"){
                 console.log(form.Type)
-                var url = root + "/api/v1/AddDeviceTd?&name="+encodeURIComponent(form.Name)+
-                "&token="+encodeURIComponent(form.Token)+
-                "&user="+encodeURIComponent(form.Username)+
-                "&password="+encodeURIComponent(form.Password)+
-                "&ip="+encodeURIComponent(form.IP)+
-                "&port="+encodeURIComponent(form.Port_td)+
-                "&audio="+form.Audio+
-                "&session="+ this.$store.state.token;
-                console.log(url);
-                this.$http.get(url).then(result=>{
-                    console.log(result);
-                    if(result.status==200){
-                        if(result.data.bStatus==true){
-                            this.tableData=[];
-                            this.loadHIK();
-                        }else{
-                            this.$message({
-                                message: '添加失败',
-                                type: 'warning'
-                            });
-                            return false;
-                        }
-                    }
-                })
-            }else if(form.Type=="H5_DEV_UNV"){
-                console.log(form.Type)
-                var url = root + "/api/v1/AddDeviceUnv?&name="+encodeURIComponent(form.Name)+
-                "&token="+encodeURIComponent(form.Token)+
-                "&user="+encodeURIComponent(form.Username)+
-                "&password="+encodeURIComponent(form.Password)+
-                "&ip="+encodeURIComponent(form.IP)+
-                "&port="+encodeURIComponent(form.Port_unv)+
-                "&audio="+form.Audio+
-                "&session="+ this.$store.state.token;
-                console.log(url);
-                this.$http.get(url).then(result=>{
-                    console.log(result);
-                    if(result.status==200){
-                        if(result.data.bStatus==true){
-                            this.tableData=[];
-                            this.loadHIK();
-                        }else{
-                            this.$message({
-                                message: '添加失败',
-                                type: 'warning'
-                            });
-                            return false;
-                        }
-                    }
-                })
-            }else if(form.Type=="H5_DEV_DHDSS"){
-                console.log(form.Type)
-                var url = root + "/api/v1/AddDeviceDss?&name="+encodeURIComponent(form.Name)+
-                "&token="+encodeURIComponent(form.Token)+
-                "&user="+encodeURIComponent(form.Username)+
-                "&password="+encodeURIComponent(form.Password)+
-                "&ip="+encodeURIComponent(form.IP)+
-                "&port="+encodeURIComponent(form.Port_DSS)+
+                var url = root + "/api/v1/AddDeviceTd?&name="+form.Name+
+                "&token="+form.Token+
+                "&user="+form.Username+
+                "&password="+form.Password+
+                "&ip="+form.IP+
+                "&port="+form.Port_td+
                 "&audio="+form.Audio+
                 "&session="+ this.$store.state.token;
                 console.log(url);
@@ -686,9 +619,11 @@ import uuid from '@/store/uuid'
             })
         },
         handleEdit(index,row){
-            console.log("****************",row);
+            console.log("****************",this.tableData[index].User);
+            console.log(this.tableData[index]);
+            console.log("序列号",((this.currentPage1-1)*10)+index);
             var index_xlh=((this.currentPage1-1)*10)+index;
-            // return false;
+            //return false;
             this.editPopup = true;
             this.edittoken=row.Token;
             this.editindex=index_xlh;
@@ -714,7 +649,7 @@ import uuid from '@/store/uuid'
         //删除
         deleteRow(index, row,rows) {
             //var form=this.form;
-            // console.log(index)
+            console.log(index)
             console.log("序列号",((this.currentPage1-1)*10)+index);
             var index_xlh=((this.currentPage1-1)*10)+index;
             //return false;
@@ -728,7 +663,7 @@ import uuid from '@/store/uuid'
             //     wsroot = window.location.host;
             // }
             //url
-            var url = root + "/api/v1/DelDevice?token="+encodeURIComponent(row.Token)+"&session="+ this.$store.state.token;
+            var url = root + "/api/v1/DelDevice?token="+row.Token+"&session="+ this.$store.state.token;
             this.$http.get(url).then(result=>{
                 console.log(result);
                 console.log(this.tableData);
@@ -761,7 +696,7 @@ import uuid from '@/store/uuid'
             }
             //url
             for(var i=0;i<token.length;i++){
-                var url = root + "/api/v1/DelDevice?token="+encodeURIComponent(token[i].token)+"&session="+ this.$store.state.token;
+                var url = root + "/api/v1/DelDevice?token="+token[i].token+"&session="+ this.$store.state.token;
                 this.$http.get(url).then(result=>{
                     console.log(result);
                     console.log(this.tableData);

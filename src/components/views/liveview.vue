@@ -15,7 +15,9 @@
                 </div>
             </div>
         </div>
-        
+
+
+
         <el-drawer
         :title="title"
             size="16%"
@@ -66,111 +68,56 @@
                             v-model="filterText">
                         </el-input>
                     </div>
-                    <!-- 设备隐藏 -->
-                    <div id="device">
-                        <div class="devicetoog">
-                            <div>{{$t("message.setting.device")}}</div>
-                            <div @click="devicetoog" class="iconfont icon-zhiding deviceicon"></div> 
-                        </div>
-                        <el-tree
-                            :data="data"
-                            node-key="id"
-                            :filter-node-method="filterNode"
-                            ref="tree"
-                            highlight-current
-                            @node-click="handleNodeClick"
-                            :props="defaultProps">
-                            <span slot-scope="{ node, data }" style="width:100%;">
-                                <div style="width:100%;display: flex;justify-content: space-between;">
-                                    <span
-                                        style=""
-                                        class="size_color"
-                                        draggable="true" 
-                                        @dragstart="dragStart($event,data.token,data.label,data.streamprofile, data.name,data.disabled_me)" >
-                                        <span :class="data.iconclass" :id="'icon'+data.token"></span>
-                                        <span :class="data.iconclass1" style="padding-left: 4px;">{{data.label}}</span>
-                                    </span>
-                                    <span :class="data.iconclass2" class="black" style="">{{$t("message.live.Videorecording")}}</span>
-                                </div>
-                            </span>
-                        </el-tree>
-                    </div>
-                    <div id="device1">
-                        <div class="devicetoog">
-                            <div>{{$t("message.live.Region")}}</div>
-                            <div @click="devicetoog1" class="iconfont icon-zhiding deviceicon"></div> 
-                        </div>
-                        <el-tree class="el_tree" 
-                            node-key="strName" 
-                            :default-expanded-keys="['root']" 
-                            :data="camdata" 
-                            :props="defaultProps1" 
-                            @node-click="handleNodeClick">
-                            <span slot-scope="{ node, data }" style="width:100%;">
-                                <span>
-                                    <span class="mdi mdi-view-sequential fa-fw" style="color:rgb(142, 132, 132);"></span>
-                                    <span :class="data.iconclass1" style="padding-left: 4px;">{{data.strName}}</span>
+                    <el-tree
+                        :data="data"
+                        node-key="id"
+                        :filter-node-method="filterNode"
+                        ref="tree"
+                        highlight-current
+                        @node-click="handleNodeClick"
+                        :props="defaultProps">
+                        <span slot-scope="{ node, data }" style="width:100%;">
+                            <div style="width:100%;display: flex;justify-content: space-between;">
+                                <span >
+                                    <span :class="data.iconclass" style="color:rgb(142, 132, 132);"></span>
+                                    <!-- <img src="" alt=""> -->
+                                    <span :class="data.iconclass1" style="padding-left: 4px;">{{data.label}}</span>
                                 </span>
-                                <div v-if="data.cam.length!=0">
-                                    <el-tree class="el_tree1" :data="data.cam" :props="defaultProps1" @node-click="handleNodeClick1">
-                                        <span slot-scope="{ node, data }" style="width:100%;">
-                                            <div style="width:100%;display: flex;justify-content: space-between;">
-                                                <span  
-                                                    class="size_color"
-                                                    draggable="true" 
-                                                    @dragstart="dragStart($event,data.strToken,data.strName,data.streamprofile, data.name,data.disabled_me)">
-                                                    <span :class="data.iconclass" :id="'icon'+data.strToken"></span>
-                                                    <span :class="data.iconclass1" style="padding-left: 4px;">{{data.strName}}</span>
-                                                </span>
-                                                <span :class="data.iconclass2" class="black" style="">{{$t("message.live.Videorecording")}}</span>
-                                            </div>
-                                        </span>
-                                    </el-tree>
-                                </div>
-                            </span>
-                        </el-tree>
-                    </div>
-               </div>
+                                <span :class="data.iconclass2" class="black" style="">{{$t("message.live.Videorecording")}}</span>
+                            </div>
+                        </span>
+                    </el-tree>
+                </div>
             </div>
 
             <!-- Video 1 4 9 16 -->
             <div class="flexvideo" id="videoPanel">
-                <div class="video_hed" id="video_hed">
-                    <div name='flex' style="position: relative;" class="videoColor" v-for="r in rows" :key="r">
-                        <div
-                            @drop="dropTarget($event,r,c)" 
-                            @dragover.prevent="dragover($event)" 
-                            class="palace" 
-                            name="flex" 
-                            v-for="c in cols" 
-                            @contextmenu.prevent="stopVideo($event)" 
-                            @click="videoClick(r,c,$event)" :key="c">
-                            <v-liveplayer 
-                                v-bind:id="'h'+r+c" 
-                                :h5id="'h'+r+c" 
-                                :rows="rows" 
-                                :cols="cols" 
-                                :h5videoid="'hvideo'+r+c"
-                                :canvasid="'canvas'+r+c">
-                            </v-liveplayer>
-                        </div>
+                <div name='flex' style="position: relative;" class="videoColor" v-for="r in rows" :key="r">
+                    <div class="palace" name="flex" v-for="c in cols" @contextmenu.prevent="stopVideo($event)" @click="videoClick(r,c,$event)" :key="c">
+                    <v-liveplayer v-bind:id="'h'+r+c" :h5id="'h'+r+c" :rows="rows" :cols="cols" :h5videoid="'hvideo'+r+c"></v-liveplayer>
                     </div>
                 </div>
-                <div class="group_btn blocks">
-                    <el-button type="button" class="layout1x1" data-row="1|1" @click="changePanel($event)"></el-button>
-                    <el-button type="button" class="layout1x3" data-row="1|3" @click="changePanel($event)"></el-button>
-                    <el-button type="button" class="layout2x2" data-row="2|2" @click="changePanel($event)"></el-button>
-                    <el-button type="button" class="layout2x3" data-row="1|6" @click="changePanel($event)"></el-button>
-                    <el-button type="button" class="layout1x7" data-row="1|7" @click="changePanel($event)"></el-button>
-                    <el-button type="button" class="layout3x3" data-row="3|3" @click="changePanel($event)"></el-button>
-                    <el-button type="button" class="layout1x13" data-row="1|13" @click="changePanel($event)"></el-button>
-                    <el-button type="button" class="layout4x4" data-row="4|4" @click="changePanel($event)"></el-button>
-                    <el-button type="button" class="layout5x5" data-row="5|5" @click="changePanel($event)"></el-button>
-                    <el-button type="button" class="layoutfull" @click="panelFullScreen($event)"> </el-button>
+                <div class="btn-group blocks">
+                        <el-button type="button" class="layout1x1" data-row="1|1" @click="changePanel($event)"></el-button>
+                        <el-button type="button" class="layout1x3" data-row="1|3" @click="changePanel($event)"></el-button>
+                        <el-button type="button" class="layout2x2" data-row="2|2" @click="changePanel($event)"></el-button>
+
+                        <el-button type="button" class="layout2x3" data-row="1|6" @click="changePanel($event)"></el-button>
+                        <el-button type="button" class="layout1x7" data-row="1|7" @click="changePanel($event)"></el-button>
+
+                        <el-button type="button" class="layout3x3" data-row="3|3" @click="changePanel($event)"></el-button>
+
+                        
+                        <el-button type="button" class="layout1x13" data-row="1|13" @click="changePanel($event)"></el-button>
+
+                        <el-button type="button" class="layout4x4" data-row="4|4" @click="changePanel($event)"></el-button>
+                        <el-button type="button" class="layout5x5" data-row="5|5" @click="changePanel($event)"></el-button>
+                        <el-button type="button" class="layoutfull" @click="panelFullScreen($event)"> </el-button>
                 </div>
             </div>
         </div><!-- Video -->
     </div>
+
 </div>
 </template>
 
@@ -182,13 +129,11 @@ import '../../assets/adapter.js'
 import '../../assets/h5splayer.js'
 
 import {H5siOS,H5sPlayerCreate} from '../../assets/h5splayerhelper.js'
-
 import qs from 'qs'
 import Vue from 'vue'
 import 'patternfly-bootstrap-treeview/dist/bootstrap-treeview.min.css'
 import 'patternfly-bootstrap-treeview/dist/bootstrap-treeview.min.js'
 import Liveplayer from '../../components/widgets/liveplayer'
-import { format } from 'highcharts'
 
 export default {
     name: "liveview",
@@ -196,37 +141,31 @@ export default {
         'v-liveplayer': Liveplayer
     },
     data() {
-        return {
-            //过滤文字
-            filterText:"",
-            rc:13,
-            rows: 3,
-            cols: 3,
-            selectCol: 1,
-            selectRow: 1,
-            proto: this.$store.state.rtc,
-            contentHeight: '',
-            contentWidth: '',
-            data:this.listdatag.listdatag,
-            camdata:this.listdatag.listdatag1,
-            defaultProps: {
-                children: 'children',
-                label: 'label',
-                token:"token",
-                iconclass:"iconclass"
-            },
-            defaultProps1: {
-                children: 'node',
-                label: 'strName',
-                cam:"cam"
-            },
-            drag:"",//拖动播放
-            watermarkstring:this.$store.state.watermarkstring,//水印、
-            drawer: false,//右侧栏
-            direction: 'rtl',//右侧栏
-            watermarktoggle:this.$store.state.watermarktoggle,
-            title:this.$t("message.live.setting")
-        };
+            return {
+                //过滤文字
+                filterText:"",
+                rc:13,
+                rows: 3,
+                cols: 3,
+                selectCol: 1,
+                selectRow: 1,
+                proto: this.$store.state.rtc,
+                contentHeight: '',
+                contentWidth: '',
+                data:[],
+                defaultProps: {
+                    children: 'children',
+                    label: 'label',
+                    token:"token",
+                    iconclass:"iconclass"
+                },
+                watermarkstring:this.$store.state.watermarkstring,//水印、
+                drawer: false,//右侧栏
+                direction: 'rtl',//右侧栏
+                watermarktoggle:this.$store.state.watermarktoggle,
+                title:this.$t("message.live.setting"),
+            };
+
     },
     computed:{
         count(){
@@ -234,75 +173,23 @@ export default {
         }
     },
     mounted() {
-        // console.log("liveview",this.$store.state.root)
-        if( this.$store.state.root=="Operator"){
-            $("#device").hide();
-        }else if(this.$store.state.root=="Administrator"){
-            $("#device1").hide();
-        }else{
-            $("#device").hide();
-        }
         this.updateUI();
+        this.loadDevice();
+        this.loadtest();
+        this.NumberDevice();
         this.addWaterMarker();
+        this.cloudDevice();
+        // this.height_zsy();
+        // 水印
         document.getElementById("watermarktoggle").style.display=this.watermarktoggle;
         this.$root.bus.$emit('liveplayproto',this.proto);
     },
     methods: {
-        //拖动播放
-        dragStart(ev,token,label,streamprofile,name,disabled_me){
-            // console.log(ev,token,label,streamprofile,name,disabled_me,"124");
-            var drag={
-                token:token,
-                label:label,
-                streamprofile:streamprofile,
-                name:name,
-                disabled_me:disabled_me,
-            }
-            this.drag=drag;
-            ev.dataTransfer.setData("Text",ev.target.id);
-        },
-        dragover (ev) {
-            // console.log(ev,"123",ev.target.id)
-            // ev.preventDefalut()
-        },
-        dropTarget (ev,r,c) {
-            var root = process.env.API_ROOT;
-            if (root == undefined) {
-                root =window.location.protocol + "//" +window.location.host +window.location.pathname;
-            }
-            let _this =this;
-            var data=this.drag;
-            // return false;
-            if(data.disabled_me==false){
-                document.getElementById("icon"+data.token).style.color="#5fbfa7";
-                if (data.token) {
-                    let vid = 'h' + r + c;
-                    _this.$root.bus.$emit('liveplay', data.token, data.streamprofile, data.name,data.label,vid);
-                }
-                for(var i=1;i<=this.rows;i++){
-                    for(var c=1;c<=this.cols;c++){
-                        var video= document.getElementById("hvideo"+i+c)
-                        // console.log('video.paused',video);
-                        if(video.poster==""||video.poster=="http://localhost:6080/"||video.poster==root){
-                            this.selectCol = c;
-                            this.selectRow =i;
-                            $(".h5container").removeClass('h5videoh');
-                            $("#h"+this.selectRow+this.selectCol).addClass('h5videoh');
-                            return false
-                        }else{
-                            console.log('video.paused1',!video.poster);
-                        }
-                    }
-                }
-                    
-            }else{
-               console.log("不可用");
-            }
-        },
+        
         //水印
         waterprintoff(){
             this.$store.commit(types.WATERMARKSTRING, this.watermarkstring);
-            // console.log("++++++++++",this.$store.state.watermarkstring);
+            console.log("++++++++++",this.$store.state.watermarkstring);
 
             this.watermarktoggle = "block";
             var watermarktoggle=this.watermarktoggle;
@@ -313,7 +200,7 @@ export default {
             document.getElementById("watermarktoggle").style.display=this.watermarktoggle;
         }, 
         waterprintno(){
-            // console.log(this.watermarktoggle);
+            console.log(this.watermarktoggle);
 
             this.watermarktoggle = "none";
             var watermarktoggle=this.watermarktoggle;
@@ -327,7 +214,7 @@ export default {
             var D = date.getDate() + ' ';
             var dates=Y+M+D;
             var watermarkstring= this.watermarkstring;
-            // console.log(watermarkstring);
+            console.log(watermarkstring);
 
             var can = document.createElement('canvas');
             var body = document.body;
@@ -346,73 +233,23 @@ export default {
         },
         //树形节点点击
         handleNodeClick(data, checked, indeterminate){
-            var root = process.env.API_ROOT;
-            if (root == undefined) {
-                root =window.location.protocol + "//" +window.location.host +window.location.pathname;
-            }
-            let _this =this;
-            if(data.disabled_me==false){
-                document.getElementById("icon"+data.token).style.color="#5fbfa7";
-                
-                // return false;
-                if (data.token) {
-                    let vid = 'h' + _this.$data.selectRow + _this.$data.selectCol;
-                    // console.log("----------------------",data.label);
-                    _this.$root.bus.$emit('liveplay', data.token, data.streamprofile, data.name,data.label,vid);
-                }
-                for(var i=1;i<=this.rows;i++){
-                    for(var c=1;c<=this.cols;c++){
-                        var video= document.getElementById("hvideo"+i+c)
-                        // console.log('video.paused++++',video.poster);
-                        if(video.poster==""||video.poster=="http://localhost:6080/"||video.poster==root){
-                            this.selectCol = c;
-                            this.selectRow =i;
-                            $(".h5container").removeClass('h5videoh');
-                            $("#h"+this.selectRow+this.selectCol).addClass('h5videoh');
-                            // console.log('video.paused1',video.poster,i,c);
-                            return false
-                        }else{
-                            console.log('video.paused1',video.poster);
-                        }
-                    }
-                }
-                    
-            }else{
-               console.log("不可用");
-            }
-        },
-        handleNodeClick1(data, checked, indeterminate){
-            var root = process.env.API_ROOT;
-            if (root == undefined) {
-                root =window.location.protocol + "//" +window.location.host +window.location.pathname;
-            }
+            console.log(data.disabled_me)
+            // console.log(data.label);
+            // console.log(data.streamprofile);
             let _this =this;
             // return false;
             if(data.disabled_me==false){
-                document.getElementById("icon"+data.token).style.color="#5fbfa7";
-                var main="main"
-                if (data.strToken) {
+                console.log("----------------------");
+                if (data.token) {
                     let vid = 'h' + _this.$data.selectRow + _this.$data.selectCol;
-                    _this.$root.bus.$emit('liveplay', data.strToken,data.streamprofile, data.name,data.label, vid);
-                }
-                for(var i=1;i<=this.rows;i++){
-                    for(var c=1;c<=this.cols;c++){
-                        var video= document.getElementById("hvideo"+i+c)
-                        // console.log('video.paused++++++++',video.poster);
-                        if(video.poster==""||video.poster=="http://localhost:6080/"||video.poster==root){
-                            this.selectCol = c;
-                            this.selectRow =i;
-                            $(".h5container").removeClass('h5videoh');
-                            $("#h"+this.selectRow+this.selectCol).addClass('h5videoh');
-                            return false
-                        }else{
-                            console.log('video.paused1',!video.poster);
-                        }
-                    }
+                    // console.log("----------------------",data.label);
+                    _this.$root.bus.$emit('liveplay', data.token, data.streamprofile, data.name, vid);
                 }
             }else{
+
                 console.log("不可用");
             }
+            
             
         },
 
@@ -462,37 +299,398 @@ export default {
                 $('div[name="flex"]').height(this.contentHeight / this.rows);
             }
         },
+        //测试机仓
+        loadtest(){
+            let _this =this;
+		    var root = process.env.API_ROOT;
+		    var wsroot = process.env.WS_HOST_ROOT;
+		    if (root == undefined){
+		        root = window.location.protocol + '//' + window.location.host + window.location.pathname;
+		    }
+		    if (wsroot == undefined)
+		    {
+		        wsroot = window.location.host;
+		    }
+		    //url
+            var url = root + "/api/v1//GetSrcCamera?session="+ this.$store.state.token;
+            console.log(url);
+            this.$http.get(url).then(result=>{
+                if(result.status == 200){
+					var data =  result.data;
+                    var srcGroup = {children: []};
+                    srcGroup.label=this.$t('message.live.camera');
+                    srcGroup.iconclass="mdi mdi-view-sequential fa-fw";
+                    for(var i=0; i< data.src.length; i++){
+                         var item = data.src[i];
+                        if(item['nOriginalType'] == 'H5_CH_GB'){
+                            continue;
+                        }else{
+                            // 主副流
+                            var node=[{
+                            token : item['strToken'],
+                            streamprofile : "main",
+                            label :this.$t('message.live.mainstream'),
+                            name:item['strName']+"--"+this.$t('message.live.mainstream'),
+                            iconclass : 'mdi mdi-playlist-play fa-fw',
+                            disabled_me:false
+                            },{
+                            token : item['strToken'],
+                            streamprofile : "sub",
+                            label :this.$t('message.live.substream'),
+                            name:item['strName']+"--"+this.$t('message.live.substream'),
+                            iconclass : 'mdi mdi-playlist-play fa-fw',
+                            disabled_me:false
+                            }]
+                            var newItem ={
+                                    token : item['strToken'],
+                                    label : item['strName'],
+                                    iconclass : 'mdi mdi-camcorder fa-fw',
+                                    iconclass2 : 'mdi mdi-camcorder fa-fw',
+                                    name:item['strName']+"--"+this.$t('message.live.mainstream'),
+                                    children:node,
+                                    disabled_me:false};
+                            
+                            if(!item['bOnline'])
+                                newItem['iconclass'] = 'mdi mdi-camcorder-off fa-fw';
+                            
+                            if(item['bRec'] == true)
+                                newItem['iconclass2'] = 'iconfont icon-radioboxfill none';
+                                
+                            
+                            
+                        console.log("itme",newItem,item)
+
+                        srcGroup.children.push(newItem);
+                        }
+                    }
+                    this.data.push(srcGroup);
+				  } 
+            })
+
+        },
+        //写作业
+        loadDevice() {
+		    let _this =this;
+		    var root = process.env.API_ROOT;
+		    var wsroot = process.env.WS_HOST_ROOT;
+		    if (root == undefined){
+		        root = window.location.protocol + '//' + window.location.host + window.location.pathname;
+		    }
+		    if (wsroot == undefined)
+		    {
+		        wsroot = window.location.host;
+		    }
+		   //url
+		   var url = root + "/api/v1/GetDevice?session="+ this.$store.state.token;
+
+			  //重组
+			  this.$http.get(url).then(result=>{
+				  if(result.status == 200){
+					  var srcData = [];
+					  var data=result.data;
+					  for(var i = 0; i < data.dev.length; i++){
+						  var item=data.dev[i];
+						  var srclevel=[];
+						  srclevel["strToken"]=item.strToken;
+						  srclevel["strName"]=item.strName;
+						  this.loadSrc(srclevel,srcData);
+					  }
+				  }
+			  })
+		},
+        loadSrc(srclevel, srcData) {
+
+            let _this =this;
+            var root = process.env.API_ROOT;
+            var wsroot = process.env.WS_HOST_ROOT;
+            if (root == undefined){
+                root = window.location.protocol + '//' + window.location.host + window.location.pathname;
+            }
+            if (wsroot == undefined)
+            {
+                wsroot = window.location.host;
+            }
+
+            var url = root + "/api/v1/GetDeviceSrc?token="+ srclevel.strToken + "&session=" + this.$store.state.token;
+
+            this.$http.get(url).then(result => {
+                if (result.status == 200)
+                {
+                    var data =  result.data;
+                    var srcGroup = {children: []};
+                    srcGroup.label=srclevel.strName;
+                    srcGroup.iconclass="mdi mdi-view-sequential fa-fw";
+                    for(var i=0; i< data.src.length; i++){
+                        var item = data.src[i];
+                        // 主副流
+                        var node=[{
+                          token : item['strToken'],
+                          streamprofile : "main",
+                          label :this.$t('message.live.mainstream'),
+                          name:item['strName']+"--"+this.$t('message.live.mainstream'),
+                          iconclass : 'mdi mdi-playlist-play fa-fw',
+                          disabled_me:false
+                        },{
+                          token : item['strToken'],
+                          streamprofile : "sub",
+                          label :this.$t('message.live.substream'),
+                          name:item['strName']+"--"+this.$t('message.live.substream'),
+                          iconclass : 'mdi mdi-playlist-play fa-fw',
+                          disabled_me:false
+                        }]
+                        for(var l=0; l< node.length; l++){
+                            console.log("1111111111111111111",node[l].disabled_me)
+                            if(item['bDisable'] == true){
+                                node[l].disabled_me =true;
+                            }
+                        }
+                        
+                        var newItem ={
+                                token : item['strToken'],
+                                label : item['strName'],
+                                iconclass : 'mdi mdi-camcorder fa-fw',
+                                iconclass1 : '',
+                                name:item['strName']+"--"+this.$t('message.live.mainstream'),
+                                children:node,
+                                disabled_me:false};
+
+                        if(!item['bOnline'])
+                            newItem['iconclass'] = 'mdi mdi-camcorder-off fa-fw';
+
+                        if(item['bRec'] == true)
+                                newItem['iconclass2'] = 'iconfont icon-radioboxfill none';
+
+                        if(item['bDisable'] == true){
+                            newItem['disabled_me'] =true;
+                            newItem['iconclass1'] = 'camera';
+                        }
+
+                       srcGroup.children.push(newItem);
+                    }
+                    this.data.push(srcGroup);
+                }
+            }).catch(error => {
+                console.log('GetSrc failed', error);
+            });
+        },
+        //数字仓机
+        NumberDevice() {
+		    let _this =this;
+		    var root = process.env.API_ROOT;
+		    var wsroot = process.env.WS_HOST_ROOT;
+		    if (root == undefined){
+		        root = window.location.protocol + '//' + window.location.host + window.location.pathname;
+		    }
+		    if (wsroot == undefined)
+		    {
+		        wsroot = window.location.host;
+		    }
+		   //url
+		   var url = root + "/api/v1/GetGbDevice?session="+ this.$store.state.token;
+
+			  //重组
+			  this.$http.get(url).then(result=>{
+				  if(result.status == 200){
+					  var srcData = [];
+					  var data=result.data;
+					  for(var i = 0; i < data.dev.length; i++){
+						  var item=data.dev[i];
+						  var srclevel=[];
+						  srclevel["strToken"]=item.strToken;
+						  srclevel["strName"]=item.strName;
+						  this.NumberSrc(srclevel,srcData);
+					  }
+				  }
+			  })
+		},
+        NumberSrc(srclevel, srcData) {
+
+            let _this =this;
+            var root = process.env.API_ROOT;
+            var wsroot = process.env.WS_HOST_ROOT;
+            if (root == undefined){
+                root = window.location.protocol + '//' + window.location.host + window.location.pathname;
+            }
+            if (wsroot == undefined)
+            {
+                wsroot = window.location.host;
+            }
+
+            var url = root + "/api/v1/GetGbDeviceSrc?token="+ srclevel.strToken + "&session=" + this.$store.state.token;
+
+            this.$http.get(url).then(result => {
+                if (result.status == 200)
+                {
+                    var data =  result.data;
+                    var srcGroup = {children: []};
+                    srcGroup.label=srclevel.strName;
+                    srcGroup.iconclass="mdi mdi-view-sequential fa-fw";
+                    for(var i=0; i< data.src.length; i++){
+                        var item = data.src[i];
+                        // 主副流
+                        var node=[{
+                          token : item['strToken'],
+                          streamprofile : "main",
+                          label :this.$t('message.live.mainstream'),
+                          name:item['strName']+"--"+this.$t('message.live.mainstream'),
+                          iconclass : 'mdi mdi-playlist-play fa-fw',
+                          disabled_me:false
+                        },{
+                          token : item['strToken'],
+                          streamprofile : "sub",
+                          label :this.$t('message.live.substream'),
+                          name:item['strName']+"--"+this.$t('message.live.substream'),
+                          iconclass : 'mdi mdi-playlist-play fa-fw',
+                          disabled_me:false
+                        }]
+                        var newItem ={
+                                token : item['strToken'],
+                                label : item['strName'],
+                                iconclass : 'mdi mdi-camcorder fa-fw',
+                                name:item['strName']+"--"+this.$t('message.live.mainstream'),
+                                children:node,
+                                disabled_me:false};
+
+                        if(!item['bOnline'])
+                            newItem['iconclass'] = 'mdi mdi-camcorder-off fa-fw';
+
+                        if(item['bRec'] == true)
+                                newItem['iconclass2'] = 'iconfont icon-radioboxfill none';
+
+                       srcGroup.children.push(newItem);
+                    }
+                    this.data.push(srcGroup);
+                }
+            }).catch(error => {
+                console.log('GetSrc failed', error);
+            });
+        },
+        //级联
+        cloudDevice() {
+		    let _this =this;
+		    var root = process.env.API_ROOT;
+		    var wsroot = process.env.WS_HOST_ROOT;
+		    if (root == undefined){
+		        root = window.location.protocol + '//' + window.location.host + window.location.pathname;
+		    }
+		    if (wsroot == undefined)
+		    {
+		        wsroot = window.location.host;
+		    }
+		   //url
+		   var url = root + "/api/v1/GetCloudDevice?session="+ this.$store.state.token;
+
+			  //重组
+			  this.$http.get(url).then(result=>{
+				  if(result.status == 200){
+					  var srcData = [];
+					  var data=result.data;
+					  for(var i = 0; i < data.dev.length; i++){
+						  var item=data.dev[i];
+						  var srclevel=[];
+						  srclevel["strToken"]=item.strToken;
+						  srclevel["strName"]=item.strName;
+						  this.cloudSrc(srclevel,srcData);
+					  }
+				  }
+			  })
+		},
+        cloudSrc(srclevel, srcData) {
+
+            let _this =this;
+            var root = process.env.API_ROOT;
+            var wsroot = process.env.WS_HOST_ROOT;
+            if (root == undefined){
+                root = window.location.protocol + '//' + window.location.host + window.location.pathname;
+            }
+            if (wsroot == undefined)
+            {
+                wsroot = window.location.host;
+            }
+
+            var url = root + "/api/v1/GetCloudDeviceSrc?token="+ srclevel.strToken + "&session=" + this.$store.state.token;
+
+            this.$http.get(url).then(result => {
+                if (result.status == 200)
+                {
+                    var data =  result.data;
+                    var srcGroup = {children: []};
+                    srcGroup.label=srclevel.strName;
+                    srcGroup.iconclass="mdi mdi-view-sequential fa-fw";
+                    for(var i=0; i< data.src.length; i++){
+                        var item = data.src[i];
+                        // 主副流
+                        var node=[{
+                          token : item['strToken'],
+                          streamprofile : "main",
+                          label :this.$t('message.live.mainstream'),
+                          name:item['strName']+"--"+this.$t('message.live.mainstream'),
+                          iconclass : 'mdi mdi-playlist-play fa-fw',
+                          disabled_me:false
+                        },{
+                          token : item['strToken'],
+                          streamprofile : "sub",
+                          label :this.$t('message.live.substream'),
+                          name:item['strName']+"--"+this.$t('message.live.substream'),
+                          iconclass : 'mdi mdi-playlist-play fa-fw',
+                          disabled_me:false
+                        }]
+                        var newItem ={
+                                token : item['strToken'],
+                                label : item['strName'],
+                                iconclass : 'cascade',
+                                name:item['strName']+"--"+this.$t('message.live.mainstream'),
+                                children:node,
+                                disabled_me:false};
+
+                        if(item['nType'] == 'H5_CLOUD')
+                            newItem['iconclass'] = 'mdi mdi-camcorder fa-fw';
+
+                        if(item['bRec'] == true)
+                                newItem['iconclass2'] = 'iconfont icon-radioboxfill none';
+
+                        if(!item['bOnline'])
+                            newItem['iconclass'] = 'mdi mdi-camcorder-off fa-fw';
+
+                       srcGroup.children.push(newItem);
+                    }
+                    this.data.push(srcGroup);
+                }
+            }).catch(error => {
+                console.log('GetSrc failed', error);
+            });
+        },
         //点击宫格
         changePanel(event) {
             let data = $(event.target).data('row');
             let _this = this;
              window.setTimeout(function() {
                 if(data=='1|6'||data=='1|7'||data=='1|13'){
-                    // console.log("121");
+                    console.log("121");
                     
                 }else{
-                    // console.log("45845454545");
+                    console.log("45845454545");
                     $("#videoPanel .videoColor .palace").removeClass("Seven_Palace");
                     $("#videoPanel .videoColor .palace").removeClass("Six_Palace");
                     $("#videoPanel .videoColor .palace").removeClass("videoflexitem");
                 }
                 var list_gong=$(".palace");
                 if(data=='1|6'){
-                    // console.log("23")
+                    console.log("23")
                     list_gong.removeClass("videoflexitem");
                     list_gong.removeClass("Seven_Palace");
 
                     list_gong.addClass("Six_Palace");
                 }
                 if(data=='1|7'){
-                    // console.log("234")
+                    console.log("234")
                     list_gong.removeClass("videoflexitem");
                     list_gong.removeClass("Six_Palace");
 
                     list_gong.addClass("Seven_Palace");
                 }
                 if(data=='1|13'){
-                    // console.log("2345")
+                    console.log("2345")
                     list_gong.removeClass("Six_Palace");
                     list_gong.removeClass("Seven_Palace");
 
@@ -527,7 +725,7 @@ export default {
         },
 
         panelFullScreen(event) {
-            var elem = document.getElementById('video_hed');
+            var elem = document.getElementById('videoPanel');
             //var elem = $("#videoPanel");
             console.log('panelFullScreen', event);
             if (
@@ -583,27 +781,16 @@ export default {
             this.selectCol = c;
             this.selectRow = r;
             console.log(r, c);
-            $(".h5container").removeClass('h5videoh');
-            $("#h"+r+c).addClass('h5videoh');
+            if ($($event.target).parent().hasClass('videoClickColor')) {
+                $($event.target).parent().removeClass('videoClickColor');
+            } else {
+                $('#videoPanel div[class*="videoClickColor"]').removeClass('videoClickColor');
+                $('#videoPanel>div').eq(r - 1).children('div').eq(c - 1).addClass('videoClickColor');
+                //$('#videoPanel>div').eq(r - 1).children('div').eq(c - 1).children(".h5videowrapper").children(".h5video").style.opacity = "0.25";
+            }
         },
         stopVideo(event){
             return;
-        },
-        //设备隐藏
-        devicetoog(){
-            if( this.$store.state.root=="Operator"){
-                return
-            }
-            $("#device").hide();
-            $("#device1").show();
-
-        },
-        devicetoog1(){
-            if( this.$store.state.root=="Operator"){
-                return
-            }
-            $("#device1").hide();
-            $("#device").show();
         },
         //模糊查询
         filterNode(value, data, node) {
@@ -656,55 +843,13 @@ export default {
         console.log("filter",val);
         this.$refs.tree.filter(val);
       }
-    }
+    },
 };
 
 </script>
 
 
 <style scoped>
-.el_tree1{
-    margin-left: -6px;
-}
-/* 点击视频播放 */
-.size_color{
-    color:rgb(142, 132, 132);
-}
-/* 隐藏toogle */
-.devicetoog{
-    width:100%;
-    display: flex;
-    justify-content: space-between;
-    padding: 10px 20px;
-    background: #f5f5f5;
-    font-size: 18px;
-    color: #333333;
-    font-weight: 600;
-}
-.deviceicon:hover{
- color: #68ABCF;
-}
-/* #device{
-    height: 90%;
-    overflow-y: auto;
-}
-#device1{
-    height: 90%;
-    overflow-y: auto;
-} */
-.el_tree{
-    color: #606266;
-    font-size: 14px;
-    font-weight: 500;
-}
-.el_tree1{
-    margin: 0;
-    margin-right: 10px;
-}
-.el_tree >>> .el-tree-node__content{
-    min-height: 24px;
-    height: auto;
-}
 /* 自制图标 */
 .camera{
     text-decoration:line-through
@@ -717,17 +862,8 @@ export default {
 }
 
 .palace{
-    flex: 1 1 20%;
+    flex: 1 1 25%;
     border:1px solid black;
-    box-sizing: border-box;
-    -moz-box-sizing:border-box;
-    -webkit-box-sizing:border-box;
-}
-.h5videoh{
-    /* border: 2px solid #f44336 !important;
-    box-sizing: border-box; */
-    box-shadow: 0 0 0 2px #f44336;
-    z-index: 10;
 }
 .Seven_Palace{
     flex: 1 1 33.33%;
@@ -779,7 +915,6 @@ export default {
 
 /* 十三宫格 */
 .videoflexitem{
-    flex: 1 1 25%;
     width: 25% !important;
     height: 25% !important;
 }
@@ -846,22 +981,19 @@ export default {
 .flexvideo{
     width: 81.5%;
     height: 100%;
-    overflow: auto;
 }
-/* .video_hed{
-    height: 100%;
-} */
-
-.group_btn{
+#videoPanel{
+    background-color: #ffffff;
+}
+.btn-group{
     width: 100%;
     text-align: center;
     padding: 20px;
-    height: 80px;
 }
-.group_btn .el-button{
+.btn-group .el-button{
     margin-right: 30px;
 }
-.group_btn .el-button:last-child{
+.btn-group .el-button:last-child{
     margin-right: 0;
 }
 /* 左边数据栏 */
@@ -937,15 +1069,14 @@ export default {
 div[name='flex'] {
     display: flex;
     flex-wrap: wrap;
+    border-bottom: 0px !important;
 
 }
 
 div[name='flex']+[name='flex'] {
     border-left: 0px !important;
 }
-#videoPanel{
-    background-color: #ffffff;
-}
+
 #videoPanel>div:nth-last-child(2) {
     border-bottom: 1px solid rgb(22, 22, 22) !important;
 }
@@ -982,6 +1113,14 @@ div[name='flex']+[name='flex'] {
 	box-shadow: 0px 0px 50px #000;
 }
 
+div[name="flex"]:hover {
+    /*background-color: #3c8dbc;*/
+    cursor: pointer;
+}
+/* .videoClickColor {
+    background-color: #616263 !important;
+    opacity: 0.80;
+} */
 
 .videoColor {
     /* width: 1500px; */

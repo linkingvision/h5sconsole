@@ -113,7 +113,7 @@ H5sEvent.prototype.setupWebSocket = function(token)
 {	
 	var h5spath = "api/v1/h5seventapi";
 
-	h5spath = this._conf.rootpath + h5spath + '?session=' + this._conf.session;
+	h5spath = this._conf.rootpath + h5spath + '&session=' + this._conf.session;
 	
 	if(this._debug === true) console.log(h5spath);
 	

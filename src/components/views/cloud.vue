@@ -5,7 +5,7 @@
         <div class="container-fluid ">
             <div class="row bg-title">
                 <div class="col-lg-3 col-md-4 col-sm-4 col-xs-12">
-                    <h4 class="page-title">{{$t("message.left.cloud")}}</h4>
+                    <h4 class="page-title">cloud</h4>
                 </div>
             </div>
         </div>
@@ -35,7 +35,7 @@ export default {
     data(){
         return {
             isCollapse: false,
-            index_lj:"1"
+            index_lj:"1",
         }
     },
     mounted(){
@@ -43,7 +43,7 @@ export default {
     methods: {
         setting_ys(){
              this.index_lj=1;
-        }
+        },
     }
 }
 </script>
@@ -67,13 +67,13 @@ export default {
     box-sizing: border-box;
 }
 .setting_left:hover{
-    color: rgba(95,191,167,1);
+    color: #409EFF;
     /* border-right: 2px solid #409EFF; */
     box-sizing: border-box;
 }
 .setting_tj{
-    color: rgba(95,191,167,1);
-    border-right: 2px solid rgba(95,191,167,1);
+    color: #409EFF;
+    border-right: 2px solid #409EFF;
     box-sizing: border-box;
 }
 .setting_left .setting_left_a{
@@ -82,7 +82,7 @@ export default {
     padding: 10px 20px;
 }
 .setting_left .setting_left_a:hover{
-    color: rgba(95,191,167,1);
+    color: #409EFF;
 }
 
 /* 布局 */

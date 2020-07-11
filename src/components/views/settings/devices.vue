@@ -4,14 +4,14 @@
         <el-dialog :title="eltitle" :visible.sync="editPopup">
           <el-form label-position="right" label-width="140px" :model="editform">
           
-              <el-form-item :label="label.Type">
+              <el-form-item label="Type">
                 <el-select v-model="editform.Type" placeholder="请选择">
                 </el-select>
               </el-form-item>
-              <el-form-item :label="label.Name">
+              <el-form-item label="Name">
                   <input class="editinput" v-model="editform.Name"/>
               </el-form-item>
-              <el-form-item :label="label.Token">
+              <el-form-item label="Token">
                   <input class="editinput" v-model="editform.Token"/>
               </el-form-item>
               <el-form-item label="Username" v-if="editform.Type!='H5_FILE'">
@@ -20,10 +20,10 @@
               <el-form-item label="Password" v-if="editform.Type!='H5_FILE'">
                   <input class="editinput" v-model="editform.Password"/>
               </el-form-item>
-              <el-form-item :label="label.IP" v-if="editform.Type==='H5_ONVIF'">
+              <el-form-item label="IP" v-if="editform.Type==='H5_ONVIF'">
                   <input class="editinput" v-model="editform.IP"/>
               </el-form-item>
-              <el-form-item :label="label.Port" v-if="editform.Type==='H5_ONVIF'">
+              <el-form-item label="Port" v-if="editform.Type==='H5_ONVIF'">
                   <input class="editinput" v-model="editform.Port"/>
               </el-form-item>
               <el-form-item label="URL" v-if="editform.Type!='H5_ONVIF'">
@@ -47,13 +47,13 @@
         <el-dialog :title="eltitle" :visible.sync="dialogFormVisible">
                     <el-form label-position="right" label-width="140px" :model="form">
                     
-                        <el-form-item :label="label.Type">
+                        <el-form-item label="Type">
                           <input class="editinput" v-model="form.Type"/>
                         </el-form-item>
-                        <el-form-item :label="label.Name">
+                        <el-form-item label="Name">
                             <input class="editinput" v-model="form.Name"/>
                         </el-form-item>
-                        <el-form-item :label="label.Token">
+                        <el-form-item label="Token">
                             <input class="editinput" v-model="form.Token"/>
                         </el-form-item>
                         <el-form-item label="Username" v-if="form.Type!='H5_FILE'">
@@ -62,10 +62,10 @@
                         <el-form-item label="Password" v-if="form.Type!='H5_FILE'">
                             <input class="editinput" v-model="form.Password"/>
                         </el-form-item>
-                        <el-form-item :label="label.IP" v-if="form.Type==='H5_ONVIF'">
+                        <el-form-item label="IP" v-if="form.Type==='H5_ONVIF'">
                             <input class="editinput" v-model="form.IP"/>
                         </el-form-item>
-                        <el-form-item :label="label.Port" v-if="form.Type==='H5_ONVIF'">
+                        <el-form-item label="Port" v-if="form.Type==='H5_ONVIF'">
                             <input class="editinput" v-model="form.Port"/>
                         </el-form-item>
                         <el-form-item label="URL" v-if="form.Type!='H5_ONVIF'">
@@ -86,7 +86,7 @@
                     </div>
                 </el-dialog>
         <!-- 两个表格 -->
-        <el-tabs type="border-card" v-model="activeName" max-height="850"  @tab-click="removeTab">
+        <el-tabs v-model="activeName" style="width: 100%;padding: 0 50px;" max-height="850"  @tab-click="removeTab">
             <!-- 1 -->
              <el-tab-pane :label="label.label" name="H5_STREAM">
                <!-- 添加 -->
@@ -100,44 +100,83 @@
                     @select='selectCall'
                     @select-all='select_Call'
                     style="width: 100%">
+                    <el-table-column type="expand">
+                        <template slot-scope="props">
+                            <el-form label-position="left" inline class="demo-table-expand">
+                                <el-form-item label="nType :">
+                                    <span>{{ props.row.Type }}</span>
+                                </el-form-item>
+                                <el-form-item label="strName :">
+                                    <span>{{ props.row.Name }}</span>
+                                </el-form-item>
+                                <el-form-item label="strToken :">
+                                    <span>{{ props.row.Token }}</span>
+                                </el-form-item>
+                                <el-form-item label="strUser :">
+                                    <span>{{ props.row.User }}</span>
+                                </el-form-item>
+                                <el-form-item label="strPasswd :">
+                                    <span>{{ props.row.Password }}</span>
+                                </el-form-item>
+                                <el-form-item label="bPasswdEncrypt :">
+                                    <span>{{ props.row.bPasswdEncrypt }}</span>
+                                </el-form-item>
+                                <el-form-item label="strDevIpAddress :">
+                                    <span>{{ props.row.IP }}</span>
+                                </el-form-item>
+                                <el-form-item label="strDevPort :">
+                                    <span>{{ props.row.Port }}</span>
+                                </el-form-item>
+                                <el-form-item label="bEnableAudio :">
+                                    <span>{{ props.row.Audio }}</span>
+                                </el-form-item>
+                                <el-form-item label="bOnline :">
+                                    <span>{{ props.row.Online }}</span>
+                                </el-form-item>
+                                <el-form-item label="strUrl :">
+                                    <span>{{ props.row.strUrl }}</span>
+                                </el-form-item>
+                            </el-form>
+                        </template>
+                    </el-table-column>
                     <el-table-column
                         type="selection"
                         width="55">
                     </el-table-column>
                     <el-table-column
                         prop="index"
-                        :label="label.Index"
+                        label="index"
                         width="100">
                     </el-table-column>
                     <el-table-column
                     prop="Name"
-                    :label="label.Name">
+                    label="Name">
                     </el-table-column>
                     <el-table-column
                     prop="IP"
-                    :label="label.IP"
+                    label="IP"
                     min-width="140">
                     </el-table-column>
                     <el-table-column
                     prop="Port"
-                    :label="label.Port">
+                    label="Port">
                     </el-table-column>
                     <el-table-column
                     prop="User"
-                    :label="label.User">
+                    label="User">
                     </el-table-column>
                     <el-table-column
                     prop="Online"
-                    :label="label.Online">
+                    label="Online">
                     </el-table-column>
                     <el-table-column
                     prop="Type"
-                    :label="label.Type"
+                    label="Type"
                     min-width="140">
                     </el-table-column>
                     <el-table-column
                     prop="Token"
-                    :label="label.Token">
+                    label="Token">
                     </el-table-column>
                     <el-table-column
                         fixed="right"
@@ -179,44 +218,80 @@
                     @select='selectCall'
                     @select-all='select_Call'
                     style="width: 100%">
+                    <el-table-column type="expand">
+                        <template slot-scope="props">
+                            <el-form label-position="left" inline class="demo-table-expand">
+                                <el-form-item label="nType :">
+                                    <span>{{ props.row.Type }}</span>
+                                </el-form-item>
+                                <el-form-item label="strName :">
+                                    <span>{{ props.row.Name }}</span>
+                                </el-form-item>
+                                <el-form-item label="strToken :">
+                                    <span>{{ props.row.Token }}</span>
+                                </el-form-item>
+                                <el-form-item label="strUser :">
+                                    <span>{{ props.row.User }}</span>
+                                </el-form-item>
+                                <el-form-item label="strPasswd :">
+                                    <span>{{ props.row.Password }}</span>
+                                </el-form-item>
+                                <el-form-item label="bPasswdEncrypt :">
+                                    <span>{{ props.row.bPasswdEncrypt }}</span>
+                                </el-form-item>
+                                <el-form-item label="strDevIpAddress :">
+                                    <span>{{ props.row.IP }}</span>
+                                </el-form-item>
+                                <el-form-item label="strDevPort :">
+                                    <span>{{ props.row.Port }}</span>
+                                </el-form-item>
+                                <el-form-item label="bEnableAudio :">
+                                    <span>{{ props.row.Audio }}</span>
+                                </el-form-item>
+                                <el-form-item label="bOnline :">
+                                    <span>{{ props.row.Online }}</span>
+                                </el-form-item>
+                            </el-form>
+                        </template>
+                    </el-table-column>
                     <el-table-column
                         type="selection"
                         width="55">
                     </el-table-column>
                     <el-table-column
                         prop="index"
-                        :label="label.Index"
+                        label="index"
                         width="100">
                     </el-table-column>
                     <el-table-column
                     prop="Name"
-                    :label="label.Name">
+                    label="Name">
                     </el-table-column>
                     <el-table-column
                     prop="IP"
-                    :label="label.IP"
+                    label="IP"
                     min-width="140">
                     </el-table-column>
                     <el-table-column
                     prop="Port"
-                    :label="label.Port">
+                    label="Port">
                     </el-table-column>
                     <el-table-column
                     prop="User"
-                    :label="label.User">
+                    label="User">
                     </el-table-column>
                     <el-table-column
                     prop="Online"
-                    :label="label.Online">
+                    label="Online">
                     </el-table-column>
                     <el-table-column
                     prop="Type"
-                    :label="label.Type"
+                    label="Type"
                     min-width="140">
                     </el-table-column>
                     <el-table-column
                     prop="Token"
-                    :label="label.Token">
+                    label="Token">
                     </el-table-column>
                     <el-table-column
                         fixed="right"
@@ -258,44 +333,80 @@
                     @select='selectCall'
                     @select-all='select_Call'
                     style="width: 100%">
+                    <el-table-column type="expand">
+                        <template slot-scope="props">
+                            <el-form label-position="left" inline class="demo-table-expand">
+                                <el-form-item label="nType :">
+                                    <span>{{ props.row.Type }}</span>
+                                </el-form-item>
+                                <el-form-item label="strName :">
+                                    <span>{{ props.row.Name }}</span>
+                                </el-form-item>
+                                <el-form-item label="strToken :">
+                                    <span>{{ props.row.Token }}</span>
+                                </el-form-item>
+                                <el-form-item label="strUser :">
+                                    <span>{{ props.row.User }}</span>
+                                </el-form-item>
+                                <el-form-item label="strPasswd :">
+                                    <span>{{ props.row.Password }}</span>
+                                </el-form-item>
+                                <el-form-item label="bPasswdEncrypt :">
+                                    <span>{{ props.row.bPasswdEncrypt }}</span>
+                                </el-form-item>
+                                <el-form-item label="strDevIpAddress :">
+                                    <span>{{ props.row.IP }}</span>
+                                </el-form-item>
+                                <el-form-item label="strDevPort :">
+                                    <span>{{ props.row.Port }}</span>
+                                </el-form-item>
+                                <el-form-item label="bOnline :">
+                                    <span>{{ props.row.Online }}</span>
+                                </el-form-item>
+                                <el-form-item label="strUrl :">
+                                    <span>{{ props.row.strUrl }}</span>
+                                </el-form-item>
+                            </el-form>
+                        </template>
+                    </el-table-column>
                     <el-table-column
                         type="selection"
                         width="55">
                     </el-table-column>
                     <el-table-column
                         prop="index"
-                        :label="label.Index"
+                        label="index"
                         width="100">
                     </el-table-column>
                     <el-table-column
                     prop="Name"
-                    :label="label.Name">
+                    label="Name">
                     </el-table-column>
                     <el-table-column
                     prop="IP"
-                    :label="label.IP"
+                    label="IP"
                     min-width="140">
                     </el-table-column>
                     <el-table-column
                     prop="Port"
-                    :label="label.Port">
+                    label="Port">
                     </el-table-column>
                     <el-table-column
                     prop="User"
-                    :label="label.User">
+                    label="User">
                     </el-table-column>
                     <el-table-column
                     prop="Online"
-                    :label="label.Online">
+                    label="Online">
                     </el-table-column>
                     <el-table-column
                     prop="Type"
-                    :label="label.Type"
+                    label="Type"
                     min-width="140">
                     </el-table-column>
                     <el-table-column
                     prop="Token"
-                    :label="label.Token">
+                    label="Token">
                     </el-table-column>
                     <el-table-column
                         fixed="right"
@@ -336,48 +447,81 @@
                      @select='selectCall'
                     @select-all='select_Call'
                     style="width: 100%">
+                    <el-table-column type="expand">
+                        <template slot-scope="props">
+                            <el-form label-position="left" inline class="demo-table-expand">
+                                <el-form-item label="nType :">
+                                    <span>{{ props.row.Type }}</span>
+                                </el-form-item>
+                                <el-form-item label="strName :">
+                                    <span>{{ props.row.Name }}</span>
+                                </el-form-item>
+                                <el-form-item label="strToken :">
+                                    <span>{{ props.row.Token }}</span>
+                                </el-form-item>
+                                <el-form-item label="strUser :">
+                                    <span>{{ props.row.User }}</span>
+                                </el-form-item>
+                                <el-form-item label="strPasswd :">
+                                    <span>{{ props.row.Password }}</span>
+                                </el-form-item>
+                                <el-form-item label="bPasswdEncrypt :">
+                                    <span>{{ props.row.bPasswdEncrypt }}</span>
+                                </el-form-item>
+                                <el-form-item label="strDevIpAddress :">
+                                    <span>{{ props.row.IP }}</span>
+                                </el-form-item>
+                                <el-form-item label="strDevPort :">
+                                    <span>{{ props.row.Port }}</span>
+                                </el-form-item>
+                                <el-form-item label="bEnableAudio :">
+                                    <span>{{ props.row.Audio }}</span>
+                                </el-form-item>
+                                <el-form-item label="bOnline :">
+                                    <span>{{ props.row.Online }}</span>
+                                </el-form-item>
+                            </el-form>
+                        </template>
+                    </el-table-column>
+                    <!-- <el-table-column
+                        type="selection"
+                        width="55">
+                    </el-table-column> -->
                     <el-table-column
                         prop="index"
-                        :label="label.Index"
+                        label="index"
                         width="100">
                     </el-table-column>
                     <el-table-column
                     prop="Name"
-                    :label="label.Name">
+                    label="Name">
                     </el-table-column>
                     <el-table-column
                     prop="IP"
-                    :label="label.IP"
+                    label="IP"
                     min-width="140">
                     </el-table-column>
                     <el-table-column
                     prop="Port"
-                    :label="label.Port">
+                    label="Port">
                     </el-table-column>
                     <el-table-column
                     prop="User"
-                    :label="label.User">
+                    label="User">
                     </el-table-column>
                     <el-table-column
                     prop="Online"
-                    :label="label.Online">
-                    </el-table-column>
-                    <el-table-column
-                    prop="Token"
-                    :label="label.Token"
-                    min-width="140">
+                    label="Online">
                     </el-table-column>
                     <el-table-column
                     prop="Type"
-                    :label="label.Type"
+                    label="Type"
                     min-width="140">
-                        <template slot="header" slot-scope="scope">
-                            <el-input
-                            v-model="search"
-                            @change="handlechange(scope.$index,scope.row)"
-                            size="mini"
-                            placeholder="输入关键字"/>
-                        </template>
+                    </el-table-column>
+                    <el-table-column
+                    prop="Token"
+                    label="Token"
+                    min-width="140">
                     </el-table-column>
                 </el-table>
                 <!-- 分页 -->
@@ -411,15 +555,6 @@ import uuid from '@/store/uuid'
             label1:"H5_ONVIF",//选2
             label2:"H5_FILE",//选2
             label3:this.$t("message.setting.all"),//选3
-            
-            Index:this.$t("message.table.Index"),
-            Name:this.$t("message.table.Name"),
-            IP:this.$t("message.table.IP"),
-            Port:this.$t("message.table.Port"),
-            User:this.$t("message.table.User"),
-            Online:this.$t("message.table.Online"),
-            Type:this.$t("message.table.Type"),
-            Token:this.$t("message.table.Token")
         },
         options: [{
                 value: 'H5_STREAM',
@@ -445,10 +580,10 @@ import uuid from '@/store/uuid'
             URL:"rtsp://192.168.1.1/stream",
             Audio:"false",
             IP:"192.168.1.1",
-            Port:"80"
+            Port:"80",
         },
         editform: {
-            Audio:"false"
+            Audio:"false",
         },
         edittoken:"",//编辑时要删除的token
         editindex:"",//编辑时所在索引
@@ -464,7 +599,7 @@ import uuid from '@/store/uuid'
         tableData3: [],//4
         total3: 0, // 总条数 4
         currentPage3: 1, // 当前页码4
-        selectop:[]//选择啦那几个
+        selectop:[],//选择啦那几个
       };
     },
     mounted(){
@@ -507,7 +642,7 @@ import uuid from '@/store/uuid'
                           Audio :itme[i].bEnableAudio,
                           Online:itme[i].bOnline+"",
                           strUrl:itme[i].strUrl,
-                          bPasswdEncrypt:itme[i].bPasswdEncrypt
+                          bPasswdEncrypt:itme[i].bPasswdEncrypt,
                       };
                       this.tableData.push(tabledata);
                       console.log(tabledata);
@@ -549,7 +684,7 @@ import uuid from '@/store/uuid'
                           Port:itme[i].strSrcPort,
                           Audio :itme[i].bEnableAudio,
                           Online:itme[i].bOnline+"",
-                          bPasswdEncrypt:itme[i].bPasswdEncrypt
+                          bPasswdEncrypt:itme[i].bPasswdEncrypt,
                       };
                       this.tableData1.push(tabledata);
                       //console.log(tabledata);
@@ -589,7 +724,7 @@ import uuid from '@/store/uuid'
                           Audio :itme[i].bEnableAudio,
                           Online:itme[i].bOnline+"",
                           strUrl:itme[i].strUrl,
-                          bPasswdEncrypt:itme[i].bPasswdEncrypt
+                          bPasswdEncrypt:itme[i].bPasswdEncrypt,
                       };
                       this.tableData2.push(tabledata);
                       console.log(tabledata);
@@ -629,7 +764,7 @@ import uuid from '@/store/uuid'
                           Port:itme[i].strSrcPort,
                           Audio :itme[i].bEnableAudio,
                           Online:itme[i].bOnline+"",
-                          bPasswdEncrypt:itme[i].bPasswdEncrypt
+                          bPasswdEncrypt:itme[i].bPasswdEncrypt,
                       };
                       this.tableData3.push(tabledata);
                       
@@ -659,7 +794,6 @@ import uuid from '@/store/uuid'
                 `
             })
         },
-        //  编辑  添加 的确定键
         Success(){
             this.editPopup = false;
             var root = process.env.API_ROOT;
@@ -675,9 +809,9 @@ import uuid from '@/store/uuid'
             var form=this.editform;
             if(form.Type=="H5_STREAM"){
                             
-                var url = root + "/api/v1/AddSrcRTSP?&name="+encodeURIComponent(form.Name)+
-                "&token="+encodeURIComponent(form.Token)+
-                "&user="+encodeURIComponent(form.Username)+
+                var url = root + "/api/v1/AddSrcRTSP?&name="+form.Name+
+                "&token="+form.Token+
+                "&user="+form.Username+
                 "&password="+encodeURIComponent(form.Password)+
                 "&audio="+form.Audio+
                 "&url="+encodeURIComponent(form.URL)+
@@ -703,13 +837,13 @@ import uuid from '@/store/uuid'
             }else if(form.Type=="H5_ONVIF"){
                 
                 var url = root + "/api/v1/AddSrcONVIF?&name="
-                +encodeURIComponent(form.Name)+
-                "&token="+encodeURIComponent(form.Token)+
-                "&user="+encodeURIComponent(form.Username)+
+                +form.Name+
+                "&token="+form.Token+
+                "&user="+form.Username+
                 "&password="+encodeURIComponent(form.Password)+
                 "&audio="+form.Audio+
-                "&ip="+encodeURIComponent(form.IP)+
-                "&port="+encodeURIComponent(form.Port)+
+                "&ip="+form.IP+
+                "&port="+form.Port+
                 "&session="+ this.$store.state.token;
                 console.log("onvif++++++++++++1",url);
                 this.$http.get(url).then(result=>{
@@ -734,9 +868,9 @@ import uuid from '@/store/uuid'
                 
                 console.log("H5_FILE",form.Audio);
                 var url = root + "/api/v1/AddSrcFile?&name="
-                +encodeURIComponent(form.Name)+
-                "&token="+encodeURIComponent(form.Token)+
-                "&url="+encodeURIComponent(form.URL)+
+                +form.Name+
+                "&token="+form.Token+
+                "&url="+form.URL+
                 "&session="+ this.$store.state.token;
                 //console.log(url);
                 this.$http.get(url).then(result=>{
@@ -758,6 +892,7 @@ import uuid from '@/store/uuid'
                 })
             }
         },
+        //  编辑  添加 的确定键
         edityes(){
             console.log(this.editindex);
             //return false;
@@ -784,23 +919,23 @@ import uuid from '@/store/uuid'
                 Port:form.Port,
                 Audio :form.Audio,
                 Online:form.Online+"",
-                bPasswdEncrypt:form.bPasswdEncrypt
+                bPasswdEncrypt:form.bPasswdEncrypt,
             }
             console.log("form",form);
            
             //return false;
             var url1 = root + "/api/v1/DelSrc?token="+this.edittoken+"&session="+ this.$store.state.token;
             this.$http.get(url1).then(result=>{
-                console.log("1",result,url1);
+                //console.log("1",result);
                 if(result.status==200){
                     if(result.data.bStatus==true){
-                        // console.log("*************************",result.data.bStatus)
+                        console.log("*************************",result.data.bStatus)
                         this.tableData.splice(this.editindex, 1,list)
                         this.Success();
                         
                     }else{
                         this.$message({
-                            message: "编辑失败",
+                            message: this.$t("message.setting.Editorfailure"),
                             type: 'warning'
                         });
                         return false;
@@ -828,9 +963,9 @@ import uuid from '@/store/uuid'
             //console.log(form.Type)
             if(form.Type=="H5_STREAM"){
               console.log("stream",form.Audio);
-              var url = root + "/api/v1/AddSrcRTSP?&name="+encodeURIComponent(form.Name)+
-              "&token="+encodeURIComponent(form.Token)+
-              "&user="+encodeURIComponent(form.Username)+
+              var url = root + "/api/v1/AddSrcRTSP?&name="+form.Name+
+              "&token="+form.Token+
+              "&user="+form.Username+
               "&password="+encodeURIComponent(form.Password)+
               "&audio="+form.Audio+
               "&url="+encodeURIComponent(form.URL)+
@@ -856,13 +991,13 @@ import uuid from '@/store/uuid'
             }else if(form.Type=="H5_ONVIF"){
                 console.log("H5_ONVIF",form.Audio);
                 var url = root + "/api/v1/AddSrcONVIF?&name="
-                +encodeURIComponent(form.Name)+
-                "&token="+encodeURIComponent(form.Token)+
-                "&user="+encodeURIComponent(form.Username)+
+                +form.Name+
+                "&token="+form.Token+
+                "&user="+form.Username+
                 "&password="+encodeURIComponent(form.Password)+
                 "&audio="+form.Audio+
-                "&ip="+encodeURIComponent(form.IP)+
-                "&port="+encodeURIComponent(form.Port)+
+                "&ip="+form.IP+
+                "&port="+form.Port+
                 "&session="+ this.$store.state.token;
                 //console.log(url);
                 this.$http.get(url).then(result=>{
@@ -885,9 +1020,9 @@ import uuid from '@/store/uuid'
             }else if(form.Type=="H5_FILE"){
                 console.log("H5_FILE",form.Audio);
                 var url = root + "/api/v1/AddSrcFile?&name="
-                +encodeURIComponent(form.Name)+
-                "&token="+encodeURIComponent(form.Token)+
-                "&url="+encodeURIComponent(form.URL)+
+                +form.Name+
+                "&token="+form.Token+
+                "&url="+form.URL+
                 "&session="+ this.$store.state.token;
                 //console.log(url);
                 this.$http.get(url).then(result=>{
@@ -1000,7 +1135,7 @@ import uuid from '@/store/uuid'
                 wsroot = window.location.host;
             }
             //url
-            var url = root + "/api/v1/DelSrc?token="+encodeURIComponent(row.Token)+"&session="+ this.$store.state.token;
+            var url = root + "/api/v1/DelSrc?token="+row.Token+"&session="+ this.$store.state.token;
             this.$http.get(url).then(result=>{
                 console.log(result);
                 console.log(this.tableData);
@@ -1046,7 +1181,7 @@ import uuid from '@/store/uuid'
                 console.log(selectop[i].index,row);
                 var index=selectop[i].index;
                 //return false;
-                var url = root + "/api/v1/DelSrc?token="+encodeURIComponent(selectop[i].token)+"&session="+ this.$store.state.token;
+                var url = root + "/api/v1/DelSrc?token="+selectop[i].token+"&session="+ this.$store.state.token;
                 this.$http.get(url).then(result=>{
                     console.log(result);
                     console.log(this.tableData);
@@ -1154,7 +1289,7 @@ import uuid from '@/store/uuid'
             }
             
             //this.reload();
-        }
+        },
     },
   };
 </script>

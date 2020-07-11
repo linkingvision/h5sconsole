@@ -32,31 +32,16 @@
                         </div>
                     </div>
                     <div class="flex_bei">
-                        
-                        <div style="display: flex; justify-content: space-between;">
-                            <div class="flex_beibiao" style="width:90%">
-                                <div class="beibiao_zi">
-                                    <img src="./gallery/daId@2x.png"/>
-                                    <span>{{this.$t("message.dashboard.device")}}</span>
-                                </div>
-                                <div style="display: flex;">
-                                    <div class="beibiao_zi1">{{this.$t("message.dashboard.Online")}}</div>
-                                    <div class="beibiao_bg"></div>
-                                    <div class="beibiao_zi1">{{this.$t("message.dashboard.Offline")}}</div>
-                                    <div class="beibiao_bg1"></div>
-                                </div>
+                        <div class="flex_beibiao">
+                            <div class="beibiao_zi">
+                                <img src="./gallery/daId@2x.png"/>
+                                <span>{{this.$t("message.dashboard.device")}}</span>
                             </div>
-                            <div class="more" style="padding: 6px 20px 0 0;">
-                                <router-link  :to="{name:'DeviceRouter'}">
-                                    <a class="A_More" href="javascript:void(0)">
-                                        <div>
-                                            更多<i class="el-icon-d-arrow-right"></i>
-                                        </div>
-                                    </a> 
-                                </router-link>
-                                <!-- <div class="A_More">
-                                    更多<i class="el-icon-d-arrow-right"></i>
-                                </div> -->
+                            <div style="display: flex;">
+                                <div class="beibiao_zi1">{{this.$t("message.dashboard.Online")}}</div>
+                                <div class="beibiao_bg"></div>
+                                <div class="beibiao_zi1">{{this.$t("message.dashboard.Offline")}}</div>
+                                <div class="beibiao_bg1"></div>
                             </div>
                         </div>
                         <div class="flex_beisdk">
@@ -77,7 +62,6 @@
                         <div class="nr_mory">
                             <div class="nr_mory1">
                                 <el-progress
-                                v-if="strRunTime"
                                 type="circle" 
                                 :width='100'
                                 :percentage="Number(Math.round((strRunTime.nTotalSpaceByte-strRunTime.nFreeSpaceByte)/strRunTime.nTotalSpaceByte*100))"></el-progress> 
@@ -88,23 +72,11 @@
                                 <el-progress
                                 type="circle"
                                 :width='100'
-                                v-if="strRunTime"
                                 color="#FF952C"
-                                :percentage="Number(strRunTime.nMemoryUsage)"></el-progress>
+                                :percentage="Number(strRunTime.nMemoryUsage)" ></el-progress>
                                 <div>{{this.$t("message.dashboard.memory")}}</div>
                                 <div>({{this.$t("message.dashboard.TotalMemory")}}: {{(strRunTime.nTotalMemoryByte/1024/1024/1024).toFixed(1)}}G)</div>
                             </div>
-                            <div class="nr_mory1">
-                                <el-progress
-                                    type="circle"
-                                    :width='100'
-                                    v-if="strRunTime"
-                                    color="#792ACB"
-                                    :percentage="Number(Math.round((strRunTime.nRecordTotalSpaceByte-strRunTime.nRecordFreeSpaceByte)/strRunTime.nRecordTotalSpaceByte*100))"></el-progress>
-                                <div>{{this.$t("message.dashboard.Storage")}}</div>
-                                <div>({{(strRunTime.nRecordTotalSpaceByte/1024/1024/1024).toFixed(1)}}G)</div>
-                            </div>
-                            
                         </div>
                     </div>
                     <div class="flex_nc1">
@@ -113,37 +85,9 @@
                             <span>{{this.$t("message.dashboard.codec_info")}}</span>
                         </div>
                         <div class="flex_nc_ag">
-                            <div class="flex_nc_cpu" v-for="(a,index) in codecInfo" :key="index">
+                            <div class="flex_nc_cpu" v-for="a in codecInfo" :key="a.id">
                                 <span class="cpu_zuo">{{a.name}}:</span>
                                 <span class="cpu_you"> {{a.id}}</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="flex_nc1">
-                        <div class="beibiao_zi">
-                            <div style="display: flex; justify-content: space-between;">
-                                <div>
-                                    <img src="./gallery/daId@2x.png"/>
-                                    <span>{{this.$t("message.dashboard.GPU_info")}}</span>
-                                </div>
-                                <div>
-                                    <router-link  :to="{name:'GPURouter'}">
-                                        <a class="A_More" href="javascript:void(0)">
-                                            <div>
-                                                更多<i class="el-icon-d-arrow-right"></i>
-                                            </div>
-                                        </a> 
-                                    </router-link>
-                                    <!-- <div class="A_More">
-                                        更多<i class="el-icon-d-arrow-right"></i>
-                                    </div> -->
-                                </div>
-                            </div>
-                        </div>
-                        <div class="flex_nc_ag">
-                            <div class="flex_iv">
-                                <div>Intel: {{Gpulen.nIndex}}</div>
-                                <div>NVIDIA: {{Gpulen.nvidia}}</div>
                             </div>
                         </div>
                     </div>
@@ -153,7 +97,7 @@
                             <span>{{this.$t("message.dashboard.capability")}}</span>
                         </div>
                         <div class="nr_function">
-                            <div class="nr_kuan" v-for="(c,index) in system" :key="index">
+                            <div class="nr_kuan" v-for="c in system" :key="c.name">
                                 <span>{{c.name}}</span>
                                 <el-switch
                                 v-model="c.id"
@@ -173,12 +117,9 @@
                         <span>{{this.$t("message.dashboard.system_info")}}</span>
                     </div>
                     <div class="flex_nc_ag">
-                        <div class="flex_nc_cpu" v-for="(b,index) in capability" :key="index">
+                        <div class="flex_nc_cpu" v-for="b in capability" :key="b.id">
                             <span class="cpu_zuo">{{b.name}}:</span>
-                            <span v-if="b.name!='主机号'&&b.name!='Hostid'" class="cpu_you" > {{b.id}}</span>
-                            
-                            <input v-if="b.name=='主机号'||b.name=='Hostid'" id="foo" type="text" :value="b.id"/>
-                            <i data-clipboard-target="#foo" @click="copylink(b.id)" style="margin-left: 10px;" v-if="b.name=='主机号'||b.name=='Hostid'" class="copy iconfont icon-fuzhi"></i>
+                            <span class="cpu_you"> {{b.id}}</span>
                         </div>
                     </div>
                 </div>
@@ -211,15 +152,32 @@
                         <span>{{this.$t("message.dashboard.device")}}</span>
                     </div>
                     <div class="container_sdk">
-                        <div class="containesr_sdks" v-for="(da,index) in devbucket" :key="index">
-                            <div class="sdk_back">
-                                <!-- <div class="sdk_back1" :id="'aa'+index">
-                                </div> -->
-                                <div class="sdk_szie">{{da.percentage}}%</div>
-                            </div>
+                        <div class="containesr_sdks">
+                            <dv-water-level-pond :config="config"/>
                             <div class="containesr_sdks_zi">
-                                <div>{{da.name}}</div>
-                                <div>{{total}} {{da.total1}} {{ge}}</div>
+                                <div>{{this.$t("message.dashboard.Cloud")}}</div>
+                                <div>{{this.total}}{{dev.nCloudTotal}}{{this.ge}}</div>
+                            </div>
+                        </div>
+                        <div class="containesr_sdks">
+                            <dv-water-level-pond :config="config1"/>
+                            <div class="containesr_sdks_zi">
+                                <div>RTSP/RTMP</div>
+                                <div>{{this.total}}{{dev.nRTSPRTMPTotal}}{{this.ge}}</div>
+                            </div>
+                        </div>
+                        <div class="containesr_sdks">
+                            <dv-water-level-pond :config="config2"/>
+                            <div class="containesr_sdks_zi">
+                                <div>ONVIF</div>
+                                <div>{{this.total}}{{dev.nONVIFTotal}}{{this.ge}}</div>
+                            </div>
+                        </div>
+                        <div class="containesr_sdks">
+                            <dv-water-level-pond :config="config3"/>
+                            <div class="containesr_sdks_zi">
+                                <div>{{this.$t("message.dashboard.RTMP")}}</div>
+                                <div>{{this.total}}{{dev.nRTMPPushTotal}}{{this.ge}}</div>
                             </div>
                         </div>
                     </div>
@@ -233,76 +191,96 @@
 
 
 <script>
-import Vue from 'vue'
 import echarts from 'echarts'
 var Highcharts = require("highcharts");
 export default {
   name: "dashboard",
-    data() {
-        return {
-            value:true,
-            data: [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-            data1: [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-            data2: [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-            codecInfo:"",
-            capability:"",
-            devbucket:[],
-            system:"",
-            dev:{
-                nCameraTotal: "",
-                nCameraOnline: "",
-                nHikDevTotal: "",
-                nHikDevOnline: "",
-                nDhDevTotal: "",
-                nDhDevOnline: "",
-                nHikIscDevTotal: "",
-                nHikIscDevOnline: "",
-                nTdDevTotal: "",
+  data() {
+    return {
+        value:true,
+        config:{
+            data: [0],
+            shape: 'roundRect',
+            waveHeight:10,
+            waveNum:2
+        },
+        config1:{
+            data: [0],
+            shape: 'roundRect',
+            waveHeight:10,
+            waveNum:2
+        },
+        config2:{
+            data: [0],
+            shape: 'roundRect',
+            waveHeight:10,
+            waveNum:2
+        },
+        config3:{
+            data: [0],
+            shape: 'roundRect',
+            waveHeight:10,
+            waveNum:2
+        },
+        data: [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+        data1: [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+        data2: [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+        codecInfo:"",
+        capability:"",
+        system:"",
+        dev:{
+            nCameraTotal: "",
+            nCameraOnline: "",
+            nHikDevTotal: "",
+            nHikDevOnline: "",
+            nDhDevTotal: "",
+            nDhDevOnline: "",
+            nHikIscDevTotal: "",
+            nHikIscDevOnline: "",
+            nTdDevTotal: "",
 
-                nTdDevOnline: "",
-                nGbDevTotal: "",
-                nGbDevOnline: "",
+            nTdDevOnline: "",
+            nGbDevTotal: "",
+            nGbDevOnline: "",
 
-                nCloudTotal: "",
-                nCloudOnline: "",
+            nCloudTotal: "",
+            nCloudOnline: "",
 
-                nRTSPRTMPTotal: "",
-                nRTSPRTMPOnline: "",
+            nRTSPRTMPTotal: "",
+            nRTSPRTMPOnline: "",
 
-                nONVIFTotal: "",
-                nONVIFOnline: "",
+            nONVIFTotal: "",
+            nONVIFOnline: "",
 
-                nRTMPPushTotal: "",
-                nRTMPPushOnline: ""
-            },
-            timerRunInfo: undefined,
-            title_text:this.$t("message.dashboard.an_out"),
-            network_in:this.$t("message.dashboard.network_in"),
-            network_out:this.$t("message.dashboard.network_out"),
+            nRTMPPushTotal: "",
+            nRTMPPushOnline: "",
+        },
+        timerRunInfo: undefined,
+        title_text:this.$t("message.dashboard.an_out"),
+        network_in:this.$t("message.dashboard.network_in"),
+        network_out:this.$t("message.dashboard.network_out"),
 
-            Hikvision:this.$t("message.dashboard.Hikvision"),
-            Dahua:this.$t("message.dashboard.Dahua"),
-            Tiandy:this.$t("message.dashboard.Tiandy"),
+        Hikvision:this.$t("message.dashboard.Hikvision"),
+        Dahua:this.$t("message.dashboard.Dahua"),
+        Tiandy:this.$t("message.dashboard.Tiandy"),
 
-            total:this.$t("message.dashboard.total"),
-            ge:this.$t("message.dashboard.ge"),
+        total:this.$t("message.dashboard.total"),
+        ge:this.$t("message.dashboard.ge"),
 
-            Online:this.$t("message.dashboard.Online"),
-            Offline:this.$t("message.dashboard.Offline"),
+        Online:this.$t("message.dashboard.Online"),
+        Offline:this.$t("message.dashboard.Offline"),
 
-            strRunTime:"",//运行时间
-            Gpulen:{
-                nIndex:"",
-                nvidia:""
-            }
-        };
+        strRunTime:"",//运行时间
+    };
+  },
+    beforeDestroy() {
+        console.log("Dashboard", "beforeDestroy");
+        clearInterval(this.timerRunInfo);
     },
     destroyed() {
-    },
-    beforeDestroy() {
-        clearInterval(this.timerRunInfo);
-        clearInterval(this.timerRunInfo1)
-    },
+        this.config1.data[0]=Math.round(this.dev.nONVIFOnline/this.dev.nONVIFTotal*100);
+        console.log('Dashboard', "destroyed");
+    },  
     mounted: function() {
         
         // let _this = this;
@@ -320,60 +298,25 @@ export default {
         this.devisc();
         this.devtd();
         this.devgb();
-        this.Gpu();
+        
+            
+            // console.log("*******",Math.round(this.dev.nONVIFOnline/this.dev.nONVIFTotal*100),this.config.data[0]);
         this.timerRunInfo = setInterval(() => {
             this.GetRunInfo();
             this.cpu();
             this.flow();
         }, 5000);
-        this.timerRunInfo1 = setInterval(() => {
+        this.timerRunInfo = setInterval(() => {
             this.GetDeviceSummary();
             this.devhk();
             this.devdh();
             this.devisc();
             this.devtd();
             this.devgb();
-        }, 60000*5)
+        }, 60000*5);
 
     },
     methods: {
-        // 复制
-        copylink(id){
-            
-            var clipboard = new this.clipboard('.copy');
-            //成功回调
-            var _this=this;
-            clipboard.on('success', function(e) {
-                console.info('Action:',e.action);
-                console.info('Text:', e.text);
-                console.info('Trigger:', e.trigger);  
-                e.clearSelection();
-                _this.$message(_this.$t("message.dashboard.Copysuccessful"))
-            });
-            //失败回调
-            clipboard.on('error', function(e) {
-                console.error('Action:', e.action);
-                console.error('Trigger:', e.trigger);
-            });
-        },
-        //GPU
-        Gpu(){
-            let _this = this;
-            var root = process.env.API_ROOT;
-            if (root == undefined) {
-                root =window.location.protocol + "//" +window.location.host +window.location.pathname;
-            }
-
-            var url =root + "/api/v1/GetGPUInfo?session=" + this.$store.state.token;
-                // console.log("------------",url)
-            this.$http.get(url).then(result => {
-                if (result.status == 200) {
-                    var data = result.data;
-                    this.Gpulen.nIndex=data.intel.length;
-                    this.Gpulen.nvidia=data.nvidia.length;
-                }
-            })
-        },
         //流量
         flow() {
             var base = +new Date();
@@ -386,13 +329,10 @@ export default {
                 )
             }
             // console.log(this.data)
+            
             // console.log(this.data,this.data1)
             // 基于准备好的dom，初始化echarts实例
-            var pieId = document.getElementById('container');
-            if (!pieId){
-                return false;
-            }
-            var myChart = echarts.init(pieId)
+            var myChart = echarts.init(document.getElementById('container'))
             // 绘制图表
             myChart.setOption({
                 tooltip: {
@@ -411,7 +351,7 @@ export default {
                         data:[ this.network_in,this.network_out],
                         icon:'rect',
                         itemWidth: 35,
-                        itemHeight: 2
+                        itemHeight: 2,
                     },
                 xAxis: {
                     type: 'category',
@@ -481,7 +421,7 @@ export default {
                         ])
                     },
                     data: this.data1
-                } ]
+                }, ]
             })
         },
         // cpu
@@ -495,12 +435,8 @@ export default {
                     [('0' + now.getSeconds()).slice(-2) + 's']
                 )
             }
-            var pieId = document.getElementById('container1');
-            if (!pieId){
-                return false;
-            }
             // 基于准备好的dom，初始化echarts实例
-            var myChart = echarts.init(pieId)
+            var myChart = echarts.init(document.getElementById('container1'))
             // 绘制图表
             myChart.setOption({
                 tooltip: {
@@ -519,7 +455,7 @@ export default {
                         data:['CPU'],
                         icon:'rect',
                         itemWidth: 35,
-                        itemHeight: 2
+                        itemHeight: 2,
                     },
                 xAxis: {
                     type: 'category',
@@ -568,7 +504,7 @@ export default {
                         ])
                     },
                     data: this.data2
-                }]
+                },]
             })
         },
         //海康
@@ -576,22 +512,19 @@ export default {
             window.setTimeout(function() {
                 // console.log("11111111111111111",this.dev)
                 // return false;
-                var pieId=document.getElementById('mian')
-                if (!pieId){
-                    return false;
-                }
-                var myChart = echarts.init(pieId);
+                var myChart = echarts.init(document.getElementById('mian'));
                 myChart.setOption({
                     tooltip: {
-                        show:true
+                        show:true,
+                        
                     },
                     title: {
                         x: 'center',
                         y: 'center',
                         textStyle:{
                             fontSize:12,
-                            fontWeight:400
-                        }
+                            fontWeight:400,
+                        },
                     },
                     
                     series: [{
@@ -611,7 +544,7 @@ export default {
                                     fontWeight: 'bold'
                                 },
                                 formatter:'{b}\n{c}'
-                            }
+                            },
                             
                         },
                         labelLine: {
@@ -665,22 +598,18 @@ export default {
         devdh(){
             // console.log("this.dev)
             window.setTimeout(function() {
-                var pieId=document.getElementById('mian1')
-                if (!pieId){
-                    return false;
-                }
-                var myChart = echarts.init(pieId);
+                var myChart = echarts.init(document.getElementById('mian1'));
                 myChart.setOption({
                     tooltip: {
-                        show:true
+                        show:true,
                     },
                     title: {
                         x: 'center',
                         y: 'center',
                         textStyle:{
                             fontSize:12,
-                            fontWeight:400
-                        }
+                            fontWeight:400,
+                        },
                     },
                     series: [{
                         name: this.Dahua,
@@ -699,7 +628,7 @@ export default {
                                     fontWeight: 'bold'
                                 },
                                 formatter:'{b}\n{c}'
-                            }
+                            },
                             
                         },
                         labelLine: {
@@ -752,14 +681,10 @@ export default {
         //isc
         devisc(){
             window.setTimeout(function() {
-                var pieId=document.getElementById('mian2')
-                if (!pieId){
-                    return false;
-                }
-                var myChart = echarts.init(pieId);
+                var myChart = echarts.init(document.getElementById('mian2'));
                 myChart.setOption({
                     tooltip: {
-                        show:true
+                        show:true,
                         
                     },
                     title: {
@@ -767,8 +692,8 @@ export default {
                         y: 'center',
                         textStyle:{
                             fontSize:12,
-                            fontWeight:400
-                        }
+                            fontWeight:400,
+                        },
                     },
                     series: [{
                         name: 'iSecure Center',
@@ -787,7 +712,7 @@ export default {
                                     fontWeight: 'bold'
                                 },
                                 formatter:'{b}\n{c}'
-                            }
+                            },
                             
                         },
                         labelLine: {
@@ -840,14 +765,10 @@ export default {
         //天地
         devtd(){
             window.setTimeout(function() {
-                var pieId=document.getElementById('mian3')
-                if (!pieId){
-                    return false;
-                }
-                var myChart = echarts.init(pieId);
+                var myChart = echarts.init(document.getElementById('mian3'));
                 myChart.setOption({
                     tooltip: {
-                        show:true
+                        show:true,
                         
                     },
                     title: {
@@ -855,8 +776,8 @@ export default {
                         y: 'center',
                         textStyle:{
                             fontSize:12,
-                            fontWeight:400
-                        }
+                            fontWeight:400,
+                        },
                     },
                     series: [{
                         name:this.Tiandy,
@@ -875,7 +796,7 @@ export default {
                                     fontWeight: 'bold'
                                 },
                                 formatter:'{b}\n{c}'
-                            }
+                            },
                             
                         },
                         labelLine: {
@@ -928,14 +849,10 @@ export default {
         //国标
         devgb(){
             window.setTimeout(function() {
-                var pieId=document.getElementById('mian4')
-                if (!pieId){
-                    return false;
-                }
-                var myChart = echarts.init(pieId);
+                var myChart = echarts.init(document.getElementById('mian4'));
                 myChart.setOption({
                     tooltip: {
-                        show:true
+                        show:true,
                         
                     },
                     title: {
@@ -943,8 +860,8 @@ export default {
                         y: 'center',
                         textStyle:{
                             fontSize:12,
-                            fontWeight:400
-                        }
+                            fontWeight:400,
+                        },
                     },
                     series: [{
                         name: 'GB',
@@ -963,7 +880,7 @@ export default {
                                     fontWeight: 'bold'
                                 },
                                 formatter:'{b}\n{c}'
-                            }
+                            },
                             
                         },
                         labelLine: {
@@ -1021,7 +938,6 @@ export default {
             }
             //url
             var url = root + "/api/v1/GetRunInfo?session="+ this.$store.state.token;
-
             // console.log("url111",url)
             this.$http.get(url).then(result=>{
                 if (result.status == 200) {
@@ -1051,9 +967,9 @@ export default {
                 if (result.status == 200) {
                         this.dev=result.data;
                         var Cloud="";
-                        var RTSPRx="";
-                        var ONVIFx="";
-                        var RTMPx="";
+                        var RTSPR="";
+                        var ONVIF="";
+                        var RTMP="";
                         if(this.dev.nCloudTotal==0){
                             Cloud=0;
                         }else{
@@ -1061,41 +977,49 @@ export default {
                         }
 
                         if(this.dev.nRTSPRTMPTotal==0){
-                            RTSPRx=0;
+                            RTSPR=0;
                         }else{
-                            RTSPRx=Math.round(this.dev.nRTSPRTMPOnline/this.dev.nRTSPRTMPTotal*100)
+                            RTSPR=Math.round(this.dev.nRTSPRTMPOnline/this.dev.nRTSPRTMPTotal*100)
                         }
 
                         if(this.dev.nONVIFTotal==0){
-                            ONVIFx=0;
+                            ONVIF=0;
                         }else{
-                            ONVIFx=Math.round(this.dev.nONVIFOnline/this.dev.nONVIFTotal*100)
+                            ONVIF=Math.round(this.dev.nONVIFOnline/this.dev.nONVIFTotal*100)
                         }
 
                         if(this.dev.nRTMPPushTotal==0){
-                            RTMPx=0;
+                            RTMP=0;
                         }else{
-                            RTMPx=Math.round(this.dev.nRTMPPushOnline/this.dev.nRTMPPushTotal*100)
+                            RTMP=Math.round(this.dev.nRTMPPushOnline/this.dev.nRTMPPushTotal*100)
                         }
-                        // console.log(Cloud,RTSPRx,ONVIFx,RTMPx)
-                        var databuk=[{
-                            name:this.$t("message.dashboard.Cloud"),
-                            total1:this.dev.nCloudTotal,
-                            percentage:Cloud
-                        },{
-                            name:'RTSP/RTMP',
-                            total1:this.dev.nRTSPRTMPTotal,
-                            percentage:RTSPRx
-                        },{
-                            name:'ONVIF',
-                            total1:this.dev.nONVIFTotal,
-                            percentage:ONVIFx
-                        },{
-                            name:this.$t("message.dashboard.RTMP"),
-                            total1:this.dev.nRTMPPushTotal,
-                            percentage:RTMPx
-                        }]
-                        this.devbucket=databuk
+                        // 
+                        // console.log("---------",Cloud)
+                        this.config={
+                                data: [Cloud],
+                                shape: 'roundRect',
+                                waveHeight:10,
+                                waveNum:2
+                            };
+                        this.config1={
+                                data: [RTSPR],
+                                shape: 'roundRect',
+                                waveHeight:10,
+                                waveNum:2
+                            };
+                        this.config2={
+                                data: [ONVIF],
+                                shape: 'roundRect',
+                                waveHeight:10,
+                                waveNum:2
+                            };
+                        this.config3={
+                                data: [RTMP],
+                                shape: 'roundRect',
+                                waveHeight:10,
+                                waveNum:2
+                            };
+                        // console.log("设备",this.dev,result.data);
                 }
             })
         },
@@ -1178,11 +1102,6 @@ export default {
                 // console.log("------------",url)
             this.$http.get(url).then(result => {
                 //console.log(result);
-                // name:this.$t("message.dashboard.gpuencoder"),
-                // id:data.strHWEncoders
-                // name:this.$t("message.dashboard.gpudecoder"),
-                // id:data.strHWDecoders
-
                 if (result.status == 200) {
                     var data =  result.data;
                     var cpu=[{
@@ -1194,6 +1113,12 @@ export default {
                     },{
                         name:this.$t("message.dashboard.CPUCore"),
                         id:data.nCPUCore
+                    },{
+                        name:this.$t("message.dashboard.gpuencoder"),
+                        id:data.strHWEncoders
+                    },{
+                        name:this.$t("message.dashboard.gpudecoder"),
+                        id:data.strHWDecoders
                     },{
                         name:this.$t("message.dashboard.cpuencoder"),
                         id:data.strSWEncoders
@@ -1222,8 +1147,10 @@ export default {
             }
 
             var url = root + "/api/v1/GetSrc?session=" + this.$store.state.token;
+            console.log("****************", url);
 
             this.$http.get(url).then(result => {
+                console.log(result.data.src.length);
 
                 if (result.status == 200) {
                     var data = result.data;
@@ -1264,49 +1191,6 @@ export default {
 };
 </script>
 <style scoped>
-.sdk_szie{
-    width: 76%;
-    position: absolute;
-}
-.sdk_back{
-    text-align: center;
-    padding: 45% 6px;
-    font-size:22px;
-    font-family:Arial Black;
-    font-weight:400;
-    color:rgba(25,198,240,1);
-    width: 100%;
-    height: 72%;
-    background: url('./gallery/dash_shuitong.png')no-repeat;
-    background-size: 85%;
-    position: relative;
-}
-.sdk_back1{
-    width: 76%;
-    height: 60%;
-    background: url('./gallery/dash_bucket.png');
-    position: absolute;
-    bottom: 11px;
-}
-/* copy */
-#foo{
-    border: 0;
-    width: 60%;
-}
-/* a标签 */
-.A_More{
-    font-size:14px;
-    color: #66CDB4; 
-    font-family:PingFang SC;
-}
-.flex_iv{
-    display: flex; justify-content: space-around;width:100%;
-    font-size:12px;
-    font-family:PingFang SC;
-    font-weight:400;
-    color:rgba(51,51,51,1);
-}
-
 #page-wrapper{
     margin-bottom: 20px;
 }
@@ -1373,6 +1257,10 @@ export default {
     height: 100%;
     /* text-align: center */
 }
+.container_sdk .containesr_sdks .dv-water-pond-level{
+    width: 100%;
+    height: 70%;
+}
 .containesr_sdks_zi{
     text-align: center;
 }
@@ -1422,7 +1310,7 @@ export default {
 .beibiao_zi{
     font-size:16px;
     font-weight:400;
-    margin: 0 10px;
+    margin-right: 10px;
     color:rgba(51,51,51,1);
 }
 .beibiao_zi1{
@@ -1502,12 +1390,9 @@ export default {
 }
 
 .flex_nc .flex_nc1:nth-child(2){
-    height: 30%;
+    height: 40%;
 }
 .flex_nc .flex_nc1:nth-child(3){
-    height: 10%;
-}
-.flex_nc .flex_nc1:nth-child(4){
     height: 25%;
 }
 .nr_function{

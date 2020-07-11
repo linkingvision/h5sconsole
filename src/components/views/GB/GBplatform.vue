@@ -48,13 +48,13 @@
             </el-form>
             <div slot="footer" class="dialog-footer">
                 <el-button @click="editPopup = false">{{$t("message.setting.Cancel")}}</el-button>
-                <el-button type="primary" @click="edityes">{{$t("message.setting.edit")}}</el-button>
+                <el-button type="primary" @click="edityes">{{$t("message.setting.ADD")}}</el-button>
             </div>
         </el-dialog>
 
 
         <!-- 两个表格 -->
-        <el-tabs v-model="activeName" type="border-card" max-height="850">
+        <el-tabs v-model="activeName" style="width: 100%;padding: 0 50px;background: #fff;" max-height="850">
             <!-- 1 -->
             <el-tab-pane :label="label.label1" name="GBPlatform">
                 <!-- 添加 -->
@@ -122,13 +122,60 @@
                     @select-all='select_Call'
                     style="width: 100%">
                     <!-- 隐藏内容 -->
+                    <el-table-column type="expand">
+                        <template slot-scope="props">
+                            <el-form label-position="left" inline class="demo-table-expand">
+                               
+                                <el-form-item :label="label.label2">
+                                    <span>{{ props.row.name }}</span>
+                                </el-form-item>
+                                <el-form-item label="Token :">
+                                    <span>{{ props.row.Token }}</span>
+                                </el-form-item>
+                                <el-form-item :label="label.label3">
+                                    <span>{{ props.row.strGbServerIpAddr }}</span>
+                                </el-form-item>
+                                <el-form-item :label="label.label4">
+                                    <span>{{ props.row.nGbServerPort }}</span>
+                                </el-form-item>
+                                <el-form-item :label="label.label5">
+                                    <span>{{ props.row.nGbLocalPort }}</span>
+                                </el-form-item>
+                                <el-form-item :label="label.label6">
+                                    <span>{{ props.row.strGbID }}</span>
+                                </el-form-item>
+                                <el-form-item :label="label.label7">
+                                    <span>{{ props.row.strGbServerID }}</span>
+                                </el-form-item>
+                                <el-form-item :label="label.label8">
+                                    <span>{{ props.row.strGbServerPassword }}</span>
+                                </el-form-item>
+                                <el-form-item :label="label.label13">
+                                    <span>{{ props.row.strGbDomain }}</span>
+                                </el-form-item>
+                                <el-form-item :label="label.label9">
+                                    <span>{{ props.row.strGbProto }}</span>
+                                </el-form-item>
+                                <el-form-item :label="label.label10">
+                                    <span>{{ props.row.strGbIDChBase }}</span>
+                                </el-form-item>
+                                <el-form-item :label="label.label11">
+                                    <span>{{ props.row.nGbRegisterPeriod }}</span>
+                                </el-form-item>
+                                <el-form-item :label="label.label12">
+                                    <span>{{ props.row.nGbKeepaliveTime }}</span>
+                                </el-form-item>
+                                
+                            </el-form>
+                        </template>
+                    </el-table-column>
                     <el-table-column
                         type="selection"
                         width="55">
                     </el-table-column>
                     <el-table-column
                         prop="index"
-                        :label="label.Index"
+                        label="index"
                         width="100">
                     </el-table-column>
                     <el-table-column
@@ -138,7 +185,7 @@
                     </el-table-column>
                     <el-table-column
                     prop="Token"
-                    :label="label.Token"
+                    label="Token"
                     width="180">
                     </el-table-column>
                     <el-table-column
@@ -206,9 +253,6 @@ import uuid from '@/store/uuid'
             label11:this.$t("message.GB.RegisterPeriod"),
             label12:this.$t("message.GB.KeepaliveTime"),
             label13:this.$t("message.GB.Domain"),
-
-            Index:this.$t("message.table.Index"),
-            Token:this.$t("message.table.Token")
         },
         //分页
         search:"",//搜索
@@ -230,14 +274,14 @@ import uuid from '@/store/uuid'
             strGbIDChBase:"34020000001320000001",
             nGbKeepaliveTime:"10",
             nGbRegisterPeriod:"120",
-            nGbLocalPort:"50600"
+            nGbLocalPort:"50600",
         },
         editform: {
         },
         edittoken:"",//编辑时要删除的token
         editindex:"",//编辑时所在索引
         tableData: [],//2
-        selectop:[]//选择那几个
+        selectop:[],//选择那几个
       };
     },
     mounted(){
@@ -247,9 +291,6 @@ import uuid from '@/store/uuid'
         handlechange(){},
         //第一个表格的数据
         loadplatform(){
-            if(this.$store.state.root=="Operator"){
-                return false
-            }
 		    var root = process.env.API_ROOT;
 		    var wsroot = process.env.WS_HOST_ROOT;
 		    if (root == undefined){
@@ -281,7 +322,7 @@ import uuid from '@/store/uuid'
                               strGbProto:itme[i].strGbProto,
                               strGbIDChBase:itme[i].strGbIDChBase,
                               nGbRegisterPeriod:itme[i].nGbRegisterPeriod,
-                              nGbKeepaliveTime:itme[i].nGbKeepaliveTime
+                              nGbKeepaliveTime:itme[i].nGbKeepaliveTime,
                           };
                           this.tableData.push(tabledata);
                       }
@@ -335,19 +376,19 @@ import uuid from '@/store/uuid'
                         }
                         this.tableData.splice(this.editindex, 1,list)
                         var url = root + "/api/v1/AddGbPlatform?name="
-                        +encodeURIComponent(editform.name)+
-                        "&token="+encodeURIComponent(editform.Token)+
-                        "&localport="+encodeURIComponent(editform.nGbLocalPort)+
-                        "&gbid="+encodeURIComponent(editform.strGbID)+
-                        "&gbserverid="+encodeURIComponent(editform.strGbServerID)+
-                        "&gbdomain="+encodeURIComponent(editform.strGbDomain)+
-                        "&gbserverpw="+encodeURIComponent(editform.strGbServerPassword)+
-                        "&gbproto="+encodeURIComponent(editform.strGbProto)+
-                        "&gbserverip="+encodeURIComponent(editform.strGbServerIpAddr)+
-                        "&gbserverport="+encodeURIComponent(editform.nGbServerPort)+
-                        "&gbidchbase="+encodeURIComponent(editform.strGbIDChBase)+
-                        "&registerperiod="+encodeURIComponent(editform.nGbRegisterPeriod)+
-                        "&keepalivetime="+encodeURIComponent(editform.nGbKeepaliveTime)+
+                        +editform.name+
+                        "&token="+editform.Token+
+                        "&localport="+editform.nGbLocalPort+
+                        "&gbid="+editform.strGbID+
+                        "&gbserverid="+editform.strGbServerID+
+                        "&gbdomain="+editform.strGbDomain+
+                        "&gbserverpw="+editform.strGbServerPassword+
+                        "&gbproto="+editform.strGbProto+
+                        "&gbserverip="+editform.strGbServerIpAddr+
+                        "&gbserverport="+editform.nGbServerPort+
+                        "&gbidchbase="+editform.strGbIDChBase+
+                        "&registerperiod="+editform.nGbRegisterPeriod+
+                        "&keepalivetime="+editform.nGbKeepaliveTime+
                         "&session="+ this.$store.state.token;
                         //console.log(url);
                         this.$http.get(url).then(result=>{
@@ -387,19 +428,19 @@ import uuid from '@/store/uuid'
             }
             console.log(form);
             var url = root + "/api/v1/AddGbPlatform?name="
-            +encodeURIComponent(form.name)+
-            "&token="+encodeURIComponent(form.Token)+
-            "&localport="+encodeURIComponent(form.nGbLocalPort)+
-            "&gbid="+encodeURIComponent(form.strGbID)+
-            "&gbserverid="+encodeURIComponent(form.strGbServerID)+
-            "&gbdomain="+encodeURIComponent(form.strGbDomain)+
-            "&gbserverpw="+encodeURIComponent(form.strGbServerPassword)+
-            "&gbproto="+encodeURIComponent(form.strGbProto)+
-            "&gbserverip="+encodeURIComponent(form.strGbServerIpAddr)+
-            "&gbserverport="+encodeURIComponent(form.nGbServerPort)+
-            "&gbidchbase="+encodeURIComponent(form.strGbIDChBase)+
-            "&registerperiod="+encodeURIComponent(form.nGbRegisterPeriod)+
-            "&keepalivetime="+encodeURIComponent(form.nGbKeepaliveTime)+
+            +form.name+
+            "&token="+form.Token+
+            "&localport="+form.nGbLocalPort+
+            "&gbid="+form.strGbID+
+            "&gbserverid="+form.strGbServerID+
+            "&gbdomain="+form.strGbDomain+
+            "&gbserverpw="+form.strGbServerPassword+
+            "&gbproto="+form.strGbProto+
+            "&gbserverip="+form.strGbServerIpAddr+
+            "&gbserverport="+form.nGbServerPort+
+            "&gbidchbase="+form.strGbIDChBase+
+            "&registerperiod="+form.nGbRegisterPeriod+
+            "&keepalivetime="+form.nGbKeepaliveTime+
             "&session="+ this.$store.state.token;
             console.log(url);
             this.$http.get(url).then(result=>{
@@ -487,7 +528,7 @@ import uuid from '@/store/uuid'
                 wsroot = window.location.host;
             }
             //url
-            var url = root + "/api/v1/DelGbPlatform?token="+encodeURIComponent(row.Token)+"&session="+ this.$store.state.token;
+            var url = root + "/api/v1/DelGbPlatform?token="+row.Token+"&session="+ this.$store.state.token;
             this.$http.get(url).then(result=>{
                 console.log(result);
                 console.log(this.tableData);
@@ -520,7 +561,7 @@ import uuid from '@/store/uuid'
             }
             //url
             for(var i=0;i<token.length;i++){
-                var url = root + "/api/v1/DelGbPlatform?token="+encodeURIComponent(token[i].token)+"&session="+ this.$store.state.token;
+                var url = root + "/api/v1/DelGbPlatform?token="+token[i].token+"&session="+ this.$store.state.token;
                 this.$http.get(url).then(result=>{
                     console.log(result);
                     console.log(this.tableData);
@@ -571,8 +612,8 @@ import uuid from '@/store/uuid'
         handleCurrentChange(val) {
             console.log(`当前页: ${val}`);
             this.currentPage = val;
-        }
-    }
+        },
+    },
   };
 </script>
 <style>
