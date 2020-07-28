@@ -96,7 +96,7 @@
                 </div>
                  <!-- 表格 -->
                 <el-table
-                    :data="tableData.filter(data => !search || data.Name.toLowerCase().includes(search.toLowerCase())).slice((currentPage-1)*pageSize,currentPage*pageSize)"
+                    :data="tableData.filter(data => !search || data.Name.toLowerCase().includes(search.toLowerCase())||data.IP.toLowerCase().includes(search.toLowerCase())).slice((currentPage-1)*pageSize,currentPage*pageSize)"
                     @select='selectCall'
                     @select-all='select_Call'
                     style="width: 100%">

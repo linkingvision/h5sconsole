@@ -235,7 +235,7 @@ export default {
     },
     mounted() {
         // console.log("liveview",this.$store.state.root)
-        if( this.$store.state.root=="Operator"){
+        if( this.$store.state.root=="Operator"||this.$store.state.token==null){
             $("#device").hide();
         }else if(this.$store.state.root=="Administrator"){
             $("#device1").hide();
@@ -591,7 +591,7 @@ export default {
         },
         //设备隐藏
         devicetoog(){
-            if( this.$store.state.root=="Operator"){
+            if( this.$store.state.root=="Operator"||this.$store.state.token==null){
                 return
             }
             $("#device").hide();
@@ -599,7 +599,7 @@ export default {
 
         },
         devicetoog1(){
-            if( this.$store.state.root=="Operator"){
+            if( this.$store.state.root=="Operator"||this.$store.state.token==null){
                 return
             }
             $("#device1").hide();

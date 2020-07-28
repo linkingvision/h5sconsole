@@ -353,44 +353,45 @@ const routes = [
   },
 ];
 // 页面刷新时，重新赋值token
-if (window.localStorage.getItem('h5stoken')) {
-  store.commit(types.LOGIN, window.localStorage.getItem('h5stoken'))
+if (window.sessionStorage.getItem('h5stoken')) {
+  store.commit(types.LOGIN, window.sessionStorage.getItem('h5stoken'))
 }
-if (window.localStorage.getItem('h5link')) {
-  store.commit(types.LINK, window.localStorage.getItem('h5link'))
+if (window.sessionStorage.getItem('h5link')) {
+  store.commit(types.LINK, window.sessionStorage.getItem('h5link'))
 }
 
-if (window.localStorage.getItem('h5slang')) {
-  store.commit(types.LANG, window.localStorage.getItem('h5slang'))
+if (window.sessionStorage.getItem('h5slang')) {
+  store.commit(types.LANG, window.sessionStorage.getItem('h5slang'))
 }
-if (window.localStorage.getItem('h5rtcsw')) {
-  store.commit(types.RTCSW, window.localStorage.getItem('h5rtcsw'))
+if (window.sessionStorage.getItem('h5rtcsw')) {
+  store.commit(types.RTCSW, window.sessionStorage.getItem('h5rtcsw'))
 }
-if (window.localStorage.getItem('watermarkstring')) {
-  store.commit(types.WATERMARKSTRING, window.localStorage.getItem('watermarkstring'))
+if (window.sessionStorage.getItem('watermarkstring')) {
+  store.commit(types.WATERMARKSTRING, window.sessionStorage.getItem('watermarkstring'))
 }
-if (window.localStorage.getItem('h5watermarktoggle')) {
-  store.commit(types.WATERMARKTOGGLE, window.localStorage.getItem('h5watermarktoggle'))
+if (window.sessionStorage.getItem('h5watermarktoggle')) {
+  store.commit(types.WATERMARKTOGGLE, window.sessionStorage.getItem('h5watermarktoggle'))
 }
 //巡更
-if (window.localStorage.getItem('h5toursw')) {
-  store.commit(types.WATERMARKTOGGLE, window.localStorage.getItem('h5toursw'))
+if (window.sessionStorage.getItem('h5toursw')) {
+  store.commit(types.WATERMARKTOGGLE, window.sessionStorage.getItem('h5toursw'))
 }
 //视频会议
-if (window.localStorage.getItem('h5conference')) {
-  store.commit(types.CONFERENCE, window.localStorage.getItem('h5conference'))
+if (window.sessionStorage.getItem('h5conference')) {
+  store.commit(types.CONFERENCE, window.sessionStorage.getItem('h5conference'))
 }
 
-if (window.localStorage.getItem('h5adswitch')) {
-  store.commit(types.ADSWITCH, window.localStorage.getItem('h5adswitch'))
+if (window.sessionStorage.getItem('h5adswitch')) {
+  store.commit(types.ADSWITCH, window.sessionStorage.getItem('h5adswitch'))
 }
 
 //用户名
-if (window.localStorage.getItem('h5suser')) {
-  store.commit(types.USER, window.localStorage.getItem('h5suser'))
+if (window.sessionStorage.getItem('h5suser')) {
+  store.commit(types.USER, window.sessionStorage.getItem('h5suser'))
 }
-if (window.localStorage.getItem('h5sroot')) {
-  store.commit(types.ROOT, window.localStorage.getItem('h5sroot'))
+if (window.sessionStorage.getItem('h5sroot')) {
+  console.log(window.sessionStorage.getItem('h5sroot'))
+  store.commit(types.ROOT, window.sessionStorage.getItem('h5sroot'))
 }
 
 const Router = new VueRouter({

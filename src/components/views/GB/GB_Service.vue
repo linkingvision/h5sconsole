@@ -100,7 +100,7 @@
             </el-form>
             <div slot="footer" class="dialog-footer">
                 <el-button @click="editPopup = false">{{$t("message.setting.Cancel")}}</el-button>
-                <el-button type="primary" @click="edityes">{{$t("message.setting.edit")}}</el-button>
+                <el-button type="primary" @click="edityes">{{$t("message.camera.save")}}</el-button>
             </div>
         </el-dialog>
 
