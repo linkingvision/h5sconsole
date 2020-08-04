@@ -203,8 +203,8 @@ import uuid from '@/store/uuid'
             label8:this.$t("message.GB.SIPProtocol"),
             label9:this.$t("message.GB.Password"),
             label10:this.$t("message.GB.SIPChannelBaseID"),
-            label11:this.$t("message.GB.RegisterPeriod"),
-            label12:this.$t("message.GB.KeepaliveTime"),
+            label11:this.$t("message.GB.KeepaliveTime"),
+            label12:this.$t("message.GB.RegisterPeriod"),
             label13:this.$t("message.GB.Domain"),
 
             Index:this.$t("message.table.Index"),
@@ -261,11 +261,10 @@ import uuid from '@/store/uuid'
 		    }
 		   //url
            var url = root + "/api/v1/GetGbPlatform?session="+ this.$store.state.token;
-           console.log(url);
 			  this.$http.get(url).then(result=>{
 				  if(result.status == 200){
                       var itme=result.data.platform;
-                      //console.log(itme);
+                      console.log(itme);
                       for(var i=0;i<itme.length;i++){
                           var tabledata={
                               index:i+1,

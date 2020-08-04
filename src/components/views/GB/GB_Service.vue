@@ -234,6 +234,14 @@ import uuid from '@/store/uuid'
             nGbLocalPort:"50600"
         },
         editform: {
+            bEnable:"",
+            strGbID:"",
+            strRealm:"",
+            strPassword:"",
+            bEnableAudio:"",
+            bEnableSSRCCheck:"",
+            bSubAlarm:"",
+            bSubMobilePosition:""
         },
         scaletype:[
             {
@@ -300,6 +308,8 @@ import uuid from '@/store/uuid'
         },
         //查看
         handleClick(index,row){
+            
+            // KeepaliveTime: ${row.KeepaliveTime}<br>
            console.log(row,index,this.tableData);
             this.$Modal.info({
                 title: '详情',
@@ -311,7 +321,6 @@ import uuid from '@/store/uuid'
                 strGbID: ${row.strGbID}<br>
                 nPortRangeMin: ${row.nPortRangeMin}<br>
                 nPortRangeMax: ${row.nPortRangeMax}<br>
-                KeepaliveTime: ${row.KeepaliveTime}<br>
                 nGbTimeout: ${row.nGbTimeout}<br>
                 nGbServerPort: ${row.nGbServerPort}<br>
 
