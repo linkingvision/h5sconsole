@@ -30,7 +30,7 @@
                             <span slot-scope="{ node, data }" style="width:100%;">
                                 <div style="width:100%;display: flex;justify-content: space-between;">
                                     <span>
-                                        <span class="mdi mdi-view-sequential fa-fw" style="color:rgb(142, 132, 132);"></span>
+                                        <span class="mdi mdi-view-sequential fa-fw"></span>
                                         <span :class="data.iconclass1" style="padding-left: 4px;">{{data.strName}}</span>
                                     </span>
                                     <el-popover
@@ -60,13 +60,14 @@
                 <div class="tow_node">
                     <div class="Root_node">
                         <el-tree 
-                        :data="camdata" 
+                        :data="camdata"
+                        highlight-current
                         show-checkbox
                         ref="tree">
                         <span slot-scope="{ node, data }" style="width:100%;">
                                 <div style="width:100%;display: flex;justify-content: space-between;">
                                     <span >
-                                        <span :class="data.iconclass" style="color:rgb(142, 132, 132);"></span>
+                                        <span :class="data.iconclass"></span>
                                         <!-- <img src="" alt=""> -->
                                         <span :class="data.iconclass1" style="padding-left: 4px;">{{data.label}}</span>
                                     </span>
@@ -76,21 +77,27 @@
                         </el-tree>
                     </div>
                     <div class="tow_node_root">
+                        <div style="font-size:44px;font-weight:600;color:rgba(51,51,51,1);height: 40px;" class="iconfont icon-jiang-right"></div>
                         <div>
                             <el-button class="button_addpv" type="success" @click="addcam" round size="mini">{{$t("message.setting.ADD")}}</el-button>
                         </div>
-                        <div>
+                        <!-- <div>
                             <el-button class="button_addpv" type="success" @click="deleteselectcam" round size="mini">{{$t("message.setting.DeleteAll")}}</el-button>
-                        </div>
+                        </div> -->
                     </div>
                     <div class="Root_node">
-                        <el-tree :data="data" :props="defaultProps" ref="menuPermissionTree" @node-click="handleNodeClick">
+                        <el-input
+                            placeholder="输入区域名进行过滤"
+                            v-model="filterText">
+                        </el-input>
+                        <div style="font-size:16px;font-family:PingFang SC;font-weight:600;color:rgba(51,51,51,1);line-height:50px;">根节点</div>
+                        <el-tree highlight-current :filter-node-method="filterNode" :data="data" :props="defaultProps" ref="menuPermissionTree" @node-click="handleNodeClick2">
                             <span slot-scope="{ node, data}" style="width:100%;">
                                 <span>
-                                    <span class="mdi mdi-view-sequential fa-fw" style="color:rgb(142, 132, 132);"></span>
+                                    <span class="mdi mdi-view-sequential fa-fw"></span>
                                     <span :class="data.iconclass1" style="padding-left: 4px;">{{data.strName}} </span>
                                 </span>
-                                <div v-if="data.cam.length!=0">
+                                <!-- <div v-if="data.cam.length!=0">
                                     <el-tree class="el_tree1" 
                                         :data="data.cam"
                                         show-checkbox
@@ -102,7 +109,7 @@
                                         </span>
                                     </el-tree>
                                     
-                                </div>
+                                </div> -->
                                 <!-- <div style="margin:10px" v-for="(b2,index) in data.cam" :key="index">
                                     <span :class="b2.iconclass" style="color:rgb(142, 132, 132);"></span>
                                     <span :class="b2.iconclass1" style="padding-left: 4px;">{{b2.strName}}</span>
@@ -133,6 +140,27 @@
                             </div>
                         </div> -->
                     </div>
+                    <div class="Root_node2">
+                        <el-tree class="el_tree1" 
+                            :data="datanodecam"
+                            show-checkbox
+                            default-expand-all
+                            highlight-current
+                            :props="defaultPropscam"
+                            ref="menuPermissionTree1"
+                            >
+                            <span slot-scope="{ node, data }" style="width:100%;">
+                                <div class="datanodecam">
+                                    <div>
+                                        <span :class="data.iconclass"></span>
+                                        <span :class="data.iconclass1" style="padding-left: 4px;">{{data.strName}}</span>
+                                    </div>
+                                    <div @click="deleteselectcam" style="font-size:20px;font-weight:500; color:rgba(51,51,51,1);" class="iconfont icon-ashbin"></div>
+                                
+                                </div>
+                            </span>
+                        </el-tree>
+                    </div>
                 </div>
                 
             </el-tab-pane>
@@ -151,10 +179,12 @@
                     label1:this.$t("message.setting.Regional"),//选2
                     placeholder:this.$t("message.setting.Please")
                 },
-                activeName: 'first',
+                filterText:"",
+                activeName: 'first1',
                 data: [],
                 data1:this.listdatag.listdatag1,//第二
                 camdata:this.regionaldata.regionaldata,
+                datanodecam:[],
                 rootvalue:"",//节点名字
                 delcamtoken:"",//删除的token
                 datatoken:"",//节点token
@@ -165,6 +195,11 @@
                     label: 'strName',
                     cam:"cam"
                 },
+                defaultPropscam:{
+                    children: 'cam',
+                    label: 'strName',
+                    cam:"cam"
+                },
                 rootindex:0,
             };
         },
@@ -172,8 +207,57 @@
             this.Regional();
             // this.addcam();
         },
+        watch: {
+            filterText(val) {
+                this.$refs.menuPermissionTree.filter(val);
+            }
+        },
         methods:{
-            
+            handleNodeClick2(data){
+                // console.log(data.strToken,"2");
+                this.datanodecam=[]
+                this.datatoken=data.strToken;
+                // this.dataindex=data.index;
+                // this.dataname=data.strName;
+                var root = process.env.API_ROOT;
+                if (root == undefined){
+                    root = window.location.protocol + '//' + window.location.host + window.location.pathname;
+                }
+                var url = root + "/api/v1/GetRegion?token="+data.strToken+"&session="+ this.$store.state.token;
+                this.$http.get(url).then(result=>{
+                    console.log("tokne",result);
+                    var oldarr=result.data.root;
+                    var oldarr1=result.data.src;
+                    var dataroot=this.getchildcam(oldarr,oldarr1);
+                    console.log(dataroot)
+                    this.datanodecam.push(dataroot)
+                })
+            },
+            getchildcam(arr,arr1){
+                // console.log(arr,arr1)
+                for(var i in arr.cam){
+                    for(var j in arr1){
+                        if(arr.cam[i].strToken == arr1[j].strToken){
+                            // arr.cam.strName="摄像机"
+                            arr.cam[i].strName = arr1[j].strName;
+                            arr.cam[i].iconclass="mdi mdi-camcorder fa-fw"
+                            arr.cam[i].disabled_me=arr1[j].bDisable
+                            arr.cam[i].index=i
+                            if(!arr1[j].bOnline)
+                                arr.cam[i].iconclass = 'mdi mdi-camcorder-off fa-fw';
+
+                            if(arr1[j].bDisable== true){
+                                // newItem['disabled_me'] =true;
+                                arr.cam[i].iconclass1= 'camera';
+                            }
+
+                        }
+                    }
+                }
+                arr.iconclass="mdi mdi-view-sequential fa-fw"
+                arr.strName="名称"
+                return arr;
+            },
             //显示
             Regional(){
                 var root = process.env.API_ROOT;
@@ -181,15 +265,10 @@
                     root = window.location.protocol + '//' + window.location.host + window.location.pathname;
                 }
                 var url = root + "/api/v1/GetRegion?session="+ this.$store.state.token;
-                // console.log("////////////",url)
                 this.$http.get(url).then(result=>{
                     var oldarr=result.data.root;
                     var oldarr1=result.data.src;
-                    // console.log(oldarr,oldarr1)
-                    // return false
                     var dataroot=this.getchild(oldarr,oldarr1);
-                    // console.log(dataroot)
-                    // this.data=[];
                     this.data.push(dataroot);
                 })
             },
@@ -442,9 +521,9 @@
             },
             //删除
             deleteselectcam(){
-                var token=`menuPermissionTree1${this.dataindex}`
-                var tokencheked=this.$refs[`menuPermissionTree1${this.dataindex}`].getCheckedNodes();
-                // console.log(tokencheked,token)
+                // var token=`menuPermissionTree1${this.dataindex}`
+                var tokencheked=this.$refs.menuPermissionTree1.getCheckedNodes();
+                console.log(tokencheked)
                 // return false;
                 var root = process.env.API_ROOT;
                 if (root == undefined){
@@ -453,18 +532,20 @@
                 if(tokencheked.length==0){
                     return false;
                 }
-                var oldarr=this.data[0];
+                var oldarr=this.datanodecam[0];
                 for(var i=0;i<tokencheked.length;i++){
-
+                    if(tokencheked[i].strToken==this.datatoken){
+                        continue
+                    }
+                    console.log(tokencheked[i].strToken)
+                    
                     var oldarr1=tokencheked[i];
+                    
                     var dataroot=this.delcamdata(oldarr,oldarr1);
                     var url = root + "/api/v1/DelRegionCam?srctoken="+tokencheked[i].strToken+"&regiontoken="+this.datatoken+"&session="+ this.$store.state.token;
-                    // console.log("////////////",url)
                     this.$http.get(url).then(result=>{
                         if(result.status==200){
                             if(result.data.bStatus==true){
-                                // this.data=[];
-                                // this.Regional();
                             }else{
                                 this.$message({
                                     message: "摄像机"+name+"删除失败",
@@ -477,15 +558,19 @@
                 }
             },
             delcamdata(arr,arr1){
-                if(arr.strToken==this.datatoken){
-                    // console.log("********");
-                    arr.cam.splice(i,1)
+                // console.log(arr)
+                for(var i=0;i< arr.cam.length;i++){
+                    
+                    if(arr.cam[i].strToken==arr1.strToken){
+                        // console.log("********");
+                        arr.cam.splice(i,1)
+                    }
                 }
-                if(arr.node && arr.node.length>0){
-					for (var i = 0; i < arr.node.length; i++) {
-                        arr.node[i] = this.delcamdata(arr.node[i],arr1);
-					}
-				}
+                // if(arr.node && arr.node.length>0){
+				// 	for (var i = 0; i < arr.node.length; i++) {
+                //         arr.node[i] = this.delcamdata(arr.node[i],arr1);
+				// 	}
+				// }
                 return arr;
             },
             handleNodeClick1(data){
@@ -498,6 +583,10 @@
                 this.datatoken=data.strToken;
                 this.dataindex=data.index;
                 this.dataname=data.strName;
+            },
+            filterNode(value, data) {
+                if (!value) return true;
+                return data.strName.indexOf(value) !== -1;
             },
             removeTab(targetName) {
                 if(targetName.name=="first"){
@@ -514,12 +603,30 @@
     }
 </script>
 <style scoped>
+/* 第三个框 */
+.datanodecam{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
 .el_tree1{
     margin-left: -6px;
 }
 .el-tree {
     font-size: 16px;
     color: #333333;
+    font-weight: 600;
+    margin: 0;
+}
+.el-tree >>> i{
+    font-weight: 600;
+    color: #333333;
+}
+.el-tree >>> label{
+    margin: 0;
 }
 .el-tree >>> .el-tree-node__content{
     min-height: 24px;
@@ -560,17 +667,26 @@
     /* max-height: 700px; */
     overflow: auto;
     border: 1px solid #e1e1e1;
+    padding: 0 15px;
     padding-top: 10px;
     
 }
 .Root_node1{
     width: auto;
     min-width: 250px;
-    /* max-width:600px; */
     height: 600px;
-    /* max-height: 700px; */
     overflow: auto;
     border: 1px solid #e1e1e1;
+    padding: 0 15px;
+    padding-top: 10px;
+}
+.Root_node2{
+    width: auto;
+    min-width: 300px;
+    height: 600px;
+    overflow: auto;
+    border: 1px solid #e1e1e1;
+    padding: 0 15px;
     padding-top: 10px;
 }
 /* 弹窗 */

@@ -172,6 +172,8 @@ a{
     font-size: 16px;
     border-bottom: 1px solid rgba(247,247,247,1);
     box-sizing: border-box;
+    color: #333333;
+    font-weight: 600;
 }
 /* 点击变换颜色 */
 .setting_tj{

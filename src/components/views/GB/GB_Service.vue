@@ -33,6 +33,17 @@
                 <el-form-item label="strPassword">
                     <input class="editinput" v-model="editform.strPassword"/>
                 </el-form-item>
+                <el-form-item label="strRealm">
+                    <input class="editinput" v-model="editform.strRealm"/>
+                    <!-- <el-select v-model="editform.strRealm" placeholder="请选择">
+                        <el-option
+                            v-for="item in scaletype"
+                            :key="item.value"
+                            :label="item.label"
+                            :value="item.value">
+                        </el-option>
+                    </el-select> -->
+                </el-form-item>
                 <el-form-item label="bSubAlarm">
                     <el-select v-model="editform.bSubAlarm" placeholder="请选择">
                         <el-option
@@ -76,17 +87,6 @@
                 </el-form-item>
                 <el-form-item label="bEnableSSRCCheck">
                     <el-select v-model="editform.bEnableSSRCCheck" placeholder="请选择">
-                        <el-option
-                            v-for="item in scaletype"
-                            :key="item.value"
-                            :label="item.label"
-                            :value="item.value">
-                        </el-option>
-                    </el-select>
-                </el-form-item>
-                
-                <el-form-item label="strRealm">
-                    <el-select v-model="editform.strRealm" placeholder="请选择">
                         <el-option
                             v-for="item in scaletype"
                             :key="item.value"
@@ -354,11 +354,10 @@ import uuid from '@/store/uuid'
                 wsroot = window.location.host;
             }
             //url
-            console.log(this.edittoken);
             var editform=this.editform;
             var url1 = root + "/api/v1/SetGbConf?enable="+editform.bEnable+
             "&Gbid="+editform.strGbID+
-            "&realm="+editform.bSubAlarm+
+            "&realm="+editform.strRealm+
             "&password="+editform.strPassword+
             "&Gbserverproto="+editform.strGbServerProto+
             "&Gbstreamproto="+editform.strGbStreamProto+
@@ -369,8 +368,10 @@ import uuid from '@/store/uuid'
             "&portrangemax="+editform.nPortRangeMax+
             "&enableaudio="+editform.bEnableAudio+
             "&enableSSRCcheck="+editform.bEnableSSRCCheck+
-            "&subalarm="+editform.strRealm+
+            "&subalarm="+editform.bSubAlarm+
             "&submobileposition="+editform.bSubMobilePosition+"&session="+ this.$store.state.token;
+            
+            console.log(url1);
             this.$http.get(url1).then(result=>{
                 console.log("1",result);
                 if(result.status==200){
@@ -392,7 +393,7 @@ import uuid from '@/store/uuid'
         },
         //编辑 移除
         handleEdit(index,row){
-            //console.log(index);
+            console.log(row);
             this.editPopup = true;
             this.edittoken=row.Token;
             console.log("序列号",((this.currentPage-1)*10)+index);
