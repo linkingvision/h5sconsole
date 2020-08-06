@@ -180,7 +180,7 @@
                     placeholder:this.$t("message.setting.Please")
                 },
                 filterText:"",
-                activeName: 'first1',
+                activeName: 'first',
                 data: [],
                 data1:this.listdatag.listdatag1,//第二
                 camdata:this.regionaldata.regionaldata,

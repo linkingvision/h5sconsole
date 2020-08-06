@@ -147,7 +147,7 @@
                     </el-table-column>
                     <el-table-column
                     prop="nGbServerPort"
-                    :label="label.label4">
+                    :label="label.label5">
                     </el-table-column>
                     <el-table-column
                         fixed="right"
