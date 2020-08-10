@@ -1111,7 +1111,7 @@ export default {
             var url =root + "/api/v1/GetSystemInfo?session=" + this.$store.state.token;
                 // console.log("------------",url)
             this.$http.get(url).then(result => {
-                //console.log(result);
+                console.log(result);
                 if (result.status == 200) {
                     var data =  result.data;
                     var cpu=[{
@@ -1151,6 +1151,12 @@ export default {
                     },{
                         name:this.$t("message.dashboard.Platform"),
                         id:data.bPlatform
+                    },{
+                        name:this.$t("message.dashboard.Lingvideo"),
+                        id:data.bLingvideo
+                    },{
+                        name:this.$t("message.dashboard.Docker"),
+                        id:data.bDocker
                     }]
                     this.capability=cpu;
                     this.system=fun;
