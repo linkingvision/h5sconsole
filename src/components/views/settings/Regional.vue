@@ -255,7 +255,6 @@
                     }
                 }
                 arr.iconclass="mdi mdi-view-sequential fa-fw"
-                arr.strName="名称"
                 return arr;
             },
             //显示
