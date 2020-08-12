@@ -37,7 +37,7 @@
                                         class="button_edi1"
                                         placement="right"
                                         width="250"
-                                        trigger="click">
+                                        trigger="hover">
                                         <div class="input-pin">
                                             <div class="popover_Title">{{data.strName}}</div>
                                             <el-input
@@ -45,7 +45,7 @@
                                                 v-model="rootvalue">
                                             </el-input>
                                             <div>
-                                                <el-button class="button_addpv" type="success" @click.native.prevent="addtonond" round size="mini">{{$t("message.setting.ADD")}}</el-button>
+                                                <el-button class="button_addpv" type="success" @click.native.prevent="addtonond(data.strToken)" round size="mini">{{$t("message.setting.ADD")}}</el-button>
                                             </div>
                                         </div>
                                         <el-button slot="reference" type="button" class="button_add iconfont icon-add"></el-button>
@@ -155,8 +155,15 @@
                                         <span :class="data.iconclass"></span>
                                         <span :class="data.iconclass1" style="padding-left: 4px;">{{data.strName}}</span>
                                     </div>
-                                    <div @click="deleteselectcam" style="font-size:20px;font-weight:500; color:rgba(51,51,51,1);" class="iconfont icon-ashbin"></div>
-                                
+                                    <div v-if="data.iconclass=='mdi mdi-view-sequential fa-fw'">
+                                        <div @click="deleteselectcam(node)"
+                                        style="font-size:20px;font-weight:500; 
+                                        color:rgba(51,51,51,1);" class="iconfont icon-ashbin"></div>
+                                    </div>
+                                    <div v-else>
+                                        <div @click="deleteselectcam1(node)"
+                                        style="font-size:20px;font-weight:500; color:#229ddd;" class="iconfont icon-ashbin"></div>
+                                    </div>
                                 </div>
                             </span>
                         </el-tree>
@@ -188,6 +195,7 @@
                 rootvalue:"",//节点名字
                 delcamtoken:"",//删除的token
                 datatoken:"",//节点token
+                datatokenarr:"",
                 dataindex:"",
                 value: [1, 4],
                 defaultProps: {
@@ -215,8 +223,8 @@
         methods:{
             handleNodeClick2(data){
                 // console.log(data.strToken,"2");
-                this.datanodecam=[]
                 this.datatoken=data.strToken;
+                this.datatokenarr=data
                 // this.dataindex=data.index;
                 // this.dataname=data.strName;
                 var root = process.env.API_ROOT;
@@ -230,6 +238,7 @@
                     var oldarr1=result.data.src;
                     var dataroot=this.getchildcam(oldarr,oldarr1);
                     console.log(dataroot)
+                    this.datanodecam=[]
                     this.datanodecam.push(dataroot)
                 })
             },
@@ -268,6 +277,7 @@
                     var oldarr=result.data.root;
                     var oldarr1=result.data.src;
                     var dataroot=this.getchild(oldarr,oldarr1);
+                    this.datanodecam=[]
                     this.data.push(dataroot);
                 })
             },
@@ -332,7 +342,8 @@
                 }
             },
             
-            addtonond(){
+            addtonond(strToken){
+                console.log(strToken)
                 // return false;
                 if(this.rootvalue==""&&this.datatoken==""){
                     this.$message({
@@ -346,8 +357,8 @@
                         root = window.location.protocol + '//' + window.location.host + window.location.pathname;
                     }
                     var oldarr=this.data[0];
-                    var oldarr1=this.datatoken
-                    var url = root + "/api/v1/AddRegion?name="+encodeURIComponent(this.rootvalue)+"&parent="+this.datatoken+"&session="+ this.$store.state.token;
+                    var oldarr1=strToken
+                    var url = root + "/api/v1/AddRegion?name="+encodeURIComponent(this.rootvalue)+"&parent="+strToken+"&session="+ this.$store.state.token;
                     // console.log("////////////",url)
                     this.$http.get(url).then(result=>{
                         // console.log("////////////",result)
@@ -456,6 +467,10 @@
                         }
                     })
                     var dataroot=this.addcamdata(oldarr,oldarr1);
+                    if(this.datatokenarr!=""){
+                        
+                        this.handleNodeClick2(this.datatokenarr)
+                    }
                 }
             },
             addcamdata(arr,arr1){
@@ -522,6 +537,44 @@
             deleteselectcam(){
                 // var token=`menuPermissionTree1${this.dataindex}`
                 var tokencheked=this.$refs.menuPermissionTree1.getCheckedNodes();
+                console.log(tokencheked)
+                // return false;
+                var root = process.env.API_ROOT;
+                if (root == undefined){
+                    root = window.location.protocol + '//' + window.location.host + window.location.pathname;
+                }
+                if(tokencheked.length==0){
+                    return false;
+                }
+                var oldarr=this.datanodecam[0];
+                for(var i=0;i<tokencheked.length;i++){
+                    if(tokencheked[i].strToken==this.datatoken){
+                        continue
+                    }
+                    console.log(tokencheked[i].strToken)
+                    
+                    var oldarr1=tokencheked[i];
+                    
+                    var dataroot=this.delcamdata(oldarr,oldarr1);
+                    var url = root + "/api/v1/DelRegionCam?srctoken="+tokencheked[i].strToken+"&regiontoken="+this.datatoken+"&session="+ this.$store.state.token;
+                    this.$http.get(url).then(result=>{
+                        if(result.status==200){
+                            if(result.data.bStatus==true){
+                            }else{
+                                this.$message({
+                                    message: "摄像机"+name+"删除失败",
+                                    type: 'warning'
+                                });
+                                // return false;
+                            }
+                        }
+                    })
+                }
+            },
+            deleteselectcam1(row){
+                var dataarr=[];
+                dataarr.push(row.data)
+                var tokencheked=dataarr;
                 console.log(tokencheked)
                 // return false;
                 var root = process.env.API_ROOT;
@@ -666,7 +719,7 @@
     /* max-height: 700px; */
     overflow: auto;
     border: 1px solid #e1e1e1;
-    padding: 0 15px;
+    /* padding: 0 15px; */
     padding-top: 10px;
     
 }
