@@ -15,7 +15,8 @@ export default {
 		login: 'Login',
 		API:"API",
 		goto:"Go to download",
-		control:"Please download and install the plugin"
+		control:"Please download and install the plugin",
+		Reboot:"Reboot"
     },
     left:
     {

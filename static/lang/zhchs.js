@@ -16,7 +16,8 @@ export default {
 		login: '登录',
 		API:"API",
 		goto:"前往下载",
-		control:"请在下载安装插件"
+		control:"请在下载安装插件",
+		Reboot:"重启"
     },
     left:
     {

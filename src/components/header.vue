@@ -17,6 +17,14 @@
             <i class="ti-close ti-menu"></i>
           </a>
         </li>
+		<!-- 重启 -->
+		<li class="dropdown control_center" id="Reboot">
+			<el-tooltip content="Bottom center" placement="bottom" effect="light">
+				<el-button @click="Reboot" style="border: none;background: none; color:#fff;line-height: 0.9;padding-right: 10px;" >
+					<i style=" font-size: 20px;" class="iconfont icon-zhongqi"></i>
+				</el-button>
+			</el-tooltip>
+		</li>
         <!-- link模式 -->
         
         <li style="margin-right: 25px;" class="dropdown control_center">
@@ -159,6 +167,13 @@
                 </span> 
               </router-link>
             </li>
+            <li role="separator" class="divider"></li>
+            <li @click="Reboot">
+                <span class="apiab iconfont icon-zhongqi"></span>
+                <span class="admin_zi">
+                  {{label.Reboot}}
+                </span> 
+            </li>
           </ul>
           <!-- /.dropdown-user -->
         </li>
@@ -219,7 +234,8 @@ export default {
           Download:this.$t("message.archive.Download"),
           Control:this.$t("message.left.Control"),
           goto:this.$t("message.header.goto"),
-		      control1:this.$t("message.header.control")
+          control1:this.$t("message.header.control"),
+          Reboot:this.$t("message.header.Reboot")
       },
       options: [{
               value: 'Administrator',
@@ -232,6 +248,7 @@ export default {
     };
   },
   mounted() {
+	$("#Reboot").hide()
     if (window.ActiveXObject || "ActiveXObject" in window){
         this.$store.state.link="true"
         this.value=true;
@@ -255,8 +272,30 @@ export default {
     }
     this.gEventval();
     this.GetSystemInfo();
+	var _this=this
+	_this.$root.bus.$on('webrtc', function(token){
+		$("#Reboot").show();
+	});
   },
   methods: {
+	Reboot(){
+		var root = process.env.API_ROOT;
+		if (root == undefined){
+			root = window.location.protocol + '//' + window.location.host + window.location.pathname;
+		}
+		var url = root + "/api/v1/Restart?session="+ this.$store.state.token;
+		this.$http.get(url).then(result=>{
+			if(result.status==200){
+				if(result.data.bStatus){
+					console.log("重启",result.data.bStatus)
+				}
+			}
+		})
+		
+		this.$nextTick(()=>{
+			this.$router.push({ path:'../../login'})
+		})
+	},
     linkweblick(){
       var link=this.value;
       // return false;
