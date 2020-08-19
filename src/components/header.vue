@@ -19,9 +19,9 @@
         </li>
 		<!-- 重启 -->
 		<li class="dropdown control_center" id="Reboot">
-			<el-tooltip content="Bottom center" placement="bottom" effect="light">
-				<el-button @click="Reboot" style="border: none;background: none; color:#fff;line-height: 0.9;padding-right: 10px;" >
-					<i style=" font-size: 20px;" class="iconfont icon-zhongqi"></i>
+			<el-tooltip :content="label.Reboot" placement="bottom" effect="light">
+				<el-button @click="Rebootdialog=true" style="border: none;background: none; color:#fff;line-height: 0.9;padding-right: 10px;" >
+					<i style=" font-size: 20px;color:#ea5252;font-weight: 900;" class="iconfont icon-zhongqi"></i>
 				</el-button>
 			</el-tooltip>
 		</li>
@@ -168,7 +168,7 @@
               </router-link>
             </li>
             <li role="separator" class="divider"></li>
-            <li @click="Reboot">
+            <li @click="Rebootdialog=true">
                 <span class="apiab iconfont icon-zhongqi"></span>
                 <span class="admin_zi">
                   {{label.Reboot}}
@@ -192,6 +192,19 @@
               </router-link>
             </div>
         </el-dialog>
+        <el-dialog
+			class="Rebootdialog"
+			title="重启"
+			append-to-body
+			:visible.sync="Rebootdialog"
+			width="30%">
+			<div class="Rebootdialog1">
+				<div style="">修改后请您重启</div>
+				<div slot="footer" class="dialog-footer" style="display: flex;justify-content: flex-end;">
+					<el-button type="primary" @click="Reboot">{{label.Reboot}}</el-button>
+				</div>
+			</div>
+        </el-dialog>
       </ul>
     </div>
 
@@ -201,11 +214,14 @@
 import * as types from "@/store/types";
 import '@/assets/jQuery.md5.js'
 import {H5sPlayerCanvas,H5sPlayerCanvasGetLinkWebVersion} from '../assets/linkplayer.js'
+import Vue from 'vue'
+import { Loading } from 'element-ui';
 export default {
   name: "vheader",
   methods: {},
   data() {
     return {
+		Rebootdialog:false,
         value:'',
         user:this.$store.state.users,
         gEvvalue: 0,
@@ -292,9 +308,18 @@ export default {
 			}
 		})
 		
-		this.$nextTick(()=>{
-			this.$router.push({ path:'../../login'})
+		var loading = Vue.prototype.$loading({
+			lock: true,
+			text: '拼命加载中...',
+			background:"RGBA(0, 0, 0, 0.5)",
+			target: '.Rebootdialog1'  // 需要loading的元素的类名
 		})
+		setTimeout(()=>{
+			this.$nextTick(()=>{
+				loading.close();
+				this.$router.push({ path:'../../login'})
+			})
+		},1000*30)
 	},
     linkweblick(){
       var link=this.value;
@@ -382,6 +407,12 @@ export default {
 };
 </script>
 <style scoped>
+.Rebootdialog >>>.el-dialog__body{
+	padding: 20px 10px;
+}
+.Rebootdialog .Rebootdialog1{
+	padding: 30px 20px;
+}
 
 .plugin >>> .el-dialog{
   background: #FFFFFF;
