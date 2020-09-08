@@ -363,7 +363,7 @@ export default {
                 for(var i=1;i<=this.rows;i++){
                     for(var c=1;c<=this.cols;c++){
                         var video= document.getElementById("hvideo"+i+c)
-                        // console.log('video.paused++++',video.poster);
+                        console.log('video.paused++++',video.poster);
                         if(video.poster==""||video.poster=="http://localhost:6080/"||video.poster==root){
                             this.selectCol = c;
                             this.selectRow =i;

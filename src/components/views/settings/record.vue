@@ -50,7 +50,7 @@ export default {
         {
             wsroot = window.location.host;
         }
-        var url = root + "/api/v1/GetSrc&session="+ this.$store.state.token;
+        var url = root + "/api/v1/GetSrc?session="+ this.$store.state.token;
         console.log(url);
         //return false;
         this.$http.get(url).then(result=>{
