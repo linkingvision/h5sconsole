@@ -73,6 +73,20 @@
                             </div>
                         </a> 
                     </router-link>
+                    <router-link  :to="{name:'SystemRouter'}">
+                        <a href="javascript:void(0)" class="setting_left_a" :class="{setting_tj1:index_lj==10}">
+                            <div :class="{setting_tj:index_lj==10}"  @click="setting_ys9" class="setting_left">
+                                {{$t("message.setting.System")}} 
+                            </div>
+                        </a> 
+                    </router-link>
+                    <router-link  :to="{name:'LogRouter'}">
+                        <a href="javascript:void(0)" class="setting_left_a" :class="{setting_tj1:index_lj==11}">
+                            <div :class="{setting_tj:index_lj==11}"  @click="setting_ys10" class="setting_left">
+                                {{$t("message.setting.Log")}} 
+                            </div>
+                        </a> 
+                    </router-link>
                 </div>
             </el-col>
             <el-col style="padding:0px;" :span="20">
@@ -140,6 +154,14 @@ export default {
         setting_ys8(){
              this.index_lj=9;
              this.language="WEBRTC";
+        },
+        setting_ys9(){
+             this.index_lj=10;
+             this.language=this.$t("message.setting.System");
+        },
+        setting_ys10(){
+             this.index_lj=11;
+             this.language=this.$t("message.setting.Log");
         }
      
     }

@@ -33,6 +33,8 @@ import Transcoding  from '@/components/views/settings/Transcoding'
 import Regional from '@/components/views/settings/Regional'
 import Cloudconnect from '@/components/views/settings/cloudconnect'
 import Webrtc from '@/components/views/settings/webrtc'
+import System from '@/components/views/settings/system'
+import Log from '@/components/views/settings/log'
 
 import GB from '@/components/views/GB'
 import GB28181 from '@/components/views/GB/GB28181'
@@ -308,7 +310,7 @@ const routes = [
               requireAuth: true
             }
           },
-          //8
+          //9
           {
             path: '/app/setting/Webrtc',
             name: 'WebrtcRouter',
@@ -317,7 +319,27 @@ const routes = [
               roles: 'admin',
               requireAuth: true
             }
-          }
+          },
+          //10
+          {
+            path: '/app/setting/System',
+            name: 'SystemRouter',
+            component: System,
+            meta: {
+              roles: 'admin',
+              requireAuth: true
+            }
+          },
+          //11
+          {
+            path: '/app/setting/Log',
+            name: 'LogRouter',
+            component: Log,
+            meta: {
+              roles: 'admin',
+              requireAuth: true
+            }
+          },
         ]
       },
       // {

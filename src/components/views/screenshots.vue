@@ -36,7 +36,7 @@
                         ref="tree"
                         highlight-current
                         :props="defaultProps">
-                        <span slot-scope="{ node, data }">
+                        <span slot-scope="{ data }">
                             <i :class="data.iconclass" style="color:rgb(142, 132, 132);"></i>
                             <span :class="data.iconclass1" style="padding-left: 4px;">{{data.label}}</span>
                         </span>

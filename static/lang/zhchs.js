@@ -174,6 +174,15 @@ export default {
 		MinPort:"最小端口",
 		MaxPort:"最大端口",
 		PasswordEncrypt:"密码加密",
+		//日志
+		Log:'日志',
+		LogLevel:'日志级别',
+		LogRotating:'循环覆盖',
+		System:'系统维护',
+		Snopshot:'快照',
+		SnapshotList:'快照列表',
+		Name:'名称',
+		Refresh:'刷新',
 
 		currentpass: '当前密码',
 		newpass: '新密码',

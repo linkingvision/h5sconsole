@@ -165,6 +165,16 @@ export default {
 		Enable:"Enable",
 		EdgeTranscoding:"EdgeTranscoding",
 
+		//日志
+		Log:'Log',
+		LogLevel:'Log Level',
+		LogRotating:'Log Rotating',
+		System:'System',
+		Snopshot:'Snopshot',
+		SnapshotList:'Snapshot List',
+		Name:'Name',
+		Refresh:'Refresh',
+
 		CloudMode:'Cloud Mode',
 		RelayMode:"Relay Mode",
 		TURNServer:"TURN Server",
