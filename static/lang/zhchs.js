@@ -258,6 +258,23 @@ export default {
 		Domain:"服务器域",
 		Refreshsuccess:"刷新成功",
 		Restartsuccessfully:"重启成功",
+		//service
+		GbID:"SIP服务器ID",
+		GbServerIpAddr:"SIP服务器地址",
+		GbServerPort:"SIP服务器端口",
+		PortRangeMin:"端口最小范围",
+		PortRangeMax:"端口最大范围",
+		GbStreamProto:"流媒体协议",
+		GbServerProto:"SIP协议",
+		GbTimeout:"超时时间",
+		Password:"密码",
+		Realm:"SIP服务器域",
+		SubAlarm:"订阅报警",
+		SubMobilePosition:"订阅位置",
+		Enable:"启用",
+		EnableAudio:"开启音频",
+		EnableSSRCCheck:"SSRC检查",
+
 
 
 		DeleteAll:"删除",
