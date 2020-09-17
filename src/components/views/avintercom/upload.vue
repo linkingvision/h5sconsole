@@ -174,7 +174,8 @@ export default {
                 this.VideoCodec,
                 this.Bitratess,
                 this.Resolution,
-                this.AudioIn
+                this.AudioIn,
+                false
             );
             console.log(this.AudioIn)
         },
