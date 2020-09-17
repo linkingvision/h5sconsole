@@ -6,34 +6,34 @@
         <el-dialog :title="label.eltitle" :visible.sync="editPopup">
             <el-form label-position="right" label-width="180px" :model="editform">
                
-               <el-form-item label="strGbID">
+               <el-form-item :label="label.GbID">
                     <input class="editinput" v-model="editform.strGbID"/>
                 </el-form-item>
-                <el-form-item label="strGbServerIpAddr">
+                <el-form-item :label="label.GbServerIpAddr">
                     <input class="editinput" v-model="editform.strGbServerIpAddr"/>
                 </el-form-item>
-                <el-form-item label="nGbServerPort">
+                <el-form-item :label="label.GbServerPort">
                     <input class="editinput" v-model="editform.nGbServerPort"/>
                 </el-form-item>
-                <el-form-item label="nPortRangeMin">
+                <el-form-item :label="label.PortRangeMin">
                     <input class="editinput" v-model="editform.nPortRangeMin"/>
                 </el-form-item>
-                <el-form-item label="nPortRangeMax">
+                <el-form-item :label="label.PortRangeMax">
                     <input class="editinput" v-model="editform.nPortRangeMax"/>
                 </el-form-item>
-                <el-form-item label="strGbStreamProto">
+                <el-form-item :label="label.GbStreamProto">
                     <input class="editinput" v-model="editform.strGbStreamProto"/>
                 </el-form-item>
-                <el-form-item label="strGbServerProto">
+                <el-form-item :label="label.GbServerProto">
                     <input class="editinput" v-model="editform.strGbServerProto"/>
                 </el-form-item>
-                <el-form-item label="nGbTimeout">
+                <el-form-item :label="label.GbTimeout">
                     <input class="editinput" v-model="editform.nGbTimeout"/>
                 </el-form-item>
-                <el-form-item label="strPassword">
+                <el-form-item :label="label.Password">
                     <input class="editinput" v-model="editform.strPassword"/>
                 </el-form-item>
-                <el-form-item label="strRealm">
+                <el-form-item :label="label.Realm">
                     <input class="editinput" v-model="editform.strRealm"/>
                     <!-- <el-select v-model="editform.strRealm" placeholder="请选择">
                         <el-option
@@ -44,7 +44,7 @@
                         </el-option>
                     </el-select> -->
                 </el-form-item>
-                <el-form-item label="bSubAlarm">
+                <el-form-item :label="label.SubAlarm">
                     <el-select v-model="editform.bSubAlarm" placeholder="请选择">
                         <el-option
                             v-for="item in scaletype"
@@ -55,7 +55,7 @@
                     </el-select>
                     <!-- <input class="editinput" v-model="editform.bSubAlarm"/> -->
                 </el-form-item>
-                <el-form-item label="bSubMobilePosition">
+                <el-form-item :label="label.SubMobilePosition">
                     <el-select v-model="editform.bSubMobilePosition" placeholder="请选择">
                         <el-option
                             v-for="item in scaletype"
@@ -65,7 +65,7 @@
                         </el-option>
                     </el-select>
                 </el-form-item>
-                <el-form-item label="bEnable">
+                <el-form-item :label="label.Enable ">
                     <el-select v-model="editform.bEnable" placeholder="请选择">
                         <el-option
                             v-for="item in scaletype"
@@ -75,7 +75,7 @@
                         </el-option>
                     </el-select>
                 </el-form-item>
-                <el-form-item label="bEnableAudio">
+                <el-form-item :label="label.EnableAudio">
                     <el-select v-model="editform.bEnableAudio" placeholder="请选择">
                         <el-option
                             v-for="item in scaletype"
@@ -85,7 +85,7 @@
                         </el-option>
                     </el-select>
                 </el-form-item>
-                <el-form-item label="bEnableSSRCCheck">
+                <el-form-item :label="label.EnableSSRCCheck">
                     <el-select v-model="editform.bEnableSSRCCheck" placeholder="请选择">
                         <el-option
                             v-for="item in scaletype"
@@ -121,34 +121,34 @@
                     </el-table-column>
                     <el-table-column
                     prop="strGbID"
-                    label="ID"
+                    :label="label.GbID"
                     width="180">
                     </el-table-column>
                     <el-table-column
                     prop="strGbServerIpAddr"
-                    label="IP"
+                    :label="label.GbServerIpAddr"
                     width="180">
                     </el-table-column>
                     <el-table-column
                     prop="nGbServerPort"
-                    label="Port">
+                    :label="label.GbServerPort">
                     </el-table-column>
                     <el-table-column
                     prop="nPortRangeMin"
-                    label="RangeMin">
+                    :label="label.PortRangeMin">
                     </el-table-column>
 
                     <el-table-column
                     prop="nPortRangeMax"
-                    label="RangeMax">
+                    :label="label.PortRangeMax">
                     </el-table-column>
                     <el-table-column
                     prop="bSubAlarm"
-                    label="Alarm">
+                    :label="label.SubAlarm">
                     </el-table-column>
                     <el-table-column
                     prop="bSubMobilePosition"
-                    label="bSubMobilePosition">
+                    :label="label.SubMobilePosition">
                     </el-table-column>
                     <el-table-column
                         fixed="right"
@@ -195,21 +195,21 @@ import uuid from '@/store/uuid'
             label1:this.$t("message.GB.GBService"),//选2
             eltitle:this.$t("message.setting.Configuration"),//编辑
 
-            label2:this.$t("message.GB.Name"),
-            label3:this.$t("message.GB.SIPServerIP"),
-            label4:this.$t("message.GB.SIPPort"),
-            label5:this.$t("message.GB.SIPServerPort"),
-            label6:this.$t("message.GB.SIPUserID"),
-            label7:this.$t("message.GB.SIPServerID"),
-            label8:this.$t("message.GB.SIPProtocol"),
-            label9:this.$t("message.GB.Password"),
-            label10:this.$t("message.GB.SIPChannelBaseID"),
-            label11:this.$t("message.GB.RegisterPeriod"),
-            label12:this.$t("message.GB.KeepaliveTime"),
-            label13:this.$t("message.GB.Domain"),
-
-            Index:this.$t("message.table.Index"),
-            Token:this.$t("message.table.Token")
+            GbID:this.$t("message.GB.GbID"),
+            GbServerIpAddr:this.$t("message.GB.GbServerIpAddr"),
+            GbServerPort:this.$t("message.GB.GbServerPort"),
+            PortRangeMin:this.$t("message.GB.PortRangeMin"),
+            PortRangeMax:this.$t("message.GB.PortRangeMax"),
+            GbStreamProto:this.$t("message.GB.GbStreamProto"),
+            GbServerProto:this.$t("message.GB.GbServerProto"),
+            GbTimeout:this.$t("message.GB.GbTimeout"),
+            Password:this.$t("message.GB.Password"),
+            Realm:this.$t("message.GB.Realm"),
+            SubAlarm:this.$t("message.GB.SubAlarm"),
+            SubMobilePosition:this.$t("message.GB.SubMobilePosition"),
+            Enable:this.$t("message.GB.Enable"),
+            EnableAudio:this.$t("message.GB.EnableAudio"),
+            EnableSSRCCheck:this.$t("message.GB.EnableSSRCCheck"),
         },
         //分页
         search:"",//搜索
@@ -314,22 +314,22 @@ import uuid from '@/store/uuid'
             this.$Modal.info({
                 title: '详情',
                 content: 
-                `strPassword: ${row.strPassword}<br>
-                strGbStreamProto: ${row.strGbStreamProto}<br>
-                strGbServerProto: ${row.strGbServerProto}<br>
-                strGbServerIpAddr: ${row.strGbServerIpAddr}<br>
-                strGbID: ${row.strGbID}<br>
-                nPortRangeMin: ${row.nPortRangeMin}<br>
-                nPortRangeMax: ${row.nPortRangeMax}<br>
-                nGbTimeout: ${row.nGbTimeout}<br>
-                nGbServerPort: ${row.nGbServerPort}<br>
+                `${this.$t("message.GB.Password")}: ${row.strPassword}<br>
+                ${this.$t("message.GB.GbStreamProto")}: ${row.strGbStreamProto}<br>
+                ${this.$t("message.GB.GbServerProto")}: ${row.strGbServerProto}<br>
+                ${this.$t("message.GB.GbServerIpAddr")}: ${row.strGbServerIpAddr}<br>
+                ${this.$t("message.GB.GbID")}: ${row.strGbID}<br>
+                ${this.$t("message.GB.PortRangeMin")}: ${row.nPortRangeMin}<br>
+                ${this.$t("message.GB.PortRangeMax")}: ${row.nPortRangeMax}<br>
+                ${this.$t("message.GB.GbTimeout")}: ${row.nGbTimeout}<br>
+                ${this.$t("message.GB.GbServerPort")}: ${row.nGbServerPort}<br>
 
-                bEnable: ${row.bEnable}<br>
-                bEnableAudio: ${row.bEnableAudio}<br>
-                bEnableSSRCCheck: ${row.bEnableSSRCCheck}<br>
-                bSubAlarm: ${row.bSubAlarm}<br>
-                bSubMobilePosition: ${row.bSubMobilePosition}<br>
-                strRealm: ${row.strRealm}<br>
+                ${this.$t("message.GB.Enable")}: ${row.bEnable}<br>
+                ${this.$t("message.GB.EnableAudio")}: ${row.bEnableAudio}<br>
+                ${this.$t("message.GB.EnableSSRCCheck")}: ${row.bEnableSSRCCheck}<br>
+                ${this.$t("message.GB.SubAlarm")}: ${row.bSubAlarm}<br>
+                ${this.$t("message.GB.SubMobilePosition")}: ${row.bSubMobilePosition}<br>
+                ${this.$t("message.GB.Realm")}: ${row.strRealm}<br>
                 `
             })
         },
