@@ -2,7 +2,7 @@
     <div class="up_load">
         <div class="up_content">
             <div class="up_content_zuo">
-                <video class="h5video" id="h5sVideoLocal" autoplay webkit-playsinline playsinline></video>
+                <video class="h5video" id="h5sVideoLocal" volume='0' muted autoplay webkit-playsinline playsinline></video>
             </div>
             <div class="up_content_you">
                 <div class="up_you_content">
