@@ -15,7 +15,8 @@ export default {
 		login: 'Login',
 		API:"API",
 		goto:"Go to download",
-		control:"Please download and install the plugin"
+		control:"Please download and install the plugin",
+		Reboot:"Reboot"
     },
     left:
     {
@@ -85,6 +86,8 @@ export default {
 		gb28181:"GB28181",
 		devicesdkpb:"Device SDK Playback",
 		transcoding:"Transcoding",
+		Lingvideo:"Lingvideo",
+		Docker:"Docker",
 		VideoConference:"Video Conference",
 		cluster:"Cluster",
 		Online:"Online",
@@ -161,6 +164,16 @@ export default {
 		KeepaliveTime:"KeepaliveTime",
 		Enable:"Enable",
 		EdgeTranscoding:"EdgeTranscoding",
+
+		//日志
+		Log:'Log',
+		LogLevel:'Log Level',
+		LogRotating:'Log Rotating',
+		System:'System',
+		Snopshot:'Snopshot',
+		SnapshotList:'Snapshot List',
+		Name:'Name',
+		Refresh:'Refresh',
 
 		CloudMode:'Cloud Mode',
 		RelayMode:"Relay Mode",
