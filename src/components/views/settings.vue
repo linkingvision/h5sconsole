@@ -87,6 +87,13 @@
                             </div>
                         </a> 
                     </router-link>
+                    <router-link  :to="{name:'PortCheckRouter'}">
+                        <a href="javascript:void(0)" class="setting_left_a" :class="{setting_tj1:index_lj==12}">
+                            <div :class="{setting_tj:index_lj==12}"  @click="setting_ys11" class="setting_left">
+                                {{this.$t("message.setting.Protocol")}}
+                            </div>
+                        </a> 
+                    </router-link>
                 </div>
             </el-col>
             <el-col style="padding:0px;" :span="20">
@@ -162,6 +169,10 @@ export default {
         setting_ys10(){
              this.index_lj=11;
              this.language=this.$t("message.setting.Log");
+        },
+        setting_ys11(){
+             this.index_lj=12;
+             this.language=this.$t("message.setting.Protocol");
         }
      
     }

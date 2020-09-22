@@ -35,6 +35,7 @@ import Cloudconnect from '@/components/views/settings/cloudconnect'
 import Webrtc from '@/components/views/settings/webrtc'
 import System from '@/components/views/settings/system'
 import Log from '@/components/views/settings/log'
+import PortCheck from '@/components/views/settings/portcheck'
 
 import GB from '@/components/views/GB'
 import GB28181 from '@/components/views/GB/GB28181'
@@ -55,7 +56,7 @@ Vue.use(VueRouter)
 const routes = [
   {
     path: '/',
-    redirect: '/app/dashboard'
+    redirect: '/login'
   },
   {
     path: '/app',
@@ -335,6 +336,16 @@ const routes = [
             path: '/app/setting/Log',
             name: 'LogRouter',
             component: Log,
+            meta: {
+              roles: 'admin',
+              requireAuth: true
+            }
+          },
+          //12
+          {
+            path: '/app/setting/PortCheck',
+            name: 'PortCheckRouter',
+            component: PortCheck,
             meta: {
               roles: 'admin',
               requireAuth: true

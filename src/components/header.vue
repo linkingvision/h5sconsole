@@ -27,7 +27,7 @@
 		</li>
         <!-- link模式 -->
         
-        <li style="margin-right: 25px;" class="dropdown control_center">
+        <li style="margin-right: 25px;" class="dropdown control_center link_style">
           <el-switch
             @change="linkweblick"
             class="linkwed"
@@ -284,6 +284,7 @@ export default {
         }else if(this.$store.state.link=="false"){
             this.value=false
         }
+        $(".link_style").hide();
         console.log("not ie")
     }
     this.gEventval();

@@ -174,6 +174,7 @@ export default {
 		SnapshotList:'Snapshot List',
 		Name:'Name',
 		Refresh:'Refresh',
+		Protocol:'Protocol',
 
 		CloudMode:'Cloud Mode',
 		RelayMode:"Relay Mode",

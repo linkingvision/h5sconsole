@@ -171,13 +171,8 @@ export default {
                 console.log(result)
                 this.$store.commit(types.ROOT, result.data.strUserType);
                 this.$store.commit(types.USER, result.data.strUser);
-                let redirect = decodeURIComponent(this.$route.query.redirect || '/');
-                if (redirect == '/login')
-                {
-                    redirect = '/';
-                }
                 this.$router.push({
-                    path: redirect
+                    path: '/app/dashboard'
                 });
                 
                 location.reload();
