@@ -184,6 +184,7 @@ export default {
 		Name:'名称',
 		Refresh:'刷新',
 		Protocol:'协议',
+		ServiceDetection:'RTSP服务检测',
 
 		currentpass: '当前密码',
 		newpass: '新密码',

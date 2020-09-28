@@ -35,7 +35,8 @@ import Cloudconnect from '@/components/views/settings/cloudconnect'
 import Webrtc from '@/components/views/settings/webrtc'
 import System from '@/components/views/settings/system'
 import Log from '@/components/views/settings/log'
-import PortCheck from '@/components/views/settings/portcheck'
+import PortCheck from '@/components/views/settings/portcheck' 
+import Docker from '@/components/views/settings/docker'
 
 import GB from '@/components/views/GB'
 import GB28181 from '@/components/views/GB/GB28181'
@@ -346,6 +347,16 @@ const routes = [
             path: '/app/setting/PortCheck',
             name: 'PortCheckRouter',
             component: PortCheck,
+            meta: {
+              roles: 'admin',
+              requireAuth: true
+            }
+          },
+          //13
+          {
+            path: '/app/setting/Docker',
+            name: 'DockerRouter',
+            component: Docker,
             meta: {
               roles: 'admin',
               requireAuth: true

@@ -3,7 +3,9 @@
         <!-- <div class="preloader">
             <div class="cssload-speeding-wheel"></div>
         </div> -->
-   
+        <div class="Copyrightnotice" id="Copyrightnotice">
+            系统版权将于({{capability}})到期，为了避免您的正常使用，请及时购买许可
+        </div>
         <section id="wrapper" class="login_con">
             <div class="login_but">
                 <router-link :to="{name:'DownloadappRouter'}"><el-button class="but_jump" plain>{{this.$t("message.archive.Download")}}</el-button></router-link>
@@ -75,6 +77,7 @@ export default {
             user: '',
             passwd: '',
             session:'',
+            capability:'',
             langList: [
                     {
                         value: 'en',
@@ -94,9 +97,35 @@ export default {
         $("#prompt").hide();
         $("#prompt1").hide();
         this.$store.commit(types.TITLE, 'Login')
-        
+        this.GetSystemInfo()
     },
     methods:{
+        GetSystemInfo() {
+            let _this = this;
+            var root = process.env.API_ROOT;
+            if (root == undefined) {
+                root =window.location.protocol + "//" +window.location.host +window.location.pathname;
+            }
+
+            var url =root + "/api/v1/GetLicEndTime?session=" + this.$store.state.token;
+                // console.log("------------",url)
+            this.$http.get(url).then(result => {
+                console.log(result);
+                if (result.status == 200) {
+                    var Enddate=new Date(result.data.strEndtime).getTime()
+                    var date=new Date().getTime()
+                    var Timedifference=1000*60*60*24*31
+                    if((Enddate-date)<Timedifference){
+                        console.log(date-Enddate,Timedifference);
+                        this.capability=result.data.strEndtime
+                        document.getElementById("Copyrightnotice").style.display='block';
+                    }
+                    console.log(Enddate-date,Timedifference);
+                }
+            }).catch(error => {
+                console.log("GetSystemInfo", error);
+            });
+        },
         changeLanguage(value){
 
             if(value=='en'){
@@ -185,6 +214,22 @@ export default {
 
 
 <style scoped>
+/* 版权 */
+.Copyrightnotice{
+    position: fixed;
+    top: 0;
+    width: 100%;
+    line-height: 40px;
+    text-align: center;
+    font-size: 14px;
+    font-family: PingFang SC;
+    font-weight: 500;
+    color: #FFFFFF;
+    z-index: 100000;
+    background-color: #E62424;
+    display: none;
+}
+
 .login_butt{
     font-size:12px;
     font-family:PingFang SC;
@@ -256,6 +301,7 @@ export default {
     display: flex;
     justify-content: flex-end;
     padding: 0 20px;
+    margin-top: 40px;
 }
 .but_jump{
     font-size:14px;

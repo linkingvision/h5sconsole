@@ -94,6 +94,13 @@
                             </div>
                         </a> 
                     </router-link>
+                    <router-link  :to="{name:'DockerRouter'}">
+                        <a href="javascript:void(0)" class="setting_left_a" :class="{setting_tj1:index_lj==13}">
+                            <div :class="{setting_tj:index_lj==13}"  @click="setting_ys12" class="setting_left">
+                                Docker
+                            </div>
+                        </a> 
+                    </router-link>
                 </div>
             </el-col>
             <el-col style="padding:0px;" :span="20">
@@ -173,6 +180,10 @@ export default {
         setting_ys11(){
              this.index_lj=12;
              this.language=this.$t("message.setting.Protocol");
+        },
+        setting_ys12(){
+             this.index_lj=13;
+             this.language='Docker';
         }
      
     }

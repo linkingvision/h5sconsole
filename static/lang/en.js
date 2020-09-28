@@ -175,6 +175,7 @@ export default {
 		Name:'Name',
 		Refresh:'Refresh',
 		Protocol:'Protocol',
+		ServiceDetection:'RTSP Service Detection',
 
 		CloudMode:'Cloud Mode',
 		RelayMode:"Relay Mode",

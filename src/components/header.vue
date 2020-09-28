@@ -18,6 +18,9 @@
           </a>
         </li>
 		<!-- 重启 -->
+		<li style="margin-right: 10px;">
+			<div class="c_Docker" id="Docker"></div>
+        </li>
 		<li class="dropdown control_center" id="Reboot">
 			<el-tooltip :content="label.Reboot" placement="bottom" effect="light">
 				<el-button @click="Rebootdialog=true" style="border: none;background: none; color:#fff;line-height: 0.9;padding-right: 10px;" >
@@ -288,13 +291,31 @@ export default {
         console.log("not ie")
     }
     this.gEventval();
-    this.GetSystemInfo();
+	this.GetSystemInfo();
+	this.dockerdata();
 	var _this=this
 	_this.$root.bus.$on('webrtc', function(token){
 		$("#Reboot").show();
 	});
   },
   methods: {
+	dockerdata(){
+		var root = process.env.API_ROOT;
+		if (root == undefined){
+			root = window.location.protocol + '//' + window.location.host + window.location.pathname;
+		}
+		var url = root + "/api/v1/GetEnableLinkagent?session="+ this.$store.state.token;
+		// console.log(url)
+		this.$http.get(url).then(result=>{
+			console.log(result)
+			if(result.status==200){
+				console.log(result)
+				if(result.data.enable){
+					document.getElementById('Docker').style.display='block'
+				}
+			}
+		})
+	},
 	Reboot(){
 		var root = process.env.API_ROOT;
 		if (root == undefined){
@@ -408,6 +429,13 @@ export default {
 };
 </script>
 <style scoped>
+.c_Docker{
+    width: 35px;
+	height: 40px;
+    background: url("./gallery/Docker.png") center center no-repeat;
+    /* display: none; */
+}
+
 .Rebootdialog >>>.el-dialog__body{
 	padding: 20px 10px;
 }

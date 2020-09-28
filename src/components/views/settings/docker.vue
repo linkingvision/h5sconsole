@@ -3,17 +3,14 @@
         <el-tabs v-model="activeName" type="border-card" max-height="850" @tab-click="removeTab">
             <!-- 1 -->
             
-            <el-tab-pane label="RTSP" name="cloudmode">
-                {{label.ServiceDetection}}
+            <el-tab-pane label="Docker" name="cloudmode">
+                Docker
                 <el-switch
                     @change="systemchange"
                     v-model="system"
                     active-color="#53BCA1"
                     inactive-color="#DCDFE6">
                 </el-switch>
-                <div class="portcheck">
-                    {{label.KeepaliveTime}} <el-input class="portcheck_input" style="width:100px" v-model="input" type='number'></el-input>(S)
-                </div>
             </el-tab-pane>
         </el-tabs>
     </div>
@@ -44,13 +41,13 @@ export default {
             if (root == undefined){
                 root = window.location.protocol + '//' + window.location.host + window.location.pathname;
             }
-            var url = root + "/api/v1/SetIpPortCheck?enable="+this.system+"&period="+this.input+"&session="+ this.$store.state.token;
+            var url = root + "/api/v1/SetEnableLinkagent?enable="+this.system+"&session="+ this.$store.state.token;
             // console.log(url)
             this.$http.get(url).then(result=>{
                 console.log(result)
                 if(result.status == 200){
-                    this.$message('修改成功,请重启。')
-                    this.$root.bus.$emit('webrtc',true);
+                    // this.$message('修改成功,请重启。')
+                    // this.$root.bus.$emit('webrtc',true);
                 }
             })
         },
@@ -59,12 +56,11 @@ export default {
             if (root == undefined){
                 root = window.location.protocol + '//' + window.location.host + window.location.pathname;
             }
-            var url = root + "/api/v1/GetIpPortCheck?session="+ this.$store.state.token;
+            var url = root + "/api/v1/GetEnableLinkagent?session="+ this.$store.state.token;
             // console.log(url)
             this.$http.get(url).then(result=>{
                 console.log(result)
                 if(result.status == 200){
-                    this.input=result.data.nDetentionPeriod
                     this.system=result.data.enable
                 }
             })
@@ -77,14 +73,6 @@ export default {
 </script>
 
 <style scoped>
-.portcheck{
-    margin-top: 10px;
-}
-.portcheck_input >>> .el-input__inner{
-    height: 30px;
-    line-height: 30px;
-    text-align: center;
-}
 .log_log{
     display: flex;
     align-items: center;

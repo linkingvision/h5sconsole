@@ -304,7 +304,7 @@ export default {
            this.streamprofile=streamprofile
             // this.streamprofile=streamprofile
             this.videoname=label;//视频名称
-           
+            $("#"+this.rtcid).removeClass("rtc_new");
             $("#"+this.videonameid).addClass("videoname");
             $("#"+this.inputid).addClass("streambutton")
             $("#"+this.qualityid).addClass("quality")
