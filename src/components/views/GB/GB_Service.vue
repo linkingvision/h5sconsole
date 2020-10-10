@@ -3,8 +3,8 @@
        
         <!-- 编辑弹窗 -->
         
-        <el-dialog :title="label.eltitle" :visible.sync="editPopup">
-            <el-form label-position="right" label-width="180px" :model="editform">
+        <el-dialog width="25%" :title="label.eltitle" :visible.sync="editPopup">
+            <el-form label-position="left" label-width="120px" :model="editform">
                
                <el-form-item :label="label.GbID">
                     <input class="editinput" v-model="editform.strGbID"/>
@@ -21,12 +21,7 @@
                 <el-form-item :label="label.PortRangeMax">
                     <input class="editinput" v-model="editform.nPortRangeMax"/>
                 </el-form-item>
-                <el-form-item :label="label.GbStreamProto">
-                    <input class="editinput" v-model="editform.strGbStreamProto"/>
-                </el-form-item>
-                <el-form-item :label="label.GbServerProto">
-                    <input class="editinput" v-model="editform.strGbServerProto"/>
-                </el-form-item>
+                
                 <el-form-item :label="label.GbTimeout">
                     <input class="editinput" v-model="editform.nGbTimeout"/>
                 </el-form-item>
@@ -35,67 +30,85 @@
                 </el-form-item>
                 <el-form-item :label="label.Realm">
                     <input class="editinput" v-model="editform.strRealm"/>
-                    <!-- <el-select v-model="editform.strRealm" placeholder="请选择">
-                        <el-option
-                            v-for="item in scaletype"
-                            :key="item.value"
-                            :label="item.label"
-                            :value="item.value">
-                        </el-option>
-                    </el-select> -->
                 </el-form-item>
-                <el-form-item :label="label.SubAlarm">
-                    <el-select v-model="editform.bSubAlarm" placeholder="请选择">
-                        <el-option
-                            v-for="item in scaletype"
-                            :key="item.value"
-                            :label="item.label"
-                            :value="item.value">
-                        </el-option>
-                    </el-select>
-                    <!-- <input class="editinput" v-model="editform.bSubAlarm"/> -->
-                </el-form-item>
-                <el-form-item :label="label.SubMobilePosition">
-                    <el-select v-model="editform.bSubMobilePosition" placeholder="请选择">
-                        <el-option
-                            v-for="item in scaletype"
-                            :key="item.value"
-                            :label="item.label"
-                            :value="item.value">
-                        </el-option>
-                    </el-select>
-                </el-form-item>
-                <el-form-item :label="label.Enable ">
-                    <el-select v-model="editform.bEnable" placeholder="请选择">
-                        <el-option
-                            v-for="item in scaletype"
-                            :key="item.value"
-                            :label="item.label"
-                            :value="item.value">
-                        </el-option>
-                    </el-select>
-                </el-form-item>
-                <el-form-item :label="label.EnableAudio">
-                    <el-select v-model="editform.bEnableAudio" placeholder="请选择">
-                        <el-option
-                            v-for="item in scaletype"
-                            :key="item.value"
-                            :label="item.label"
-                            :value="item.value">
-                        </el-option>
-                    </el-select>
-                </el-form-item>
-                <el-form-item :label="label.EnableSSRCCheck">
-                    <el-select v-model="editform.bEnableSSRCCheck" placeholder="请选择">
-                        <el-option
-                            v-for="item in scaletype"
-                            :key="item.value"
-                            :label="item.label"
-                            :value="item.value">
-                        </el-option>
-                    </el-select>
-                </el-form-item>
-                
+
+                <el-collapse v-model="activeNames" class="GBService_active">
+                    <el-collapse-item title="更多设置" name="1" id="headswitch">
+                        <el-form-item :label="label.GbStreamProto">
+                            <!-- <el-input v-model="editform.strGbStreamProto"></el-input> -->
+                            <el-select v-model="editform.strGbStreamProto" placeholder="请选择">
+                                <el-option
+                                    v-for="item in utptcp"
+                                    :key="item.value"
+                                    :label="item.label"
+                                    :value="item.value">
+                                </el-option>
+                            </el-select>
+                        </el-form-item>
+                        <el-form-item :label="label.GbServerProto">
+                            <!-- <el-input v-model="editform.strGbServerProto"></el-input> -->
+                            <el-select v-model="editform.strGbServerProto" placeholder="请选择">
+                                <el-option
+                                    v-for="item in utptcp"
+                                    :key="item.value"
+                                    :label="item.label"
+                                    :value="item.value">
+                                </el-option>
+                            </el-select>
+                        </el-form-item>
+                        <el-form-item :label="label.SubAlarm">
+                            <el-select v-model="editform.bSubAlarm" placeholder="请选择">
+                                <el-option
+                                    v-for="item in scaletype"
+                                    :key="item.value"
+                                    :label="item.label"
+                                    :value="item.value">
+                                </el-option>
+                            </el-select>
+                            <!-- <input class="editinput" v-model="editform.bSubAlarm"/> -->
+                        </el-form-item>
+                        <el-form-item :label="label.SubMobilePosition">
+                            <el-select v-model="editform.bSubMobilePosition" placeholder="请选择">
+                                <el-option
+                                    v-for="item in scaletype"
+                                    :key="item.value"
+                                    :label="item.label"
+                                    :value="item.value">
+                                </el-option>
+                            </el-select>
+                        </el-form-item>
+                        <el-form-item :label="label.Enable ">
+                            <el-select v-model="editform.bEnable" placeholder="请选择">
+                                <el-option
+                                    v-for="item in scaletype"
+                                    :key="item.value"
+                                    :label="item.label"
+                                    :value="item.value">
+                                </el-option>
+                            </el-select>
+                        </el-form-item>
+                        <el-form-item :label="label.EnableAudio">
+                            <el-select v-model="editform.bEnableAudio" placeholder="请选择">
+                                <el-option
+                                    v-for="item in scaletype"
+                                    :key="item.value"
+                                    :label="item.label"
+                                    :value="item.value">
+                                </el-option>
+                            </el-select>
+                        </el-form-item>
+                        <el-form-item :label="label.EnableSSRCCheck">
+                            <el-select v-model="editform.bEnableSSRCCheck" placeholder="请选择">
+                                <el-option
+                                    v-for="item in scaletype"
+                                    :key="item.value"
+                                    :label="item.label"
+                                    :value="item.value">
+                                </el-option>
+                            </el-select>
+                        </el-form-item>
+                    </el-collapse-item> 
+                </el-collapse>
                 
             </el-form>
             <div slot="footer" class="dialog-footer">
@@ -103,8 +116,6 @@
                 <el-button type="primary" @click="edityes">{{$t("message.camera.save")}}</el-button>
             </div>
         </el-dialog>
-
-
         <!-- 两个表格 -->
         <el-tabs v-model="activeName" type="border-card" max-height="850">
             <!-- 1 -->
@@ -190,6 +201,7 @@ import uuid from '@/store/uuid'
     inject:["reload"],
     data() {
       return {
+        activeNames: [],//左边
         activeName: "GBPlatform",//优先显示选项卡
         label:{
             label1:this.$t("message.GB.GBService"),//选2
@@ -238,6 +250,13 @@ import uuid from '@/store/uuid'
             strGbID:"",
             strRealm:"",
             strPassword:"",
+            strGbServerProto:"",
+            strGbStreamProto:"",
+            strGbServerIpAddr:"",
+            nGbServerPort:"",
+            nGbTimeout:"",
+            nPortRangeMin:"",
+            nPortRangeMax:"",
             bEnableAudio:"",
             bEnableSSRCCheck:"",
             bSubAlarm:"",
@@ -250,6 +269,15 @@ import uuid from '@/store/uuid'
             },{
                 value: "false",
                 label: "false"
+            }
+        ],
+        utptcp:[
+            {
+                value: "UDP",
+                label: "UDP"
+            },{
+                value: "TCP",
+                label: "TCP"
             }
         ],
         edittoken:"",//编辑时要删除的token
@@ -456,9 +484,55 @@ import uuid from '@/store/uuid'
   };
 </script>
 <style>
-  .el-dialog {
-    width: 30%;
-  }
+.el-dialog {
+    width: 25%;
+    max-height: 800px;
+    overflow-y: auto;
+}
+.el-dialog::-webkit-scrollbar {/*滚动条整体样式*/
+    width: 8px;     /*高宽分别对应横竖滚动条的尺寸*/
+    height: 8px;
+    scrollbar-arrow-color:red;
+}
+.el-dialog::-webkit-scrollbar-thumb {/*滚动条里面小方块*/
+    border-radius: 5px;
+    -webkit-box-shadow: inset 0 0 5px rgba(218, 218, 218,0.2);
+    box-shadow: inset 0 0 5px rgba(218, 218, 218,0.2);
+    background: rgba(218, 218, 218,0.2);
+    scrollbar-arrow-color:red;
+}
+.el-dialog::-webkit-scrollbar-track {/*滚动条里面轨道*/
+    -webkit-box-shadow: inset 0 0 5px rgba(218, 218, 218,0.2);
+    box-shadow: inset 0 0 5px rgba(218, 218, 218,0.2);
+    border-radius: 0;
+    background: rgba(218, 218, 218,0.1);
+}
+/* 收缩框 */
+.el-collapse{
+    border: none;
+    background: none;
+}
+
+.el-collapse-item__header{
+    border: none;
+    padding: 0 7px;
+    font-size: 15px;
+}
+.el-collapse-item__wrap{
+    background: none;
+    border-bottom: none;
+}
+.GBService_active .el-collapse-item__content{
+    width: 100%;
+    height: auto;
+    display: flex;
+    flex-wrap: wrap;
+    
+}
+.GBService_active .el-collapse-item__content .el-form-item{
+    width: 50%;
+    padding: 0 2px;
+}
 
 .button_edi button{
     border: 0;
