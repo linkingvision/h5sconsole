@@ -125,7 +125,7 @@ import uuid from '@/store/uuid'
             if (root == undefined){
               root = window.location.protocol + '//' + window.location.host + window.location.pathname;
             }
-            var url = root + "/api/v1/RefreshGbDevice?token="+row.token+"&session="+ this.$store.state.token;
+            var url = root + "/api/v1/RefreshGbDevice?token="+row.Token+"&session="+ this.$store.state.token;
             console.log(url);
             this.$http.get(url).then(result=>{
                 console.log(result);
@@ -143,7 +143,7 @@ import uuid from '@/store/uuid'
             if (root == undefined){
               root = window.location.protocol + '//' + window.location.host + window.location.pathname;
             }
-            var url = root + "/api/v1/RebootGbDevice?token="+row.token+"&session="+ this.$store.state.token;
+            var url = root + "/api/v1/RebootGbDevice?token="+row.Token+"&session="+ this.$store.state.token;
             console.log(url);
             this.$http.get(url).then(result=>{
                 console.log(result);
