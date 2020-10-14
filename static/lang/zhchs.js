@@ -124,7 +124,18 @@ export default {
 		Region:"区域",
 		Scan:"扫扫查看视频",
 		Quality:"画质",
-		Switched:'已切换'
+		Switched:'已切换',
+
+		AudioBitrate:"音频比特率",
+		AudioChannels:"音讯频道",
+		AudioSampleBit:"音频样本位",
+		AudioSampleRate:"音频采样率",
+		VideoBitrate:"视频比特率",
+		VideoFPS:"视频FPS",
+		VideoHeight:"视频高",
+		VideoWidth:"视频宽",
+		AudioType:"音频类型",
+		VideoType:"视频类型",
 		
     },
     setting:

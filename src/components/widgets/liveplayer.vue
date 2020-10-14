@@ -49,28 +49,19 @@
                 </div>
             </div>
         </Poptip>
-        <!-- <el-popover
-            placement="bottom"
-            trigger="click">
-            
-            <div class="bottom_QR">
-                <div class="bottom_scan">{{$t("message.live.Scan")}}</div>
-                <div class="bottom_QRcode">
-                    <div>
-                        <div ref="qrcodead" id="qrcodead1" style="margin-bottom: 16px;"></div>
-                        <div>Android</div>
-                    </div>
-                    <div>
-                        <div ref="qrcodeios" id="qrcodeios1" style="margin-bottom: 16px;"></div>
-                        <div>iOS</div>
-                    </div>
-                </div>
-            </div>
-            <button slot="reference" class="vidbuttion pull-right iconfont icon-erweima" @click="qrcode"></button>
-        </el-popover> -->
+        <button type="button" class="vidbuttion pull-right iconfont icon-liuliang" @click="Information($event)"></button>
+        
     </div>
     <!-- <canvas class="myCanvas" :id="canvaid" width="170" height="105"></canvas> -->
-
+    <div class="information"  style="display:none padding:0px">
+        <div>客户端流信息</div>
+        <div class="information_con">
+            <div class="information_content" v-for="(a,index) in informationdata" :key="index">
+                <div class="information_content_left">{{a.name}}</div>
+                <div class="information_content_right">{{a.data}}</div>
+            </div>
+        </div>
+    </div>
     <div class="ptzcontrols"  style="display:none padding:0px">
         
         <div class="flex_content">
@@ -162,6 +153,8 @@ export default {
             h5handlercavas:undefined,
             currtoken: undefined,
             ptzshow: false,
+            informationshow: false,
+            informationdata:[],
             proto: 'WS',
             Shoutwheatclass:"mdi mdi-microphone-off",
             tokenshou:"",
@@ -237,7 +230,7 @@ export default {
         this.$root.bus.$on('liveplay', function(token,streamprofile,label,name, id)
         {
             // this.videoname=label;//视频名称
-            // console.log("++++++++++++++++++++",label,this.videoname)
+            console.log("++++++++++++++++++++",streamprofile)
             if (_this.h5id != id)
             {
                 return;
@@ -431,6 +424,7 @@ export default {
         {   
             var _this=this
             clearInterval(this.canvasdate);
+            clearInterval(this.timerRunInfo);
             if (this.audioback != undefined)
             { 
                // console.log("关闭");
@@ -443,11 +437,13 @@ export default {
             this.valuebutton='';
             var $container = $("#"+this.h5id);
             var $ptzcontrols = $container.children(".ptzcontrols");
+            var $ptzcontrolsin = $container.children(".information");
             
             // var valueId=document.getElementById('inputid ')
             // var divId=document.getElementById('divid')
             // console.log(divId)
             $ptzcontrols.css("display", "none");
+            $ptzcontrolsin.css("display", "none");
             $("#"+this.videonameid).removeClass("videoname");
             $("#"+this.inputid).removeClass("streambutton")
             $("#"+this.qualityid).removeClass("quality")
@@ -659,6 +655,83 @@ export default {
              }
             }).catch()
         },
+        //码率
+        Information(){
+            console.log('124')
+            var $container = $("#"+this.h5id);
+            var $controlsin = $container.children(".information");
+            var cors=this.cols*this.rows;
+            if(cors>9){
+                return false
+            }
+            if (this.informationshow == false)
+            {
+                console.log('12455',cors)
+                $controlsin.css("display", "block");
+                this.informationshow = true;
+            }else
+            {
+                $controlsin.css("display", "none");
+                this.informationshow = false;
+                clearInterval(this.timerRunInfo);
+                return false
+            }
+            this.Informationdate()
+            this.timerRunInfo = setInterval(() => {
+                this.Informationdate()
+            },8000)
+
+        },
+        Informationdate(){
+            var root = process.env.API_ROOT;
+		    if (root == undefined){
+		        root = window.location.protocol + '//' + window.location.host + window.location.pathname;
+		    }
+            //url
+                var url = root + "/api/v1/GetVidStreamStatus?token="+this.tokenshou+"&stream=main&session="+ this.$store.state.token;
+                //重组
+                this.$http.get(url).then(result=>{
+                    if(result.status == 200){
+                        console.log(result)
+                        var item=result.data
+                        var informationdata=[{
+                            name:this.$t("message.live.AudioBitrate"),
+                            data:item.nAudioBitrate
+                        },{
+                            name:this.$t("message.live.AudioChannels"),
+                            data:item.nAudioChannels
+                        },{
+                            name:this.$t("message.live.AudioBitrate"),
+                            data:item.nAudioSampleBit
+                        },{
+                            name:this.$t("message.live.AudioSampleRate"),
+                            data:item.nAudioSampleRate
+                        },{
+                            name:this.$t("message.live.VideoBitrate"),
+                            data:item.nVideoBitrate
+                        },{
+                            name:this.$t("message.live.VideoFPS"),
+                            data:item.nVideoFPS
+                        },{
+                            name:this.$t("message.live.VideoHeight"),
+                            data:item.nVideoHeight
+                        },{
+                            name:this.$t("message.live.VideoWidth"),
+                            data:item.nVideoWidth
+                        },{
+                            name:this.$t("message.live.AudioType"),
+                            data:item.strAudioType
+                        },{
+                            name:this.$t("message.live.VideoType"),
+                            data:item.strVideoType
+                        },]
+                        this.informationdata=informationdata
+                        console.log(this.informationdata)
+
+                    }
+                })
+                
+        },
        //麦克风
         Shoutwheat(event){
             var tokenshou=this.tokenshou
@@ -742,6 +815,10 @@ export default {
         },
         PtzControlShow(event)
         {
+            var cors=this.cols*this.rows;
+            if(cors>9){
+                return false
+            }
             this.Presetdata=[];
             var root = process.env.API_ROOT;
 		    if (root == undefined){
@@ -772,8 +849,7 @@ export default {
             
             var $container = $("#"+this.h5id);
             var $controls = $container.children(".ptzcontrols");
-            var cors=this.cols*this.rows;
-            if (this.ptzshow == false&&cors<="9")
+            if (this.ptzshow == false)
             {
                 $controls.css("display", "block");
                 this.ptzshow = true;
@@ -1009,6 +1085,40 @@ export default {
 </script>
 
 <style scoped>
+/* 信息码率 */
+.h5container > .information {
+    position:absolute;
+    bottom:40px;
+    left: 10px;
+    background:rgba(0,0,0,0.2);
+    padding:10px;
+    box-sizing:content-box;
+    /* z-index:1100; */
+    width: 350px;
+    height: 150px;
+    display:none;
+    color: #FFFFFF;
+}
+.information_con{
+    width: 100%;
+    height: 90%;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    align-content: space-between;
+}
+.information_content{
+    width: 50%;
+    display: flex;
+    justify-content: space-between;
+    padding: 0 2px;
+}
+.information_content_right{
+    width: 32%;
+    color: #3ABBFE;
+    text-align: left;
+}
+
 .canh5video{
     width: 100%;
     height: 100%;
@@ -1401,6 +1511,4 @@ video {
     height: 100%;
     display:none;
 }
-
-
 </style>

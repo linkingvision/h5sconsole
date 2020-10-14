@@ -124,7 +124,18 @@ export default {
 		Region:"Region",
 		Scan:"Scan to view video",
 		Quality:"Quality",
-		Switched:"Switched"
+		Switched:"Switched",
+
+		AudioBitrate:"AudioBitrate",
+		AudioChannels:"AudioChannels",
+		AudioSampleBit:"AudioSampleBit",
+		AudioSampleRate:"AudioSampleRate",
+		VideoBitrate:"VideoBitrate",
+		VideoFPS:"VideoFPS",
+		VideoHeight:"VideoHeight",
+		VideoWidth:"VideoWidth",
+		AudioType:"AudioType",
+		VideoType:"VideoType",
     },
     setting:
     {
