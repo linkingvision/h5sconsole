@@ -80,7 +80,7 @@
                             highlight-current
                             @node-click="handleNodeClick"
                             :props="defaultProps">
-                            <span slot-scope="{ node, data }" style="width:100%;">
+                            <span slot-scope="{ data }" style="width:100%;">
                                 <div style="width:100%;display: flex;justify-content: space-between;">
                                     <span
                                         style=""
@@ -106,14 +106,14 @@
                             :data="camdata" 
                             :props="defaultProps1" 
                             @node-click="handleNodeClick">
-                            <span slot-scope="{ node, data }" style="width:100%;">
+                            <span slot-scope="{ data }" style="width:100%;">
                                 <span>
                                     <span class="mdi mdi-view-sequential fa-fw" style="color:rgb(142, 132, 132);"></span>
                                     <span :class="data.iconclass1" style="padding-left: 4px;">{{data.strName}}</span>
                                 </span>
                                 <div v-if="data.cam.length!=0">
                                     <el-tree class="el_tree1" :data="data.cam" :props="defaultProps1" @node-click="handleNodeClick1">
-                                        <span slot-scope="{ node, data }" style="width:100%;">
+                                        <span slot-scope="{ data }" style="width:100%;">
                                             <div style="width:100%;display: flex;justify-content: space-between;">
                                                 <span  
                                                     class="size_color"
@@ -270,8 +270,12 @@ export default {
             if (root == undefined) {
                 root =window.location.protocol + "//" +window.location.host +window.location.pathname;
             }
-            let _this =this;
             var data=this.drag;
+            console.log(data)
+            if(data.streamprofile==undefined){
+                data.streamprofile='main'
+            }
+            let _this =this;
             // return false;
             if(data.disabled_me==false){
                 document.getElementById("icon"+data.token).style.color="#5fbfa7";
@@ -351,6 +355,12 @@ export default {
                 root =window.location.protocol + "//" +window.location.host +window.location.pathname;
             }
             let _this =this;
+            console.log(data.streamprofile,',+++++')
+
+            if(data.streamprofile==undefined){
+                data.streamprofile='main'
+                
+            }
             if(data.disabled_me==false){
                 document.getElementById("icon"+data.token).style.color="#5fbfa7";
                 
@@ -363,7 +373,7 @@ export default {
                 for(var i=1;i<=this.rows;i++){
                     for(var c=1;c<=this.cols;c++){
                         var video= document.getElementById("hvideo"+i+c)
-                        // console.log('video.paused++++',video.poster);
+                        console.log('video.paused++++',video.poster);
                         if(video.poster==""||video.poster=="http://localhost:6080/"||video.poster==root){
                             this.selectCol = c;
                             this.selectRow =i;
@@ -387,14 +397,18 @@ export default {
                 root =window.location.protocol + "//" +window.location.host +window.location.pathname;
             }
             let _this =this;
+            if(data.streamprofile==undefined){
+                data.streamprofile='main'
+            }
             // return false;
             if(data.disabled_me==false){
-                document.getElementById("icon"+data.token).style.color="#5fbfa7";
+                document.getElementById("icon"+data.strToken).style.color="#5fbfa7";
                 var main="main"
                 if (data.strToken) {
                     let vid = 'h' + _this.$data.selectRow + _this.$data.selectCol;
                     _this.$root.bus.$emit('liveplay', data.strToken,data.streamprofile, data.name,data.label, vid);
                 }
+                
                 for(var i=1;i<=this.rows;i++){
                     for(var c=1;c<=this.cols;c++){
                         var video= document.getElementById("hvideo"+i+c)
