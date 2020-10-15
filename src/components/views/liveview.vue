@@ -270,11 +270,12 @@ export default {
             if (root == undefined) {
                 root =window.location.protocol + "//" +window.location.host +window.location.pathname;
             }
+            var data=this.drag;
+            console.log(data)
             if(data.streamprofile==undefined){
                 data.streamprofile='main'
             }
             let _this =this;
-            var data=this.drag;
             // return false;
             if(data.disabled_me==false){
                 document.getElementById("icon"+data.token).style.color="#5fbfa7";
@@ -401,12 +402,13 @@ export default {
             }
             // return false;
             if(data.disabled_me==false){
-                document.getElementById("icon"+data.token).style.color="#5fbfa7";
+                document.getElementById("icon"+data.strToken).style.color="#5fbfa7";
                 var main="main"
                 if (data.strToken) {
                     let vid = 'h' + _this.$data.selectRow + _this.$data.selectCol;
                     _this.$root.bus.$emit('liveplay', data.strToken,data.streamprofile, data.name,data.label, vid);
                 }
+                
                 for(var i=1;i<=this.rows;i++){
                     for(var c=1;c<=this.cols;c++){
                         var video= document.getElementById("hvideo"+i+c)
