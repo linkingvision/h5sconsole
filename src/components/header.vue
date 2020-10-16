@@ -332,7 +332,7 @@ export default {
 		
 		var loading = Vue.prototype.$loading({
 			lock: true,
-			text: '拼命加载中...',
+			text: '重启',
 			background:"RGBA(0, 0, 0, 0.5)",
 			target: '.Rebootdialog1'  // 需要loading的元素的类名
 		})
@@ -433,7 +433,8 @@ export default {
     width: 35px;
 	height: 40px;
     background: url("./gallery/Docker.png") center center no-repeat;
-    /* display: none; */
+	background-size: 75%;
+    display: none;
 }
 
 .Rebootdialog >>>.el-dialog__body{

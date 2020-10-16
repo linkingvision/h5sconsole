@@ -27,7 +27,7 @@
                 <div style="display:flex">
                     <div class="Root_node1">
                         <el-tree :data="data" :props="defaultProps" @node-click="handleNodeClick">
-                            <span slot-scope="{ node, data }" style="width:100%;">
+                            <span slot-scope="{data }" style="width:100%;">
                                 <div style="width:100%;display: flex;justify-content: space-between;">
                                     <span>
                                         <span class="mdi mdi-view-sequential fa-fw"></span>
@@ -64,7 +64,7 @@
                         highlight-current
                         show-checkbox
                         ref="tree">
-                        <span slot-scope="{ node, data }" style="width:100%;">
+                        <span slot-scope="{data }" style="width:100%;">
                                 <div style="width:100%;display: flex;justify-content: space-between;">
                                     <span >
                                         <span :class="data.iconclass"></span>
@@ -92,7 +92,7 @@
                         </el-input>
                         <div style="font-size:16px;font-family:PingFang SC;font-weight:600;color:rgba(51,51,51,1);line-height:50px;">根节点</div>
                         <el-tree highlight-current :filter-node-method="filterNode" :data="data" :props="defaultProps" ref="menuPermissionTree" @node-click="handleNodeClick2">
-                            <span slot-scope="{ node, data}" style="width:100%;">
+                            <span slot-scope="{data}" style="width:100%;">
                                 <span>
                                     <span class="mdi mdi-view-sequential fa-fw"></span>
                                     <span :class="data.iconclass1" style="padding-left: 4px;">{{data.strName}} </span>

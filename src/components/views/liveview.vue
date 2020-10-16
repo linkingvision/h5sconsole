@@ -478,6 +478,8 @@ export default {
         },
         //点击宫格
         changePanel(event) {
+            
+
             let data = $(event.target).data('row');
             let _this = this;
              window.setTimeout(function() {
@@ -524,6 +526,18 @@ export default {
             Vue.nextTick(function () {
                 //$('div[name="flex"]').height(($(".content").height() - 50) / rows);
                 $('div[name="flex"]').height(_this.contentHeight / rows);
+                var cors=_this.cols*_this.rows;
+                console.log(cors)
+                if(cors>9){
+                    $('.ptz_id_show').hide()
+                    $('.info_id_show').hide()
+                    $('.ptzcontrols').hide()
+                    $('.information').hide()
+                }
+                if(cors<=9){
+                    $('.ptz_id_show').show()
+                    $('.info_id_show').show()
+                }
             })
         },
 
@@ -843,13 +857,14 @@ export default {
 .rowflex{
     width: 100%;
     display: flex;
-    height: 900px;
+    max-height: 940px;
+    overflow-y:auto;
     justify-content:space-between;
 }
 .zdg{
     width: 100%;
     background-color: #ffffff;
-    height: 100%;
+    height: 900px;
     overflow-y:auto;
 }
 .flexlist{
@@ -860,7 +875,7 @@ export default {
 .flexvideo{
     width: 81.5%;
     height: 100%;
-    overflow: auto;
+    /* overflow-y: auto; */
 }
 /* .video_hed{
     height: 100%;

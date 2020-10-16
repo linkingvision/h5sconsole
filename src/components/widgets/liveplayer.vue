@@ -1,7 +1,7 @@
 <template>
 <div class="h5videowrapper h5container" >
     <canvas class="canh5video" width=960 height=540 :id="canvasplay" ></canvas>
-    <video class="h5video" @click="redborder" :id="videoid" autoplay webkit-playsinline playsinline></video>
+    <video class="h5video" :id="videoid" autoplay webkit-playsinline playsinline></video>
     <div :id="videonameid" class="" >
         {{videoname}} {{picturequality}}
        <input type="button" :value="valuebutton"  @click="Bitstream($event.target.value)" :id="inputid" class=""/>
@@ -23,7 +23,7 @@
     <div class="h5controls"  style="display:none padding:0px;">
         <button type="button" class="vidbuttion pull-right iconfont icon-roundclosefill" style="margin-right: 20px;" @click="CloseVideo($event)"></button>
         <button type="button" class="vidbuttion pull-right iconfont icon-full" @click="FullScreen($event)"></button>
-        <button :id="ptz"  type="button" class="btn vidbuttion pull-right" @click="PtzControlShow($event)"></button>
+        <button :id="ptz"  type="button" class="ptz_id_show btn vidbuttion pull-right" @click="PtzControlShow($event)"></button>
         <!-- <button type="button" class="btn vidbuttion pull-right rtcbutton" > <i class="mdi mdi-format-title"></i></button> -->
         <button type="button" class="vidbuttion pull-right iconfont icon-radioboxfill" @click="DoManualRecordStop($event)"></button>
         <button type="button" class="vidbuttion pull-right iconfont icon-videofill" @click="DoManualRecordStart($event)"></button>
@@ -49,16 +49,25 @@
                 </div>
             </div>
         </Poptip>
-        <button type="button" class="vidbuttion pull-right iconfont icon-liuliang" @click="Information($event)"></button>
+        <button type="button" class="vidbuttion info_id_show pull-right iconfont icon-liuliang" @click="Information($event)"></button>
         
     </div>
     <!-- <canvas class="myCanvas" :id="canvaid" width="170" height="105"></canvas> -->
     <div class="information"  style="display:none padding:0px">
-        <div>客户端流信息</div>
         <div class="information_con">
-            <div class="information_content" v-for="(a,index) in informationdata" :key="index">
-                <div class="information_content_left">{{a.name}}</div>
-                <div class="information_content_right">{{a.data}}</div>
+            <div class="information1">
+                <div class="information_title">{{$t('message.live.Video')}}</div>
+                <div class="information_content" v-for="(a,index) in informationVideo" :key="index">
+                    <div class="information_content_left">{{a.name}}</div>
+                    <div class="information_content_right">{{a.data}}</div>
+                </div>
+            </div>
+            <div class="information1">
+                <div class="information_title">{{$t('message.live.Audio')}}</div>
+                <div class="information_content" v-for="(a,index) in informationAudio" :key="index">
+                    <div class="information_content_left">{{a.name}}</div>
+                    <div class="information_content_right">{{a.data}}</div>
+                </div>
             </div>
         </div>
     </div>
@@ -154,7 +163,8 @@ export default {
             currtoken: undefined,
             ptzshow: false,
             informationshow: false,
-            informationdata:[],
+            informationAudio:[],
+            informationVideo:[],
             proto: 'WS',
             Shoutwheatclass:"mdi mdi-microphone-off",
             tokenshou:"",
@@ -694,38 +704,41 @@ export default {
                     if(result.status == 200){
                         console.log(result)
                         var item=result.data
-                        var informationdata=[{
-                            name:this.$t("message.live.AudioBitrate"),
-                            data:item.nAudioBitrate
-                        },{
-                            name:this.$t("message.live.AudioChannels"),
-                            data:item.nAudioChannels
-                        },{
-                            name:this.$t("message.live.AudioBitrate"),
-                            data:item.nAudioSampleBit
-                        },{
-                            name:this.$t("message.live.AudioSampleRate"),
-                            data:item.nAudioSampleRate
-                        },{
-                            name:this.$t("message.live.VideoBitrate"),
-                            data:item.nVideoBitrate
-                        },{
-                            name:this.$t("message.live.VideoFPS"),
-                            data:item.nVideoFPS
-                        },{
-                            name:this.$t("message.live.VideoHeight"),
-                            data:item.nVideoHeight
-                        },{
-                            name:this.$t("message.live.VideoWidth"),
-                            data:item.nVideoWidth
-                        },{
-                            name:this.$t("message.live.AudioType"),
+                        var informationAudio=[{
+                            name:this.$t("message.live.Codec"),
                             data:item.strAudioType
                         },{
-                            name:this.$t("message.live.VideoType"),
+                            name:this.$t("message.live.SampleRate"),
+                            data:item.nAudioSampleRate
+                        },{
+                            name:this.$t("message.live.SampleBit"),
+                            data:item.nAudioSampleBit
+                        },{
+                            name:this.$t("message.live.Channels"),
+                            data:item.nAudioChannels
+                        },{
+                            name:this.$t("message.live.Bitrate"),
+                            data:(item.nAudioBitrate/1024).toFixed(1)+'kpbs'
+                        }]
+
+                        var informationVideo=[{
+                            name:this.$t("message.live.Codec"),
                             data:item.strVideoType
-                        },]
-                        this.informationdata=informationdata
+                        },{
+                            name:this.$t("message.live.Width"),
+                            data:item.nVideoWidth
+                        },{
+                            name:this.$t("message.live.Height"),
+                            data:item.nVideoHeight
+                        },{
+                            name:this.$t("message.live.FPS"),
+                            data:item.nVideoFPS
+                        },{
+                            name:this.$t("message.live.Bitrate"),
+                            data:(item.nVideoBitrate/1024).toFixed(1)+'kpbs'
+                        }]
+                        this.informationAudio=informationAudio
+                        this.informationVideo=informationVideo
                         console.log(this.informationdata)
 
                     }
@@ -1067,18 +1080,6 @@ export default {
             dlLink.click();
             document.body.removeChild(dlLink);
         },
-        redborder(){
-            var cors=this.cols*this.rows;
-            if(cors>9){
-                console.log("//////////////",this.ptz)
-                document.getElementById(this.ptz).style.display="none";
-            }
-            if(cors<=9){
-                document.getElementById(this.ptz).style.display="block";
-            }
-            //console.log("122514541561",this.videoid);
-            
-        }
     }
 }
 //fill scale-down
@@ -1090,31 +1091,43 @@ export default {
     position:absolute;
     bottom:40px;
     left: 10px;
-    background:rgba(0,0,0,0.2);
-    padding:10px;
+    background:rgba(0,0,0,0.5);
     box-sizing:content-box;
     /* z-index:1100; */
-    width: 350px;
+    width: 330px;
     height: 150px;
     display:none;
     color: #FFFFFF;
+}
+.information1{
+    width: 50%;
 }
 .information_con{
     width: 100%;
     height: 90%;
     display: flex;
     justify-content: space-between;
-    flex-wrap: wrap;
-    align-content: space-between;
+}
+.information_title{
+    width: 100%;
+    height: 30px;
+    line-height: 30px;
+    background-color: rgba(0, 0, 0, 0.7);
+    padding: 0 10px;
 }
 .information_content{
-    width: 50%;
     display: flex;
     justify-content: space-between;
-    padding: 0 2px;
+    padding: 0 10px;
+    line-height: 20px;
+}
+.information_content_left{
+    width: 50%;
+    color: #3ABBFE;
+    text-align: left;
 }
 .information_content_right{
-    width: 32%;
+    width: 50%;
     color: #3ABBFE;
     text-align: left;
 }
