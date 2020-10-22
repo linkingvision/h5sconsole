@@ -193,11 +193,11 @@ TimeSlider.prototype.mousemoveFunc = function(e){
         _this.g_isMousemove = true;
         _this.g_mousedownCursor = pos_x;
     }else{
-        var time = (_this.start_timestamp-390) + pos_x/px_per_ms-22430000;
         _this.init(_this.start_timestamp,_this.timecell,true);
-        _this.drawLine(pos_x-390,0,pos_x-390,53,"rgb(194, 202, 215)",1);
-        _this.ctx.fillStyle = "rgb(194, 202, 215)";
-        _this.ctx.fillText(_this.changeTime(time),pos_x-460,90);//黑色竖线的位置和时间位置
+        // var time = (_this.start_timestamp-390) + pos_x/px_per_ms-22430000;
+        // _this.drawLine(pos_x-390,0,pos_x-390,53,"rgb(194, 202, 215)",1);
+        // _this.ctx.fillStyle = "rgb(194, 202, 215)";
+        // _this.ctx.fillText(_this.changeTime(time),pos_x-460,90);//黑色竖线的位置和时间位置
     }
 }
 

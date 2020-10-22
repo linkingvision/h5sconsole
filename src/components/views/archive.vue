@@ -37,7 +37,7 @@
                         ref="tree"
                         highlight-current
                         :props="defaultProps">
-                        <span slot-scope="{ node, data }">
+                        <span slot-scope="{ data }">
                             <i :class="data.iconclass" style="color:rgb(142, 132, 132);"></i>
                             <span :class="data.iconclass1" style="padding-left: 4px;">{{data.label}}</span>
                         </span>
@@ -145,7 +145,7 @@
                     </div>
                     <div class="modal-body text-center">
                         <video class="videoo" id="playarch"></video>
-                        <div class="block">
+                        <div class="block" @mousedown ="timelinndown($event)" @mouseup="timelinnup($event)">
 						    <el-slider v-model="timelink" :max="max" @change="timelinn(timelink)" :show-tooltip="false"></el-slider>
 					    </div>
                         <!-- <el-button style="font-size: 25px;" :icon="icon" size="mini" circle  @click="resume()" class="strart"></el-button> -->
@@ -336,10 +336,19 @@ export default {
             }
         },
         //拉播
-       timelinn(timelink){
-           console.log(timelink);
-           this.v1.seek(timelink);
-       },
+        //拖
+        timelinndown(err){
+            console.log('a',err)
+            this.v1.pause();
+        },
+        timelinnup(err){
+            console.log('a',err)
+            this.v1.resume();
+        },
+        timelinn(timelink){
+            console.log(timelink);
+            this.v1.seek(timelink);
+        },
 
         //倍速
         Speed(){

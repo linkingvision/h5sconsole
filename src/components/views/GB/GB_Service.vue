@@ -404,6 +404,7 @@ import uuid from '@/store/uuid'
                 console.log("1",result);
                 if(result.status==200){
                     if(result.data.bStatus==true){
+                        this.$root.bus.$emit('webrtc',true);
                         // console.log("1222",result);
                         this.loadplatform();
                     }else{
