@@ -25,7 +25,7 @@
                     highlight-current
                     @node-click="handleNodeClick"
                     :props="defaultProps">
-                    <span slot-scope="{ node, data }">
+                    <span slot-scope="{ data }">
                         <span :class="data.iconclass" style="color:rgb(142, 132, 132);"></span>
                         <!-- <img src="" alt=""> -->
                         <span :class="data.iconclass1" style="padding-left: 4px;">{{data.label}}</span>
@@ -51,6 +51,7 @@
                         :label="open_Close">
                         <template slot-scope="scope">
                             <el-switch
+                                @change="openchange"
                                 v-model="scope.row.open_close"
                                 :disabled="scope.row.disabled"
                                 active-color="#13ce66"
@@ -61,7 +62,7 @@
                     <el-table-column
                         :label="label.GBID">
                         <template slot-scope="scope">
-                            <el-input v-model="scope.row.gbid" placeholder="请输入内容"></el-input>
+                            <el-input @blur='openchange' v-model="scope.row.gbid" placeholder="请输入内容"></el-input>
                         </template>
                     </el-table-column>
                     <el-table-column
@@ -69,6 +70,7 @@
                         :label="audio">
                         <template slot-scope="scope">
                             <el-switch
+                                @change="openchange"
                                 v-model="scope.row.audio"
                                 active-color="#13ce66"
                                 inactive-color="#ff4949">
@@ -144,6 +146,14 @@
         // this.height_zsy();
     },
     methods:{
+        //修改后提示
+        openchange(){
+            this.$message({
+                message: '修改后请保存',
+                type: 'warning',
+                center: true
+            });
+        },
         //第一个表格的数据
         GetSrc(){
           var root = process.env.API_ROOT;

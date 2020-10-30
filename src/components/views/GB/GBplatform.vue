@@ -150,6 +150,10 @@
                     :label="label.label5">
                     </el-table-column>
                     <el-table-column
+                    prop="bRegStatus"
+                    :label="label.Online">
+                    </el-table-column>
+                    <el-table-column
                         fixed="right"
                         width="180">
                         <template slot="header" slot-scope="scope">
@@ -206,6 +210,7 @@ import uuid from '@/store/uuid'
             label11:this.$t("message.GB.KeepaliveTime"),
             label12:this.$t("message.GB.RegisterPeriod"),
             label13:this.$t("message.GB.Domain"),
+            Online:this.$t("message.table.Online"),
 
             Index:this.$t("message.table.Index"),
             Token:this.$t("message.table.Token")
@@ -251,42 +256,66 @@ import uuid from '@/store/uuid'
                 return false
             }
 		    var root = process.env.API_ROOT;
-		    var wsroot = process.env.WS_HOST_ROOT;
 		    if (root == undefined){
 		        root = window.location.protocol + '//' + window.location.host + window.location.pathname;
 		    }
-		    if (wsroot == undefined)
-		    {
-		        wsroot = window.location.host;
+		    //url
+            var url = root + "/api/v1/GetGbPlatform?session="+ this.$store.state.token;
+            this.$http.get(url).then(result=>{
+                if(result.status == 200){
+                    var itme=result.data.platform;
+                    console.log(itme);
+                    this.loadplatforms(itme)
+                    
+                }
+            })
+        },
+        loadplatforms(itme,bianji,editindex){
+            var itme=itme
+            var _this=this
+            var root = process.env.API_ROOT;
+		    if (root == undefined){
+		        root = window.location.protocol + '//' + window.location.host + window.location.pathname;
 		    }
-		   //url
-           var url = root + "/api/v1/GetGbPlatform?session="+ this.$store.state.token;
-			  this.$http.get(url).then(result=>{
-				  if(result.status == 200){
-                      var itme=result.data.platform;
-                      console.log(itme);
-                      for(var i=0;i<itme.length;i++){
-                          var tabledata={
-                              index:i+1,
-                              Token:itme[i].strToken,
-                              name:itme[i].strName,
-                              strGbServerIpAddr:itme[i].strGbServerIpAddr,
-                              nGbServerPort:itme[i].nGbServerPort,
-                              nGbLocalPort:itme[i].nGbLocalPort,
-                              strGbID:itme[i].strGbID,
-                              strGbDomain:itme[i].strGbDomain,
-                              strGbServerID:itme[i].strGbServerID,
-                              strGbServerPassword:itme[i].strGbServerPassword,
-                              strGbProto:itme[i].strGbProto,
-                              strGbIDChBase:itme[i].strGbIDChBase,
-                              nGbRegisterPeriod:itme[i].nGbRegisterPeriod,
-                              nGbKeepaliveTime:itme[i].nGbKeepaliveTime
-                          };
-                          this.tableData.push(tabledata);
-                      }
-                      this.total1=this.tableData.length;
-				  }
-			  })
+            for(var i=0;i<itme.length;i++){
+                if(itme[i].strToken==undefined){
+                    return false
+                }
+                console.log("****",itme[i].strToken)
+                var url = root + "/api/v1/GetGbRegStatus?token="+itme[i].strToken+"&session="+ this.$store.state.token;
+                $.ajax({
+                    type: 'get',
+                    url: url,  
+                    async: false,  
+                    success: function(data){ 
+                        console.log(data)
+                        var tabledata={
+                            index:i+1,
+                            Token:itme[i].strToken,
+                            name:itme[i].strName,
+                            strGbServerIpAddr:itme[i].strGbServerIpAddr,
+                            nGbServerPort:itme[i].nGbServerPort,
+                            nGbLocalPort:itme[i].nGbLocalPort,
+                            strGbID:itme[i].strGbID,
+                            strGbDomain:itme[i].strGbDomain,
+                            strGbServerID:itme[i].strGbServerID,
+                            strGbServerPassword:itme[i].strGbServerPassword,
+                            strGbProto:itme[i].strGbProto,
+                            strGbIDChBase:itme[i].strGbIDChBase,
+                            nGbRegisterPeriod:itme[i].nGbRegisterPeriod,
+                            nGbKeepaliveTime:itme[i].nGbKeepaliveTime,
+                            bRegStatus:data.bRegStatus+""
+                        };
+                        if(bianji=='bianji'){
+                            _this.tableData.splice(editindex, 1,tabledata)
+                        }else{
+                            _this.tableData.push(tabledata);
+                            _this.total1=_this.tableData.length;
+                        }
+                    }
+                })
+
+            }
         },
         //点击添加时随机获取到token数据
         addto(){
@@ -316,8 +345,10 @@ import uuid from '@/store/uuid'
                 //console.log("1",result);
                 if(result.status==200){
                     if(result.data.bStatus==true){
-                        var list = {
+                        var list = [{
                             index:editform.index,
+                            strToken:editform.Token,
+                            strName:editform.name,
                             Token:editform.Token,
                             name:editform.name,
                             strGbServerIpAddr:editform.strGbServerIpAddr,
@@ -331,8 +362,7 @@ import uuid from '@/store/uuid'
                             nGbRegisterPeriod:editform.nGbRegisterPeriod,
                             nGbKeepaliveTime:editform.nGbKeepaliveTime,
                             strGbDomain:editform.strGbDomain,
-                        }
-                        this.tableData.splice(this.editindex, 1,list)
+                        }]
                         var url = root + "/api/v1/AddGbPlatform?name="
                         +encodeURIComponent(editform.name)+
                         "&token="+encodeURIComponent(editform.Token)+
@@ -352,6 +382,7 @@ import uuid from '@/store/uuid'
                         this.$http.get(url).then(result=>{
                             if(result.status==200){
                                 if(result.data.bStatus){
+                                    this.loadplatforms(list,"bianji",this.editindex)
                                 }else{
                                     console.log("添加失败")
                                 }

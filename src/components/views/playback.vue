@@ -326,6 +326,7 @@ export default {
         timelinn(timelink){
             console.log(timelink);
             this.v1.seek(timelink);
+            this.icon="mdi mdi-pause-circle fa-fw";
         },
 
         //倍速
