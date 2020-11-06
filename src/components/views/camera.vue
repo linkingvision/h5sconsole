@@ -429,6 +429,7 @@
         //编辑
         handleEdit(index,row){
             console.log(index,row,row.gbid.length,row.gbid);
+            var index_xlh=((this.currentPage-1)*10)+index;
             //return false;
             var root = process.env.API_ROOT;
             if (root == undefined){
@@ -449,7 +450,7 @@
                             gbid:row.gbid,
                             audio:row.audio,
                         };
-                        this.tableData.splice(index, 1,tabledata)
+                        this.tableData.splice(index_xlh, 1,tabledata)
 
                         var url=""
                         if(row.gbid==""){
