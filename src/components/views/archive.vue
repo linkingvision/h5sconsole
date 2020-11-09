@@ -294,7 +294,7 @@ export default {
             var pbconf1 = {
 				begintime: row.starf,
 	            endtime: row.end,
-				showposter: 'true', //'true' or 'false' show poster
+				showposter: 'false', //'true' or 'false' show poster
 				callback: this.PlaybackCB,
 				userdata:  this // user data
 			};
@@ -449,7 +449,8 @@ export default {
                     var strFileName=data.strFileName;
                     row.strFileName=strFileName;//下载的地址
                     var strUrl=data.strUrl;
-                    row.url=strUrl;//下载的地址
+                    row.url=strUrl+"?session="+ this.$store.state.token;//下载的地址
+                    console.log(row.url)
                     var urlto=strUrl.split("/");
                     row.urlto=urlto[urlto.length-1];//下载文件
                 }

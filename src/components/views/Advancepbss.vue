@@ -424,7 +424,7 @@ export default {
 							begintime: timevalues,
 							endtime: timevaluee,
 							autoplay: 'true',
-							showposter:"true", //'true' or 'false' show poster
+							showposter:"false", //'true' or 'false' show poster
 							callback: _this.PlaybackCB,
 							serverpb: _this.Adswitch, 
 							userdata:  _this // user data
@@ -458,7 +458,7 @@ export default {
 							begintime: timevalues,
 							endtime: timevaluee,
 							autoplay: 'true',
-							showposter:"true", //'true' or 'false' show poster
+							showposter:"false", //'true' or 'false' show poster
 							callback: _this.PlaybackCB1,
 							serverpb: _this.Adswitch, 
 							userdata:  _this // user data
@@ -494,7 +494,7 @@ export default {
 							begintime: timevalues,
 							endtime: timevaluee,
 							autoplay: 'true',
-							showposter:"true", //'true' or 'false' show poster
+							showposter:"false", //'true' or 'false' show poster
 							callback: _this.PlaybackCB2,
 							serverpb: _this.Adswitch, 
 							userdata:  _this // user data
@@ -530,7 +530,7 @@ export default {
 							begintime: timevalues,
 							endtime: timevaluee,
 							autoplay: 'true',
-							showposter:"true", //'true' or 'false' show poster
+							showposter:"false", //'true' or 'false' show poster
 							callback: _this.PlaybackCB3,
 							serverpb: _this.Adswitch, 
 							userdata:  _this // user data
@@ -1019,7 +1019,7 @@ export default {
 					begintime: timevalues,
 					endtime: timevaluee,
 					autoplay: 'true',
-					showposter:"true", //'true' or 'false' show poster
+					showposter:"false", //'true' or 'false' show poster
 					callback: this.PlaybackCB,
 					serverpb: this.Adswitch, 
 					userdata:  this // user data
@@ -1051,7 +1051,7 @@ export default {
 					begintime: timevalues,
 					endtime: timevaluee,
 					autoplay: 'true',
-					showposter:"true", //'true' or 'false' show poster
+					showposter:"false", //'true' or 'false' show poster
 					callback: this.PlaybackCB1,
 					serverpb: this.Adswitch, 
 					userdata:  this // user data
@@ -1084,7 +1084,7 @@ export default {
 					begintime: timevalues,
 					endtime: timevaluee,
 					autoplay: 'true',
-					showposter:"true", //'true' or 'false' show poster
+					showposter:"false", //'true' or 'false' show poster
 					callback: this.PlaybackCB2,
 					serverpb: this.Adswitch, 
 					userdata:  this // user data
@@ -1116,7 +1116,7 @@ export default {
 					begintime: timevalues,
 					endtime: timevaluee,
 					autoplay: 'true',
-					showposter:"true", //'true' or 'false' show poster
+					showposter:"false", //'true' or 'false' show poster
 					callback: this.PlaybackCB3,
 					serverpb: this.Adswitch, 
 					userdata:  this // user data

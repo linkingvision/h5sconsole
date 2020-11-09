@@ -274,7 +274,7 @@ export default {
             var pbconf1 = {
 				begintime: row.starf,
 				endtime: row.end,
-				showposter: 'true', //'true' or 'false' show poster
+				showposter: 'false', //'true' or 'false' show poster
 				callback: this.PlaybackCB,
 				serverpb: 'true',
 				userdata:  this // user data
@@ -393,11 +393,11 @@ export default {
                                 end : item["strEndTime"],
                                 type: item['nType'],
                                 percentage:0,
-                                url:item["strPath"],
+                                url:item["strPath"]+"?session="+ this.$store.state.token,
                                 urlto:urlto[urlto.length-1],
                                 strFileName:""
                               };
-                              
+                              console.log(timeitem.url)
                             //   console.log(data)
                               if(item['nType']==="H5_REC_MANUAL"){
                                     timeitem["type"] = this.$t("message.archive.ManualRecord");
