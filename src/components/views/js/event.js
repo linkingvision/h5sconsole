@@ -43,4 +43,4 @@ function events(){
     e1.connect();
 }
 events();
-export default{event,gEvent}
+export default{gEvent}
