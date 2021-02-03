@@ -419,7 +419,7 @@ import uuid from '@/store/uuid'
                     }
                 })
             }else if(form.Type=="H5_DEV_DHDSS"){
-                var url = root + "/api/v1/AddDeviceUnv?&name="+encodeURIComponent(form.Name)+
+                var url = root + "/api/v1/AddDeviceDss?&name="+encodeURIComponent(form.Name)+
                 "&token="+encodeURIComponent(form.Token)+
                 "&user="+encodeURIComponent(form.User)+
                 "&password="+encodeURIComponent(form.Password)+
