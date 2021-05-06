@@ -21,7 +21,7 @@
     "datatables.net-bs": "^1.10.16",
     "echarts": "^4.6.0",
     "element-ui": "^2.11.1",
-    "highcharts": "^8.0.0",
+    "highcharts": "^9.0.0",
     "iview": "^3.0.1",
     "jquery": "^3.4.1",
     "jquery-ui": "^1.12.1",
